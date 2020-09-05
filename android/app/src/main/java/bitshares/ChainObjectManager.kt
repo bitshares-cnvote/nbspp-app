@@ -362,10 +362,17 @@ class ChainObjectManager {
     }
 
     /**
+     *  (public) 获取默认的记账单位，列表的第一个。
+     */
+    fun getDefaultEstimateUnitSymbol(): String {
+        return getEstimateUnitList().getJSONObject(0).getString("symbol")
+    }
+
+    /**
      *  (public) 根据计价货币symbol获取计价单位配置信息
      */
-    fun getEstimateUnitBySymbol(symbol: String): JSONObject {
-        return _estimate_unit_hash[symbol]!!
+    fun getEstimateUnitBySymbol(symbol: String): JSONObject? {
+        return _estimate_unit_hash[symbol]
     }
 
     /**
