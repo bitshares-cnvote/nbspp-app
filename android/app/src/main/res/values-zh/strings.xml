@@ -288,7 +288,7 @@
     <string name="kLoginPageModeBrainKey">助记词</string>
     <string name="kLoginPageModePrivateKey">私钥模式</string>
     <string name="kLoginPageModeWallet">钱包模式</string>
-    <string name="kLoginTipsPlaceholderAccount">请输入 Bitshares 账号名</string>
+    <string name="kLoginTipsPlaceholderAccount">请输入 NewBitshares 账号名</string>
     <string name="kLoginTipsPlaceholderBrainKey">请输入助记词，每个单词之间按空格分割。</string>
     <string name="kLoginTipsPlaceholderTradePassword">设置新的解锁密码</string>
     <string name="kLoginTipsPlaceholderActiveKey">请输入资金权限私钥</string>
@@ -321,7 +321,7 @@
     <string name="kLoginImportTipsPleaseInputPassword">请输入密码。</string>
     <string name="kLoginImportTipsReadWalletFailed">读取钱包文件失败。</string>
     <string name="kLoginImportTipsInvalidFileOrPassword">钱包文件无效或密码不正确。</string>
-    <string name="kLoginImportTipsNotBTSWallet">该钱包不是Bitshares区块链的钱包。</string>
+    <string name="kLoginImportTipsNotBTSWallet">该钱包不是NewBitshares区块链的钱包。</string>
     <string name="kLoginImportTipsWalletIsEmpty">该钱包为空钱包，请重选选择。</string>
     <string name="kLoginImportTipsWalletHaveManyAccounts">该钱包包含多个账户，不支持导入。</string>
     <string name="kLoginImportTipsWalletNoPrivateKey">该钱包不包含密钥信息，请重新选择。</string>
@@ -349,8 +349,8 @@
     <string name="kLoginCellWalletPassword">钱包密码</string>
     <string name="kLoginCellActivePrivateKey">资金私钥</string>
     <string name="kLoginCellConfirmPassword">确认密码</string>
-    <string name="kLoginRegTipsAccountMode">提示：账号密码对应格式要求可以点击问号查看。\n注意：比特股是去中心化区块链应用密码一旦丢失或遗忘将无法找回，请务必妥善保管。</string>
-    <string name="kLoginRegTipsWalletMode">提示：钱包密码对应格式要求可以点击问号查看。\n注意：比特股是去中心化区块链应用，钱包文件和密码一旦丢失或遗忘将无法找回，建议您注册后将钱包文件做好备份，并妥善保管。※ 推荐使用钱包模式。</string>
+    <string name="kLoginRegTipsAccountMode">提示：账号密码对应格式要求可以点击问号查看。\n注意：新比特股是去中心化区块链应用密码一旦丢失或遗忘将无法找回，请务必妥善保管。</string>
+    <string name="kLoginRegTipsWalletMode">提示：钱包密码对应格式要求可以点击问号查看。\n注意：新比特股是去中心化区块链应用，钱包文件和密码一旦丢失或遗忘将无法找回，建议您注册后将钱包文件做好备份，并妥善保管。※ 推荐使用钱包模式。</string>
     <string name="kLoginFaucetTipsInvalidArguments">参数无效。</string>
     <string name="kLoginFaucetTipsInvalidAccountFmt">账号格式无效。</string>
     <string name="kLoginFaucetTipsAccountAlreadyExist">账号已经存在。</string>
@@ -801,9 +801,9 @@
     <string name="kVcStCellTitleNetworkFee">广播手续费</string>
     <string name="kVcStCellTitleActualAmount">实际到账</string>
     <string name="kVcStTipUiImportReceipt">【温馨提示】\n导入收据同时支持APP生成的收据和CLI命令行钱包收据格式。\n\n如果隐私收据丢失，可尝试直接输入转账对应区块编号进行导入。\n\n如果是通过提案进行隐私转账，则不会生成隐私收据，在提案生效后直接输入创建提案时对应区块编号进行导入即可。</string>
-    <string name="kVcStTipUiTransferToBlind">【温馨提示】\n隐私转入：从比特股公开账号向隐私账户转账。并且可同时向多个隐私账户转账。\n\n如果是通过提案进行隐私转账，则不会生成隐私收据，在提案生效后直接输入创建提案时对应区块编号进行导入即可。</string>
+    <string name="kVcStTipUiTransferToBlind">【温馨提示】\n隐私转入：从新比特股公开账号向隐私账户转账。并且可同时向多个隐私账户转账。\n\n如果是通过提案进行隐私转账，则不会生成隐私收据，在提案生效后直接输入创建提案时对应区块编号进行导入即可。</string>
     <string name="kVcStTipUiBlindTransfer">【温馨提示】\n隐私转账：在多个隐私账户之间进行转账操作。\n\n找零和赠与：收据总金额减去输出总金额的剩余金额，如果满足找零所需手续费，则会自动找零到我的隐私账户，否则会自动赠与给第一个隐私账户。</string>
-    <string name="kVcStTipUiTransferFromBlind">【温馨提示】\n隐私转出：从隐私账户向比特股公开账号转账。</string>
+    <string name="kVcStTipUiTransferFromBlind">【温馨提示】\n隐私转出：从隐私账户向新比特股公开账号转账。</string>
     <string name="kVcStTipErrForbidBlindTransfer">资产 %s 已禁止隐私转账。</string>
     <string name="kVcStTipErrForbidNormalTransfer">资产 %s 禁止转账。</string>
     <string name="kVcStTipErrNeedWhiteList">资产 %s 已开启白名单，禁止隐私转账。</string>
@@ -996,7 +996,7 @@
     <string name="kSettingCurrencyNameEUR">欧元</string>
     <string name="kSettingCurrencyNameJPY">日元</string>
     <string name="kSettingCurrencyNameKRW">韩元</string>
-    <string name="kSettingCurrencyNameBTS">比特股核心资产</string>
+    <string name="kSettingCurrencyNameBTS">新比特股</string>
     <string name="kSettingApiCellValueRandom">自动选择</string>
     <string name="kSettingApiInternalNodeBTSPP">中国 - 杭州 (BTS++)</string>
     <string name="kSettingApiInternalNodeAbit">美国（abit）</string>
@@ -1020,7 +1020,7 @@
     <string name="kSettingNewApiSubmitTipsURLAlreadyExist">当前节点已存在。</string>
     <string name="kSettingNewApiSubmitTipsOK">添加成功。</string>
     <string name="kSettingNewApiSubmitTipsConnectedFailed">连接失败，请重新检测URL有效性。</string>
-    <string name="kSettingNewApiSubmitTipsNotBitsharesMainnetNode">该节点不是比特股主网节点，请重新输入。</string>
+    <string name="kSettingNewApiSubmitTipsNotBitsharesMainnetNode">该节点不是新比特股主网节点，请重新输入。</string>
     <!-- 各种VC标题栏名字 -->
     <string name="kVcTitleLogin">登录</string>
     <string name="kVcTitleImportAccount">导入账号</string>
@@ -1671,16 +1671,16 @@
     <string name="kTxMissMemoPriKey">缺少备注私钥。</string>
     <string name="kTxInvalidMemoPriKey">备注私钥无效。</string>
     <!-- 通用字符串 -->
-    <string name="kShareWelcomeMessage">欢迎来到比特股去中心化交易平台。</string>
+    <string name="kShareWelcomeMessage">欢迎来到新比特股去中心化交易平台。</string>
     <string name="kShareLinkCopied">分享链接已复制。</string>
     <string name="kLangKeyZhSimple">简体中文</string>
     <string name="kLangKeyEn">English / 英文</string>
     <string name="kLangKeyJa">日本語 / 日文</string>
     <string name="skip">跳过</string>
     <string name="kNormalErrorInvalidArgs">无效参数。</string>
-    <string name="kAppName">比特股</string>
+    <string name="kAppName">新比特股</string>
     <string name="kAccount">账号</string>
-    <string name="kAboutMainDesc">\n比特股移动端钱包是基于石墨烯技术，从产品体验出发，采用原生技术开发的一款可媲美一流中心化交易所的去中心化交易所（DEX）产品。\n\n联系我们\n微信：bts-pp\n邮箱：contact@btsplusplus.com\n电报：https://t.me/btsplusplus\n官网：https://btspp.io\n</string>
+    <string name="kAboutMainDesc">\n新比特股移动端钱包是基于石墨烯技术，从产品体验出发，采用原生技术开发的一款可媲美一流中心化交易所的去中心化交易所（DEX）产品。\n\n联系我们\n微信：bts-pp\n邮箱：contact@btsplusplus.com\n电报：https://t.me/btsplusplus\n官网：https://btspp.io\n</string>
     <string name="kAboutChannelAppStore">(商店版 &amp; 渠道 %s)</string>
     <string name="kAboutChannelWebsite">(官网版 &amp; 渠道 %s)</string>
     <string name="kAboutDebugVersion">(调试版)</string>
@@ -1699,7 +1699,7 @@
     <string name="kTipsBeRequesting">请求中…</string>
     <string name="kTipsTxFeeNotEnough">手续费不足，请确保账号有足额的 BTS/CNY/USD 用于支付网络手续费。</string>
     <string name="kTipsTxRequestFailed">请求失败，请稍后再试。</string>
-    <string name="kSearchPlaceholderAccount">请输入有效的 Bitshares 账号名</string>
+    <string name="kSearchPlaceholderAccount">请输入有效的 NewBitshares 账号名</string>
     <string name="kSearchPlaceholderAsset">点击搜索新资产</string>
     <string name="kSearchTipsMyFavAccount">我的关注(%s人)</string>
     <string name="kSearchTipsMyCustomPairs">我的交易对(%s个)</string>

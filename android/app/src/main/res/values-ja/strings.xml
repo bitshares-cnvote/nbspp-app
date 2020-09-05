@@ -321,7 +321,7 @@
     <string name="kLoginImportTipsPleaseInputPassword">パスワードを入力してください</string>
     <string name="kLoginImportTipsReadWalletFailed">ウオレットを読み取るファイルは失敗します。</string>
     <string name="kLoginImportTipsInvalidFileOrPassword">ウオレットのファイルが無効或いはパスワードは正しくありません。</string>
-    <string name="kLoginImportTipsNotBTSWallet">このウオレットはBitSharesのウオレットはない。</string>
+    <string name="kLoginImportTipsNotBTSWallet">このウオレットはNewBitSharesのウオレットはない。</string>
     <string name="kLoginImportTipsWalletIsEmpty">このウオレットは何もありません，改めて選んでください。</string>
     <string name="kLoginImportTipsWalletHaveManyAccounts">このウオレットは多数のアカウントを含みます，ウオレット導入はできません。</string>
     <string name="kLoginImportTipsWalletNoPrivateKey">このウオレットはキーファイルはない，改めて選んでください。</string>
@@ -349,8 +349,8 @@
     <string name="kLoginCellWalletPassword">アカウントパスワード</string>
     <string name="kLoginCellActivePrivateKey">資金秘密鍵</string>
     <string name="kLoginCellConfirmPassword">パスワードを確認してください</string>
-    <string name="kLoginRegTipsAccountMode">提示:アカウントパスワード対応フォーマット要求は疑問符をクリックして見ることができます。\n注意:BitSharesは、中心化ブロックチェーンへのアクセス暗証番号の応用が失われたり、忘れたりするとなかなか戻ってこないので、必ずきちんと保管してください。</string>
-    <string name="kLoginRegTipsWalletMode">ヒント:おウオレットパスワード対応フォーマット要件は闻き番号をクリックしてチェックすることができます。\n注意:BitSharesは中心化ブロックチェーンのアプリケーションで、ファイルやパスワードを失うと、忘れてしまうと戻ってきません。登录した后、ファイルをバックアップし、适切に保管することをお勧めします。※ ウオレットモードのご利用はお勧めです。</string>
+    <string name="kLoginRegTipsAccountMode">提示:アカウントパスワード対応フォーマット要求は疑問符をクリックして見ることができます。\n注意:NewBitSharesは、中心化ブロックチェーンへのアクセス暗証番号の応用が失われたり、忘れたりするとなかなか戻ってこないので、必ずきちんと保管してください。</string>
+    <string name="kLoginRegTipsWalletMode">ヒント:おウオレットパスワード対応フォーマット要件は闻き番号をクリックしてチェックすることができます。\n注意:NewBitSharesは中心化ブロックチェーンのアプリケーションで、ファイルやパスワードを失うと、忘れてしまうと戻ってきません。登录した后、ファイルをバックアップし、适切に保管することをお勧めします。※ ウオレットモードのご利用はお勧めです。</string>
     <string name="kLoginFaucetTipsInvalidArguments">パラメーターが無効です。</string>
     <string name="kLoginFaucetTipsInvalidAccountFmt">アカウントの書式が無効です。</string>
     <string name="kLoginFaucetTipsAccountAlreadyExist">アカウントはすでに存在しました。</string>
@@ -801,9 +801,9 @@
     <string name="kVcStCellTitleNetworkFee">广播手续费</string>
     <string name="kVcStCellTitleActualAmount">实际到账</string>
     <string name="kVcStTipUiImportReceipt">【温馨提示】\n导入收据同时支持APP生成的收据和CLI命令行钱包收据格式。\n\n如果隐私收据丢失，可尝试直接输入转账对应区块编号进行导入。\n\n如果是通过提案进行隐私转账，则不会生成隐私收据，在提案生效后直接输入创建提案时对应区块编号进行导入即可。</string>
-    <string name="kVcStTipUiTransferToBlind">【温馨提示】\n隐私转入：即从比特股公开账号向隐私账户转账。并且可同时向多个隐私账户转账。\n\n如果是通过提案进行隐私转账，则不会生成隐私收据，在提案生效后直接输入创建提案时对应区块编号进行导入即可。</string>
+    <string name="kVcStTipUiTransferToBlind">【温馨提示】\n隐私转入：即从新比特股公开账号向隐私账户转账。并且可同时向多个隐私账户转账。\n\n如果是通过提案进行隐私转账，则不会生成隐私收据，在提案生效后直接输入创建提案时对应区块编号进行导入即可。</string>
     <string name="kVcStTipUiBlindTransfer">【温馨提示】\n隐私转账：即在多个隐私账户之间进行转账操作。\n\n找零和赠与：收据总金额减去输出总金额的剩余金额，如果满足找零所需手续费，则会自动找零到我的隐私账户，否则会自动赠与给第一个隐私账户。</string>
-    <string name="kVcStTipUiTransferFromBlind">【温馨提示】\n隐私转出：即从隐私账户向比特股公开账号转账。</string>
+    <string name="kVcStTipUiTransferFromBlind">【温馨提示】\n隐私转出：即从隐私账户向新比特股公开账号转账。</string>
     <string name="kVcStTipErrForbidBlindTransfer">资产 %s 已禁止隐私转账。</string>
     <string name="kVcStTipErrForbidNormalTransfer">资产 %s 禁止转账。</string>
     <string name="kVcStTipErrNeedWhiteList">资产 %s 已开启白名单，禁止隐私转账。</string>
@@ -996,7 +996,7 @@
     <string name="kSettingCurrencyNameEUR">ユーロ</string>
     <string name="kSettingCurrencyNameJPY">円</string>
     <string name="kSettingCurrencyNameKRW">ウォン</string>
-    <string name="kSettingCurrencyNameBTS">BitSharesコア資産</string>
+    <string name="kSettingCurrencyNameBTS">NBS</string>
     <string name="kSettingApiCellValueRandom">自動選択</string>
     <string name="kSettingApiInternalNodeBTSPP">中国 - 杭州（BTS ++）</string>
     <string name="kSettingApiInternalNodeAbit">米国（abit）</string>
@@ -1020,7 +1020,7 @@
     <string name="kSettingNewApiSubmitTipsURLAlreadyExist">現在のノードは既に存在します。</string>
     <string name="kSettingNewApiSubmitTipsOK">正常に追加されました。</string>
     <string name="kSettingNewApiSubmitTipsConnectedFailed">接続に失敗しました。URLの有効性をもう一度確認してください。</string>
-    <string name="kSettingNewApiSubmitTipsNotBitsharesMainnetNode">このノードはBitSharesメインネットワークノードではありません。もう一度入力してください。</string>
+    <string name="kSettingNewApiSubmitTipsNotBitsharesMainnetNode">このノードはNewBitSharesメインネットワークノードではありません。もう一度入力してください。</string>
     <!-- 各种VC标题栏名字 -->
     <string name="kVcTitleLogin">ログイン</string>
     <string name="kVcTitleImportAccount">アカウント導入</string>
@@ -1671,16 +1671,16 @@
     <string name="kTxMissMemoPriKey">缺少备注私钥。</string>
     <string name="kTxInvalidMemoPriKey">备注私钥无效。</string>
     <!-- 通用字符串 -->
-    <string name="kShareWelcomeMessage">分散型金融プラットフォームであるBitSharesへようこそ。</string>
+    <string name="kShareWelcomeMessage">分散型金融プラットフォームであるNewBitSharesへようこそ。</string>
     <string name="kShareLinkCopied">リンクがコピーされました。</string>
     <string name="kLangKeyZhSimple">简体中文 / 簡体字中国語</string>
     <string name="kLangKeyEn">English / 英語</string>
     <string name="kLangKeyJa">日本語</string>
     <string name="skip">PASS</string>
     <string name="kNormalErrorInvalidArgs">無効なパラメーター。</string>
-    <string name="kAppName">BitShares</string>
+    <string name="kAppName">NBS</string>
     <string name="kAccount">アカウント</string>
-    <string name="kAboutMainDesc">\nBitSharesモバイルサイドのウオレットは石墨のアルケン技術に基づくので、製品から出発を体験して、採用します原生の技術開発の1モデル匹敵する一流センター化取る引く所のDEX。\n\n私達に連絡します\nWeChat：bts-pp\nE-mail：contact@btsplusplus.com\nTelegram：https://t.me/btsplusplus\n公式サイト：https://btspp.io\n</string>
+    <string name="kAboutMainDesc">\nNewBitSharesモバイルサイドのウオレットは石墨のアルケン技術に基づくので、製品から出発を体験して、採用します原生の技術開発の1モデル匹敵する一流センター化取る引く所のDEX。\n\n私達に連絡します\nWeChat：bts-pp\nE-mail：contact@btsplusplus.com\nTelegram：https://t.me/btsplusplus\n公式サイト：https://btspp.io\n</string>
     <string name="kAboutChannelAppStore">(商店版 &amp; 渠道 %s)</string>
     <string name="kAboutChannelWebsite">(官网版 &amp; 渠道 %s)</string>
     <string name="kAboutDebugVersion">(调试版)</string>
@@ -1699,7 +1699,7 @@
     <string name="kTipsBeRequesting">願いの中…</string>
     <string name="kTipsTxFeeNotEnough">手数料が足りない，アカウントに足額の BTS/CNY/USD を確保してください</string>
     <string name="kTipsTxRequestFailed">失敗を要請して、少しの後でまた試みてください。。</string>
-    <string name="kSearchPlaceholderAccount">有効な Bitshares アカウントを入力してください</string>
+    <string name="kSearchPlaceholderAccount">有効な NBS アカウントを入力してください</string>
     <string name="kSearchPlaceholderAsset">クリックして新しい資産を検索します</string>
     <string name="kSearchTipsMyFavAccount">私の関心(%s人)</string>
     <string name="kSearchTipsMyCustomPairs">私の取引隊(%s个)</string>
