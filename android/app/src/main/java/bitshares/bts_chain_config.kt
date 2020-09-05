@@ -226,7 +226,7 @@ enum class EBitsharesFeedPublisherType(val value: Int) {
     ebfpt_custom(2),             //  指定喂价者
 }
 
-const val BTS_ADDRESS_PREFIX: String = "BTS"
+const val BTS_ADDRESS_PREFIX: String = "NBS"
 
 //  BTS公钥地址前缀长度 = strlen(BTS_ADDRESS_PREFIX)
 const val BTS_ADDRESS_PREFIX_LENGTH: Int = 3
@@ -236,10 +236,11 @@ const val BTS_CHAIN_EXPIRE_IN_SECS: Int = 15
 
 //  TODO:4.0 大部分参数可通过 get_config 接口返回。
 //  BTS主网公链ID（正式网络）
+//  TODO:NBS
 const val BTS_NETWORK_CHAIN_ID: String = "4018d7844c78f6a6c41c6a552b898022310fc5dec06da467ee7905a8dad512c8"
 
 //  BTS主网核心资产名称（正式网络）
-const val BTS_NETWORK_CORE_ASSET: String = "BTS"
+const val BTS_NETWORK_CORE_ASSET: String = "NBS"
 
 //  BTS主网核心资产ID号
 const val BTS_NETWORK_CORE_ASSET_ID: String = "1.3.0"
@@ -259,8 +260,8 @@ const val BTS_GRAPHENE_TEMP_ACCOUNT = "1.2.4"
 //  5:代理给自己
 const val BTS_GRAPHENE_PROXY_TO_SELF = "1.2.5"
 
-//  黑名单意见账号：btspp-team
-const val BTS_GRAPHENE_ACCOUNT_BTSPP_TEAM = "1.2.1031560"
+//  黑名单意见账号：committee-account
+const val BTS_GRAPHENE_ACCOUNT_BTSPP_TEAM = "1.2.0"
 
 //  资产最大供应量
 const val GRAPHENE_MAX_SHARE_SUPPLY = 1000000000000000L

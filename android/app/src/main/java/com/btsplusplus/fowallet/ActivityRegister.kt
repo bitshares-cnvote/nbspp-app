@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.view.animation.OvershootInterpolator
+import com.fowallet.walletcore.bts.ChainObjectManager
 import kotlinx.android.synthetic.main.activity_register.*
 import java.lang.reflect.Field
 
@@ -40,7 +41,7 @@ class ActivityRegister : BtsppActivity() {
     }
 
     private fun onTermsOfServiceClicked() {
-        val url = "https://btspp.io/${resources.getString(R.string.userAgreementHtmlFileName)}"
+        val url = ChainObjectManager.sharedChainObjectManager().getAppEmbeddedUrl("userAgreement", resources.getString(R.string.appEmbeddedUrlLangKey))
         goToWebView(resources.getString(R.string.kVcTitleAgreement), url)
     }
 

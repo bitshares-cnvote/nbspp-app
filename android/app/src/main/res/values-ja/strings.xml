@@ -1760,9 +1760,8 @@
     <string name="kShareLinkPageDefaultLang">en</string>
     <string name="appDepositWithdrawDefaultGateway">GDEX</string>
     <string name="btsaiLangKey">en</string>
+    <string name="appEmbeddedUrlLangKey">en</string>
     <string name="enableOtcEntry">0</string>
-    <string name="qaHtmlFileName">qam_en.html</string>
-    <string name="userAgreementHtmlFileName">agreement_en.html</string>
     <!-- Android专有字符串 -->
     <string name="action_settings">Settings</string>
     <string name="title_home">Home</string>

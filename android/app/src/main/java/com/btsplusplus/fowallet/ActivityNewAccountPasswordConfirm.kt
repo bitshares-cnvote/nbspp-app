@@ -97,7 +97,7 @@ class ActivityNewAccountPasswordConfirm : BtsppActivity() {
      *  (private) 事件 - 查看用户协议
      */
     private fun onTermsOfServiceClicked() {
-        val url = "https://btspp.io/${resources.getString(R.string.userAgreementHtmlFileName)}"
+        val url = ChainObjectManager.sharedChainObjectManager().getAppEmbeddedUrl("userAgreement", resources.getString(R.string.appEmbeddedUrlLangKey))
         goToWebView(resources.getString(R.string.kVcTitleAgreement), url)
     }
 

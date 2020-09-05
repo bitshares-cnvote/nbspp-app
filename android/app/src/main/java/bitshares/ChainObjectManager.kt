@@ -281,6 +281,13 @@ class ChainObjectManager {
     }
 
     /**
+     *  (public) 获取APP中各种URL配置
+     */
+    fun getAppEmbeddedUrl(url_key: String, lang_key: String): String {
+        return getDefaultParameters().getJSONObject("app_urls").getJSONObject(url_key).getString(lang_key)
+    }
+
+    /**
      *  (public) 获取APP配置文件中出现的所有资产符号。初始化时需要查询所有依赖的资产信息。
      */
     fun getConfigDependenceAssetSymbols(): JSONArray {

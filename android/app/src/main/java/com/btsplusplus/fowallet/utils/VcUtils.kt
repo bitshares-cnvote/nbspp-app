@@ -21,7 +21,8 @@ class VcUtils {
             btsppLogCustom("qa_tip_click", JSONObject().apply {
                 put("qa", anchor_name)
             })
-            ctx.goToWebView(title, "https://btspp.io/${ctx.resources.getString(R.string.qaHtmlFileName)}#$anchor_name")
+            val baseurl = ChainObjectManager.sharedChainObjectManager().getAppEmbeddedUrl("qam", ctx.resources.getString(R.string.appEmbeddedUrlLangKey))
+            ctx.goToWebView(title, "$baseurl#$anchor_name")
         }
 
         /**
