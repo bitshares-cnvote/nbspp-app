@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.TextView
 import bitshares.*
 import com.btsplusplus.fowallet.utils.VcUtils
+import com.fowallet.walletcore.bts.ChainObjectManager
 import com.fowallet.walletcore.bts.WalletManager
 import kotlinx.android.synthetic.main.activity_index_my.*
 
@@ -40,7 +41,7 @@ class ActivityIndexMy : BtsppActivity() {
         img_icon_proposal.setColorFilter(iconcolor)
         img_icon_asset_mgr.setColorFilter(iconcolor)
         img_icon_faq.setColorFilter(iconcolor)
-        img_icon_share_link.setColorFilter(iconcolor)
+//        img_icon_share_link.setColorFilter(iconcolor)
         img_icon_setting.setColorFilter(iconcolor)
 
         //  刷新UI
@@ -55,8 +56,9 @@ class ActivityIndexMy : BtsppActivity() {
             }
         }
 
-        //  事件 - 分享链接
-        layout_share_link.setOnClickListener { _onShareLinkClicked() }
+        //  TODO:NBS 暂时去掉
+//        //  事件 - 分享链接
+//        layout_share_link.setOnClickListener { _onShareLinkClicked() }
 
         //  事件 - 设置
         layout_setting_from_my.setOnClickListener {
@@ -107,7 +109,8 @@ class ActivityIndexMy : BtsppActivity() {
         }
 
         layout_faq_from_my.setOnClickListener {
-            goToWebView(resources.getString(R.string.faq), "https://btspp.io/qa.html")
+            val url = ChainObjectManager.sharedChainObjectManager().getAppEmbeddedUrl("qa", resources.getString(R.string.appEmbeddedUrlLangKey))
+            goToWebView(resources.getString(R.string.faq), url)
         }
     }
 

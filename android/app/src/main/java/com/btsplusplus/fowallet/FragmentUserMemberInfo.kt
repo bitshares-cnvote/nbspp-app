@@ -62,15 +62,16 @@ class FragmentUserMemberInfo : BtsppFragment() {
         tv_member_tip = v.findViewById(R.id.txt_upgrade_to_member_tip)
         btn_upgrade = v.findViewById<Button>(R.id.button_upgrade_member)
 
-        //  事件 - 点击复制邀请链接
-        v.findViewById<LinearLayout>(R.id.layout_my_share_link).setOnClickListener {
-            activity?.let { act ->
-                val value = VcUtils.genShareLink(act, true)
-                if (Utils.copyToClipboard(act, value)) {
-                    showToast(resources.getString(R.string.kAccountMembershipMyRefCodeCopyOK))
-                }
-            }
-        }
+        //  TODO:NBS 暂时注销
+//        //  事件 - 点击复制邀请链接
+//        v.findViewById<LinearLayout>(R.id.layout_my_share_link).setOnClickListener {
+//            activity?.let { act ->
+//                val value = VcUtils.genShareLink(act, true)
+//                if (Utils.copyToClipboard(act, value)) {
+//                    showToast(resources.getString(R.string.kAccountMembershipMyRefCodeCopyOK))
+//                }
+//            }
+//        }
 
         if (Utils.isBitsharesVIP(account.getString("membership_expiration_date"))) {
             refreshUILefttimeMember(account)
