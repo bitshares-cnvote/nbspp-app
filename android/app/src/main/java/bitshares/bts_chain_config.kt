@@ -236,8 +236,7 @@ const val BTS_CHAIN_EXPIRE_IN_SECS: Int = 15
 
 //  TODO:4.0 大部分参数可通过 get_config 接口返回。
 //  BTS主网公链ID（正式网络）
-//  TODO:NBS
-const val BTS_NETWORK_CHAIN_ID: String = "4018d7844c78f6a6c41c6a552b898022310fc5dec06da467ee7905a8dad512c8"
+const val BTS_NETWORK_CHAIN_ID: String = "cd931cb96d657ff0ef0226f7ae9d25175b3cc96a84490a674ed36170830324e7"
 
 //  BTS主网核心资产名称（正式网络）
 const val BTS_NETWORK_CORE_ASSET: String = "NBS"
