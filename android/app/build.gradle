@@ -46,13 +46,12 @@ android {
         }
         //  for nbs mainnet
         nbsmain {
-            //  TODO:faucet
-            //  TODO:main net json config
             buildConfigField "int", "kAppChannelID", "20"
             buildConfigField "boolean", "kAppModuleEnableOTC", "false"
             buildConfigField "boolean", "kAppModuleEnableGateway", "false"
+            buildConfigField "String", "kAppConfigFile", "\"fowallet_config_nbs_mainnet.json\""
             buildConfigField "boolean", "kUseCommunityFaucet", "true"
-            buildConfigField "String", "kAppCommunityFaucetAddress", "\"https://testfaucet.nbs.life/\""
+            buildConfigField "String", "kAppCommunityFaucetAddress", "\"https://faucet.nbs.life/\""
         }
     }
     buildTypes {
