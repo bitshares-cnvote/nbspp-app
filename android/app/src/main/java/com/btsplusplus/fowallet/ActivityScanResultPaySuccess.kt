@@ -50,7 +50,7 @@ class ActivityScanResultPaySuccess : BtsppActivity() {
         //  交易账号整行点击
         layout_transaction_id_from_scan_result_pay_success.setOnClickListener {
             if (trx_id != "") {
-                openURL("https://bts.ai/tx/$trx_id")
+                openURL("https://explorer.nbs.plus/tx/$trx_id")
             }
         }
     }

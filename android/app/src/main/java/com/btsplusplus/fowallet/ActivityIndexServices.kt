@@ -152,7 +152,7 @@ class ActivityIndexServices : BtsppActivity() {
 
         layout_bts_explorer.setOnClickListener {
             //  TODO:插件配置url
-            openURL("https://bts.ai?lang=${resources.getString(R.string.btsaiLangKey)}")
+            openURL("https://explorer.nbs.plus/?lang=${resources.getString(R.string.btsaiLangKey)}")
         }
     }
 
