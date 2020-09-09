@@ -71,7 +71,7 @@
     <string name="kServicesCellLabelOtcMerchant">商家信息</string>
     <string name="kServicesCellLabelDepositWithdraw">充币提币</string>
     <string name="kServicesCellLabelAdvFunction">高级功能</string>
-    <string name="kServicesCellLabelBtsExplorer">BTS浏览器</string>
+    <string name="kServicesCellLabelBtsExplorer">NBS浏览器</string>
     <!-- 扫一扫相关字符串 -->
     <string name="kVcScanPermissionNoCamera">未检测到您的摄像头。</string>
     <string name="kVcScanPermissionSystemLimit">因为系统原因, 无法访问相册。</string>
@@ -1683,7 +1683,7 @@
     <string name="kNormalErrorInvalidArgs">无效参数。</string>
     <string name="kAppName">新比特股</string>
     <string name="kAccount">账号</string>
-    <string name="kAboutMainDesc">\n新比特股移动端钱包是基于石墨烯技术，从产品体验出发，采用原生技术开发的一款可媲美一流中心化交易所的去中心化交易所（DEX）产品。\n\n联系我们\n微信：bts-pp\n邮箱：contact@btsplusplus.com\n电报：https://t.me/btsplusplus\n官网：https://btspp.io\n</string>
+    <string name="kAboutMainDesc">\n新比特股移动端钱包是基于石墨烯技术，从产品体验出发，采用原生技术开发的一款可媲美一流中心化交易所的去中心化交易所（DEX）产品。\n\n联系我们\n邮箱：s@nbs.plus\n工会：https://btsgh.com\n官网：https://nbs.plus\n</string>
     <string name="kAboutChannelAppStore">(商店版 &amp; 渠道 %s)</string>
     <string name="kAboutChannelWebsite">(官网版 &amp; 渠道 %s)</string>
     <string name="kAboutDebugVersion">(调试版)</string>
