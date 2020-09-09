@@ -1002,6 +1002,9 @@
     <string name="kSettingApiInternalNodeAbit">美国（abit）</string>
     <string name="kSettingApiInternalNodeGDEX">中国 - 上海（GDEX）</string>
     <string name="kSettingApiInternalNodeBTSAI">中国 - 北京（bts.ai）</string>
+    <string name="kSettingApiInternalNodeCNVOTE01">中国 - 重庆 (CNVOTE)</string>
+    <string name="kSettingApiInternalNodeCNVOTE02">中国 - 杭州 (CNVOTE)</string>
+    <string name="kSettingApiInternalNodeCNVOTE03">中国 - 北京（CNVOTE）</string>
     <string name="kSettingApiRandomCell">自动选择节点</string>
     <string name="kSettingApiCellCustomFlag">自定义</string>
     <string name="kSettingApiOpSetAsCurrent">设置为当前节点</string>

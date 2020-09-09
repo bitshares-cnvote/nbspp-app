@@ -1002,6 +1002,9 @@
     <string name="kSettingApiInternalNodeAbit">United States (abit)</string>
     <string name="kSettingApiInternalNodeGDEX">China - Shanghai (GDEX)</string>
     <string name="kSettingApiInternalNodeBTSAI">China - Beijing (bts.ai</string>
+    <string name="kSettingApiInternalNodeCNVOTE01">China - Chongqing (CNVOTE)</string>
+    <string name="kSettingApiInternalNodeCNVOTE02">China - Hangzhou (CNVOTE)</string>
+    <string name="kSettingApiInternalNodeCNVOTE03">China - Beijing（CNVOTE）</string>
     <string name="kSettingApiRandomCell">Automatic</string>
     <string name="kSettingApiCellCustomFlag">custom</string>
     <string name="kSettingApiOpSetAsCurrent">Set as current node</string>
