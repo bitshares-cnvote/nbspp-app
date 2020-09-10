@@ -423,9 +423,10 @@ class FragmentAssets : BtsppFragment() {
             } else {
                 actions.put(EBitsharesAssetOpKind.ebaok_reserve)
             }
-            if (isCore) {
-                actions.put(EBitsharesAssetOpKind.ebaok_stake_vote)
-            }
+            //  todo nbs: remote state
+//            if (isCore) {
+//                actions.put(EBitsharesAssetOpKind.ebaok_stake_vote)
+//            }
 
             ly3 = LinearLayout(ctx)
             ly3.orientation = LinearLayout.HORIZONTAL
