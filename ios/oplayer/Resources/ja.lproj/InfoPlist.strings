@@ -3,7 +3,7 @@
 
   Created by Aonichan on 15/12/1. */
 
-"CFBundleDisplayName" = "BitShares";
+"CFBundleDisplayName" = "NBS";
 
 "NSCalendarsUsageDescription" = "旅程のリマインダーを追加するときは、カレンダーにアクセスする必要があります。";
 

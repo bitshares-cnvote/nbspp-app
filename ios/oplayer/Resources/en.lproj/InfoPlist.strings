@@ -3,7 +3,7 @@
 
   Created by Aonichan on 15/12/1. */
 
-"CFBundleDisplayName" = "BitShares";
+"CFBundleDisplayName" = "NBS";
 
 "NSCalendarsUsageDescription" = "Add trip reminders, need to access your calendar.";
 

@@ -79,7 +79,7 @@
 "kServicesCellLabelOtcMerchant" = "商家信息";
 "kServicesCellLabelDepositWithdraw" = "充币提币";
 "kServicesCellLabelAdvFunction" = "高级功能";
-"kServicesCellLabelBtsExplorer" = "BTS浏览器";
+"kServicesCellLabelBtsExplorer" = "NBS浏览器";
 
 /* 扫一扫相关字符串 */
 "kVcScanPermissionNoCamera" = "未检测到您的摄像头。";
@@ -306,7 +306,7 @@
 "kLoginPageModeBrainKey" = "助记词";
 "kLoginPageModePrivateKey" = "私钥模式";
 "kLoginPageModeWallet" = "钱包模式";
-"kLoginTipsPlaceholderAccount" = "请输入 Bitshares 账号名";
+"kLoginTipsPlaceholderAccount" = "请输入 NewBitshares 账号名";
 "kLoginTipsPlaceholderBrainKey" = "请输入助记词，每个单词之间按空格分割。";
 "kLoginTipsPlaceholderTradePassword" = "设置新的解锁密码";
 "kLoginTipsPlaceholderActiveKey" = "请输入资金权限私钥";
@@ -339,7 +339,7 @@
 "kLoginImportTipsPleaseInputPassword" = "请输入密码。";
 "kLoginImportTipsReadWalletFailed" = "读取钱包文件失败。";
 "kLoginImportTipsInvalidFileOrPassword" = "钱包文件无效或密码不正确。";
-"kLoginImportTipsNotBTSWallet" = "该钱包不是Bitshares区块链的钱包。";
+"kLoginImportTipsNotBTSWallet" = "该钱包不是NewBitshares区块链的钱包。";
 "kLoginImportTipsWalletIsEmpty" = "该钱包为空钱包，请重选选择。";
 "kLoginImportTipsWalletHaveManyAccounts" = "该钱包包含多个账户，不支持导入。";
 "kLoginImportTipsWalletNoPrivateKey" = "该钱包不包含密钥信息，请重新选择。";
@@ -367,8 +367,8 @@
 "kLoginCellWalletPassword" = "钱包密码";
 "kLoginCellActivePrivateKey" = "资金私钥";
 "kLoginCellConfirmPassword" = "确认密码";
-"kLoginRegTipsAccountMode" = "提示：账号密码对应格式要求可以点击问号查看。\n注意：比特股是去中心化区块链应用密码一旦丢失或遗忘将无法找回，请务必妥善保管。";
-"kLoginRegTipsWalletMode" = "提示：钱包密码对应格式要求可以点击问号查看。\n注意：比特股是去中心化区块链应用，钱包文件和密码一旦丢失或遗忘将无法找回，建议您注册后将钱包文件做好备份，并妥善保管。※ 推荐使用钱包模式。";
+"kLoginRegTipsAccountMode" = "提示：账号密码对应格式要求可以点击问号查看。\n注意：新比特股是去中心化区块链应用密码一旦丢失或遗忘将无法找回，请务必妥善保管。";
+"kLoginRegTipsWalletMode" = "提示：钱包密码对应格式要求可以点击问号查看。\n注意：新比特股是去中心化区块链应用，钱包文件和密码一旦丢失或遗忘将无法找回，建议您注册后将钱包文件做好备份，并妥善保管。※ 推荐使用钱包模式。";
 "kLoginFaucetTipsInvalidArguments" = "参数无效。";
 "kLoginFaucetTipsInvalidAccountFmt" = "账号格式无效。";
 "kLoginFaucetTipsAccountAlreadyExist" = "账号已经存在。";
@@ -841,9 +841,9 @@
 "kVcStCellTitleNetworkFee" = "广播手续费";
 "kVcStCellTitleActualAmount" = "实际到账";
 "kVcStTipUiImportReceipt" = "【温馨提示】\n导入收据同时支持APP生成的收据和CLI命令行钱包收据格式。\n\n如果隐私收据丢失，可尝试直接输入转账对应区块编号进行导入。\n\n如果是通过提案进行隐私转账，则不会生成隐私收据，在提案生效后直接输入创建提案时对应区块编号进行导入即可。";
-"kVcStTipUiTransferToBlind" = "【温馨提示】\n隐私转入：从比特股公开账号向隐私账户转账。并且可同时向多个隐私账户转账。\n\n如果是通过提案进行隐私转账，则不会生成隐私收据，在提案生效后直接输入创建提案时对应区块编号进行导入即可。";
+"kVcStTipUiTransferToBlind" = "【温馨提示】\n隐私转入：从新比特股公开账号向隐私账户转账。并且可同时向多个隐私账户转账。\n\n如果是通过提案进行隐私转账，则不会生成隐私收据，在提案生效后直接输入创建提案时对应区块编号进行导入即可。";
 "kVcStTipUiBlindTransfer" = "【温馨提示】\n隐私转账：在多个隐私账户之间进行转账操作。\n\n找零和赠与：收据总金额减去输出总金额的剩余金额，如果满足找零所需手续费，则会自动找零到我的隐私账户，否则会自动赠与给第一个隐私账户。";
-"kVcStTipUiTransferFromBlind" = "【温馨提示】\n隐私转出：从隐私账户向比特股公开账号转账。";
+"kVcStTipUiTransferFromBlind" = "【温馨提示】\n隐私转出：从隐私账户向新比特股公开账号转账。";
 "kVcStTipErrForbidBlindTransfer" = "资产 %@ 已禁止隐私转账。";
 "kVcStTipErrForbidNormalTransfer" = "资产 %@ 禁止转账。";
 "kVcStTipErrNeedWhiteList" = "资产 %@ 已开启白名单，禁止隐私转账。";
@@ -1040,12 +1040,15 @@
 "kSettingCurrencyNameEUR" = "欧元";
 "kSettingCurrencyNameJPY" = "日元";
 "kSettingCurrencyNameKRW" = "韩元";
-"kSettingCurrencyNameBTS" = "比特股核心资产";
+"kSettingCurrencyNameBTS" = "新比特股";
 "kSettingApiCellValueRandom" = "自动选择";
 "kSettingApiInternalNodeBTSPP" = "中国 - 杭州 (BTS++)";
 "kSettingApiInternalNodeAbit" = "美国（abit）";
 "kSettingApiInternalNodeGDEX" = "中国 - 上海（GDEX）";
 "kSettingApiInternalNodeBTSAI" = "中国 - 北京（bts.ai）";
+"kSettingApiInternalNodeCNVOTE01" = "中国 - 重庆 (CNVOTE)";
+"kSettingApiInternalNodeCNVOTE02" = "中国 - 杭州 (CNVOTE)";
+"kSettingApiInternalNodeCNVOTE03" = "中国 - 北京（CNVOTE）";
 "kSettingApiRandomCell" = "自动选择节点";
 "kSettingApiCellCustomFlag" = "自定义";
 "kSettingApiOpSetAsCurrent" = "设置为当前节点";
@@ -1064,7 +1067,7 @@
 "kSettingNewApiSubmitTipsURLAlreadyExist" = "当前节点已存在。";
 "kSettingNewApiSubmitTipsOK" = "添加成功。";
 "kSettingNewApiSubmitTipsConnectedFailed" = "连接失败，请重新检测URL有效性。";
-"kSettingNewApiSubmitTipsNotBitsharesMainnetNode" = "该节点不是比特股主网节点，请重新输入。";
+"kSettingNewApiSubmitTipsNotBitsharesMainnetNode" = "该节点不是新比特股主网节点，请重新输入。";
 
 /* 各种VC标题栏名字 */
 "kVcTitleLogin" = "登录";
@@ -1723,16 +1726,16 @@
 "kTxInvalidMemoPriKey" = "备注私钥无效。";
 
 /* 通用字符串 */
-"kShareWelcomeMessage" = "欢迎来到比特股去中心化交易平台。";
+"kShareWelcomeMessage" = "欢迎来到新比特股去中心化交易平台。";
 "kShareLinkCopied" = "分享链接已复制。";
 "kLangKeyZhSimple" = "简体中文";
 "kLangKeyEn" = "English / 英文";
 "kLangKeyJa" = "日本語 / 日文";
 "skip" = "跳过";
 "kNormalErrorInvalidArgs" = "无效参数。";
-"kAppName" = "比特股";
+"kAppName" = "新比特股";
 "kAccount" = "账号";
-"kAboutMainDesc" ="\n比特股移动端钱包是基于石墨烯技术，从产品体验出发，采用原生技术开发的一款可媲美一流中心化交易所的去中心化交易所（DEX）产品。\n\n联系我们\n微信：bts-pp\n邮箱：contact@btsplusplus.com\n电报：https://t.me/btsplusplus\n官网：https://btspp.io\n";
+"kAboutMainDesc" ="\n新比特股移动端钱包是基于石墨烯技术，从产品体验出发，采用原生技术开发的一款可媲美一流中心化交易所的去中心化交易所（DEX）产品。\n\n联系我们\n邮箱：s@nbs.plus\n工会：https://btsgh.com\n官网：https://nbs.plus\n";
 "kAboutChannelAppStore" = "(商店版 & 渠道 %@)";
 "kAboutChannelWebsite" = "(官网版 & 渠道 %@)";
 "kAboutDebugVersion" = "(调试版)";
@@ -1751,7 +1754,7 @@
 "kTipsBeRequesting" = "请求中…";
 "kTipsTxFeeNotEnough" = "手续费不足，请确保账号有足额的 BTS/CNY/USD 用于支付网络手续费。";
 "kTipsTxRequestFailed" = "请求失败，请稍后再试。";
-"kSearchPlaceholderAccount" = "请输入有效的 Bitshares 账号名";
+"kSearchPlaceholderAccount" = "请输入有效的 NewBitshares 账号名";
 "kSearchPlaceholderAsset" = "点击搜索新资产";
 "kSearchTipsMyFavAccount" = "我的关注(%@人)";
 "kSearchTipsMyCustomPairs" = "我的交易对(%@个)";
@@ -1814,9 +1817,8 @@
 "kShareLinkPageDefaultLang" = "zh";
 "appDepositWithdrawDefaultGateway" = "GDEX";
 "btsaiLangKey" = "cn";
+"appEmbeddedUrlLangKey" = "zh";
 "enableOtcEntry" = "1";
-"qaHtmlFileName" = "qam.html";
-"userAgreementHtmlFileName" = "agreement.html";
 
 /* Android专有字符串 */
 "action_settings" = "Settings";

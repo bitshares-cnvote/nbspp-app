@@ -35,17 +35,16 @@
 //  【官方测试网络】参数
 #define kAppModuleEnableTabMarket   1
 #define kAppModuleEnableTabDebt     0
-#define kAppModuleEnableOTC         1
+#define kAppModuleEnableOTC         0
 #define kAppModuleEnableGateway     0
 #define kAppModuleEnableFaq         1
 #define kAppCheckUpdate             0
 
-#define kUseCommunityFaucet         0
-#define kAppCommunityFaucetAddress  @""
+#define kUseCommunityFaucet         1
+#define kAppCommunityFaucetAddress  @"https://testfaucet.nbs.life/api/v1/accounts"
 
 //  REMARK: 这里可以更换测试用配置文件链接不同的私链）
-#define kAppConfigFile              @"fowallet_config_testnet.json"
-//#define kAppConfigFile              @"fowallet_config_otctest.json"
+#define kAppConfigFile              @"fowallet_config_nbs_testnet.json"
 
 #else
 
@@ -63,28 +62,28 @@
 //  iOS企业版参数
 #define kAppModuleEnableTabMarket   1
 #define kAppModuleEnableTabDebt     1
-#define kAppModuleEnableOTC         1
-#define kAppModuleEnableGateway     1
+#define kAppModuleEnableOTC         0
+#define kAppModuleEnableGateway     0
 #define kAppModuleEnableFaq         1
 #define kAppCheckUpdate             1
 
-#define kUseCommunityFaucet         0
-#define kAppCommunityFaucetAddress  @""
-#define kAppConfigFile              @"fowallet_config_btspp.json"
+#define kUseCommunityFaucet         1
+#define kAppCommunityFaucetAddress  @"https://faucet.nbs.life/api/v1/accounts"
+#define kAppConfigFile              @"fowallet_config_nbs_mainnet.json"
 
 #elif kAppChannelID == 1
 
 //  AppStore版参数
 #define kAppModuleEnableTabMarket   1
 #define kAppModuleEnableTabDebt     1
-#define kAppModuleEnableOTC         1
-#define kAppModuleEnableGateway     1
+#define kAppModuleEnableOTC         0
+#define kAppModuleEnableGateway     0
 #define kAppModuleEnableFaq         0
 #define kAppCheckUpdate             1
 
 #define kUseCommunityFaucet         1
-#define kAppCommunityFaucetAddress  @"https://faucet.bitshares.eu/onboarding/api/v1/accounts"
-#define kAppConfigFile              @"fowallet_config.json"
+#define kAppCommunityFaucetAddress  @"https://faucet.nbs.life/api/v1/accounts"
+#define kAppConfigFile              @"fowallet_config_nbs_mainnet.json"
 
 #elif kAppChannelID == 100
 
@@ -96,9 +95,9 @@
 #define kAppModuleEnableFaq         1
 #define kAppCheckUpdate             0
 
-#define kUseCommunityFaucet         0
-#define kAppCommunityFaucetAddress  @""
-#define kAppConfigFile              @"fowallet_config_btspp.json"
+#define kUseCommunityFaucet         1
+#define kAppCommunityFaucetAddress  @"https://faucet.nbs.life/api/v1/accounts"
+#define kAppConfigFile              @"fowallet_config_nbs_mainnet.json"
 
 #else
 
