@@ -257,7 +257,7 @@ typedef enum EBitsharesOperations
 } EBitsharesOperations;
 
 //  BTS公钥地址前缀
-#define BTS_ADDRESS_PREFIX                  "BTS"
+#define BTS_ADDRESS_PREFIX                  "NBS"
 
 //  BTS公钥地址前缀长度 = strlen(BTS_ADDRESS_PREFIX)
 //#define BTS_ADDRESS_PREFIX_LENGTH           3
@@ -268,10 +268,10 @@ typedef enum EBitsharesOperations
 //  TODO:4.0 大部分参数可通过 get_config 接口返回。
 
 //  BTS主网公链ID（正式网络）
-#define BTS_NETWORK_CHAIN_ID                "4018d7844c78f6a6c41c6a552b898022310fc5dec06da467ee7905a8dad512c8"
+#define BTS_NETWORK_CHAIN_ID                "cd931cb96d657ff0ef0226f7ae9d25175b3cc96a84490a674ed36170830324e7"
 
 //  BTS主网核心资产名称（正式网络）
-#define BTS_NETWORK_CORE_ASSET              "BTS"
+#define BTS_NETWORK_CORE_ASSET              "NBS"
 
 //  BTS主网核心资产ID号
 #define BTS_NETWORK_CORE_ASSET_ID           @"1.3.0"
@@ -290,8 +290,8 @@ typedef enum EBitsharesOperations
 //  5:代理给自己
 #define BTS_GRAPHENE_PROXY_TO_SELF          @"1.2.5"
 
-//  黑名单意见账号：btspp-team
-#define BTS_GRAPHENE_ACCOUNT_BTSPP_TEAM     @"1.2.1031560"
+//  黑名单意见账号：committee-account
+#define BTS_GRAPHENE_ACCOUNT_BTSPP_TEAM     @"1.2.0"
 
 //  资产最大供应量
 #define GRAPHENE_MAX_SHARE_SUPPLY           1000000000000000ll

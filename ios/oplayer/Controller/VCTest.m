@@ -95,8 +95,9 @@
     switch (indexPath.row) {
         case 0:
         {
-            VCBtsppSdkWebView* vc = [[VCBtsppSdkWebView alloc] initWithUrl:@"http://btspp.io/test/test01.html"];
-            [self pushViewController:vc vctitle:@"测试webview" backtitle:kVcDefaultBackTitleName];
+            [OrgUtils showMessage:@"test"];
+//            VCBtsppSdkWebView* vc = [[VCBtsppSdkWebView alloc] initWithUrl:@"l"];
+//            [self pushViewController:vc vctitle:@"测试webview" backtitle:kVcDefaultBackTitleName];
         }
             break;
         default:

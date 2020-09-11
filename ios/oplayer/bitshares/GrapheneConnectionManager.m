@@ -140,14 +140,6 @@ static GrapheneConnectionManager *_sharedGrapheneConnectionManager = nil;
                 [wssUrlHash setObject:@YES forKey:[node objectForKey:@"url"]];
             }
         }
-        
-#ifdef DEBUG
-#if GRAPHENE_BITSHARES_MAINNET
-        //  REMARK：DEBUG调试阶段仅连接一个节点，否则其他节点连接不上会抛出异常。（Promise中）
-        [wssUrlHash removeAllObjects];
-        [wssUrlHash setObject:@YES forKey:@"wss://api.weaccount.cn"];
-#endif
-#endif
     }
     
     //  初始化所有结点

@@ -352,10 +352,6 @@ enum
             {
                 vc = [[VCAssetInfos alloc] init];
                 vc.title = NSLocalizedString(@"kVcTitleSmartCoin", @"智能币");
-                // TODO:其他点击
-                //  vc = [[VCBtsaiWebView alloc] initWithUrl:@"http://bts.ai/a/cny"];
-                //  vc.title = @"资产查询";
-//                break;
             }
                 break;
                 
@@ -441,8 +437,8 @@ enum
                 break;
             }
                 
-            case kVcSubBtsExplorer:     //  BTS区块浏览器（bts.ai）
-                [OrgUtils safariOpenURL:[NSString stringWithFormat:@"https://bts.ai?lang=%@", NSLocalizedString(@"btsaiLangKey", @"langkey")]];
+            case kVcSubBtsExplorer:     //  NBS区块浏览器（explorer.nbs.plus）
+                [OrgUtils safariOpenURL:[NSString stringWithFormat:@"https://explorer.nbs.plus/?lang=%@", NSLocalizedString(@"btsaiLangKey", @"langkey")]];
                 break;
             default:
                 break;

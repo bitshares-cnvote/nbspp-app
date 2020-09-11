@@ -89,9 +89,9 @@ enum
 
 - (void)onBtnAgreementClicked
 {
-    //  TODO:2.9 url
-    [self gotoWebView:[NSString stringWithFormat:@"%@%@", @"https://btspp.io/",
-                       NSLocalizedString(@"userAgreementHtmlFileName", @"agreement html file")]
+    id url = [[ChainObjectManager sharedChainObjectManager] getAppEmbeddedUrl:@"userAgreement"
+                                                                     lang_key:NSLocalizedString(@"appEmbeddedUrlLangKey", @"langkey")];
+    [self gotoWebView:url
                 title:NSLocalizedString(@"kVcTitleAgreement", @"用户协议和服务条款")];
 }
 

@@ -26,7 +26,7 @@ enum
     kVcSubID = 0,               //  帐号ID
     kVcSubAccount,              //  帐号名字
     kVcSubMemberStatus,         //  会员状态
-    kVcSubShareLink,            //  分享链接
+//    kVcSubShareLink,            //  分享链接
     //    kVcSubMemberDesc,           //  会员返现描述//TODO:2.5考虑完善改进会员用途展示
     
     kVcSubBasicInfoMax
@@ -222,13 +222,13 @@ enum
                     }
                 }
                     break;
-                case kVcSubShareLink:
-                {
-                    cell.textLabel.text = NSLocalizedString(@"kAccountMembershipShareLink", @"分享链接");
-                    cell.selectionStyle = UITableViewCellSelectionStyleGray;
-                    cell.detailTextLabel.text = NSLocalizedString(@"kAccountMembershipClickCopyTips", @"点击可复制");
-                }
-                    break;
+//                case kVcSubShareLink:
+//                {
+//                    cell.textLabel.text = NSLocalizedString(@"kAccountMembershipShareLink", @"分享链接");
+//                    cell.selectionStyle = UITableViewCellSelectionStyleGray;
+//                    cell.detailTextLabel.text = NSLocalizedString(@"kAccountMembershipClickCopyTips", @"点击可复制");
+//                }
+//                    break;
 //                case kVcSubMemberDesc://TODO:2.5考虑完善改进会员用途展示
 //                    cell.showCustomBottomLine = NO;
 //                    if (_bIsLifetimeMemberShip){
@@ -270,11 +270,11 @@ enum
                 break;
             default:
             {
-                if (indexPath.row == kVcSubShareLink){
-                    id value = [VcUtils genShareLink:YES];
-                    [UIPasteboard generalPasteboard].string = [value copy];
-                    [OrgUtils makeToast:NSLocalizedString(@"kShareLinkCopied", @"分享链接已复制。")];
-                }
+//                if (indexPath.row == kVcSubShareLink){
+//                    id value = [VcUtils genShareLink:YES];
+//                    [UIPasteboard generalPasteboard].string = [value copy];
+//                    [OrgUtils makeToast:NSLocalizedString(@"kShareLinkCopied", @"分享链接已复制。")];
+//                }
             }
                 break;
         }

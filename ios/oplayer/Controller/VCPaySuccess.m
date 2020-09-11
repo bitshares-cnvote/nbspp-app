@@ -218,7 +218,7 @@
 {
     id trx_id = [[_trx_result objectAtIndex:0] objectForKey:@"id"] ?: @"";
     if (trx_id && ![trx_id isEqualToString:@""]){
-        [OrgUtils safariOpenURL:[NSString stringWithFormat:@"https://bts.ai/tx/%@", trx_id]];
+        [OrgUtils safariOpenURL:[NSString stringWithFormat:@"https://explorer.nbs.plus/tx/%@", trx_id]];
     }
 }
 

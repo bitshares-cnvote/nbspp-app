@@ -60,8 +60,8 @@ enum
 
 enum
 {
-    kVcSubShareLink = 0,        //  分享专属链接
-    kVcSubSettingsEx,           //  设置
+//    kVcSubShareLink = 0,        //  分享专属链接
+    kVcSubSettingsEx = 0,       //  设置
 #ifdef DEBUG
     kVcSubTestPage,             //  测试
 #endif  //  DEBUG
@@ -124,7 +124,7 @@ enum
 #endif  //  kAppModuleEnableFaq
         
         NSArray* pSection4 = [NSArray arrayWithObjects:
-                              @"kLblCellShareLink",             //  分享专属链接
+//                              @"kLblCellShareLink",             //  分享专属链接
                               @"kSettingEx",                    //  设置,
 #ifdef DEBUG
                               @"测试页面",
@@ -295,12 +295,12 @@ enum
                     cell.imageView.tintColor = [ThemeManager sharedThemeManager].textColorNormal;
                 }
                     break;
-                case kVcSubShareLink:
-                {
-                    cell.imageView.image = [UIImage templateImageNamed:@"iconShare"];
-                    cell.imageView.tintColor = [ThemeManager sharedThemeManager].textColorNormal;
-                }
-                    break;
+//                case kVcSubShareLink:
+//                {
+//                    cell.imageView.image = [UIImage templateImageNamed:@"iconShare"];
+//                    cell.imageView.tintColor = [ThemeManager sharedThemeManager].textColorNormal;
+//                }
+//                    break;
                 default:
                     break;
             }
@@ -409,7 +409,10 @@ enum
                 //                    return nil;
                 //                })];
                 //                return;
-                vc = [[VCBtsaiWebView alloc] initWithUrl:@"https://btspp.io/qa.html"];
+                
+                id url = [[ChainObjectManager sharedChainObjectManager] getAppEmbeddedUrl:@"qa"
+                                                                                 lang_key:NSLocalizedString(@"appEmbeddedUrlLangKey", @"langkey")];
+                vc = [[VCBtsaiWebView alloc] initWithUrl:url];
                 vc.title = NSLocalizedString(@"kVcTitleFAQ", @"常见问题");
             }
                 break;
@@ -426,13 +429,13 @@ enum
                         //                                                                                   paytitle:@"下注"];
                     }
                         break;
-                    case kVcSubShareLink:
-                    {
-                        id value = [VcUtils genShareLink:YES];
-                        [UIPasteboard generalPasteboard].string = [value copy];
-                        [OrgUtils makeToast:NSLocalizedString(@"kShareLinkCopied", @"分享链接已复制。")];
-                    }
-                        break;
+//                    case kVcSubShareLink:
+//                    {
+//                        id value = [VcUtils genShareLink:YES];
+//                        [UIPasteboard generalPasteboard].string = [value copy];
+//                        [OrgUtils makeToast:NSLocalizedString(@"kShareLinkCopied", @"分享链接已复制。")];
+//                    }
+//                        break;
 #ifdef DEBUG
                     case kVcSubTestPage:
                     {

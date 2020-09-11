@@ -534,7 +534,7 @@ nav.navigationBar.titleTextAttributes = textAttributes;
     [application setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [application setStatusBarStyle:UIStatusBarStyleLightContent];
     
-    [Flurry startSession:@"WY5BMPMSZTXNCC2X986X" withSessionBuilder:[[[[[FlurrySessionBuilder new]
+    [Flurry startSession:@"BXBJJTXFZV8DGTQN68FH" withSessionBuilder:[[[[[FlurrySessionBuilder new]
                                                                         withLogLevel:FlurryLogLevelAll]
                                                                        withCrashReporting:YES]
                                                                       withSessionContinueSeconds:20]

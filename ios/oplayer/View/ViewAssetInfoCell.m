@@ -309,10 +309,11 @@
         } else {
             [all_actions addObject:@(ebaok_reserve)];
         }
-        //  锁仓投票（仅针对BTS）
-        if (bIsCore) {
-            [all_actions addObject:@(ebaok_stake_vote)];
-        }
+        //  todo nbs: remote state
+//        //  锁仓投票（仅针对BTS）
+//        if (bIsCore) {
+//            [all_actions addObject:@(ebaok_stake_vote)];
+//        }
         NSArray* final_actions;
 //        //  按钮太多，添加【更多】按钮。
 //        if ([all_actions count] > [_btnArray count]) {
