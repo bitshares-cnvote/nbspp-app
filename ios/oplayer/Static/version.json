@@ -1,14 +1,13 @@
 {
   "version": "0",
   "force": "0",
-  "appURL": "https://app.btspp.io",
+  "appURL": "https://nbs.plus",
   "newVersionInfo": "",
   "newVersionInfoEn": "",
   "faucetURL": "",
   "wssNodes": {
     "default": [
-      "wss://btsapi.magicw.net/ws",
-      "wss://api.bts.mobi/ws",
+      "wss://web.cnvote.vip:80",
     ],
     "cn": [],
     "en": [],
