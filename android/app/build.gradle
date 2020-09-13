@@ -10,7 +10,7 @@ android {
         applicationId "plus.nbs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 202009102
+        versionCode 202009131
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
