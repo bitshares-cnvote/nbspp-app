@@ -14,6 +14,7 @@
 "kLabelMarketFavorites" = "自選";
 "kLabelGroupNameMain" = "メイン";
 "kLabelGroupNameCommunity" = "コミュニティ";
+"kLabelGroupNameMinerZone" = "マイニングエリア";
 "kLabelGroupNameGDEX" = "GDEX(ゲートウェイ)";
 "kLabelGroupNameWWW" = "WWW(ゲートウェイ)";
 "kLabelGroupNameOPEN" = "OPEN(ゲートウェイ)";

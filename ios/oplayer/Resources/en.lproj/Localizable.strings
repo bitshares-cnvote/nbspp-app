@@ -14,6 +14,7 @@
 "kLabelMarketFavorites" = "Favorites";
 "kLabelGroupNameMain" = "Main";
 "kLabelGroupNameCommunity" = "Community";
+"kLabelGroupNameMinerZone" = "Mining Area";
 "kLabelGroupNameGDEX" = "GDEX(Gateway)";
 "kLabelGroupNameWWW" = "WWW(Gateway)";
 "kLabelGroupNameOPEN" = "OPEN(Gateway)";
