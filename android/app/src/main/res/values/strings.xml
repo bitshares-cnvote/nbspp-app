@@ -9,6 +9,7 @@
     <string name="kLabelMarketFavorites">Favorites</string>
     <string name="kLabelGroupNameMain">Main</string>
     <string name="kLabelGroupNameCommunity">Community</string>
+    <string name="kLabelGroupNameMinerZone">Mining Area</string>
     <string name="kLabelGroupNameGDEX">GDEX(Gateway)</string>
     <string name="kLabelGroupNameWWW">WWW(Gateway)</string>
     <string name="kLabelGroupNameOPEN">OPEN(Gateway)</string>

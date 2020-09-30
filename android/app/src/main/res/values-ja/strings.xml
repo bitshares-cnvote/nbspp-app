@@ -9,6 +9,7 @@
     <string name="kLabelMarketFavorites">自選</string>
     <string name="kLabelGroupNameMain">メイン</string>
     <string name="kLabelGroupNameCommunity">コミュニティ</string>
+    <string name="kLabelGroupNameMinerZone">マイニングエリア</string>
     <string name="kLabelGroupNameGDEX">GDEX(ゲートウェイ)</string>
     <string name="kLabelGroupNameWWW">WWW(ゲートウェイ)</string>
     <string name="kLabelGroupNameOPEN">OPEN(ゲートウェイ)</string>

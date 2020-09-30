@@ -9,6 +9,7 @@
     <string name="kLabelMarketFavorites">自选</string>
     <string name="kLabelGroupNameMain">主区</string>
     <string name="kLabelGroupNameCommunity">社区</string>
+    <string name="kLabelGroupNameMinerZone">挖矿区</string>
     <string name="kLabelGroupNameGDEX">GDEX(网关)</string>
     <string name="kLabelGroupNameWWW">WWW(网关)</string>
     <string name="kLabelGroupNameOPEN">OPEN(网关)</string>
