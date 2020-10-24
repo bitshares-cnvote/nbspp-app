@@ -50,7 +50,7 @@ android {
             buildConfigField "boolean", "kAppModuleEnableOTC", "false"
             buildConfigField "boolean", "kAppModuleEnableGateway", "false"
             buildConfigField "String", "kAppConfigFile", "\"fowallet_config_nbs_mainnet.json\""
-            buildConfigField "boolean", "kUseCommunityFaucet", "true"
+            buildConfigField "boolean", "kUseCommunityFaucet", "false"
             buildConfigField "String", "kAppCommunityFaucetAddress", "\"https://faucet.nbs.life/\""
         }
     }
