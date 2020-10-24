@@ -1774,6 +1774,7 @@
 "kTipsOrderFilled" = "注文 #%@ 一部は取引が成立します。";
 "kWarmTips" = "暖かいヒント";
 "kLoginPassword" = "パスワード ";
+"kLoginPasswordWithChineseWords" = "パスワード ";
 "kBtnLogin" = "ログインする";
 "kBtnRefresh" = "更新";
 "kBtnCancel" = "キャンセル";

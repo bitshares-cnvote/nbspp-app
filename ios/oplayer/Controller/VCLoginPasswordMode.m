@@ -97,7 +97,7 @@ enum
     _cell_account = [[ViewAdvTextFieldCell alloc] initWithTitle:NSLocalizedString(@"kLoginCellAccountName", @"帐号 ")
                                                     placeholder:NSLocalizedString(@"kLoginTipsPlaceholderAccount", @"请输入 Bitshares 帐号名")];
     
-    _cell_password = [[ViewAdvTextFieldCell alloc] initWithTitle:NSLocalizedString(@"kLoginPassword", @"密码 ")
+    _cell_password = [[ViewAdvTextFieldCell alloc] initWithTitle:NSLocalizedString(@"kLoginPasswordWithChineseWords", @"密码(支持中文) ")
                                                      placeholder:NSLocalizedString(@"tip_placeholder_password", @"请输入密码")];
     //  TODO:7.0 因为有中文密码，默认不设置密码模式，允许输入中文。后期考虑是否按钮切换等？
     //    _cell_password.mainTextfield.secureTextEntry = YES;

@@ -56,13 +56,13 @@
     if (checkActivePermission){
         //  登录
         return @[NSLocalizedString(@"kLoginPageModePassword", @"帐号模式"),
-                 NSLocalizedString(@"kLoginPageModeBrainKey", @"助记词"),
+//                 NSLocalizedString(@"kLoginPageModeBrainKey", @"助记词"),
                  NSLocalizedString(@"kLoginPageModePrivateKey", @"私钥模式"),
                  NSLocalizedString(@"kLoginPageModeWallet", @"钱包模式")];
     }else{
         //  导入账号
         return @[NSLocalizedString(@"kLoginPageModePassword", @"帐号模式"),
-                 NSLocalizedString(@"kLoginPageModeBrainKey", @"助记词"),
+//                 NSLocalizedString(@"kLoginPageModeBrainKey", @"助记词"),
                  NSLocalizedString(@"kLoginPageModePrivateKey", @"私钥模式")];
     }
 }
@@ -72,13 +72,13 @@
     if (checkActivePermission){
         //  登录
         return @[[[VCLoginPasswordMode alloc] initWithOwner:self checkActivePermission:self.checkActivePermission],
-                 [[VCLoginBrainKeyMode alloc] initWithOwner:self checkActivePermission:self.checkActivePermission],
+//                 [[VCLoginBrainKeyMode alloc] initWithOwner:self checkActivePermission:self.checkActivePermission],
                  [[VCLoginPrivateKeyMode alloc] initWithOwner:self checkActivePermission:self.checkActivePermission],
                  [[VCImportWallet alloc] initWithOwner:self]];
     }else{
         //  导入账号
         return @[[[VCLoginPasswordMode alloc] initWithOwner:self checkActivePermission:self.checkActivePermission],
-                 [[VCLoginBrainKeyMode alloc] initWithOwner:self checkActivePermission:self.checkActivePermission],
+//                 [[VCLoginBrainKeyMode alloc] initWithOwner:self checkActivePermission:self.checkActivePermission],
                  [[VCLoginPrivateKeyMode alloc] initWithOwner:self checkActivePermission:self.checkActivePermission]];
     }
 }

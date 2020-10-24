@@ -1774,6 +1774,7 @@
 "kTipsOrderFilled" = "Order #%@ has been filled.";
 "kWarmTips" = "Info";
 "kLoginPassword" = "Password ";
+"kLoginPasswordWithChineseWords" = "Password ";
 "kBtnLogin" = "Go";
 "kBtnRefresh" = "Refresh";
 "kBtnCancel" = "Cancel";

@@ -1774,6 +1774,7 @@
 "kTipsOrderFilled" = "订单 #%@ 部分成交。";
 "kWarmTips" = "温馨提示";
 "kLoginPassword" = "密码 ";
+"kLoginPasswordWithChineseWords" = "密码(支持中文) ";
 "kBtnLogin" = "立即登录";
 "kBtnRefresh" = "刷新";
 "kBtnCancel" = "取消";
