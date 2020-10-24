@@ -273,8 +273,10 @@
 "kEditPasswordCellTitleYourNewPassword" = "新しいパスワード";
 "kEditPasswordSwitchToEnPassword" = "英語のパスワード";
 "kEditPasswordSwitchToZhPassword" = "中国語のパスワード";
+"kEditPasswordCopyAbovePassword" = "コピー";
+"kEditPasswordCopyConfirmAsk" = "パスワードのコピーは危険な場合がありますが、続行しますか？";
 "kEditPasswordBtnNext" = "次のページ";
-"kEditPasswordUiSecTips" = "[リマインダー] \nコピー、写真の撮影、スクリーンショットの撮影はしないでください。 \nペンと紙を使用して、上記の %@ 文字で構成されるパスワードを左から右、上から下の順に記録し、安全な場所に保管してください。 一度失われると、取得できません。";
+"kEditPasswordUiSecTips" = "[リマインダー] \nペンと紙を使用して、上記の %@ 文字で構成されるパスワードを左から右、上から下の順に記録し、安全な場所に保管してください。 一度失われると、取得できません。";
 "kEditPasswordCellTitleCurrAccountName" = "現在のアカウント";
 "kEditPasswordCellTItleYourNewAccountName" = "あなたのアカウント";
 "kEditPasswordCellTitleVerifyPassword" = "パスワードを確認";

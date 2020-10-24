@@ -273,8 +273,10 @@
 "kEditPasswordCellTitleYourNewPassword" = "您的新密码";
 "kEditPasswordSwitchToEnPassword" = "切换英文密码";
 "kEditPasswordSwitchToZhPassword" = "切换中文密码";
+"kEditPasswordCopyAbovePassword" = "复制密码";
+"kEditPasswordCopyConfirmAsk" = "复制密码可能存在风险，是否继续复制？";
 "kEditPasswordBtnNext" = "下一步";
-"kEditPasswordUiSecTips" = "【温馨提示】\n请勿复制、拍照、截图。\n请使用纸笔按照从左到右、从上到下的顺序依次记录以上 %@ 个字符组成的密码，并妥善保存。丢失后将无法找回。";
+"kEditPasswordUiSecTips" = "【温馨提示】\n请使用纸笔按照从左到右、从上到下的顺序依次记录以上 %@ 个字符组成的密码，并妥善保存。丢失后将无法找回。";
 "kEditPasswordCellTitleCurrAccountName" = "当前账号";
 "kEditPasswordCellTItleYourNewAccountName" = "您的账号";
 "kEditPasswordCellTitleVerifyPassword" = "验证密码";

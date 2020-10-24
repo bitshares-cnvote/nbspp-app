@@ -25,6 +25,7 @@ enum
 {
     kVcSubNewPasswordTitle = 0,
     kVcSubNewPasswordContent,
+    kVcSubNewPasswordCopyButton,
     
     kVcSubMax,
 };
@@ -280,6 +281,29 @@ enum
                 case kVcSubNewPasswordContent:
                     return _passwordContent;
                     
+                case kVcSubNewPasswordCopyButton:
+                {
+                    UIButton* btn_copy = [UIButton buttonWithType:UIButtonTypeSystem];
+                    btn_copy.titleLabel.font = [UIFont systemFontOfSize:13];
+                    [btn_copy setTitle:NSLocalizedString(@"kEditPasswordCopyAbovePassword", @"复制密码") forState:UIControlStateNormal];
+                    [btn_copy setTitleColor:[ThemeManager sharedThemeManager].textColorHighlight forState:UIControlStateNormal];
+                    btn_copy.userInteractionEnabled = YES;
+                    [btn_copy addTarget:self action:@selector(onCopyButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+                    btn_copy.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+                    btn_copy.frame = CGRectMake(6, 2, 200, 27);
+                    
+                    UITableViewCellBase* cell = [[UITableViewCellBase alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    cell.backgroundColor = [UIColor clearColor];
+                    cell.textLabel.text = @"";
+                    cell.detailTextLabel.text = @"";
+                    cell.showCustomBottomLine = NO;
+                    cell.accessoryView = btn_copy;
+                    return cell;
+                }
+                    break;
+                    
                 default:
                     assert(false);
                     break;
@@ -316,6 +340,24 @@ enum
             [self onSubmitClicked];
         }
     }];
+}
+
+/**
+ *  复制按钮点击
+ */
+- (void)onCopyButtonClicked:(UIButton*)sender
+{
+    [[UIAlertViewManager sharedUIAlertViewManager] showCancelConfirm:NSLocalizedString(@"kEditPasswordCopyConfirmAsk", @"复制密码可能存在风险，是否继续复制？")
+                                                           withTitle:NSLocalizedString(@"kVcHtlcMessageTipsTitle", @"风险提示")
+                                                          completion:^(NSInteger buttonIndex)
+     {
+         if (buttonIndex == 1)
+         {
+             id password = [_passwordContent.current_password copy];
+             [UIPasteboard generalPasteboard].string = password;
+             [OrgUtils makeToast:NSLocalizedString(@"kVcDWTipsCopyOK", @"已复制")];
+         }
+     }];
 }
 
 @end
