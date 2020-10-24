@@ -42,9 +42,6 @@
 
 -(void)dealloc
 {
-    //  移除初始化完成事件监听
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kBtsAppEventInitDone object:nil];
-    
     //  移除前后台事件
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
@@ -151,7 +148,7 @@
     [OrgUtils logEvents:@"enterForeground" params:@{}];
 }
 
-- (void)_onAppInitDone:(NSNotification*)notification
+- (void)_onAppInitDone
 {
     //  初始化完毕
     _grapheneInitDone = YES;
@@ -232,9 +229,8 @@
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(_onAppInitDone:)
-                                                 name:kBtsAppEventInitDone object:nil];
+    //  初始化完毕
+    [self _onAppInitDone];
 }
 
 -(void)viewWillAppear:(BOOL)animated

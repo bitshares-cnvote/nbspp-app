@@ -211,7 +211,6 @@
 - (void)_enterToMain
 {
     //  进入主界面
-    [[NSNotificationCenter defaultCenter] postNotificationName:kBtsAppEventInitDone object:nil userInfo:nil];
     [[NativeAppDelegate sharedAppDelegate] closeLaunchWindow];
 }
 
