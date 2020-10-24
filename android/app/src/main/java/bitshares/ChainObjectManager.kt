@@ -796,12 +796,15 @@ class ChainObjectManager {
                 //  其他资产和 BTS 资产进行兑换
                 val core_exchange_rate = fee_asset.optJSONObject("options")?.optJSONObject("core_exchange_rate")
                 //  没有 core_exchange_rate 信息，则不能作为手续费。
-                if (core_exchange_rate == null) {
+                if (core_exchange_rate == null || ModelUtils.isNullPrice(core_exchange_rate)) {
                     continue
                 }
 
                 val core_base = core_exchange_rate.getJSONObject("base")
                 val core_quote = core_exchange_rate.getJSONObject("quote")
+                if (core_base.getString("amount").toLong() == 0L && core_quote.getString("amount").toLong() == 0L) {
+                    continue
+                }
 
                 var fee_amount: Any? = null
                 var bts_amount: Any? = null
