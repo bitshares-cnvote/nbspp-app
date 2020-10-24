@@ -67,7 +67,7 @@
 #define kAppModuleEnableFaq         1
 #define kAppCheckUpdate             1
 
-#define kUseCommunityFaucet         1
+#define kUseCommunityFaucet         0
 #define kAppCommunityFaucetAddress  @"https://faucet.nbs.life/api/v1/accounts"
 #define kAppConfigFile              @"fowallet_config_nbs_mainnet.json"
 
