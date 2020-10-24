@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="@string/kLoginPassword"
+                android:text="@string/kLoginPasswordWithChineseWords"
                 android:textSize="13dp"
                 android:textColor="@color/theme01.textColorMain"/>
             <!-- TODO:7.0 因为有中文密码，默认不设置密码模式，允许输入中文。后期考虑是否按钮切换等？ -->

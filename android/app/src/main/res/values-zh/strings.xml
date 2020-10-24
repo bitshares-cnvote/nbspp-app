@@ -1722,6 +1722,7 @@
     <string name="kTipsOrderFilled">订单 #%s 部分成交。</string>
     <string name="kWarmTips">温馨提示</string>
     <string name="kLoginPassword">密码 </string>
+    <string name="kLoginPasswordWithChineseWords">密码(支持中文) </string>
     <string name="kBtnLogin">立即登录</string>
     <string name="kBtnRefresh">刷新</string>
     <string name="kBtnCancel">取消</string>

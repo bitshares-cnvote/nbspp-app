@@ -1722,6 +1722,7 @@
     <string name="kTipsOrderFilled">注文 #%s 一部は取引が成立します。</string>
     <string name="kWarmTips">暖かいヒント</string>
     <string name="kLoginPassword">パスワード </string>
+    <string name="kLoginPasswordWithChineseWords">パスワード </string>
     <string name="kBtnLogin">ログインする</string>
     <string name="kBtnRefresh">更新</string>
     <string name="kBtnCancel">キャンセル</string>

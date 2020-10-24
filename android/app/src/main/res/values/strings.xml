@@ -1722,6 +1722,7 @@
     <string name="kTipsOrderFilled">Order #%s has been filled.</string>
     <string name="kWarmTips">Info</string>
     <string name="kLoginPassword">Password </string>
+    <string name="kLoginPasswordWithChineseWords">Password </string>
     <string name="kBtnLogin">Go</string>
     <string name="kBtnRefresh">Refresh</string>
     <string name="kBtnCancel">Cancel</string>
