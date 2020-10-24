@@ -256,8 +256,10 @@
     <string name="kEditPasswordCellTitleYourNewPassword">您的新密码</string>
     <string name="kEditPasswordSwitchToEnPassword">切换英文密码</string>
     <string name="kEditPasswordSwitchToZhPassword">切换中文密码</string>
+    <string name="kEditPasswordCopyAbovePassword">复制密码</string>
+    <string name="kEditPasswordCopyConfirmAsk">复制密码可能存在风险，是否继续复制？</string>
     <string name="kEditPasswordBtnNext">下一步</string>
-    <string name="kEditPasswordUiSecTips">【温馨提示】\n请勿复制、拍照、截图。\n请使用纸笔按照从左到右、从上到下的顺序依次记录以上 %s 个字符组成的密码，并妥善保存。丢失后将无法找回。</string>
+    <string name="kEditPasswordUiSecTips">【温馨提示】\n请使用纸笔按照从左到右、从上到下的顺序依次记录以上 %s 个字符组成的密码，并妥善保存。丢失后将无法找回。</string>
     <string name="kEditPasswordCellTitleCurrAccountName">当前账号</string>
     <string name="kEditPasswordCellTItleYourNewAccountName">您的账号</string>
     <string name="kEditPasswordCellTitleVerifyPassword">验证密码</string>

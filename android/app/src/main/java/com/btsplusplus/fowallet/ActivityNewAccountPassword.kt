@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import bitshares.EBitsharesAccountPasswordLang
 import bitshares.LLAYOUT_WARP
+import bitshares.Utils
 import com.btsplusplus.fowallet.utils.kAppBlindAccountBrainKeyCheckSumPrefix
 import com.fowallet.walletcore.bts.WalletManager
 import kotlinx.android.synthetic.main.activity_new_account_password.*
@@ -58,6 +59,9 @@ class ActivityNewAccountPassword : BtsppActivity() {
 
         //  事件 - 切换语言
         tv_toggle_password_lang.setOnClickListener { onTogglePasswordLang() }
+
+        //  事件 - 复制密码
+        btn_copy_password.setOnClickListener { onCopyButtonClicked() }
 
         //  事件 - 返回
         layout_back_from_new_account_password.setOnClickListener { finish() }
@@ -159,6 +163,20 @@ class ActivityNewAccountPassword : BtsppActivity() {
 
         //  重新生成密码
         processGeneratePassword()
+    }
+
+    /**
+     *  (private) 事件 - 复制密码
+     */
+    private fun onCopyButtonClicked() {
+        alerShowMessageConfirm(resources.getString(R.string.kVcHtlcMessageTipsTitle), resources.getString(R.string.kEditPasswordCopyConfirmAsk)).then {
+            if (it != null && it as Boolean) {
+                if (Utils.copyToClipboard(this, _currPasswordWords.joinToString(""))) {
+                    showToast(resources.getString(R.string.kVcDWTipsCopyOK))
+                }
+            }
+            return@then null
+        }
     }
 
     /**
