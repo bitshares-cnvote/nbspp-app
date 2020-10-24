@@ -861,12 +861,16 @@ static ChainObjectManager *_sharedChainObjectManager = nil;
             //  其他资产和 BTS 资产进行兑换
             id core_exchange_rate = [[fee_asset objectForKey:@"options"] objectForKey:@"core_exchange_rate"];
             //  没有 core_exchange_rate 信息，则不能作为手续费。
-            if (!core_exchange_rate){
+            if (!core_exchange_rate || [ModelUtils isNullPrice:core_exchange_rate]){
                 continue;
             }
             
             id core_base = core_exchange_rate[@"base"];
             id core_quote = core_exchange_rate[@"quote"];
+            if ([[core_base objectForKey:@"amount"] unsignedLongLongValue] == 0 &&
+                [[core_quote objectForKey:@"amount"] unsignedLongLongValue] == 0) {
+                continue;
+            }
             
             id fee_amount;
             id bts_amount;
