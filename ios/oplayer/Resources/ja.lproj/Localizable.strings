@@ -497,6 +497,7 @@
 "kVcAssetMgrCellActionIssueAsset" = "資産の発行";
 "kVcAssetMgrCellActionClaimFeePool" = "料金プールを提出する";
 "kVcAssetMgrCellActionClaimMarketFees" = "市場手数料を提出する";
+"kVcAssetMgrCellActionClaimCollateralFees" = "提取强清和爆仓手续费";//TODO:
 "kVcAssetMgrCellActionGlobalSettle" = "グローバルな決済";
 "kVcAssetMgrCellInfoCurSupply" = "供給";
 "kVcAssetMgrCellInfoMaxSupply" = "最大供給";
@@ -668,6 +669,7 @@
 "kVcAssetOpClaimMarketFeesBtnName" = "提取";//TODO:
 "kVcAssetOpClaimMarketFeesSubmitTipsPleaseInputAmount" = "请输入要提取的资产数量。";//TODO:
 "kVcAssetOpClaimMarketFeesSubmitTipOK" = "提取成功。";//TODO:
+"kVcAssetOpClaimCollateralFeesUiTips" = "【温馨提示】\n提取用户强清或爆仓贡献的手续费收入。";//TODO:
 
 "kVcAssetOpGsUiTips" = "【温馨提示】\n全局清算会以指定价格强制关闭所有债仓，此操作不可逆，请谨慎操作。";//TODO:
 "kVcAssetOpGsCellTitlePrice" = "价格";//TODO:
@@ -1181,6 +1183,7 @@
 "kVcTitleAssetGlobalSettle" = "全局清算";//TODO:
 "kVcTitleAssetClaimFeePool" = "提取手续费池";//TODO:
 "kVcTitleAssetClaimMarketFees" = "提取市场手续费";//TODO:
+"kVcTitleAssetClaimFees" = "提取手续费";//TODO:
 "kVcTitleAssetOpViewDetail" = "%@ 详情";//TODO:
 "kVcTitleAssetOpUpdateBasic" = "更新资产";//TODO:
 "kVcTitleAssetOpUpdateBitasset" = "更新智能币";//TODO:

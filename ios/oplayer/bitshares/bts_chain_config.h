@@ -55,6 +55,7 @@ typedef enum EBitsharesAssetOpKind
     ebaok_publish_feed,         //  发布喂价（仅Smart资产）
     ebaok_update_feed_producers,//  更新喂价人员（仅Smart资产）
     ebaok_update_bitasset,      //  编辑智能币相关信息（仅Smart资产）
+    ebaok_claim_collateral_fees,//  提取清算手续费和爆仓手续费（仅Smart资产）
     
     //  资产持有者的操作
     ebaok_transfer,             //  转账（所有资产）

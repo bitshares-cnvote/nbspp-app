@@ -229,6 +229,11 @@
         }
         //  提取资产交易手续费
         [ary addObject:@{@"type":@(ebaok_claim_fees), @"title":NSLocalizedString(@"kVcAssetMgrCellActionClaimMarketFees", @"提取市场手续费")}];
+        //  提取强清和爆仓手续费（仅智能币）
+        if (bitasset_data) {
+            [ary addObject:@{@"type":@(ebaok_claim_collateral_fees),
+                             @"title":NSLocalizedString(@"kVcAssetMgrCellActionClaimCollateralFees", @"提取强清和爆仓手续费")}];
+        }
     }] copy];
     
     [[MyPopviewManager sharedMyPopviewManager] showActionSheet:self
@@ -404,6 +409,38 @@
                                                                           result_promise:result_promise];
                         [self pushViewController:vc
                                          vctitle:NSLocalizedString(@"kVcTitleAssetClaimMarketFees", @"提取市场手续费")
+                                       backtitle:kVcDefaultBackTitleName];
+                        [result_promise then:^id(id dirty) {
+                            //  刷新UI
+                            if (dirty && [dirty boolValue]) {
+                                [self queryMyIssuedAssets];
+                            }
+                            return nil;
+                        }];
+                    }];
+                }
+                    break;
+                case ebaok_claim_collateral_fees:
+                {
+                    assert(bitasset_data);
+                    [VcUtils guardGrapheneObjectDependence:self
+                                                object_ids:@[asset[@"dynamic_asset_data_id"], bitasset_data[@"options"][@"short_backing_asset"]]
+                                                      body:^{
+                        id opArgs = @{
+                            @"kOpType":@(ebaok_claim_collateral_fees),
+                            @"kMsgTips":NSLocalizedString(@"kVcAssetOpClaimCollateralFeesUiTips", @"【温馨提示】\n提取用户强清或爆仓贡献的手续费收入。"),
+                            @"kMsgAmountPlaceholder":NSLocalizedString(@"kVcAssetOpClaimMarketFeesCellPlaceholderAmount", @"请输入提取数量"),
+                            @"kMsgBtnName":NSLocalizedString(@"kVcAssetOpClaimMarketFeesBtnName", @"提取"),
+                            @"kMsgSubmitInputValidAmount":NSLocalizedString(@"kVcAssetOpClaimMarketFeesSubmitTipsPleaseInputAmount", @"请输入要提取的资产数量。"),
+                            @"kMsgSubmitOK":NSLocalizedString(@"kVcAssetOpClaimMarketFeesSubmitTipOK", @"提取成功。")
+                        };
+                        WsPromiseObject* result_promise = [[WsPromiseObject alloc] init];
+                        VCAssetOpCommon* vc = [[VCAssetOpCommon alloc] initWithCurrAsset:asset
+                                                                       full_account_data:nil
+                                                                           op_extra_args:opArgs
+                                                                          result_promise:result_promise];
+                        [self pushViewController:vc
+                                         vctitle:NSLocalizedString(@"kVcTitleAssetClaimFees", @"提取手续费")
                                        backtitle:kVcDefaultBackTitleName];
                         [result_promise then:^id(id dirty) {
                             //  刷新UI

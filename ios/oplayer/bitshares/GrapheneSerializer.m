@@ -1572,7 +1572,11 @@ static const char* __bitshares_type_fields__ = "__bitshares_type_fields__";
     [self add_field:@"fee" class:[T_asset class]];
     [self add_field:@"issuer" class:[[Tm_protocol_id_type alloc] initWithObjectType:ebot_account]];
     [self add_field:@"amount_to_claim" class:[T_asset class]];  //  amount_to_claim.asset_id->issuer must == issuer
-    [self add_field:@"extensions" class:[[Tm_set alloc] initWithType:[T_future_extensions class]]];
+    [self add_field:@"extensions"
+              class:[[Tm_extension alloc] initWithFieldsDef:@[
+                  @{@"name":@"claim_from_asset_id",
+                    @"type":[[Tm_optional alloc] initWithType:[[Tm_protocol_id_type alloc] initWithObjectType:ebot_asset]]},
+              ]]];
 }
 
 @end

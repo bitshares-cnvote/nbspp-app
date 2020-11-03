@@ -111,6 +111,20 @@ enum
                                                             isNegative:NO];
         }
             break;
+        case ebaok_claim_collateral_fees:
+        {
+            //  REMARK：计算可领取的强清和爆仓手续费余额。
+            ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
+            id bitasset_data = [chainMgr getChainObjectByID:[_curr_selected_asset objectForKey:@"bitasset_data_id"]];
+            assert(bitasset_data);
+            _curr_balance_asset = [chainMgr getChainObjectByID:[[bitasset_data objectForKey:@"options"] objectForKey:@"short_backing_asset"]];
+            assert(_curr_balance_asset);
+            id dynamic_asset_data = [chainMgr getChainObjectByID:[_curr_selected_asset objectForKey:@"dynamic_asset_data_id"]];
+            _nCurrBalance = [NSDecimalNumber decimalNumberWithMantissa:[[dynamic_asset_data objectForKey:@"accumulated_collateral_fees"] unsignedLongLongValue]
+                                                              exponent:-[[_curr_balance_asset objectForKey:@"precision"] integerValue]
+                                                            isNegative:NO];
+        }
+            break;
         default:
         {
             //  其他操作，从账号获取余额。
@@ -281,12 +295,14 @@ enum
                 switch ([[_opExtraArgs objectForKey:@"kOpType"] integerValue]) {
                     case ebaok_claim_pool:
                     case ebaok_claim_fees:
+                    case ebaok_claim_collateral_fees:
                     case ebaok_settle:
                     {
                         //  部分切换资产
                         //  1、提取手续费池 - 不可切换，需要查询手续费池。暂不支持 TODO:5.0
                         //  2、清算操作 - 不可切换，需要刷新各种标记，是否黑天鹅等。暂不支持 TODO:5.0
                         //  3、提取市场手续费 - 不可切换，需要查询。暂不支持
+                        //  4、提取强清和爆仓手续费 - 不可切换。
                         cell.accessoryType = UITableViewCellAccessoryNone;
                         cell.selectionStyle = UITableViewCellSelectionStyleNone;
                         cell.textLabel.textColor = theme.textColorGray;
@@ -358,6 +374,8 @@ enum
         case ebaok_claim_pool:      //  REMARK：提取手续费池不可切换资产。
             return;
         case ebaok_claim_fees:
+            return;
+        case ebaok_claim_collateral_fees:
             return;
         default:
             assert(false);
@@ -459,7 +477,16 @@ enum
         {
             [self GuardWalletUnlocked:NO body:^(BOOL unlocked) {
                 if (unlocked) {
-                    [self _execAssetClaimFeesCore:n_amount];
+                    [self _execAssetClaimFeesCore:n_amount claim_collateral_fees:NO];
+                }
+            }];
+        }
+            break;
+        case ebaok_claim_collateral_fees:
+        {
+            [self GuardWalletUnlocked:NO body:^(BOOL unlocked) {
+                if (unlocked) {
+                    [self _execAssetClaimFeesCore:n_amount claim_collateral_fees:YES];
                 }
             }];
         }
@@ -618,7 +645,7 @@ enum
 /*
  *  (private) 执行提取市场手续费操作
  */
-- (void)_execAssetClaimFeesCore:(NSDecimalNumber*)n_amount
+- (void)_execAssetClaimFeesCore:(NSDecimalNumber*)n_amount claim_collateral_fees:(BOOL)claim_collateral_fees
 {
     ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
     id op_account = [[[WalletManager sharedWalletManager] getWalletAccountInfo] objectForKey:@"account"];
@@ -626,10 +653,19 @@ enum
     
     id n_amount_pow = [NSString stringWithFormat:@"%@", [n_amount decimalNumberByMultiplyingByPowerOf10:[_curr_balance_asset[@"precision"] integerValue]]];
     
+    //  提取强清和爆仓手续费额外参数
+    id additional_options_type = nil;
+    if (claim_collateral_fees) {
+        additional_options_type = @{
+            @"claim_from_asset_id": _curr_selected_asset[@"id"],
+        };
+    }
+    
     id op = @{
         @"fee":@{@"amount":@0, @"asset_id":chainMgr.grapheneCoreAssetID},
         @"issuer":op_account[@"id"],
-        @"amount_to_claim":@{@"amount":@([n_amount_pow unsignedLongLongValue]), @"asset_id":_curr_balance_asset[@"id"]}
+        @"amount_to_claim":@{@"amount":@([n_amount_pow unsignedLongLongValue]), @"asset_id":_curr_balance_asset[@"id"]},
+        @"extensions":additional_options_type ?: @{}
     };
     
     //  确保有权限发起普通交易，否则作为提案交易处理。

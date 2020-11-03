@@ -497,6 +497,7 @@
 "kVcAssetMgrCellActionIssueAsset" = "Issuing assets";
 "kVcAssetMgrCellActionClaimFeePool" = "Claim fee pool";
 "kVcAssetMgrCellActionClaimMarketFees" = "Claim market fees";
+"kVcAssetMgrCellActionClaimCollateralFees" = "Claim Collateral fees";
 "kVcAssetMgrCellActionGlobalSettle" = "Global settle";
 "kVcAssetMgrCellInfoCurSupply" = "Current supply";
 "kVcAssetMgrCellInfoMaxSupply" = "Maximum supply";
@@ -668,6 +669,7 @@
 "kVcAssetOpClaimMarketFeesBtnName" = "Claim";
 "kVcAssetOpClaimMarketFeesSubmitTipsPleaseInputAmount" = "Please enter the amount of assets to claim.";
 "kVcAssetOpClaimMarketFeesSubmitTipOK" = "Claim successfully.";
+"kVcAssetOpClaimCollateralFeesUiTips" = "[Reminder] \nClaim the fee income from the force-settlement fee or margin call fee.";
 
 "kVcAssetOpGsUiTips" = "[Reminder] \nGlobal settlements will forcibly close all positions at the settle price. This operation is irreversible, please exercise caution.";
 "kVcAssetOpGsCellTitlePrice" = "Price";
@@ -1181,6 +1183,7 @@
 "kVcTitleAssetGlobalSettle" = "Global settlemens assets";
 "kVcTitleAssetClaimFeePool" = "Claim fee pool";
 "kVcTitleAssetClaimMarketFees" = "Claim market fees";
+"kVcTitleAssetClaimFees" = "Claim fees";
 "kVcTitleAssetOpViewDetail" = "%@ details";
 "kVcTitleAssetOpUpdateBasic" = "Update assets";
 "kVcTitleAssetOpUpdateBitasset" = "Update bitassets";
