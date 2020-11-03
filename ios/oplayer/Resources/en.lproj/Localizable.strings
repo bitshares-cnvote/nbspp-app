@@ -609,8 +609,8 @@
 "kVcAssetOpSettleTipsMustGlobalSettleFirst" = "This operations can only be performed after the global settlement of the prediction market.";
 "kVcAssetOpSettleTipsNoFeedData" = "The asset has no valid feed price and cannot be settlements.";
 "kVcAssetOpSettleDelayHoursN" = "%@ hours";
-"kVcAssetOpSettleUiTips" = "[Reminder] \n1. The settlements operation forces the assets to be exchanged back to the backing assets. This operation is irreversible, please proceed with caution. \n2. after the settlements is initiated, it will be queued for execution after %@, and the transaction will be executed at the current settlement price. \n3. settlement price = feed price × %@";
-"kVcAssetOpSettleUiTipsAlreadyGs" = "[Reminder] \n1. The settlements operation forces the assets to be exchanged back to the backing assets. This operation is irreversible, please proceed with caution. \n2. The asset has been global settled, and the settlements operation will be executed immediately. \n3, settlement price = %@";
+"kVcAssetOpSettleUiTips" = "[Reminder] \n1. The settlements operation forces the assets to be exchanged back to the backing assets. This operation is irreversible, please proceed with caution. \n2. after the settlements is initiated, it will be queued for execution after %@, and the transaction will be executed at the current settlement price. \n3. settlement price = feed price × %@\n4. settlement fee = %@";
+"kVcAssetOpSettleUiTipsAlreadyGs" = "[Reminder] \n1. The settlements operation forces the assets to be exchanged back to the backing assets. This operation is irreversible, please proceed with caution. \n2. The asset has been global settled, and the settlements operation will be executed immediately. \n3, settlement price = %@\n4. settlement fee = %@";
 "kVcAssetOpSettleCellPlaceholderAmount" = "Please enter the amount";
 "kVcAssetOpSettleBtnName" = "Settle asset";
 "kVcAssetOpSettleSubmitTipsPleaseInputAmount" = "Please enter the amount of assets to be settled.";

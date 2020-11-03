@@ -702,6 +702,19 @@
             }
         }
         
+        //  获取强清手续费
+        id options = [newBitassetData objectForKey:@"options"];
+        NSInteger i_force_settle_fee_percent = 0;
+        id options_extensions = [options objectForKey:@"extensions"];
+        if (options_extensions) {
+            id force_settle_fee_percent = [options_extensions objectForKey:@"force_settle_fee_percent"];
+            if (force_settle_fee_percent) {
+                i_force_settle_fee_percent = [force_settle_fee_percent integerValue];
+            }
+        }
+        id n_force_settle_fee_percent = [NSDecimalNumber decimalNumberWithMantissa:i_force_settle_fee_percent exponent:-2 isNegative:NO];
+        id str_force_settle_fee_percent = [NSString stringWithFormat:@"%@%%", n_force_settle_fee_percent];
+        
         NSString* settleMsgTips;
         if (hasAlreadyGlobalSettled) {
             id n_price = [OrgUtils calcPriceFromPriceObject:[newBitassetData objectForKey:@"settlement_price"]
@@ -714,10 +727,8 @@
             NSString* global_settle_price = [NSString stringWithFormat:@"%@ %@/%@",
                                              [OrgUtils formatFloatValue:n_price usesGroupingSeparator:NO],
                                              backing_asset[@"symbol"], newAsset[@"symbol"]];
-            settleMsgTips = [NSString stringWithFormat:NSLocalizedString(@"kVcAssetOpSettleUiTipsAlreadyGs", @"【温馨提示】\n1、清算操作强制把清算资产换回背书资产。此操作不可撤销，请谨慎操作。\n2、该资产已经触发全局清算，清算操作将立即执行。\n3、清算价 = %@"), global_settle_price];
+            settleMsgTips = [NSString stringWithFormat:NSLocalizedString(@"kVcAssetOpSettleUiTipsAlreadyGs", @"【温馨提示】\n1、清算操作强制把清算资产换回背书资产。此操作不可撤销，请谨慎操作。\n2、该资产已经触发全局清算，清算操作将立即执行。\n3、清算价 = %@\n4、清算手续费 = %@"), global_settle_price, str_force_settle_fee_percent];
         } else {
-            id options = [newBitassetData objectForKey:@"options"];
-            
             NSInteger force_settlement_delay_sec = [[options objectForKey:@"force_settlement_delay_sec"] integerValue];
             id s_delay_hour = [NSString stringWithFormat:NSLocalizedString(@"kVcAssetOpSettleDelayHoursN", @"%@小时"),
                                @((int)(force_settlement_delay_sec / 3600))];
@@ -728,9 +739,10 @@
                                                                                    isNegative:NO];
             id n_final = [n_force_settlement_offset_percent decimalNumberByAdding:[NSDecimalNumber one]];
             
-            settleMsgTips = [NSString stringWithFormat:NSLocalizedString(@"kVcAssetOpSettleUiTips", @"【温馨提示】\n1、清算操作强制把清算资产换回背书资产。此操作不可撤销，请谨慎操作。\n2、发起清算后将在%@后排队执行，并以当时的清算价格成交。\n3、清算价 = 成交时的喂价 × %@"),
+            settleMsgTips = [NSString stringWithFormat:NSLocalizedString(@"kVcAssetOpSettleUiTips", @"【温馨提示】\n1、清算操作强制把清算资产换回背书资产。此操作不可撤销，请谨慎操作。\n2、发起清算后将在%@后排队执行，并以当时的清算价格成交。\n3、清算价 = 成交时的喂价 × %@\n4、清算手续费 = %@"),
                              s_delay_hour,
-                             n_final];
+                             n_final,
+                             str_force_settle_fee_percent];
         }
         id opArgs = @{
             @"kOpType":@(button.tag),

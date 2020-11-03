@@ -609,8 +609,8 @@
 "kVcAssetOpSettleTipsMustGlobalSettleFirst" = "预测市场全局清算完成之后才可以进行清算操作。";
 "kVcAssetOpSettleTipsNoFeedData" = "该资产没有有效的喂价，不可清算。";
 "kVcAssetOpSettleDelayHoursN" = "%@小时";
-"kVcAssetOpSettleUiTips" = "【温馨提示】\n1、清算操作强制把清算资产换回背书资产。此操作不可撤销，请谨慎操作。\n2、发起清算后将在%@后排队执行，并以当时的清算价格成交。\n3、清算价 = 成交时的喂价 × %@";
-"kVcAssetOpSettleUiTipsAlreadyGs" = "【温馨提示】\n1、清算操作强制把清算资产换回背书资产。此操作不可撤销，请谨慎操作。\n2、该资产已经触发全局清算，清算操作将立即执行。\n3、清算价 = %@";
+"kVcAssetOpSettleUiTips" = "【温馨提示】\n1、清算操作强制把清算资产换回背书资产。此操作不可撤销，请谨慎操作。\n2、发起清算后将在%@后排队执行，并以当时的清算价格成交。\n3、清算价 = 成交时的喂价 × %@\n4、清算手续费 = %@";
+"kVcAssetOpSettleUiTipsAlreadyGs" = "【温馨提示】\n1、清算操作强制把清算资产换回背书资产。此操作不可撤销，请谨慎操作。\n2、该资产已经触发全局清算，清算操作将立即执行。\n3、清算价 = %@\n4、清算手续费 = %@";
 "kVcAssetOpSettleCellPlaceholderAmount" = "请输入清算数量";
 "kVcAssetOpSettleBtnName" = "发起清算";
 "kVcAssetOpSettleSubmitTipsPleaseInputAmount" = "请输入要清算的资产数量。";
