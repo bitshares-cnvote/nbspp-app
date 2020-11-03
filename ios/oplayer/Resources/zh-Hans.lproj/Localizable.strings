@@ -525,6 +525,13 @@
 "kVcAssetMgrCellTitleSmartDelayForSettle" = "强清延迟时间";
 "kVcAssetMgrCellTitleSmartOffsetSettle" = "强清补偿比例";
 "kVcAssetMgrCellTitleSmartMaxSettleValuePerHour" = "每周期最大清算量";
+"kVcAssetMgrCellTitleSmartMarginCallFeeRatio" = "爆仓手续费";
+"kVcAssetMgrCellTitleSmartForceSettleFeePercent" = "强清手续费";
+"kVcAssetMgrCellTitleSmartICRValue" = "初始抵押率";
+"kVcAssetMgrCellTitleSmartMCRValue" = "爆仓抵押率";
+"kVcAssetMgrCellTitleSmartMSSRValue" = "爆仓惩罚率";
+"kVcAssetMgrCellTitleSmartMSSRValueDisableUpdate" = "(不可更新)";
+"kVcAssetMgrCellTitleSmartMSSRValueUpdateByFeedProducers" = "允许喂价者更新";
 "kVcAssetMgrCellTitleFeeMarketFeeRatio" = "交易手续费比例";
 "kVcAssetMgrCellTitleFeeMaxFeeValue" = "单笔最大手续费";
 "kVcAssetMgrCellTitleFeeRefPercent" = "引荐人分成比例";
@@ -547,6 +554,11 @@
 "kVcAssetMgrInputPlaceholderSmartDelayForSettle" = "请输入强清延迟";
 "kVcAssetMgrInputPlaceholderSmartOffsetSettle" = "请输入强清补偿";
 "kVcAssetMgrInputPlaceholderSmartMaxSettleValuePerHour" = "请输入每小强清百分比";
+"kVcAssetMgrInputPlaceholderSmartInputMarginCallFeeRatio" = "请输入爆仓手续费";
+"kVcAssetMgrInputPlaceholderSmartInputForceSettleFeePercent" = "请输入强清手续费";
+"kVcAssetMgrInputPlaceholderSmartInputICR" = "请输入初始抵押率";
+"kVcAssetMgrInputPlaceholderSmartInputMCR" = "请输入爆仓抵押率";
+"kVcAssetMgrInputPlaceholderSmartInputMSSR" = "请输入爆仓惩罚率";
 "kVcAssetMgrInputPlaceholderFeeMarketFeeRatio" = "请输入手续费比例";
 "kVcAssetMgrInputPlaceholderFeeMaxFeeValue" = "请输入单笔最大手续费";
 "kVcAssetMgrInputPlaceholderFeeRefPercent" = "请输入引荐人分成比例";

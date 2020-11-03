@@ -525,6 +525,13 @@
 "kVcAssetMgrCellTitleSmartDelayForSettle" = "强清延迟时间";//TODO:
 "kVcAssetMgrCellTitleSmartOffsetSettle" = "强清补偿比例";//TODO:
 "kVcAssetMgrCellTitleSmartMaxSettleValuePerHour" = "每周期最大清算量";//TODO:
+"kVcAssetMgrCellTitleSmartMarginCallFeeRatio" = "爆仓手续费";//TODO:
+"kVcAssetMgrCellTitleSmartForceSettleFeePercent" = "强清手续费";//TODO:
+"kVcAssetMgrCellTitleSmartICRValue" = "初始抵押率";//TODO:
+"kVcAssetMgrCellTitleSmartMCRValue" = "爆仓抵押率";//TODO:
+"kVcAssetMgrCellTitleSmartMSSRValue" = "爆仓惩罚率";//TODO:
+"kVcAssetMgrCellTitleSmartMSSRValueDisableUpdate" = "(不可调整)";//TODO:
+"kVcAssetMgrCellTitleSmartMSSRValueUpdateByFeedProducers" = "只能喂价人更新";//TODO:
 "kVcAssetMgrCellTitleFeeMarketFeeRatio" = "交易手续费比例";//TODO:
 "kVcAssetMgrCellTitleFeeMaxFeeValue" = "单笔最大手续费";//TODO:
 "kVcAssetMgrCellTitleFeeRefPercent" = "引荐人分成比例";//TODO:
@@ -547,6 +554,11 @@
 "kVcAssetMgrInputPlaceholderSmartDelayForSettle" = "请输入强清延迟";//TODO:
 "kVcAssetMgrInputPlaceholderSmartOffsetSettle" = "请输入强清补偿";//TODO:
 "kVcAssetMgrInputPlaceholderSmartMaxSettleValuePerHour" = "请输入每小强清百分比";//TODO:
+"kVcAssetMgrInputPlaceholderSmartInputMarginCallFeeRatio" = "请输入爆仓手续费";//TODO:
+"kVcAssetMgrInputPlaceholderSmartInputForceSettleFeePercent" = "请输入强清手续费";//TODO:
+"kVcAssetMgrInputPlaceholderSmartInputICR" = "请输入初始抵押率";//TODO:
+"kVcAssetMgrInputPlaceholderSmartInputMCR" = "请输入爆仓抵押率";//TODO:
+"kVcAssetMgrInputPlaceholderSmartInputMSSR" = "请输入爆仓惩罚率";//TODO:
 "kVcAssetMgrInputPlaceholderFeeMarketFeeRatio" = "请输入手续费比例";//TODO:
 "kVcAssetMgrInputPlaceholderFeeMaxFeeValue" = "请输入单笔最大手续费";//TODO:
 "kVcAssetMgrInputPlaceholderFeeRefPercent" = "请输入引荐人分成比例";//TODO:

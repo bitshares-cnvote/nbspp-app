@@ -525,6 +525,13 @@
 "kVcAssetMgrCellTitleSmartDelayForSettle" = "Delay for forced settlements";
 "kVcAssetMgrCellTitleSmartOffsetSettle" = "Offset percent of forced settlements";
 "kVcAssetMgrCellTitleSmartMaxSettleValuePerHour" = "Max force settle volume";
+"kVcAssetMgrCellTitleSmartMarginCallFeeRatio" = "Margin call fee ratio";
+"kVcAssetMgrCellTitleSmartForceSettleFeePercent" = "Force settle fee percent";
+"kVcAssetMgrCellTitleSmartICRValue" = "ICR";
+"kVcAssetMgrCellTitleSmartMCRValue" = "MCR";
+"kVcAssetMgrCellTitleSmartMSSRValue" = "MSSR";
+"kVcAssetMgrCellTitleSmartMSSRValueDisableUpdate" = "(disable update)";
+"kVcAssetMgrCellTitleSmartMSSRValueUpdateByFeedProducers" = "update by the feed producers";
 "kVcAssetMgrCellTitleFeeMarketFeeRatio" = "Market fee";
 "kVcAssetMgrCellTitleFeeMaxFeeValue" = "Max market fee";
 "kVcAssetMgrCellTitleFeeRefPercent" = "Reward percent";
@@ -547,6 +554,11 @@
 "kVcAssetMgrInputPlaceholderSmartDelayForSettle" = "Please input delay minutes";
 "kVcAssetMgrInputPlaceholderSmartOffsetSettle" = "Please input offset percent";
 "kVcAssetMgrInputPlaceholderSmartMaxSettleValuePerHour" = "Please input max settle volume";
+"kVcAssetMgrInputPlaceholderSmartInputMarginCallFeeRatio" = "Please input margin call fee";
+"kVcAssetMgrInputPlaceholderSmartInputForceSettleFeePercent" = "Please input force settle fee";
+"kVcAssetMgrInputPlaceholderSmartInputICR" = "Please input ICR value";
+"kVcAssetMgrInputPlaceholderSmartInputMCR" = "Please input MCR value";
+"kVcAssetMgrInputPlaceholderSmartInputMSSR" = "Please input MSSR value";
 "kVcAssetMgrInputPlaceholderFeeMarketFeeRatio" = "Please input market fee";
 "kVcAssetMgrInputPlaceholderFeeMaxFeeValue" = "Please input max market fee";
 "kVcAssetMgrInputPlaceholderFeeRefPercent" = "Please input reward percent";

@@ -52,6 +52,11 @@ enum
     kVcSubSmartDelayForSettle,                  //  高级设置 > 强清延迟执行时间 单位：分钟
     kVcSubSmartPercentOffsetSettle,             //  高级设置 > 强清补偿百分比
     kVcSubSmartMaxSettleVolume,                 //  高级设置 > 每周期最大强清量百分比（每小时总量的百分比）
+    kVcSubSmartMarginCallFeeRatio,              //  高级设置 > 爆仓手续费
+    kVcSubSmartForceSettleFeePercent,           //  高级设置 > 强清手续费
+    kVcSubSmartICRValue,                        //  高级设置 > 初始抵押率（可通过资产权限禁止更新。）
+    kVcSubSmartMCRValue,                        //  高级设置 > 爆仓抵押率（可通过资产权限禁止更新。）
+    kVcSubSmartMSSRValue,                       //  高级设置 > 爆仓惩罚（可通过资产权限禁止更新。）
     
     //  手续费信息
     kVcSubPermissionMarketFeePercent,           //  高级设置 > 手续费百分比
@@ -133,6 +138,8 @@ enum
         [_bitasset_options_args setObject:@(1440 * 60) forKey:@"force_settlement_delay_sec"];
         [_bitasset_options_args setObject:@(5 * GRAPHENE_1_PERCENT) forKey:@"force_settlement_offset_percent"];
         [_bitasset_options_args setObject:@(5 * GRAPHENE_1_PERCENT) forKey:@"maximum_force_settlement_volume"];
+        //  REMARK：ICR MCR MSSR MCFR FSFP 几个参数默认为空。
+        [_bitasset_options_args setObject:[NSMutableDictionary dictionary] forKey:@"extensions"];
     }
 }
 
@@ -228,6 +235,7 @@ enum
         _enable_more_args = NO;
         if (_edit_bitasset_opts) {
             _bitasset_options_args = [[_edit_bitasset_opts objectForKey:@"options"] mutableCopy];
+            [_bitasset_options_args setObject:[([_bitasset_options_args objectForKey:@"extensions"] ?: @{}) mutableCopy] forKey:@"extensions"];
         } else {
             _bitasset_options_args = nil;
         }
@@ -246,6 +254,15 @@ enum
         [secSmart addObject:@(kVcSubSmartDelayForSettle)];
         [secSmart addObject:@(kVcSubSmartPercentOffsetSettle)];
         [secSmart addObject:@(kVcSubSmartMaxSettleVolume)];
+        
+        //  core 4.0 新增
+        [secSmart addObject:@(kVcSubSmartMarginCallFeeRatio)];
+        [secSmart addObject:@(kVcSubSmartForceSettleFeePercent)];
+        
+        //  这些参数可禁止修改
+        [secSmart addObject:@(kVcSubSmartICRValue)];
+        [secSmart addObject:@(kVcSubSmartMCRValue)];
+        [secSmart addObject:@(kVcSubSmartMSSRValue)];
     }
     return [secSmart copy];
 }
@@ -597,6 +614,21 @@ enum
     }
 }
 
+- (BOOL)can_owner_update_mcr
+{
+    return !(_issuer_permissions & ebat_disable_mcr_update);
+}
+
+- (BOOL)can_owner_update_icr
+{
+    return !(_issuer_permissions & ebat_disable_icr_update);
+}
+
+- (BOOL)can_owner_update_mssr
+{
+    return !(_issuer_permissions & ebat_disable_mssr_update);
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ThemeManager* theme = [ThemeManager sharedThemeManager];
@@ -798,6 +830,138 @@ enum
             }
         }
             break;
+        case kVcSubSmartMarginCallFeeRatio:
+        {
+            cell.textLabel.text = NSLocalizedString(@"kVcAssetMgrCellTitleSmartMarginCallFeeRatio", @"爆仓手续费");
+            id value = [[_bitasset_options_args objectForKey:@"extensions"] objectForKey:@"margin_call_fee_ratio"];
+            if (value) {
+                cell.detailTextLabel.textColor = theme.textColorMain;
+                
+                id n_percent = [NSDecimalNumber decimalNumberWithMantissa:[value unsignedLongLongValue] exponent:-1 isNegative:NO];
+                
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@%%", n_percent];
+            } else {
+                cell.detailTextLabel.textColor = theme.textColorGray;
+                cell.detailTextLabel.text = NSLocalizedString(@"kVcAssetMgrCellValueNotSet", @"未设置");
+            }
+        }
+            break;
+        case kVcSubSmartForceSettleFeePercent:
+        {
+            cell.textLabel.text = NSLocalizedString(@"kVcAssetMgrCellTitleSmartForceSettleFeePercent", @"强清手续费");
+            id value = [[_bitasset_options_args objectForKey:@"extensions"] objectForKey:@"force_settle_fee_percent"];
+            if (value) {
+                cell.detailTextLabel.textColor = theme.textColorMain;
+                
+                id n_100 = [NSDecimalNumber decimalNumberWithMantissa:GRAPHENE_1_PERCENT exponent:0 isNegative:NO];
+                id n_percent = [[NSDecimalNumber decimalNumberWithMantissa:[value unsignedLongLongValue] exponent:0 isNegative:NO] decimalNumberByDividingBy:n_100];
+                
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@%%", n_percent];
+            } else {
+                cell.detailTextLabel.textColor = theme.textColorGray;
+                cell.detailTextLabel.text = NSLocalizedString(@"kVcAssetMgrCellValueNotSet", @"未设置");
+            }
+        }
+            break;
+        case kVcSubSmartICRValue:
+        {
+            cell.textLabel.text = NSLocalizedString(@"kVcAssetMgrCellTitleSmartICRValue", @"初始抵押率");
+            id value = [[_bitasset_options_args objectForKey:@"extensions"] objectForKey:@"initial_collateral_ratio"];
+            if (value) {
+                cell.detailTextLabel.textColor = theme.textColorMain;
+                
+                id n_percent = [NSDecimalNumber decimalNumberWithMantissa:[value unsignedLongLongValue] exponent:-1 isNegative:NO];
+                
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@%%", n_percent];
+            } else {
+                cell.detailTextLabel.textColor = theme.textColorGray;
+                cell.detailTextLabel.text = NSLocalizedString(@"kVcAssetMgrCellValueNotSet", @"未设置");
+            }
+            //  禁止更改：设置样式
+            if (![self can_owner_update_icr]) {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                if (value) {
+                    //  有值：则永久禁止修改。
+                    cell.detailTextLabel.textColor = theme.textColorNormal;
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@",
+                                                 cell.detailTextLabel.text,
+                                                 NSLocalizedString(@"kVcAssetMgrCellTitleSmartMSSRValueDisableUpdate", @"(不可更新)")];
+                    
+                } else {
+                    //  无值：则有喂价这提供。
+                    cell.detailTextLabel.textColor = theme.textColorGray;
+                    cell.detailTextLabel.text = NSLocalizedString(@"kVcAssetMgrCellTitleSmartMSSRValueUpdateByFeedProducers", @"允许喂价者更新");
+                }
+            }
+        }
+            break;
+        case kVcSubSmartMCRValue:
+        {
+            cell.textLabel.text = NSLocalizedString(@"kVcAssetMgrCellTitleSmartMCRValue", @"爆仓抵押率");
+            id value = [[_bitasset_options_args objectForKey:@"extensions"] objectForKey:@"maintenance_collateral_ratio"];
+            if (value) {
+                cell.detailTextLabel.textColor = theme.textColorMain;
+                
+                id n_percent = [NSDecimalNumber decimalNumberWithMantissa:[value unsignedLongLongValue] exponent:-1 isNegative:NO];
+                
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@%%", n_percent];
+            } else {
+                cell.detailTextLabel.textColor = theme.textColorGray;
+                cell.detailTextLabel.text = NSLocalizedString(@"kVcAssetMgrCellValueNotSet", @"未设置");
+            }
+            //  禁止更改：设置样式
+            if (![self can_owner_update_mcr]) {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                if (value) {
+                    //  有值：则永久禁止修改。
+                    cell.detailTextLabel.textColor = theme.textColorNormal;
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@",
+                                                 cell.detailTextLabel.text,
+                                                 NSLocalizedString(@"kVcAssetMgrCellTitleSmartMSSRValueDisableUpdate", @"(不可更新)")];
+                    
+                } else {
+                    //  无值：则有喂价这提供。
+                    cell.detailTextLabel.textColor = theme.textColorGray;
+                    cell.detailTextLabel.text = NSLocalizedString(@"kVcAssetMgrCellTitleSmartMSSRValueUpdateByFeedProducers", @"允许喂价者更新");
+                }
+            }
+        }
+            break;
+        case kVcSubSmartMSSRValue:
+        {
+            cell.textLabel.text = NSLocalizedString(@"kVcAssetMgrCellTitleSmartMSSRValue", @"爆仓惩罚");
+            id value = [[_bitasset_options_args objectForKey:@"extensions"] objectForKey:@"maximum_short_squeeze_ratio"];
+            if (value) {
+                cell.detailTextLabel.textColor = theme.textColorMain;
+                
+                id n_percent = [NSDecimalNumber decimalNumberWithMantissa:[value unsignedLongLongValue] exponent:-1 isNegative:NO];
+                
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@%%", n_percent];
+            } else {
+                cell.detailTextLabel.textColor = theme.textColorGray;
+                cell.detailTextLabel.text = NSLocalizedString(@"kVcAssetMgrCellValueNotSet", @"未设置");
+            }
+            //  禁止更改：设置样式
+            if (![self can_owner_update_mssr]) {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                if (value) {
+                    //  有值：则永久禁止修改。
+                    cell.detailTextLabel.textColor = theme.textColorNormal;
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@",
+                                                 cell.detailTextLabel.text,
+                                                 NSLocalizedString(@"kVcAssetMgrCellTitleSmartMSSRValueDisableUpdate", @"(不可更新)")];
+                    
+                } else {
+                    //  无值：则有喂价这提供。
+                    cell.detailTextLabel.textColor = theme.textColorGray;
+                    cell.detailTextLabel.text = NSLocalizedString(@"kVcAssetMgrCellTitleSmartMSSRValueUpdateByFeedProducers", @"允许喂价者更新");
+                }
+            }
+        }
+            break;
             
             //  权限信息
         case kVcSubPermissionMarketFee:
@@ -927,7 +1091,12 @@ enum
         //        kVcSubSmartDelayForSettle,          //  高级设置 > 强清延迟执行时间 单位：分钟
         //        kVcSubSmartPercentOffsetSettle,     //  高级设置 > 强清补偿百分比
         //        kVcSubSmartMaxSettleVolume,         //  高级设置 > 每周期最大强清量百分比（每小时总量的百分比）
-        //
+        //        kVcSubSmartMarginCallFeeRatio,      //  高级设置 > 爆仓手续费
+        //        kVcSubSmartForceSettleFeePercent,   //  高级设置 > 强清手续费
+        //        kVcSubSmartICRValue,                //  高级设置 > 初始抵押率（可通过资产权限禁止更新。）
+        //        kVcSubSmartMCRValue,                //  高级设置 > 爆仓抵押率（可通过资产权限禁止更新。）
+        //        kVcSubSmartMSSRValue,               //  高级设置 > 爆仓惩罚（可通过资产权限禁止更新。）
+        
         //        //  权限
         
         //
@@ -968,7 +1137,9 @@ enum
                 [self onSmartArgsClicked:NSLocalizedString(@"kVcAssetMgrInputTitleSmartFeedLifeTime", @"喂价有效期（分钟）")
                              placeholder:NSLocalizedString(@"kVcAssetMgrInputPlaceholderSmartFeedLifeTime", @"请输入过期时间")
                                 args_key:@"feed_lifetime_sec"
+                           is_extensions:NO
                                max_value:nil
+                               min_value:nil
                                    scale:[NSDecimalNumber decimalNumberWithString:@"60"]
                          clear_when_zero:YES
                                precision:0];
@@ -977,7 +1148,9 @@ enum
                 [self onSmartArgsClicked:NSLocalizedString(@"kVcAssetMgrCellTitleSmartMinFeedNum", @"最少喂价数量")
                              placeholder:NSLocalizedString(@"kVcAssetMgrInputPlaceholderSmartMinFeedNum", @"请输入最小喂价数")
                                 args_key:@"minimum_feeds"
+                           is_extensions:NO
                                max_value:nil
+                               min_value:nil
                                    scale:nil
                          clear_when_zero:YES
                                precision:0];
@@ -986,7 +1159,9 @@ enum
                 [self onSmartArgsClicked:NSLocalizedString(@"kVcAssetMgrInputTitleSmartDelayForSettle", @"强清延迟（分钟）")
                              placeholder:NSLocalizedString(@"kVcAssetMgrInputPlaceholderSmartDelayForSettle", @"请输入强清延迟")
                                 args_key:@"force_settlement_delay_sec"
+                           is_extensions:NO
                                max_value:nil
+                               min_value:nil
                                    scale:[NSDecimalNumber decimalNumberWithString:@"60"]
                          clear_when_zero:NO
                                precision:0];
@@ -995,7 +1170,9 @@ enum
                 [self onSmartArgsClicked:NSLocalizedString(@"kVcAssetMgrCellTitleSmartOffsetSettle", @"强清补偿比例")
                              placeholder:NSLocalizedString(@"kVcAssetMgrInputPlaceholderSmartOffsetSettle", @"请输入强清补偿")
                                 args_key:@"force_settlement_offset_percent"
+                           is_extensions:NO
                                max_value:[NSDecimalNumber decimalNumberWithString:@"100"]
+                               min_value:nil
                                    scale:[NSDecimalNumber decimalNumberWithMantissa:GRAPHENE_1_PERCENT exponent:0 isNegative:NO]
                          clear_when_zero:NO
                                precision:2];
@@ -1004,10 +1181,88 @@ enum
                 [self onSmartArgsClicked:NSLocalizedString(@"kVcAssetMgrCellTitleSmartMaxSettleValuePerHour", @"每周期最大清算量")
                              placeholder:NSLocalizedString(@"kVcAssetMgrInputPlaceholderSmartMaxSettleValuePerHour", @"请输入每小强清百分比")
                                 args_key:@"maximum_force_settlement_volume"
+                           is_extensions:NO
                                max_value:[NSDecimalNumber decimalNumberWithString:@"100"]
+                               min_value:nil
                                    scale:[NSDecimalNumber decimalNumberWithMantissa:GRAPHENE_1_PERCENT exponent:0 isNegative:NO]
                          clear_when_zero:YES
                                precision:2];
+                break;
+            case kVcSubSmartMarginCallFeeRatio:
+            {
+                //  单位：千分之一
+                [self onSmartArgsClicked:NSLocalizedString(@"kVcAssetMgrCellTitleSmartMarginCallFeeRatio", @"爆仓手续费")
+                             placeholder:NSLocalizedString(@"kVcAssetMgrInputPlaceholderSmartInputMarginCallFeeRatio", @"请输入爆仓手续费")
+                                args_key:@"margin_call_fee_ratio"
+                           is_extensions:YES
+                               max_value:[NSDecimalNumber decimalNumberWithString:@"100"]
+                               min_value:nil
+                                   scale:[NSDecimalNumber decimalNumberWithMantissa:10 exponent:0 isNegative:NO]
+                         clear_when_zero:YES
+                               precision:1];
+            }
+                break;
+            case kVcSubSmartForceSettleFeePercent:
+            {
+                //  单位：万分之一
+                [self onSmartArgsClicked:NSLocalizedString(@"kVcAssetMgrCellTitleSmartForceSettleFeePercent", @"强清手续费")
+                             placeholder:NSLocalizedString(@"kVcAssetMgrInputPlaceholderSmartInputForceSettleFeePercent", @"请输入强清手续费")
+                                args_key:@"force_settle_fee_percent"
+                           is_extensions:YES
+                               max_value:[NSDecimalNumber decimalNumberWithString:@"100"]
+                               min_value:nil
+                                   scale:[NSDecimalNumber decimalNumberWithMantissa:GRAPHENE_1_PERCENT exponent:0 isNegative:NO]
+                         clear_when_zero:YES
+                               precision:2];
+            }
+                break;
+            case kVcSubSmartICRValue:
+            {
+                if ([self can_owner_update_icr]) {
+                    //  单位：千分之一
+                    [self onSmartArgsClicked:NSLocalizedString(@"kVcAssetMgrCellTitleSmartICRValue", @"初始抵押率")
+                                 placeholder:NSLocalizedString(@"kVcAssetMgrInputPlaceholderSmartInputICR", @"请输入初始抵押率")
+                                    args_key:@"initial_collateral_ratio"
+                               is_extensions:YES
+                                   max_value:[NSDecimalNumber decimalNumberWithString:@"3200"]  //  GRAPHENE_MAX_COLLATERAL_RATIO
+                                   min_value:[NSDecimalNumber decimalNumberWithString:@"100.1"] //  GRAPHENE_MIN_COLLATERAL_RATIO
+                                       scale:[NSDecimalNumber decimalNumberWithMantissa:10 exponent:0 isNegative:NO]
+                             clear_when_zero:YES
+                                   precision:1];
+                }
+            }
+                break;
+            case kVcSubSmartMCRValue:
+            {
+                if ([self can_owner_update_mcr]) {
+                    //  单位：千分之一
+                    [self onSmartArgsClicked:NSLocalizedString(@"kVcAssetMgrCellTitleSmartMCRValue", @"爆仓抵押率")
+                                 placeholder:NSLocalizedString(@"kVcAssetMgrInputPlaceholderSmartInputMCR", @"请输入爆仓抵押率")
+                                    args_key:@"maintenance_collateral_ratio"
+                               is_extensions:YES
+                                   max_value:[NSDecimalNumber decimalNumberWithString:@"3200"]  //  GRAPHENE_MAX_COLLATERAL_RATIO
+                                   min_value:[NSDecimalNumber decimalNumberWithString:@"100.1"] //  GRAPHENE_MIN_COLLATERAL_RATIO
+                                       scale:[NSDecimalNumber decimalNumberWithMantissa:10 exponent:0 isNegative:NO]
+                             clear_when_zero:YES
+                                   precision:1];
+                }
+            }
+                break;
+            case kVcSubSmartMSSRValue:
+            {
+                if ([self can_owner_update_mssr]) {
+                    //  单位：千分之一
+                    [self onSmartArgsClicked:NSLocalizedString(@"kVcAssetMgrCellTitleSmartMSSRValue", @"爆仓惩罚率")
+                                 placeholder:NSLocalizedString(@"kVcAssetMgrInputPlaceholderSmartInputMSSR", @"请输入爆仓惩罚率")
+                                    args_key:@"maximum_short_squeeze_ratio"
+                               is_extensions:YES
+                                   max_value:[NSDecimalNumber decimalNumberWithString:@"3200"]  //  GRAPHENE_MAX_COLLATERAL_RATIO
+                                   min_value:[NSDecimalNumber decimalNumberWithString:@"100.1"] //  GRAPHENE_MIN_COLLATERAL_RATIO
+                                       scale:[NSDecimalNumber decimalNumberWithMantissa:10 exponent:0 isNegative:NO]
+                             clear_when_zero:YES
+                                   precision:1];
+                }
+            }
                 break;
                 
             case kVcSubPermissionMarketFeePercent:
@@ -1016,6 +1271,7 @@ enum
                                 placeholder:NSLocalizedString(@"kVcAssetMgrInputPlaceholderFeeMarketFeeRatio", @"请输入手续费比例")
                                   precision:2
                                   max_value:[NSDecimalNumber decimalNumberWithString:@"100"]
+                                  min_value:nil
                                       scale:[NSDecimalNumber decimalNumberWithMantissa:GRAPHENE_1_PERCENT exponent:0 isNegative:NO]
                                    callback:^(NSDecimalNumber *n_value) {
                     _market_fee_percent = [n_value integerValue];
@@ -1029,6 +1285,7 @@ enum
                                 placeholder:NSLocalizedString(@"kVcAssetMgrInputPlaceholderFeeMaxFeeValue", @"请输入单笔最大手续费")
                                   precision:_precision
                                   max_value:_max_supply_editable
+                                  min_value:nil
                                       scale:nil
                                    callback:^(NSDecimalNumber *n_value) {
                     _max_market_fee = n_value;
@@ -1043,6 +1300,7 @@ enum
                                 placeholder:NSLocalizedString(@"kVcAssetMgrInputPlaceholderFeeRefPercent", @"请输入引荐人分成比例")
                                   precision:2
                                   max_value:[NSDecimalNumber decimalNumberWithString:@"99.99"]
+                                  min_value:nil
                                       scale:[NSDecimalNumber decimalNumberWithMantissa:GRAPHENE_1_PERCENT exponent:0 isNegative:NO]
                                    callback:^(NSDecimalNumber *n_value) {
                     _reward_percent = [n_value integerValue];
@@ -1545,6 +1803,7 @@ enum
                     placeholder:NSLocalizedString(@"kVcAssetMgrCellPlaceholderMaxSupply", @"请输入最大供应量")
                       precision:_precision
                       max_value:_max_supply_editable
+                      min_value:nil
                           scale:nil
                        callback:^(NSDecimalNumber *n_value) {
         
@@ -1757,6 +2016,7 @@ enum
                   placeholder:(NSString*)args_placeholder
                     precision:(NSInteger)precision
                     max_value:(NSDecimalNumber*)n_max_value
+                    min_value:(NSDecimalNumber*)n_min_value
                         scale:(NSDecimalNumber*)n_scale
                      callback:(void (^)(NSDecimalNumber* n_value))callback
 {
@@ -1785,6 +2045,10 @@ enum
             if (n_max_value && [n_value compare:n_max_value] > 0) {
                 n_value = n_max_value;
             }
+            //  最小值（允许输入0。)
+            if ([n_value compare:[NSDecimalNumber zero]] > 0 && n_min_value && [n_value compare:n_min_value] < 0) {
+                n_value = n_min_value;
+            }
             //  缩放
             if (n_scale) {
                 n_value = [n_value decimalNumberByMultiplyingBy:n_scale];
@@ -1800,7 +2064,9 @@ enum
 - (void)onSmartArgsClicked:(NSString*)args_title
                placeholder:(NSString*)args_placeholder
                   args_key:(NSString*)args_key
+             is_extensions:(BOOL)is_extensions
                  max_value:(NSDecimalNumber*)n_max_value
+                 min_value:(NSDecimalNumber*)n_min_value
                      scale:(NSDecimalNumber*)n_scale
            clear_when_zero:(BOOL)clear_when_zero
                  precision:(NSInteger)precision
@@ -1809,14 +2075,19 @@ enum
                     placeholder:args_placeholder
                       precision:precision
                       max_value:n_max_value
+                      min_value:n_min_value
                           scale:n_scale
                        callback:^(NSDecimalNumber* n_value) {
         assert(_bitasset_options_args);
         assert(args_key);
+        id target = _bitasset_options_args;
+        if (is_extensions) {
+            target = [target objectForKey:@"extensions"];
+        }
         if (clear_when_zero && [n_value compare:[NSDecimalNumber zero]] == 0) {
-            [_bitasset_options_args removeObjectForKey:args_key];
+            [target removeObjectForKey:args_key];
         } else {
-            [_bitasset_options_args setObject:[NSString stringWithFormat:@"%@", n_value] forKey:args_key];
+            [target setObject:[NSString stringWithFormat:@"%@", n_value] forKey:args_key];
         }
         [_mainTableView reloadData];
     }];
