@@ -1163,7 +1163,9 @@ static const char* __bitshares_type_fields__ = "__bitshares_type_fields__";
     [self add_field:@"funding_account" class:[[Tm_protocol_id_type alloc] initWithObjectType:ebot_account]];
     [self add_field:@"delta_collateral" class:[T_asset class]];
     [self add_field:@"delta_debt" class:[T_asset class]];
-    [self add_field:@"extensions" class:[[Tm_extension alloc] initWithFieldsDef:@[@{@"name":@"target_collateral_ratio", @"type":[T_uint16 class]}]]];
+    [self add_field:@"extensions" class:[[Tm_extension alloc] initWithFieldsDef:@[
+        @{@"name":@"target_collateral_ratio", @"type":[T_uint16 class]}
+    ]]];
 }
 
 @end
@@ -1411,8 +1413,12 @@ static const char* __bitshares_type_fields__ = "__bitshares_type_fields__";
     [self add_field:@"blacklist_markets" class:[[Tm_set alloc] initWithType:[[Tm_protocol_id_type alloc] initWithObjectType:ebot_asset]]];
     [self add_field:@"description" class:[T_string class]];
     [self add_field:@"extensions"
-              class:[[Tm_extension alloc] initWithFieldsDef:@[@{@"name":@"reward_percent", @"type":[T_uint16 class]},
-                                                              @{@"name":@"whitelist_market_fee_sharing", @"type":[[Tm_set alloc] initWithType:[[Tm_protocol_id_type alloc] initWithObjectType:ebot_account]]}]]];
+              class:[[Tm_extension alloc] initWithFieldsDef:@[
+                  @{@"name":@"reward_percent",
+                    @"type":[T_uint16 class]},
+                  @{@"name":@"whitelist_market_fee_sharing",
+                    @"type":[[Tm_set alloc] initWithType:[[Tm_protocol_id_type alloc] initWithObjectType:ebot_account]]}
+              ]]];
 }
 
 @end
@@ -1427,7 +1433,19 @@ static const char* __bitshares_type_fields__ = "__bitshares_type_fields__";
     [self add_field:@"force_settlement_offset_percent" class:[T_uint16 class]];
     [self add_field:@"maximum_force_settlement_volume" class:[T_uint16 class]];
     [self add_field:@"short_backing_asset" class:[[Tm_protocol_id_type alloc] initWithObjectType:ebot_asset]];
-    [self add_field:@"extensions" class:[[Tm_set alloc] initWithType:[T_future_extensions class]]];
+    [self add_field:@"extensions"
+              class:[[Tm_extension alloc] initWithFieldsDef:@[
+                  //    BSIP-77
+                  @{@"name":@"initial_collateral_ratio", @"type":[T_uint16 class]},
+                  //    BSIP-75
+                  @{@"name":@"maintenance_collateral_ratio", @"type":[T_uint16 class]},
+                  //    BSIP-75
+                  @{@"name":@"maximum_short_squeeze_ratio", @"type":[T_uint16 class]},
+                  //    BSIP 74
+                  @{@"name":@"margin_call_fee_ratio", @"type":[T_uint16 class]},
+                  //    BSIP-87
+                  @{@"name":@"force_settle_fee_percent", @"type":[T_uint16 class]},
+              ]]];
 }
 
 @end
@@ -1575,7 +1593,7 @@ static const char* __bitshares_type_fields__ = "__bitshares_type_fields__";
     [self add_field:@"extensions"
               class:[[Tm_extension alloc] initWithFieldsDef:@[
                   @{@"name":@"claim_from_asset_id",
-                    @"type":[[Tm_optional alloc] initWithType:[[Tm_protocol_id_type alloc] initWithObjectType:ebot_asset]]},
+                    @"type":[[Tm_protocol_id_type alloc] initWithObjectType:ebot_asset]},
               ]]];
 }
 
