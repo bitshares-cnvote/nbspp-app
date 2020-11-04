@@ -100,6 +100,24 @@
 }
 
 /*
+ *  （public) 获取智能币扩展参数
+ */
++ (NSDecimalNumber*)getBitAssetDataExtargs:(id)bitasset_data arg_name:(NSString*)arg_name precision:(NSInteger)precision
+{
+    assert(bitasset_data);
+    assert(arg_name);
+    NSInteger result = 0;
+    id ext = [bitasset_data[@"options"] objectForKey:@"extensions"];
+    if (ext) {
+        id value = [ext objectForKey:arg_name];
+        if (value) {
+            result = [value integerValue];
+        }
+    }
+    return [NSDecimalNumber decimalNumberWithMantissa:result exponent:-precision isNegative:NO];
+}
+
+/*
  *  (public) 判断是否价格无效
  */
 + (BOOL)isNullPrice:(id)price
@@ -377,6 +395,29 @@
         return [n2 compare:n1];
     })];
     return dataArray;
+}
+
+/*
+ *  (public) 高精度计算模式控制，控制四舍五入以及小数点精度等。
+ */
++ (NSDecimalNumberHandler*)decimalHandler:(NSRoundingMode)round_mode scale:(short)scale
+{
+    return [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:round_mode
+                                                                  scale:scale
+                                                       raiseOnExactness:NO
+                                                        raiseOnOverflow:NO
+                                                       raiseOnUnderflow:NO
+                                                    raiseOnDivideByZero:NO];
+}
+
++ (NSDecimalNumberHandler*)decimalHandlerRoundUp:(short)scale
+{
+    return [self decimalHandler:NSRoundUp scale:scale];
+}
+
++ (NSDecimalNumberHandler*)decimalHandlerRoundDown:(short)scale
+{
+    return [self decimalHandler:NSRoundDown scale:scale];
 }
 
 @end

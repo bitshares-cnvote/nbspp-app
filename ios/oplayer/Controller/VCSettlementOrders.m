@@ -98,6 +98,11 @@
             //  计算清算价格 = 喂价 * （1 + 补偿系数）
             NSDecimalNumber* n_settle_price = [n_force_settlement_offset_percent_add1 decimalNumberByMultiplyingBy:n_feed_price];
             
+            //  获取强清手续费
+            id n_force_settle_fee_percent = [ModelUtils getBitAssetDataExtargs:bitasset_data
+                                                                      arg_name:@"force_settle_fee_percent"
+                                                                     precision:4];
+            
             //  自动计算base资产
             NSString* settle_asset_symbol = settle_asset[@"symbol"];
             NSString* sba_asset_symbol = sba_asset[@"symbol"];
@@ -116,6 +121,7 @@
             NSString* total_str;
             NSString* base_sym;
             NSString* quote_sym;
+            NSDecimalNumber* n_settlement_fee;
             
             id n_balance = [NSDecimalNumber decimalNumberWithMantissa:[settle_order[@"balance"][@"amount"] unsignedLongLongValue]
                                                              exponent:-settle_asset_precision
@@ -129,6 +135,9 @@
                 
                 id n_total = n_balance;
                 id n_amount = [ModelUtils calculateAverage:n_total n:n_settle_price result_precision:sba_asset_precision];
+                n_settlement_fee = [n_amount decimalNumberByMultiplyingBy:n_force_settle_fee_percent
+                                                             withBehavior:[ModelUtils decimalHandlerRoundDown:sba_asset_precision]];
+                
                 
                 amount_str = [OrgUtils formatFloatValue:n_amount usesGroupingSeparator:NO];
                 total_str = [OrgUtils formatFloatValue:n_total usesGroupingSeparator:NO];
@@ -144,6 +153,8 @@
                 
                 id n_amount = n_balance;
                 id n_total = [ModelUtils calTotal:n_settle_price n:n_amount result_precision:sba_asset_precision];
+                n_settlement_fee = [n_total decimalNumberByMultiplyingBy:n_force_settle_fee_percent
+                                                            withBehavior:[ModelUtils decimalHandlerRoundDown:sba_asset_precision]];
                 
                 amount_str = [OrgUtils formatFloatValue:n_amount usesGroupingSeparator:NO];
                 total_str = [OrgUtils formatFloatValue:n_total usesGroupingSeparator:NO];
@@ -159,6 +170,7 @@
             
             [_dataArray addObject:@{@"time":settle_order[@"settlement_date"],
                                     @"issettle":@YES,
+                                    @"n_settlement_fee":n_settlement_fee,
                                     @"issell":@(issell),
                                     @"price":price_str,
                                     @"amount":amount_str,
@@ -272,7 +284,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat baseHeight = 8.0 + 28 + 24 * 2;
+    CGFloat baseHeight = 8.0 + 28 + 24 * 3;
     
     return baseHeight;
 }

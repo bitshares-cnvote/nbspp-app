@@ -10,6 +10,7 @@
 #import "NativeAppDelegate.h"
 #import "ThemeManager.h"
 #import "OrgUtils.h"
+#import "ChainObjectManager.h"
 
 @interface ViewLimitOrderInfoCell()
 {
@@ -28,6 +29,9 @@
     UILabel*        _lbTotal;       //  总金额
     
     UIButton*       _btnCancel;     //  撤销订单按钮
+    
+    UILabel*        _lbSettlementAccount;   //  清算单账号（非清算单则不存在。）
+    UILabel*        _lbSettlementFee;       //  手续费
 }
 
 @end
@@ -50,6 +54,8 @@
     _lbTotal = nil;
     
     _btnCancel = nil;
+    _lbSettlementAccount = nil;
+    _lbSettlementFee = nil;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier vc:(UIViewController*)vc
@@ -147,6 +153,15 @@
         _lbTotal.font = [UIFont systemFontOfSize:14];
         _lbTotal.adjustsFontSizeToFitWidth = YES;
         [self addSubview:_lbTotal];
+        
+        //  第四行 清算人
+        _lbSettlementAccount = [self auxGenLabel:[UIFont systemFontOfSize:13]];
+        _lbSettlementAccount.hidden = YES;
+
+        _lbSettlementFee = [self auxGenLabel:[UIFont systemFontOfSize:13]];
+        _lbSettlementFee.textAlignment = NSTextAlignmentRight;
+        _lbSettlementFee.textColor = [ThemeManager sharedThemeManager].textColorGray;
+        _lbSettlementFee.hidden = YES;
     }
     return self;
 }
@@ -281,6 +296,33 @@
     _lbPrice.frame = CGRectMake(xOffset, yOffset, fWidth, 24);
     _lbNum.frame = CGRectMake(xOffset, yOffset, fWidth, 24);
     _lbTotal.frame = CGRectMake(xOffset, yOffset, fWidth, 24);
+    
+    yOffset += 24;
+    if (bIsSettle) {
+        //  清算人
+        _lbSettlementAccount.hidden = NO;
+        id owner = [[ChainObjectManager sharedChainObjectManager] getChainObjectByID:[_item objectForKey:@"seller"]];
+        assert(owner);
+        _lbSettlementAccount.text = [owner objectForKey:@"name"];
+        _lbSettlementAccount.frame = CGRectMake(xOffset, yOffset, fWidth, 24);
+        
+        //  清算手续费
+        id n_settlement_fee = [_item objectForKey:@"n_settlement_fee"];
+        if (n_settlement_fee && [n_settlement_fee compare:[NSDecimalNumber zero]] > 0) {
+            id fee_symbol = [[_item objectForKey:@"issell"] boolValue] ? _item[@"base_symbol"] : _item[@"quote_symbol"];
+            _lbSettlementFee.hidden = NO;
+            _lbSettlementFee.text = [NSString stringWithFormat:@"%@ %@ %@",
+                                     NSLocalizedString(@"kVcVerTradeLabelMarketFee", @"手续费"),
+                                     [OrgUtils formatFloatValue:n_settlement_fee usesGroupingSeparator:NO],
+                                     fee_symbol];
+            _lbSettlementFee.frame = CGRectMake(xOffset, yOffset, fWidth, 24);
+        } else {
+            _lbSettlementFee.hidden = YES;
+        }
+    } else {
+        _lbSettlementAccount.hidden = YES;
+        _lbSettlementFee.hidden = YES;
+    }
 }
 
 @end

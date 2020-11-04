@@ -58,6 +58,11 @@
 + (BOOL)assetIsCore:(id)asset;
 
 /*
+ *  （public) 获取智能币扩展参数
+ */
++ (NSDecimalNumber*)getBitAssetDataExtargs:(id)bitasset_data arg_name:(NSString*)arg_name precision:(NSInteger)precision;
+
+/*
  *  (public) 判断是否价格无效
  */
 + (BOOL)isNullPrice:(id)price;
@@ -96,5 +101,12 @@
  *  filterTradingPair - 筛选当前交易对相关订单，可为nil。
  */
 + (NSMutableArray*)processLimitOrders:(NSArray*)limit_orders filter:(TradingPair*)filterTradingPair;
+
+/*
+ *  (public) 高精度计算模式控制，控制四舍五入以及小数点精度等。
+ */
++ (NSDecimalNumberHandler*)decimalHandler:(NSRoundingMode)round_mode scale:(short)scale;
++ (NSDecimalNumberHandler*)decimalHandlerRoundUp:(short)scale;
++ (NSDecimalNumberHandler*)decimalHandlerRoundDown:(short)scale;
 
 @end
