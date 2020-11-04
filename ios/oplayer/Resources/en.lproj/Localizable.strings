@@ -691,6 +691,7 @@
 "kVcOrderBtnCancel" = "Cancel";
 "kVcOrderExpired" = "Expired on %@";
 "kVcOrderTotal" = "Total";
+"kVcOrderSettlementFees" = "Settlement fee";
 "kVcOrderTipTxCancelFullOK" = "Order %@ has been canceled.";
 "kVcOrderTipTxCancelOK" = "Order %@ has been canceled, but refresh failed. Please try again later.";
 

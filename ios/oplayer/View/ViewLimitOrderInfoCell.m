@@ -312,7 +312,7 @@
             id fee_symbol = [[_item objectForKey:@"issell"] boolValue] ? _item[@"base_symbol"] : _item[@"quote_symbol"];
             _lbSettlementFee.hidden = NO;
             _lbSettlementFee.text = [NSString stringWithFormat:@"%@ %@ %@",
-                                     NSLocalizedString(@"kVcVerTradeLabelMarketFee", @"手续费"),
+                                     NSLocalizedString(@"kVcOrderSettlementFees", @"清算手续费"),
                                      [OrgUtils formatFloatValue:n_settlement_fee usesGroupingSeparator:NO],
                                      fee_symbol];
             _lbSettlementFee.frame = CGRectMake(xOffset, yOffset, fWidth, 24);

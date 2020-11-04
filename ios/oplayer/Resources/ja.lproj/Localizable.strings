@@ -691,6 +691,7 @@
 "kVcOrderBtnCancel" = "キャンセル";
 "kVcOrderExpired" = "%@ 期限が切れる";
 "kVcOrderTotal" = "合計金額";
+"kVcOrderSettlementFees" = "清算手数料";
 "kVcOrderTipTxCancelFullOK" = "注文 #%@ はキャンセルされました。";
 "kVcOrderTipTxCancelOK" = "注文 #%@ はキャンセルされましたが、更新インターフェイスが失敗しました。後でもう一度やり直してください。";
 

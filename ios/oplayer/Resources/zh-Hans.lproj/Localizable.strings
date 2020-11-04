@@ -691,6 +691,7 @@
 "kVcOrderBtnCancel" = "撤销";
 "kVcOrderExpired" = "%@过期";
 "kVcOrderTotal" = "总金额";
+"kVcOrderSettlementFees" = "清算手续费";
 "kVcOrderTipTxCancelFullOK" = "订单 #%@ 已取消。";
 "kVcOrderTipTxCancelOK" = "订单 #%@ 已取消，但刷新界面失败，请稍后再试。";
 
