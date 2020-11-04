@@ -221,6 +221,15 @@
     
     NSString* vestingPeriodValue = @"--";
     switch ([[[_item objectForKey:@"policy"] objectAtIndex:0] integerValue]) {
+        case ebvp_linear_vesting_policy:
+        {
+            //  REMARK：vesting_duration_seconds 可为0。
+            id policy_data = [[_item objectForKey:@"policy"] objectAtIndex:1];
+            assert(policy_data);
+            NSUInteger vesting_seconds = MAX([[policy_data objectForKey:@"vesting_duration_seconds"] unsignedIntegerValue], 1L);
+            vestingPeriodValue = [OrgUtils fmtVestingPeriodDateString:vesting_seconds];
+        }
+            break;
         case ebvp_cdd_vesting_policy:
         {
             //  REMARK：解冻周期最低1秒
@@ -236,7 +245,6 @@
         }
             break;
         default:
-            //  TODO:ebvp_linear_vesting_policy
             assert(false);
             break;
     }

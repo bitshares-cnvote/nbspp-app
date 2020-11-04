@@ -76,6 +76,7 @@
             //  cdd_vesting_policy = 1,
             //  instant_vesting_policy = 2,
             switch ([[[vesting objectForKey:@"policy"] objectAtIndex:0] integerValue]) {
+                case ebvp_linear_vesting_policy:
                 case ebvp_cdd_vesting_policy:
                 case ebvp_instant_vesting_policy:
                 {
@@ -95,10 +96,7 @@
                 }
                     break;
                 default:
-                {
-                    //  TODO:ebvp_linear_vesting_policy
-                    //  TODO:fowallet 1.7 暂时不支持 linear_vesting_policy
-                }
+                    //  不支持的其他的新类型
                     break;
             }
         }
@@ -240,6 +238,49 @@
 }
 
 /**
+ *  (private) 计算已经解冻的余额数量。（可提取的）REMARK：线性解冻策略
+ */
++ (unsigned long long)_calcVestingBalanceAmount_linear_vesting_policy:(id)policy vesting:(id)vesting
+{
+    assert(policy && vesting);
+    assert([[policy objectAtIndex:0] integerValue] == ebvp_linear_vesting_policy);
+    id policy_data = [policy objectAtIndex:1];
+    assert(policy_data);
+    
+    NSTimeInterval begin_timestamp_ts = [OrgUtils parseBitsharesTimeString:policy_data[@"begin_timestamp"]];
+    NSTimeInterval now_ts = [[NSDate date] timeIntervalSince1970];
+    
+    unsigned long long allowed_withdraw = 0;
+    
+    if (now_ts > begin_timestamp_ts) {
+        
+        unsigned long long elapsed_seconds = (unsigned long long)(now_ts - begin_timestamp_ts);
+        assert(elapsed_seconds > 0);
+        unsigned long long vesting_cliff_seconds = [[policy_data objectForKey:@"vesting_cliff_seconds"] unsignedLongLongValue];
+        if (elapsed_seconds >= vesting_cliff_seconds) {
+            unsigned long long vesting_duration_seconds = [[policy_data objectForKey:@"vesting_duration_seconds"] unsignedLongLongValue];
+            unsigned long long begin_balance = [[policy_data objectForKey:@"begin_balance"] unsignedLongLongValue];
+            
+            unsigned long long total_vested = 0;
+            if (elapsed_seconds < vesting_duration_seconds) {
+                total_vested = (unsigned long long)floor((double)elapsed_seconds / vesting_duration_seconds * begin_balance);
+            } else {
+                total_vested = begin_balance;
+            }
+            
+            unsigned long long balance = [[[vesting objectForKey:@"balance"] objectForKey:@"amount"] unsignedLongLongValue];
+            assert(begin_balance >= balance);
+            unsigned long long withdrawn_already = begin_balance - balance;
+            
+            assert(total_vested >= withdrawn_already);
+            allowed_withdraw = total_vested - withdrawn_already;
+        }
+    }
+    
+    return allowed_withdraw;
+}
+
+/**
  *  (private) 计算已经解冻的余额数量。（可提取的）REMARK：按照币龄解冻策略
  */
 + (unsigned long long)_calcVestingBalanceAmount_cdd_vesting_policy:(id)policy vesting:(id)vesting
@@ -271,8 +312,13 @@
     NSUInteger vesting_seconds = MAX([[policy_data objectForKey:@"vesting_seconds"] unsignedIntegerValue], 1L);
     
     //  last update timestamp
-    NSTimeInterval coin_seconds_earned_last_update_ts = [OrgUtils parseBitsharesTimeString:policy_data[@"coin_seconds_earned_last_update"]];
+    NSTimeInterval start_claim_ts = [OrgUtils parseBitsharesTimeString:policy_data[@"start_claim"]];
     NSTimeInterval now_ts = [[NSDate date] timeIntervalSince1970];
+    if (now_ts <= start_claim_ts) {
+        return 0;
+    }
+    
+    NSTimeInterval coin_seconds_earned_last_update_ts = [OrgUtils parseBitsharesTimeString:policy_data[@"coin_seconds_earned_last_update"]];
     
     //  my balance & already earned seconds
     unsigned long long total_balance_amount = [[[vesting objectForKey:@"balance"] objectForKey:@"amount"] unsignedLongLongValue];
@@ -324,12 +370,13 @@
     id policy = [vesting objectForKey:@"policy"];
     assert(policy);
     switch ([[policy objectAtIndex:0] integerValue]) {
+        case ebvp_linear_vesting_policy:
+            return [self _calcVestingBalanceAmount_linear_vesting_policy:policy vesting:vesting];
         case ebvp_cdd_vesting_policy:
             return [self _calcVestingBalanceAmount_cdd_vesting_policy:policy vesting:vesting];
         case ebvp_instant_vesting_policy:
             return [self _calcVestingBalanceAmount_instant_vesting_policy:policy vesting:vesting];
         default:
-            //  TODO:ebvp_linear_vesting_policy
             assert(false);
             break;
     }
@@ -351,6 +398,20 @@
     assert(policy);
     
     switch ([[policy objectAtIndex:0] integerValue]) {
+        case ebvp_linear_vesting_policy:
+        {
+            id policy_data = [policy objectAtIndex:1];
+            id begin_timestamp = [policy_data objectForKey:@"begin_timestamp"];
+            NSTimeInterval begin_timestamp_ts = [OrgUtils parseBitsharesTimeString:begin_timestamp];
+            NSTimeInterval now_ts = [[NSDate date] timeIntervalSince1970];
+            unsigned long long vesting_cliff_seconds = [[policy_data objectForKey:@"vesting_cliff_seconds"] unsignedLongLongValue];
+            if (now_ts <= begin_timestamp_ts || (unsigned long long)(now_ts - begin_timestamp_ts) < vesting_cliff_seconds){
+                id s = [OrgUtils getDateTimeLocaleString:[NSDate dateWithTimeIntervalSince1970:begin_timestamp_ts + vesting_cliff_seconds]];
+                [OrgUtils makeToast:[NSString stringWithFormat:NSLocalizedString(@"kVestingTipsStartClaim", @"该笔金额在 %@ 之后方可提取。"), s]];
+                return;
+            }
+        }
+            break;
         case ebvp_cdd_vesting_policy:       //  验证提取日期
         {
             id policy_data = [policy objectAtIndex:1];
@@ -367,7 +428,7 @@
         case ebvp_instant_vesting_policy:   //  不用额外验证
             break;
         default:
-            assert(false);//TODO:ebvp_linear_vesting_policy 不支持
+            assert(false);
             break;
     }
     
