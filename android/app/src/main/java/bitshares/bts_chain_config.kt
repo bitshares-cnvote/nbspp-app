@@ -59,6 +59,26 @@ enum class EBitsharesAssetFlags(val value: Int) {
     ebat_witness_fed_asset(0x80),       //  允许见证人提供喂价（和理事会喂价不可同时激活）
     ebat_committee_fed_asset(0x100),    //  允许理事会成员提供喂价（和见证人喂价不可同时激活）
 
+    ///@}
+    /// @note If one of these bits is set in asset issuer permissions,
+    ///       it means the asset issuer (or owner for bitassets) does NOT have the permission to update
+    ///       the corresponding flag, parameters or perform certain actions.
+    ///       This is to be compatible with old client software.
+    ///@{
+    ebat_lock_max_supply(0x200),        ///< the max supply of the asset can not be updated
+    ebat_disable_new_supply(0x400),     ///< unable to create new supply for the asset
+    /// @note These parameters are for issuer permission only.
+    ///       For each parameter, if it is set in issuer permission,
+    ///       it means the bitasset owner can not update the corresponding parameter.
+    ///       In this case, if the value of the parameter was set by the bitasset owner, it can not be updated;
+    ///       if no value was set by the owner, the value can still be updated by the feed producers.
+    ///@{
+    ebat_disable_mcr_update(0x800),     ///< the bitasset owner can not update MCR, permisison only
+    ebat_disable_icr_update(0x1000),    ///< the bitasset owner can not update ICR, permisison only
+    ebat_disable_mssr_update(0x2000),   ///< the bitasset owner can not update MSSR, permisison only
+    ///@}
+    ///@}
+
     //  UIA资产默认权限mask
     ebat_issuer_permission_mask_uia(ebat_charge_market_fee.value.or(ebat_white_list.value).or(ebat_override_authority.value).or(ebat_transfer_restricted.value).or(ebat_disable_confidential.value)),
     //  Smart资产扩展的权限mask
@@ -266,6 +286,12 @@ const val BTS_GRAPHENE_ACCOUNT_BTSPP_TEAM = "1.2.0"
 const val GRAPHENE_MAX_SHARE_SUPPLY = 1000000000000000L
 const val GRAPHENE_100_PERCENT = 10000
 const val GRAPHENE_1_PERCENT = (GRAPHENE_100_PERCENT / 100)
+
+const val GRAPHENE_COLLATERAL_RATIO_DENOM                 = 1000
+const val GRAPHENE_MIN_COLLATERAL_RATIO                   = 1001  ///< lower than this could result in divide by 0
+const val GRAPHENE_MAX_COLLATERAL_RATIO                   = 32000 ///< higher than this is unnecessary and may exceed int16 storage
+const val GRAPHENE_DEFAULT_MAINTENANCE_COLLATERAL_RATIO   = 1750  ///< Call when collateral only pays off 175% the debt
+const val GRAPHENE_DEFAULT_MAX_SHORT_SQUEEZE_RATIO        = 1500  ///< Stop calling when collateral only pays off 150% of the debt
 
 //  BTS网络动态全局信息对象ID号
 //  格式：

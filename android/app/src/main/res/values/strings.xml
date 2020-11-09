@@ -475,6 +475,7 @@
     <string name="kVcAssetMgrCellActionIssueAsset">Issuing assets</string>
     <string name="kVcAssetMgrCellActionClaimFeePool">Claim fee pool</string>
     <string name="kVcAssetMgrCellActionClaimMarketFees">Claim market fees</string>
+    <string name="kVcAssetMgrCellActionClaimCollateralFees">Claim Collateral fees</string>
     <string name="kVcAssetMgrCellActionGlobalSettle">Global settle</string>
     <string name="kVcAssetMgrCellInfoCurSupply">Current supply</string>
     <string name="kVcAssetMgrCellInfoMaxSupply">Maximum supply</string>
@@ -502,6 +503,13 @@
     <string name="kVcAssetMgrCellTitleSmartDelayForSettle">Delay for forced settlements</string>
     <string name="kVcAssetMgrCellTitleSmartOffsetSettle">Offset percent of forced settlements</string>
     <string name="kVcAssetMgrCellTitleSmartMaxSettleValuePerHour">Max force settle volume</string>
+    <string name="kVcAssetMgrCellTitleSmartMarginCallFeeRatio">Margin call fee ratio</string>
+    <string name="kVcAssetMgrCellTitleSmartForceSettleFeePercent">Force settle fee percent</string>
+    <string name="kVcAssetMgrCellTitleSmartICRValue">ICR</string>
+    <string name="kVcAssetMgrCellTitleSmartMCRValue">MCR</string>
+    <string name="kVcAssetMgrCellTitleSmartMSSRValue">MSSR</string>
+    <string name="kVcAssetMgrCellTitleSmartMSSRValueDisableUpdate">(disable update)</string>
+    <string name="kVcAssetMgrCellTitleSmartMSSRValueUpdateByFeedProducers">update by the feed producers</string>
     <string name="kVcAssetMgrCellTitleFeeMarketFeeRatio">Market fee</string>
     <string name="kVcAssetMgrCellTitleFeeMaxFeeValue">Max market fee</string>
     <string name="kVcAssetMgrCellTitleFeeRefPercent">Reward percent</string>
@@ -523,6 +531,11 @@
     <string name="kVcAssetMgrInputPlaceholderSmartDelayForSettle">Please input delay minutes</string>
     <string name="kVcAssetMgrInputPlaceholderSmartOffsetSettle">Please input offset percent</string>
     <string name="kVcAssetMgrInputPlaceholderSmartMaxSettleValuePerHour">Please input max settle volume</string>
+    <string name="kVcAssetMgrInputPlaceholderSmartInputMarginCallFeeRatio">Please input margin call fee</string>
+    <string name="kVcAssetMgrInputPlaceholderSmartInputForceSettleFeePercent">Please input force settle fee</string>
+    <string name="kVcAssetMgrInputPlaceholderSmartInputICR">Please input ICR value</string>
+    <string name="kVcAssetMgrInputPlaceholderSmartInputMCR">Please input MCR value</string>
+    <string name="kVcAssetMgrInputPlaceholderSmartInputMSSR">Please input MSSR value</string>
     <string name="kVcAssetMgrInputPlaceholderFeeMarketFeeRatio">Please input market fee</string>
     <string name="kVcAssetMgrInputPlaceholderFeeMaxFeeValue">Please input max market fee</string>
     <string name="kVcAssetMgrInputPlaceholderFeeRefPercent">Please input reward percent</string>
@@ -568,8 +581,8 @@
     <string name="kVcAssetOpSettleTipsMustGlobalSettleFirst">This operations can only be performed after the global settlement of the prediction market.</string>
     <string name="kVcAssetOpSettleTipsNoFeedData">The asset has no valid feed price and cannot be settlements.</string>
     <string name="kVcAssetOpSettleDelayHoursN">%s hours</string>
-    <string name="kVcAssetOpSettleUiTips">[Reminder] \n1. The settlements operation forces the assets to be exchanged back to the backing assets. This operation is irreversible, please proceed with caution. \n2. after the settlements is initiated, it will be queued for execution after %s, and the transaction will be executed at the current settlement price. \n3. settlement price = feed price × %s</string>
-    <string name="kVcAssetOpSettleUiTipsAlreadyGs">[Reminder] \n1. The settlements operation forces the assets to be exchanged back to the backing assets. This operation is irreversible, please proceed with caution. \n2. The asset has been global settled, and the settlements operation will be executed immediately. \n3, settlement price = %s</string>
+    <string name="kVcAssetOpSettleUiTips">[Reminder] \n1. The settlements operation forces the assets to be exchanged back to the backing assets. This operation is irreversible, please proceed with caution. \n2. after the settlements is initiated, it will be queued for execution after %s, and the transaction will be executed at the current settlement price. \n3. settlement price = feed price × %s\n4. settlement fee = %s</string>
+    <string name="kVcAssetOpSettleUiTipsAlreadyGs">[Reminder] \n1. The settlements operation forces the assets to be exchanged back to the backing assets. This operation is irreversible, please proceed with caution. \n2. The asset has been global settled, and the settlements operation will be executed immediately. \n3, settlement price = %s\n4. settlement fee = %s</string>
     <string name="kVcAssetOpSettleCellPlaceholderAmount">Please enter the amount</string>
     <string name="kVcAssetOpSettleBtnName">Settle asset</string>
     <string name="kVcAssetOpSettleSubmitTipsPleaseInputAmount">Please enter the amount of assets to be settled.</string>
@@ -623,6 +636,7 @@
     <string name="kVcAssetOpClaimMarketFeesBtnName">Claim</string>
     <string name="kVcAssetOpClaimMarketFeesSubmitTipsPleaseInputAmount">Please enter the amount of assets to claim.</string>
     <string name="kVcAssetOpClaimMarketFeesSubmitTipOK">Claim successfully.</string>
+    <string name="kVcAssetOpClaimCollateralFeesUiTips">[Reminder] \nClaim the fee income from the force-settlement fee or margin call fee.</string>
     <string name="kVcAssetOpGsUiTips">[Reminder] \nGlobal settlements will forcibly close all positions at the settle price. This operation is irreversible, please exercise caution.</string>
     <string name="kVcAssetOpGsCellTitlePrice">Price</string>
     <string name="kVcAssetOpGsCellPlaceholderPrice">Please enter the settle price</string>
@@ -642,6 +656,7 @@
     <string name="kVcOrderBtnCancel">Cancel</string>
     <string name="kVcOrderExpired">Expired on %s</string>
     <string name="kVcOrderTotal">Total</string>
+    <string name="kVcOrderSettlementFees">Settlement fee</string>
     <string name="kVcOrderTipTxCancelFullOK">Order %s has been canceled.</string>
     <string name="kVcOrderTipTxCancelOK">Order %s has been canceled, but refresh failed. Please try again later.</string>
     <!-- 待解冻金额 -->
@@ -1124,6 +1139,7 @@
     <string name="kVcTitleAssetGlobalSettle">Global settlemens assets</string>
     <string name="kVcTitleAssetClaimFeePool">Claim fee pool</string>
     <string name="kVcTitleAssetClaimMarketFees">Claim market fees</string>
+    <string name="kVcTitleAssetClaimFees">Claim fees</string>
     <string name="kVcTitleAssetOpViewDetail">%s details</string>
     <string name="kVcTitleAssetOpUpdateBasic">Update assets</string>
     <string name="kVcTitleAssetOpUpdateBitasset">Update bitassets</string>

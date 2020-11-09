@@ -475,6 +475,7 @@
     <string name="kVcAssetMgrCellActionIssueAsset">发行资产</string>
     <string name="kVcAssetMgrCellActionClaimFeePool">提取手续费池</string>
     <string name="kVcAssetMgrCellActionClaimMarketFees">提取市场手续费</string>
+    <string name="kVcAssetMgrCellActionClaimCollateralFees">提取强清和爆仓手续费</string>
     <string name="kVcAssetMgrCellActionGlobalSettle">全局清算</string>
     <string name="kVcAssetMgrCellInfoCurSupply">当前供应量</string>
     <string name="kVcAssetMgrCellInfoMaxSupply">最大供应量</string>
@@ -502,6 +503,13 @@
     <string name="kVcAssetMgrCellTitleSmartDelayForSettle">强清延迟时间</string>
     <string name="kVcAssetMgrCellTitleSmartOffsetSettle">强清补偿比例</string>
     <string name="kVcAssetMgrCellTitleSmartMaxSettleValuePerHour">每周期最大清算量</string>
+    <string name="kVcAssetMgrCellTitleSmartMarginCallFeeRatio">爆仓手续费</string>
+    <string name="kVcAssetMgrCellTitleSmartForceSettleFeePercent">强清手续费</string>
+    <string name="kVcAssetMgrCellTitleSmartICRValue">初始抵押率</string>
+    <string name="kVcAssetMgrCellTitleSmartMCRValue">爆仓抵押率</string>
+    <string name="kVcAssetMgrCellTitleSmartMSSRValue">爆仓惩罚率</string>
+    <string name="kVcAssetMgrCellTitleSmartMSSRValueDisableUpdate">(不可更新)</string>
+    <string name="kVcAssetMgrCellTitleSmartMSSRValueUpdateByFeedProducers">允许喂价者更新</string>
     <string name="kVcAssetMgrCellTitleFeeMarketFeeRatio">交易手续费比例</string>
     <string name="kVcAssetMgrCellTitleFeeMaxFeeValue">单笔最大手续费</string>
     <string name="kVcAssetMgrCellTitleFeeRefPercent">引荐人分成比例</string>
@@ -523,6 +531,11 @@
     <string name="kVcAssetMgrInputPlaceholderSmartDelayForSettle">请输入强清延迟</string>
     <string name="kVcAssetMgrInputPlaceholderSmartOffsetSettle">请输入强清补偿</string>
     <string name="kVcAssetMgrInputPlaceholderSmartMaxSettleValuePerHour">请输入每小强清百分比</string>
+    <string name="kVcAssetMgrInputPlaceholderSmartInputMarginCallFeeRatio">请输入爆仓手续费</string>
+    <string name="kVcAssetMgrInputPlaceholderSmartInputForceSettleFeePercent">请输入强清手续费</string>
+    <string name="kVcAssetMgrInputPlaceholderSmartInputICR">请输入初始抵押率</string>
+    <string name="kVcAssetMgrInputPlaceholderSmartInputMCR">请输入爆仓抵押率</string>
+    <string name="kVcAssetMgrInputPlaceholderSmartInputMSSR">请输入爆仓惩罚率</string>
     <string name="kVcAssetMgrInputPlaceholderFeeMarketFeeRatio">请输入手续费比例</string>
     <string name="kVcAssetMgrInputPlaceholderFeeMaxFeeValue">请输入单笔最大手续费</string>
     <string name="kVcAssetMgrInputPlaceholderFeeRefPercent">请输入引荐人分成比例</string>
@@ -568,8 +581,8 @@
     <string name="kVcAssetOpSettleTipsMustGlobalSettleFirst">预测市场全局清算完成之后才可以进行清算操作。</string>
     <string name="kVcAssetOpSettleTipsNoFeedData">该资产没有有效的喂价，不可清算。</string>
     <string name="kVcAssetOpSettleDelayHoursN">%s小时</string>
-    <string name="kVcAssetOpSettleUiTips">【温馨提示】\n1、清算操作强制把清算资产换回背书资产。此操作不可撤销，请谨慎操作。\n2、发起清算后将在%s后排队执行，并以当时的清算价格成交。\n3、清算价 = 成交时的喂价 × %s</string>
-    <string name="kVcAssetOpSettleUiTipsAlreadyGs">【温馨提示】\n1、清算操作强制把清算资产换回背书资产。此操作不可撤销，请谨慎操作。\n2、该资产已经触发全局清算，清算操作将立即执行。\n3、清算价 = %s</string>
+    <string name="kVcAssetOpSettleUiTips">【温馨提示】\n1、清算操作强制把清算资产换回背书资产。此操作不可撤销，请谨慎操作。\n2、发起清算后将在%s后排队执行，并以当时的清算价格成交。\n3、清算价 = 成交时的喂价 × %s\n4、清算手续费 = %s</string>
+    <string name="kVcAssetOpSettleUiTipsAlreadyGs">【温馨提示】\n1、清算操作强制把清算资产换回背书资产。此操作不可撤销，请谨慎操作。\n2、该资产已经触发全局清算，清算操作将立即执行。\n3、清算价 = %s\n4、清算手续费 = %s</string>
     <string name="kVcAssetOpSettleCellPlaceholderAmount">请输入清算数量</string>
     <string name="kVcAssetOpSettleBtnName">发起清算</string>
     <string name="kVcAssetOpSettleSubmitTipsPleaseInputAmount">请输入要清算的资产数量。</string>
@@ -623,6 +636,7 @@
     <string name="kVcAssetOpClaimMarketFeesBtnName">提取</string>
     <string name="kVcAssetOpClaimMarketFeesSubmitTipsPleaseInputAmount">请输入要提取的资产数量。</string>
     <string name="kVcAssetOpClaimMarketFeesSubmitTipOK">提取成功。</string>
+    <string name="kVcAssetOpClaimCollateralFeesUiTips">【温馨提示】\n提取用户强清或爆仓贡献的手续费收入。</string>
     <string name="kVcAssetOpGsUiTips">【温馨提示】\n全局清算会以指定价格强制关闭所有债仓，此操作不可逆，请谨慎操作。</string>
     <string name="kVcAssetOpGsCellTitlePrice">价格</string>
     <string name="kVcAssetOpGsCellPlaceholderPrice">请输入全局清算价格</string>
@@ -642,6 +656,7 @@
     <string name="kVcOrderBtnCancel">撤销</string>
     <string name="kVcOrderExpired">%s过期</string>
     <string name="kVcOrderTotal">总金额</string>
+    <string name="kVcOrderSettlementFees">清算手续费</string>
     <string name="kVcOrderTipTxCancelFullOK">订单 #%s 已取消。</string>
     <string name="kVcOrderTipTxCancelOK">订单 #%s 已取消，但刷新界面失败，请稍后再试。</string>
     <!-- 待解冻金额 -->
@@ -1124,6 +1139,7 @@
     <string name="kVcTitleAssetGlobalSettle">全局清算</string>
     <string name="kVcTitleAssetClaimFeePool">提取手续费池</string>
     <string name="kVcTitleAssetClaimMarketFees">提取市场手续费</string>
+    <string name="kVcTitleAssetClaimFees">提取手续费</string>
     <string name="kVcTitleAssetOpViewDetail">%s 详情</string>
     <string name="kVcTitleAssetOpUpdateBasic">更新资产</string>
     <string name="kVcTitleAssetOpUpdateBitasset">更新智能币</string>

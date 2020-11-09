@@ -57,6 +57,8 @@ class ActivityAssetCreateOrEdit : BtsppActivity() {
         _result_promise = args.opt("result_promise") as? Promise
         if (_edit_bitasset != null) {
             _bitasset_options_args = _edit_bitasset!!.getJSONObject("options").shadowClone()
+            _bitasset_options_args!!.put("extensions", _bitasset_options_args!!.optJSONObject("extensions")?.shadowClone()
+                    ?: JSONObject())
         }
         genDefaultAssetArgs()
 
@@ -81,7 +83,7 @@ class ActivityAssetCreateOrEdit : BtsppActivity() {
         layout_market_fee_percent.setOnClickListener {
             onInputDecimalClicked(resources.getString(R.string.kVcAssetMgrCellTitleFeeMarketFeeRatio),
                     resources.getString(R.string.kVcAssetMgrInputPlaceholderFeeMarketFeeRatio), 2,
-                    BigDecimal.valueOf(100),
+                    BigDecimal.valueOf(100), null,
                     Utils.auxGetStringDecimalNumberValue(GRAPHENE_1_PERCENT.toString())) { n_value ->
                 _market_fee_percent = n_value.toInt()
                 _drawValue_percentValue(tv_market_fee_percent, _market_fee_percent)
@@ -90,7 +92,7 @@ class ActivityAssetCreateOrEdit : BtsppActivity() {
         layout_fee_max_value.setOnClickListener {
             onInputDecimalClicked(resources.getString(R.string.kVcAssetMgrCellTitleFeeMaxFeeValue),
                     resources.getString(R.string.kVcAssetMgrInputPlaceholderFeeMaxFeeValue), _precision,
-                    _max_supply_editable,
+                    _max_supply_editable, null,
                     null) { n_value ->
                 _max_market_fee = n_value
                 _drawValue_maxMarketFee()
@@ -100,7 +102,7 @@ class ActivityAssetCreateOrEdit : BtsppActivity() {
             //  REMARK：这个最大值小于 100
             onInputDecimalClicked(resources.getString(R.string.kVcAssetMgrCellTitleFeeRefPercent),
                     resources.getString(R.string.kVcAssetMgrInputPlaceholderFeeRefPercent), 2,
-                    BigDecimal("99.99"),
+                    BigDecimal("99.99"), null,
                     Utils.auxGetStringDecimalNumberValue(GRAPHENE_1_PERCENT.toString())) { n_value ->
                 _reward_percent = n_value.toInt()
                 _drawValue_percentValue(tv_fee_ref_percent, _reward_percent)
@@ -113,28 +115,73 @@ class ActivityAssetCreateOrEdit : BtsppActivity() {
         }
         layout_smart_feed_lifetime.setOnClickListener {
             onSmartArgsClicked(resources.getString(R.string.kVcAssetMgrInputTitleSmartFeedLifeTime),
-                    resources.getString(R.string.kVcAssetMgrInputPlaceholderSmartFeedLifeTime), "feed_lifetime_sec", null,
+                    resources.getString(R.string.kVcAssetMgrInputPlaceholderSmartFeedLifeTime), "feed_lifetime_sec", false, null, null,
                     BigDecimal.valueOf(60), true, 0)
         }
         layout_smart_min_feed_num.setOnClickListener {
             onSmartArgsClicked(resources.getString(R.string.kVcAssetMgrCellTitleSmartMinFeedNum),
-                    resources.getString(R.string.kVcAssetMgrInputPlaceholderSmartMinFeedNum), "minimum_feeds", null,
+                    resources.getString(R.string.kVcAssetMgrInputPlaceholderSmartMinFeedNum), "minimum_feeds", false, null, null,
                     null, true, 0)
         }
         layout_smart_delay_for_settle.setOnClickListener {
             onSmartArgsClicked(resources.getString(R.string.kVcAssetMgrInputTitleSmartDelayForSettle),
-                    resources.getString(R.string.kVcAssetMgrInputPlaceholderSmartDelayForSettle), "force_settlement_delay_sec", null,
+                    resources.getString(R.string.kVcAssetMgrInputPlaceholderSmartDelayForSettle), "force_settlement_delay_sec", false, null, null,
                     BigDecimal.valueOf(60), false, 0)
         }
         layout_smart_offset_settle.setOnClickListener {
             onSmartArgsClicked(resources.getString(R.string.kVcAssetMgrCellTitleSmartOffsetSettle),
-                    resources.getString(R.string.kVcAssetMgrInputPlaceholderSmartOffsetSettle), "force_settlement_offset_percent", BigDecimal.valueOf(100),
+                    resources.getString(R.string.kVcAssetMgrInputPlaceholderSmartOffsetSettle), "force_settlement_offset_percent", false, BigDecimal.valueOf(100), null,
                     Utils.auxGetStringDecimalNumberValue(GRAPHENE_1_PERCENT.toString()), false, 2)
         }
         layout_smart_max_settle_volume.setOnClickListener {
             onSmartArgsClicked(resources.getString(R.string.kVcAssetMgrCellTitleSmartMaxSettleValuePerHour),
-                    resources.getString(R.string.kVcAssetMgrInputPlaceholderSmartMaxSettleValuePerHour), "maximum_force_settlement_volume", BigDecimal.valueOf(100),
+                    resources.getString(R.string.kVcAssetMgrInputPlaceholderSmartMaxSettleValuePerHour), "maximum_force_settlement_volume", false, BigDecimal.valueOf(100), null,
                     Utils.auxGetStringDecimalNumberValue(GRAPHENE_1_PERCENT.toString()), true, 2)
+        }
+        layout_smart_margin_call_fee_ratio.setOnClickListener {
+            //  单位：千分之一
+            onSmartArgsClicked(resources.getString(R.string.kVcAssetMgrCellTitleSmartMarginCallFeeRatio),
+                    resources.getString(R.string.kVcAssetMgrInputPlaceholderSmartInputMarginCallFeeRatio), "margin_call_fee_ratio", true, BigDecimal.valueOf(100), null,
+                    BigDecimal.TEN, true, 1)
+        }
+        layout_smart_force_settle_fee_percent.setOnClickListener {
+            //  单位：万分之一
+            onSmartArgsClicked(resources.getString(R.string.kVcAssetMgrCellTitleSmartForceSettleFeePercent),
+                    resources.getString(R.string.kVcAssetMgrInputPlaceholderSmartInputForceSettleFeePercent), "force_settle_fee_percent", true, BigDecimal.valueOf(100), null,
+                    Utils.auxGetStringDecimalNumberValue(GRAPHENE_1_PERCENT.toString()), true, 2)
+        }
+        if (can_owner_update_icr()) {
+            layout_smart_icr_value.setOnClickListener {
+                //  单位：千分之一
+                onSmartArgsClicked(resources.getString(R.string.kVcAssetMgrCellTitleSmartICRValue),
+                        resources.getString(R.string.kVcAssetMgrInputPlaceholderSmartInputICR), "initial_collateral_ratio",
+                        true,
+                        BigDecimal("3200"), BigDecimal("100.1"),
+                        BigDecimal.TEN,
+                        true, 1)
+            }
+        }
+        if (can_owner_update_mcr()) {
+            layout_smart_mcr_value.setOnClickListener {
+                //  单位：千分之一
+                onSmartArgsClicked(resources.getString(R.string.kVcAssetMgrCellTitleSmartMCRValue),
+                        resources.getString(R.string.kVcAssetMgrInputPlaceholderSmartInputMCR), "maintenance_collateral_ratio",
+                        true,
+                        BigDecimal("3200"), BigDecimal("100.1"),
+                        BigDecimal.TEN,
+                        true, 1)
+            }
+        }
+        if (can_owner_update_mssr()) {
+            layout_smart_mssr_value.setOnClickListener {
+                //  单位：千分之一
+                onSmartArgsClicked(resources.getString(R.string.kVcAssetMgrCellTitleSmartMSSRValue),
+                        resources.getString(R.string.kVcAssetMgrInputPlaceholderSmartInputMSSR), "maximum_short_squeeze_ratio",
+                        true,
+                        BigDecimal("3200"), BigDecimal("100.1"),
+                        BigDecimal.TEN,
+                        true, 1)
+            }
         }
 
         //  绑定事件 - 权限信息
@@ -167,6 +214,8 @@ class ActivityAssetCreateOrEdit : BtsppActivity() {
                 put("force_settlement_delay_sec", 1440 * 60)
                 put("force_settlement_offset_percent", 5 * GRAPHENE_1_PERCENT)
                 put("maximum_force_settlement_volume", 5 * GRAPHENE_1_PERCENT)
+                //  REMARK：ICR MCR MSSR MCFR FSFP 几个参数默认为空。
+                put("extensions", JSONObject())
             }
         }
     }
@@ -464,24 +513,44 @@ class ActivityAssetCreateOrEdit : BtsppActivity() {
             layout_smart_delay_for_settle.visibility = View.VISIBLE
             layout_smart_offset_settle.visibility = View.VISIBLE
             layout_smart_max_settle_volume.visibility = View.VISIBLE
+            layout_smart_margin_call_fee_ratio.visibility = View.VISIBLE
+            layout_smart_force_settle_fee_percent.visibility = View.VISIBLE
+            layout_smart_icr_value.visibility = View.VISIBLE
+            layout_smart_mcr_value.visibility = View.VISIBLE
+            layout_smart_mssr_value.visibility = View.VISIBLE
 
             layout_smart_feed_lifetime_line.visibility = View.VISIBLE
             layout_smart_min_feed_num_line.visibility = View.VISIBLE
             layout_smart_delay_for_settle_line.visibility = View.VISIBLE
             layout_smart_offset_settle_line.visibility = View.VISIBLE
             layout_smart_max_settle_volume_line.visibility = View.VISIBLE
+            layout_smart_margin_call_fee_ratio_line.visibility = View.VISIBLE
+            layout_smart_force_settle_fee_percent_line.visibility = View.VISIBLE
+            layout_smart_icr_value_line.visibility = View.VISIBLE
+            layout_smart_mcr_value_line.visibility = View.VISIBLE
+            layout_smart_mssr_value_line.visibility = View.VISIBLE
         } else {
             layout_smart_feed_lifetime.visibility = View.GONE
             layout_smart_min_feed_num.visibility = View.GONE
             layout_smart_delay_for_settle.visibility = View.GONE
             layout_smart_offset_settle.visibility = View.GONE
             layout_smart_max_settle_volume.visibility = View.GONE
+            layout_smart_margin_call_fee_ratio.visibility = View.GONE
+            layout_smart_force_settle_fee_percent.visibility = View.GONE
+            layout_smart_icr_value.visibility = View.GONE
+            layout_smart_mcr_value.visibility = View.GONE
+            layout_smart_mssr_value.visibility = View.GONE
 
             layout_smart_feed_lifetime_line.visibility = View.GONE
             layout_smart_min_feed_num_line.visibility = View.GONE
             layout_smart_delay_for_settle_line.visibility = View.GONE
             layout_smart_offset_settle_line.visibility = View.GONE
             layout_smart_max_settle_volume_line.visibility = View.GONE
+            layout_smart_margin_call_fee_ratio_line.visibility = View.GONE
+            layout_smart_force_settle_fee_percent_line.visibility = View.GONE
+            layout_smart_icr_value_line.visibility = View.GONE
+            layout_smart_mcr_value_line.visibility = View.GONE
+            layout_smart_mssr_value_line.visibility = View.GONE
         }
     }
 
@@ -510,14 +579,16 @@ class ActivityAssetCreateOrEdit : BtsppActivity() {
     /**
      *  描绘值 - 智能币相关参数
      */
-    private fun _drawValue_smartValues(label: TextView, key: String, have_value_callback: (lb: TextView, value: Any) -> Unit) {
+    private fun _drawValue_smartValues(label: TextView, key: String, is_extensions: Boolean, no_value_callback: ((lb: TextView) -> Unit)? = null, have_value_callback: (lb: TextView, value: Any) -> Unit) {
         if (_bitasset_options_args != null) {
-            if (_bitasset_options_args!!.has(key)) {
+            val target = if (is_extensions) _bitasset_options_args!!.optJSONObject("extensions") else _bitasset_options_args
+            if (target != null && target.has(key)) {
                 label.setTextColor(resources.getColor(R.color.theme01_textColorMain))
-                have_value_callback(label, _bitasset_options_args!!.get(key))
+                have_value_callback(label, target.get(key))
             } else {
                 label.text = resources.getString(R.string.kVcAssetMgrCellValueNotSet)
                 label.setTextColor(resources.getColor(R.color.theme01_textColorGray))
+                no_value_callback?.invoke(label)
             }
         }
     }
@@ -525,10 +596,50 @@ class ActivityAssetCreateOrEdit : BtsppActivity() {
     /**
      *  描绘值 - 百分比格式
      */
-    private fun _drawValue_percentValue(label: TextView, value: Any) {
-        val n_100 = BigDecimal(GRAPHENE_1_PERCENT.toString())
-        val n_percent = Utils.auxGetStringDecimalNumberValue(value.toString()).divide(n_100, 2, BigDecimal.ROUND_UP)
+    private fun _drawValue_percentValue(label: TextView, value: Any, is_thousandth: Boolean = false) {
+        val n_percent = if (is_thousandth) {
+            //  千分之一
+            Utils.auxGetStringDecimalNumberValue(value.toString()).divide(BigDecimal.TEN, 1, BigDecimal.ROUND_UP)
+        } else {
+            //  万分之一
+            Utils.auxGetStringDecimalNumberValue(value.toString()).divide(BigDecimal(GRAPHENE_1_PERCENT.toString()), 2, BigDecimal.ROUND_UP)
+        }
         label.text = "${n_percent.toPlainString()}%"
+    }
+
+    /**
+     *  描绘值 - ICR MCR MSSR
+     */
+    private fun _drawValue_xxxr(label: TextView, arrow_image: ImageView, key: String, can_update: Boolean) {
+        arrow_image.visibility = View.VISIBLE
+        val no_value_callback = { lb: TextView ->
+            if (!can_update) {
+                arrow_image.visibility = View.GONE
+                //  无值：则有喂价这提供。
+                lb.text = resources.getString(R.string.kVcAssetMgrCellTitleSmartMSSRValueUpdateByFeedProducers)
+            }
+        }
+        _drawValue_smartValues(label, key, is_extensions = true, no_value_callback = no_value_callback) { lb, value ->
+            _drawValue_percentValue(lb, value, is_thousandth = true)
+            if (!can_update) {
+                arrow_image.visibility = View.GONE
+                //  有值：则永久禁止修改。
+                lb.setTextColor(resources.getColor(R.color.theme01_textColorNormal))
+                lb.text = String.format("%s %s", lb.text.toString(), resources.getString(R.string.kVcAssetMgrCellTitleSmartMSSRValueDisableUpdate))
+            }
+        }
+    }
+
+    private fun can_owner_update_mcr(): Boolean {
+        return _issuer_permissions.and(EBitsharesAssetFlags.ebat_disable_mcr_update.value) == 0
+    }
+
+    private fun can_owner_update_icr(): Boolean {
+        return _issuer_permissions.and(EBitsharesAssetFlags.ebat_disable_icr_update.value) == 0
+    }
+
+    private fun can_owner_update_mssr(): Boolean {
+        return _issuer_permissions.and(EBitsharesAssetFlags.ebat_disable_mssr_update.value) == 0
     }
 
     /**
@@ -536,17 +647,22 @@ class ActivityAssetCreateOrEdit : BtsppActivity() {
      */
     private fun _drawValue_allSmartArgs() {
         _drawValue_smartBackingAsset()
-        _drawValue_smartValues(tv_smart_feed_lifetime, "feed_lifetime_sec") { lb, value ->
+        _drawValue_smartValues(tv_smart_feed_lifetime, "feed_lifetime_sec", is_extensions = false) { lb, value ->
             lb.text = String.format(resources.getString(R.string.kVcAssetMgrCellValueSmartMinN), value.toString().toInt() / 60)
         }
-        _drawValue_smartValues(tv_smart_min_feed_num, "minimum_feeds") { lb, value ->
+        _drawValue_smartValues(tv_smart_min_feed_num, "minimum_feeds", is_extensions = false) { lb, value ->
             lb.text = value.toString()
         }
-        _drawValue_smartValues(tv_smart_delay_for_settle, "force_settlement_delay_sec") { lb, value ->
+        _drawValue_smartValues(tv_smart_delay_for_settle, "force_settlement_delay_sec", is_extensions = false) { lb, value ->
             lb.text = String.format(resources.getString(R.string.kVcAssetMgrCellValueSmartMinN), value.toString().toInt() / 60)
         }
-        _drawValue_smartValues(tv_smart_offset_settle, "force_settlement_offset_percent") { lb, value -> _drawValue_percentValue(lb, value) }
-        _drawValue_smartValues(tv_smart_max_settle_volume, "maximum_force_settlement_volume") { lb, value -> _drawValue_percentValue(lb, value) }
+        _drawValue_smartValues(tv_smart_offset_settle, "force_settlement_offset_percent", is_extensions = false) { lb, value -> _drawValue_percentValue(lb, value) }
+        _drawValue_smartValues(tv_smart_max_settle_volume, "maximum_force_settlement_volume", is_extensions = false) { lb, value -> _drawValue_percentValue(lb, value) }
+        _drawValue_smartValues(tv_smart_margin_call_fee_ratio, "margin_call_fee_ratio", is_extensions = true) { lb, value -> _drawValue_percentValue(lb, value, is_thousandth = true) }
+        _drawValue_smartValues(tv_smart_force_settle_fee_percent, "force_settle_fee_percent", is_extensions = true) { lb, value -> _drawValue_percentValue(lb, value) }
+        _drawValue_xxxr(tv_smart_icr_value, img_arrow_smart_icr_value, "initial_collateral_ratio", can_update = can_owner_update_icr())
+        _drawValue_xxxr(tv_smart_mcr_value, img_arrow_smart_mcr_value, "maintenance_collateral_ratio", can_update = can_owner_update_mcr())
+        _drawValue_xxxr(tv_smart_mssr_value, img_arrow_smart_mssr_value, "maximum_short_squeeze_ratio", can_update = can_owner_update_mssr())
     }
 
     /**
@@ -666,7 +782,7 @@ class ActivityAssetCreateOrEdit : BtsppActivity() {
      */
     private fun onAssetMaxSupplyClicked() {
         onInputDecimalClicked(resources.getString(R.string.kVcAssetMgrCellTitleMaxSupply),
-                resources.getString(R.string.kVcAssetMgrCellPlaceholderMaxSupply), _precision, _max_supply_editable, null) { n_value ->
+                resources.getString(R.string.kVcAssetMgrCellPlaceholderMaxSupply), _precision, _max_supply_editable, null, null) { n_value ->
             if (n_value.compareTo(BigDecimal.ZERO) == 0) {
                 _max_supply = null
             } else {
@@ -788,12 +904,16 @@ class ActivityAssetCreateOrEdit : BtsppActivity() {
     /**
      *  事件 - 背书资产相关参数点击
      */
-    private fun onSmartArgsClicked(args_title: String, args_placeholder: String, args_key: String, n_max_value: BigDecimal?, n_scale: BigDecimal?, clear_when_zero: Boolean, precision: Int) {
-        onInputDecimalClicked(args_title, args_placeholder, precision, n_max_value, n_scale) { n_value ->
+    private fun onSmartArgsClicked(args_title: String, args_placeholder: String, args_key: String, is_extensions: Boolean, n_max_value: BigDecimal?, n_min_value: BigDecimal?, n_scale: BigDecimal?, clear_when_zero: Boolean, precision: Int) {
+        onInputDecimalClicked(args_title, args_placeholder, precision, n_max_value, n_min_value, n_scale) { n_value ->
+            var target = _bitasset_options_args!!
+            if (is_extensions) {
+                target = target.getJSONObject("extensions")
+            }
             if (clear_when_zero && n_value.compareTo(BigDecimal.ZERO) == 0) {
-                _bitasset_options_args!!.remove(args_key)
+                target.remove(args_key)
             } else {
-                _bitasset_options_args!!.put(args_key, n_value.toInt())
+                target.put(args_key, n_value.toInt())
             }
             //  刷新智能币参数显示
             _drawValue_allSmartArgs()
@@ -803,7 +923,7 @@ class ActivityAssetCreateOrEdit : BtsppActivity() {
     /**
      *  事件 - 部分数字输入框点击
      */
-    private fun onInputDecimalClicked(args_title: String, args_placeholder: String, precision: Int, n_max_value: BigDecimal?, n_scale: BigDecimal?, callback: (n_value: BigDecimal) -> Unit) {
+    private fun onInputDecimalClicked(args_title: String, args_placeholder: String, precision: Int, n_max_value: BigDecimal?, n_min_value: BigDecimal?, n_scale: BigDecimal?, callback: (n_value: BigDecimal) -> Unit) {
         UtilsAlert.showInputBox(this, title = args_title, placeholder = args_placeholder, is_password = false, iDecimalPrecision = precision).then {
             val value = it as? String
             if (value != null) {
@@ -811,6 +931,10 @@ class ActivityAssetCreateOrEdit : BtsppActivity() {
                 //  最大值
                 if (n_max_value != null && n_value > n_max_value) {
                     n_value = n_max_value
+                }
+                //  最小值（允许输入0。)
+                if (n_value > BigDecimal.ZERO && n_min_value != null && n_value < n_min_value) {
+                    n_value = n_min_value
                 }
                 //  缩放
                 if (n_scale != null) {

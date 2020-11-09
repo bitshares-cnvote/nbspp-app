@@ -1060,7 +1060,33 @@ class T_bitasset_options : T_Base() {
             add_field("force_settlement_offset_percent", T_uint16)
             add_field("maximum_force_settlement_volume", T_uint16)
             add_field("short_backing_asset", Tm_protocol_id_type(EBitsharesObjectType.ebot_asset))
-            add_field("extensions", Tm_set(T_future_extensions))
+            add_field("extensions", Tm_extension(JSONArray().apply {
+                //  BSIP-77
+                put(JSONObject().apply {
+                    put("name", "initial_collateral_ratio")
+                    put("type", T_uint16)
+                })
+                //  BSIP-75
+                put(JSONObject().apply {
+                    put("name", "maintenance_collateral_ratio")
+                    put("type", T_uint16)
+                })
+                //  BSIP-75
+                put(JSONObject().apply {
+                    put("name", "maximum_short_squeeze_ratio")
+                    put("type", T_uint16)
+                })
+                //  BSIP 74
+                put(JSONObject().apply {
+                    put("name", "margin_call_fee_ratio")
+                    put("type", T_uint16)
+                })
+                //  BSIP-87
+                put(JSONObject().apply {
+                    put("name", "force_settle_fee_percent")
+                    put("type", T_uint16)
+                })
+            }))
         }
     }
 }
@@ -1194,7 +1220,12 @@ class T_asset_claim_fees : T_Base() {
             add_field("fee", T_asset)
             add_field("issuer", Tm_protocol_id_type(EBitsharesObjectType.ebot_account))
             add_field("amount_to_claim", T_asset)                           //  amount_to_claim.asset_id->issuer must == issuer
-            add_field("extensions", Tm_set(T_future_extensions))
+            add_field("extensions", Tm_extension(JSONArray().apply {
+                put(JSONObject().apply {
+                    put("name", "claim_from_asset_id")
+                    put("type", Tm_protocol_id_type(EBitsharesObjectType.ebot_asset))
+                })
+            }))
         }
     }
 }
