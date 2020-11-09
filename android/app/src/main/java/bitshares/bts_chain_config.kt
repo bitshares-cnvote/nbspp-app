@@ -34,6 +34,7 @@ enum class EBitsharesAssetOpKind(val value: Int) {
     ebaok_publish_feed(9),              //  发布喂价（仅Smart资产）
     ebaok_update_feed_producers(10),    //  更新喂价人员（仅Smart资产）
     ebaok_update_bitasset(11),          //  编辑智能币相关信息（仅Smart资产）
+    ebaok_claim_collateral_fees(12),    //  提取清算手续费和爆仓手续费（仅Smart资产）
 
     //  资产持有者的操作
     ebaok_transfer(100),                //  转账（所有资产）

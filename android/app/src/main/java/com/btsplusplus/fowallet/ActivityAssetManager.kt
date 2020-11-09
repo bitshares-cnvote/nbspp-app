@@ -148,6 +148,13 @@ class ActivityAssetManager : BtsppActivity() {
                 put("type", EBitsharesAssetOpKind.ebaok_claim_fees)
                 put("title", self.resources.getString(R.string.kVcAssetMgrCellActionClaimMarketFees))
             })
+            //  提取强清和爆仓手续费（仅智能币）
+            if (bitasset_data != null) {
+                put(JSONObject().apply {
+                    put("type", EBitsharesAssetOpKind.ebaok_claim_collateral_fees)
+                    put("title", self.resources.getString(R.string.kVcAssetMgrCellActionClaimCollateralFees))
+                })
+            }
         }
 
         ViewSelector.show(this, "", list, key = "title") { index: Int, _: String ->
@@ -293,6 +300,34 @@ class ActivityAssetManager : BtsppActivity() {
                         }
                     }
                 }
+                EBitsharesAssetOpKind.ebaok_claim_collateral_fees -> {
+                    VcUtils.guardGrapheneObjectDependence(this, JSONArray().apply {
+                        put(asset.getString("dynamic_asset_data_id"))
+                        put(bitasset_data!!.getJSONObject("options").getString("short_backing_asset"))
+                    }) {
+                        val result_promise = Promise()
+                        goTo(ActivityAssetOpCommon::class.java, true, args = JSONObject().apply {
+                            put("current_asset", asset)
+                            put("full_account_data", null)
+                            put("op_extra_args", JSONObject().apply {
+                                put("kOpType", EBitsharesAssetOpKind.ebaok_claim_collateral_fees)
+                                put("kMsgTips", self.resources.getString(R.string.kVcAssetOpClaimCollateralFeesUiTips))
+                                put("kMsgAmountPlaceholder", self.resources.getString(R.string.kVcAssetOpClaimMarketFeesCellPlaceholderAmount))
+                                put("kMsgBtnName", self.resources.getString(R.string.kVcAssetOpClaimMarketFeesBtnName))
+                                put("kMsgSubmitInputValidAmount", self.resources.getString(R.string.kVcAssetOpClaimMarketFeesSubmitTipsPleaseInputAmount))
+                                put("kMsgSubmitOK", self.resources.getString(R.string.kVcAssetOpClaimMarketFeesSubmitTipOK))
+                            })
+                            put("result_promise", result_promise)
+                        })
+                        result_promise.then { dirty ->
+                            //  刷新UI
+                            if (dirty != null && dirty as Boolean) {
+                                queryMyIssuedAssets()
+                            }
+                        }
+                    }
+                }
+
             }
         }
 

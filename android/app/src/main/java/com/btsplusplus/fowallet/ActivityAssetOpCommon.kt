@@ -85,6 +85,14 @@ class ActivityAssetOpCommon : BtsppActivity() {
                 val dynamic_asset_data = chainMgr.getChainObjectByID(_curr_selected_asset.getString("dynamic_asset_data_id"))
                 _nCurrBalance = bigDecimalfromAmount(dynamic_asset_data.getString("accumulated_fees"), _curr_balance_asset.getInt("precision"))
             }
+            EBitsharesAssetOpKind.ebaok_claim_collateral_fees -> {
+                //  REMARK：计算可领取的强清和爆仓手续费余额。
+                val chainMgr = ChainObjectManager.sharedChainObjectManager()
+                val bitasset_data = chainMgr.getChainObjectByID(_curr_selected_asset.getString("bitasset_data_id"))
+                _curr_balance_asset = chainMgr.getChainObjectByID(bitasset_data.getJSONObject("options").getString("short_backing_asset"))
+                val dynamic_asset_data = chainMgr.getChainObjectByID(_curr_selected_asset.getString("dynamic_asset_data_id"))
+                _nCurrBalance = bigDecimalfromAmount(dynamic_asset_data.getString("accumulated_collateral_fees"), _curr_balance_asset.getInt("precision"))
+            }
             else -> {
                 //  其他操作，从账号获取余额。
                 assert(_full_account_data != null)
@@ -101,6 +109,7 @@ class ActivityAssetOpCommon : BtsppActivity() {
             EBitsharesAssetOpKind.ebaok_reserve -> resources.getString(R.string.kVcTitleAssetOpReserve)
             EBitsharesAssetOpKind.ebaok_claim_pool -> resources.getString(R.string.kVcTitleAssetClaimFeePool)
             EBitsharesAssetOpKind.ebaok_claim_fees -> resources.getString(R.string.kVcTitleAssetClaimMarketFees)
+            EBitsharesAssetOpKind.ebaok_claim_collateral_fees -> resources.getString(R.string.kVcTitleAssetClaimFees)
             else -> ""
         }
     }
@@ -119,8 +128,12 @@ class ActivityAssetOpCommon : BtsppActivity() {
         //  1、提取手续费池 - 不可切换，需要查询手续费池。暂不支持 TODO:5.0
         //  2、清算操作 - 不可切换，需要刷新各种标记，是否黑天鹅等。暂不支持 TODO:5.0
         //  3、提取市场手续费 - 不可切换，需要查询。暂不支持
+        //  4、提取强清和爆仓手续费 - 不可切换。
         return when (_op_type) {
-            EBitsharesAssetOpKind.ebaok_claim_pool, EBitsharesAssetOpKind.ebaok_claim_fees, EBitsharesAssetOpKind.ebaok_settle -> false
+            EBitsharesAssetOpKind.ebaok_claim_pool,
+            EBitsharesAssetOpKind.ebaok_claim_fees,
+            EBitsharesAssetOpKind.ebaok_claim_collateral_fees,
+            EBitsharesAssetOpKind.ebaok_settle -> false
             else -> true
         }
     }
@@ -187,6 +200,8 @@ class ActivityAssetOpCommon : BtsppActivity() {
             EBitsharesAssetOpKind.ebaok_claim_pool -> return
             //  REMARK：提取市场手续费不可切换资产
             EBitsharesAssetOpKind.ebaok_claim_fees -> return
+            //  REMARK：提取强清和爆仓手续费不可切换资产
+            EBitsharesAssetOpKind.ebaok_claim_collateral_fees -> return
             else -> ENetworkSearchType.enstAssetAll
         }
 
@@ -269,7 +284,14 @@ class ActivityAssetOpCommon : BtsppActivity() {
             EBitsharesAssetOpKind.ebaok_claim_fees -> {
                 guardWalletUnlocked(false) { unlocked ->
                     if (unlocked) {
-                        _execAssetClaimFeesCore(n_amount)
+                        _execAssetClaimFeesCore(n_amount, claim_collateral_fees = false)
+                    }
+                }
+            }
+            EBitsharesAssetOpKind.ebaok_claim_collateral_fees -> {
+                guardWalletUnlocked(false) { unlocked ->
+                    if (unlocked) {
+                        _execAssetClaimFeesCore(n_amount, claim_collateral_fees = true)
                     }
                 }
             }
@@ -418,11 +440,17 @@ class ActivityAssetOpCommon : BtsppActivity() {
     /**
      *  (private) 执行提取市场手续费操作
      */
-    private fun _execAssetClaimFeesCore(n_amount: BigDecimal) {
+    private fun _execAssetClaimFeesCore(n_amount: BigDecimal, claim_collateral_fees: Boolean) {
         val chainMgr = ChainObjectManager.sharedChainObjectManager()
         val op_account = WalletManager.sharedWalletManager().getWalletAccountInfo()!!.getJSONObject("account")
 
         val n_amount_pow = n_amount.multiplyByPowerOf10(_curr_balance_asset.getInt("precision"))
+
+        //  提取强清和爆仓手续费额外参数
+        val additional_options_type = JSONObject()
+        if (claim_collateral_fees) {
+            additional_options_type.put("claim_from_asset_id", _curr_selected_asset.getString("id"))
+        }
 
         val op = JSONObject().apply {
             put("fee", JSONObject().apply {
@@ -434,6 +462,7 @@ class ActivityAssetOpCommon : BtsppActivity() {
                 put("amount", n_amount_pow.toPlainString())
                 put("asset_id", _curr_balance_asset.getString("id"))
             })
+            put("extensions", additional_options_type)
         }
 
         //  确保有权限发起普通交易，否则作为提案交易处理。
