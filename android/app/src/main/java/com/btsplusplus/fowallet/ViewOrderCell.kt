@@ -8,7 +8,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import bitshares.Utils
 import bitshares.xmlstring
+import com.fowallet.walletcore.bts.ChainObjectManager
 import org.json.JSONObject
+import java.math.BigDecimal
 
 class ViewOrderCell : LinearLayout {
 
@@ -140,6 +142,39 @@ class ViewOrderCell : LinearLayout {
         tv9.gravity = Gravity.CENTER_VERTICAL or Gravity.RIGHT
         tv9.layoutParams = createLayout(Gravity.CENTER_VERTICAL or Gravity.RIGHT)
 
+        //  清算单：添加清算账号 + 手续费显示
+        var line04: LinearLayout? = null
+        if (_isSettlementsOrder) {
+            line04 = LinearLayout(ctx).apply {
+                orientation = LinearLayout.HORIZONTAL
+                layoutParams = layout_params
+
+                //  清算账号
+                val tv_settlement_account = TextView(ctx).apply {
+                    text = ChainObjectManager.sharedChainObjectManager().getChainObjectByID(data.getString("seller")).getString("name")
+                    setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13.0f)
+                    setTextColor(resources.getColor(R.color.theme01_textColorMain))
+                    gravity = Gravity.CENTER_VERTICAL or Gravity.LEFT
+                    layoutParams = createLayout(Gravity.CENTER_VERTICAL or Gravity.LEFT)
+                }
+                addView(tv_settlement_account)
+
+                //  手续费
+                val n_settlement_fee = data.opt("n_settlement_fee") as? BigDecimal
+                if (n_settlement_fee != null && n_settlement_fee > BigDecimal.ZERO) {
+                    val fee_symbol = if (data.getBoolean("issell")) base_symbol else quote_symbol
+                    val tv_settlement_fee = TextView(ctx).apply {
+                        text = String.format("%s %s %s", resources.getString(R.string.kVcOrderSettlementFees), n_settlement_fee.toPlainString(), fee_symbol)
+                        setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12.0f)
+                        setTextColor(resources.getColor(R.color.theme01_textColorGray))
+                        gravity = Gravity.CENTER_VERTICAL or Gravity.RIGHT
+                        layoutParams = createLayout(Gravity.CENTER_VERTICAL or Gravity.RIGHT)
+                    }
+                    addView(tv_settlement_fee)
+                }
+            }
+        }
+
         // 线
         val lv_line = View(ctx)
         val layout_tv9 = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.toDp(1.0f, _ctx.resources))
@@ -162,6 +197,7 @@ class ViewOrderCell : LinearLayout {
         ly_wrap.addView(ly1)
         ly_wrap.addView(ly2)
         ly_wrap.addView(ly3)
+        line04?.let { ly_wrap.addView(it) }
         ly_wrap.addView(lv_line)
 
         this.addView(ly_wrap)

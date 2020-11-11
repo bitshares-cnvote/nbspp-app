@@ -151,6 +151,9 @@ class FragmentOrderHistory : BtsppFragment() {
                 //  计算清算价格 = 喂价 * （1 + 补偿系数）
                 var n_settle_price = n_force_settlement_offset_percent_add1.multiply(n_feed_price)
 
+                //  获取强清手续费
+                val n_force_settle_fee_percent = ModelUtils.getBitAssetDataExtargs(bitasset_data, "force_settle_fee_percent", 4)
+
                 //  自动计算base资产
                 val settle_asset_symbol = settle_asset.getString("symbol")
                 val sba_asset_symbol = sba_asset.getString("symbol")
@@ -167,6 +170,7 @@ class FragmentOrderHistory : BtsppFragment() {
                 val total_str: String
                 val base_sym: String
                 val quote_sym: String
+                val n_settlement_fee: BigDecimal
 
                 val n_balance = bigDecimalfromAmount(settle_order.getJSONObject("balance").getString("amount"), settle_asset_precision)
                 if (baseAssetSymbol == settle_asset_symbol) {
@@ -177,6 +181,7 @@ class FragmentOrderHistory : BtsppFragment() {
 
                     val n_total = n_balance
                     val n_amount = ModelUtils.calculateAverage(n_total, n_settle_price, sba_asset_precision)
+                    n_settlement_fee = n_amount.multiply(n_force_settle_fee_percent).setScale(sba_asset_precision, BigDecimal.ROUND_DOWN)
 
                     amount_str = n_amount.toPriceAmountString()
                     total_str = n_total.toPriceAmountString()
@@ -192,6 +197,7 @@ class FragmentOrderHistory : BtsppFragment() {
 
                     val n_amount = n_balance
                     val n_total = ModelUtils.calTotal(n_settle_price, n_amount, sba_asset_precision)
+                    n_settlement_fee = n_total.multiply(n_force_settle_fee_percent).setScale(sba_asset_precision, BigDecimal.ROUND_DOWN)
 
                     amount_str = n_amount.toPriceAmountString()
                     total_str = n_total.toPriceAmountString()
@@ -208,6 +214,7 @@ class FragmentOrderHistory : BtsppFragment() {
                 _dataArray.add(JSONObject().apply {
                     put("time", settle_order.getString("settlement_date"))
                     put("issettle", true)
+                    put("n_settlement_fee", n_settlement_fee)
                     put("issell", issell)
                     put("price", price_str)
                     put("amount", amount_str)
