@@ -550,6 +550,9 @@ class FragmentAssets : BtsppFragment() {
                     }
                 }
 
+                //  获取强清手续费
+                val str_force_settle_fee_percent = String.format("%s%%", ModelUtils.getBitAssetDataExtargs(newBitassetData, "force_settle_fee_percent", 2))
+                
                 val settleMsgTips = if (hasAlreadyGlobalSettled) {
                     val n_price = OrgUtils.calcPriceFromPriceObject(newBitassetData.getJSONObject("settlement_price"),
                             newAsset.getString("id"),
@@ -557,7 +560,7 @@ class FragmentAssets : BtsppFragment() {
                     val global_settle_price = String.format("%s %s/%s", OrgUtils.formatFloatValue(n_price!!.toDouble(), backing_asset.getInt("precision"), has_comma = false),
                             backing_asset.getString("symbol"), newAsset.getString("symbol"))
 
-                    String.format(resources.getString(R.string.kVcAssetOpSettleUiTipsAlreadyGs), global_settle_price)
+                    String.format(resources.getString(R.string.kVcAssetOpSettleUiTipsAlreadyGs), global_settle_price, str_force_settle_fee_percent)
                 } else {
                     val options = newBitassetData.getJSONObject("options")
                     val force_settlement_delay_sec = options.getInt("force_settlement_delay_sec")
@@ -566,7 +569,7 @@ class FragmentAssets : BtsppFragment() {
                     val n_force_settlement_offset_percent = bigDecimalfromAmount(options.getString("force_settlement_offset_percent"), 4)
                     val n_final = n_force_settlement_offset_percent.add(BigDecimal.ONE)
 
-                    String.format(resources.getString(R.string.kVcAssetOpSettleUiTips), s_delay_hour, n_final.toPriceAmountString())
+                    String.format(resources.getString(R.string.kVcAssetOpSettleUiTips), s_delay_hour, n_final.toPriceAmountString(), str_force_settle_fee_percent)
                 }
                 //  转到清算界面
                 val result_promise = Promise()

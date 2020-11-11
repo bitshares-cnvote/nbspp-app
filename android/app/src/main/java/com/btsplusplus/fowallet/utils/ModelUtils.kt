@@ -89,6 +89,21 @@ class ModelUtils {
         }
 
         /**
+         *  （public) 获取智能币扩展参数
+         */
+        fun getBitAssetDataExtargs(bitasset_data: JSONObject, arg_name: String, precision: Int): BigDecimal {
+            var result = "0"
+            val ext = bitasset_data.getJSONObject("options").optJSONObject("extensions")
+            if (ext != null) {
+                val value = ext.optString(arg_name, null)
+                if (value != null) {
+                    result = value
+                }
+            }
+            return bigDecimalfromAmount(result, precision)
+        }
+
+        /**
          *  (public) 判断是否价格无效
          */
         fun isNullPrice(price: JSONObject): Boolean {
