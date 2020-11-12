@@ -324,6 +324,43 @@ class Utils {
         }
 
         /**
+         *  (private) 计算已经解冻的余额数量。（可提取的）REMARK：线性解冻策略
+         */
+        private fun _calcVestingBalanceAmount_linear_vesting_policy(policy: JSONArray, vesting: JSONObject): Long {
+            assert(policy.getInt(0) == EBitsharesVestingPolicy.ebvp_linear_vesting_policy.value)
+            val policy_data = policy.getJSONObject(1)
+
+            val begin_timestamp_ts = parseBitsharesTimeString(policy_data.getString("begin_timestamp"))
+            val now_ts = now_ts()
+
+            var allowed_withdraw = 0L
+            if (now_ts > begin_timestamp_ts) {
+                val elapsed_seconds = now_ts - begin_timestamp_ts
+                assert(elapsed_seconds > 0)
+                val vesting_cliff_seconds = policy_data.getLong("vesting_cliff_seconds")
+                if (elapsed_seconds >= vesting_cliff_seconds) {
+                    val vesting_duration_seconds = policy_data.getLong("vesting_duration_seconds")
+                    val begin_balance = policy_data.getLong("begin_balance")
+
+                    val total_vested = if (elapsed_seconds < vesting_duration_seconds) {
+                        floor(elapsed_seconds.toDouble() / vesting_duration_seconds * begin_balance).toLong()
+                    } else {
+                        begin_balance
+                    }
+
+                    val balance = vesting.getJSONObject("balance").getString("amount").toLong()
+                    assert(begin_balance >= balance)
+                    val withdrawn_already = begin_balance - balance
+
+                    assert(total_vested >= withdrawn_already)
+                    allowed_withdraw = total_vested - withdrawn_already
+                }
+            }
+
+            return allowed_withdraw
+        }
+
+        /**
          *  (private) 计算已经解冻的余额数量。（可提取的）REMARK：按照币龄解冻策略
          */
         private fun _calcVestingBalanceAmount_cdd_vesting_policy(policy: JSONArray, vesting: JSONObject): Long {
@@ -335,8 +372,12 @@ class Utils {
             val vesting_seconds = max(policy_data.getLong("vesting_seconds"), 1L)
 
             //  last update timestamp
-            val coin_seconds_earned_last_update_ts = parseBitsharesTimeString(policy_data.getString("coin_seconds_earned_last_update"))
+            val start_claim_ts = parseBitsharesTimeString(policy_data.getString("start_claim"))
             val now_ts = now_ts()
+            if (now_ts <= start_claim_ts) {
+                return 0L
+            }
+            val coin_seconds_earned_last_update_ts = parseBitsharesTimeString(policy_data.getString("coin_seconds_earned_last_update"))
 
             //  my balance & already earned seconds
             val total_balance_amount = vesting.getJSONObject("balance").getString("amount").toLong()
@@ -384,10 +425,10 @@ class Utils {
         fun calcVestingBalanceAmount(vesting: JSONObject): Long {
             val policy = vesting.getJSONArray("policy")
             return when (policy.getInt(0)) {
+                EBitsharesVestingPolicy.ebvp_linear_vesting_policy.value -> _calcVestingBalanceAmount_linear_vesting_policy(policy, vesting)
                 EBitsharesVestingPolicy.ebvp_cdd_vesting_policy.value -> _calcVestingBalanceAmount_cdd_vesting_policy(policy, vesting)
                 EBitsharesVestingPolicy.ebvp_instant_vesting_policy.value -> _calcVestingBalanceAmount_instant_vesting_policy(policy, vesting)
                 else -> {
-                    //  TODO:ebvp_linear_vesting_policy
                     assert(false)
                     0
                 }
