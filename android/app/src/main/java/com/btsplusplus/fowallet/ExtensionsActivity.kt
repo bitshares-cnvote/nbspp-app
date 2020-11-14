@@ -286,6 +286,12 @@ fun android.app.Activity.showGrapheneError(error: Any?) {
                     showToast(resources.getString(R.string.kGPErrorApiNodeVersionTooLow))
                     return
                 }
+                //  Execution error: Assert Exception: _dynamic_data_obj->current_supply + o.delta_debt.amount <= _debt_asset->options.max_supply: Borrowing this quantity would exceed MAX_SUPPLY
+                if (lowermsg.indexOf("borrowing this quantity would exceed max_supply") >= 0) {
+                    showToast(resources.getString(R.string.kGPErrorExceedMaxSupply))
+                    return
+                }
+
                 if (lowermsg.indexOf("fee pool balance") >= 0) {
                     //  format = "core_fee_paid <= fee_asset_dyn_data->fee_pool: Fee pool balance of '${b}' is less than the ${r} required to convert ${c}";
                     showToast(resources.getString(R.string.kGPErrorFeePoolInsufficient))

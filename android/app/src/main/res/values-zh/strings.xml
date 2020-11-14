@@ -1774,6 +1774,7 @@
     <string name="kGPErrorInsufficientBalance">手续费不足。</string>
     <string name="kGPErrorRedeemInvalidPreimage">原像不正确。</string>
     <string name="kGPErrorApiNodeVersionTooLow">当前API节点版本太低。</string>
+    <string name="kGPErrorExceedMaxSupply">超过资产最大供应量，交易失败。</string>
     <string name="kGPErrorBlindReceiptIsNotExisted">隐私收据不存在。</string>
     <string name="kGPErrorBlindVerifySumFailed">隐私输入和输出金额不相等。</string>
     <string name="kGPErrorFeePoolInsufficient">手续费资产对应的手续费池余额不足。</string>

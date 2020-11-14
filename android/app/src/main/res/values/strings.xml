@@ -1774,6 +1774,7 @@
     <string name="kGPErrorInsufficientBalance">Insufficient balance.</string>
     <string name="kGPErrorRedeemInvalidPreimage">The preimage is incorrect.</string>
     <string name="kGPErrorApiNodeVersionTooLow">The current API node version is too low.</string>
+    <string name="kGPErrorExceedMaxSupply">Exceed the maximum supply of assets. transaction failed.</string>
     <string name="kGPErrorBlindReceiptIsNotExisted">The blind receipt does not exist.</string>
     <string name="kGPErrorBlindVerifySumFailed">The amount of blind input and output is not equal.</string>
     <string name="kGPErrorFeePoolInsufficient">The fee pool balance of the fee asset is insufficient.</string>
