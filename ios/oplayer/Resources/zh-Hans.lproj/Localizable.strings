@@ -1827,6 +1827,7 @@
 "kGPErrorInsufficientBalance" = "手续费不足。";
 "kGPErrorRedeemInvalidPreimage" = "原像不正确。";
 "kGPErrorApiNodeVersionTooLow" = "当前API节点版本太低。";
+"kGPErrorExceedMaxSupply" = "資産の最大供給量を超えています。 処理に失敗しました。";
 "kGPErrorBlindReceiptIsNotExisted" = "隐私收据不存在。";
 "kGPErrorBlindVerifySumFailed" = "隐私输入和输出金额不相等。";
 "kGPErrorFeePoolInsufficient" = "手续费资产对应的手续费池余额不足。";

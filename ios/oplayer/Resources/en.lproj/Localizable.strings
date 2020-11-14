@@ -1827,6 +1827,7 @@
 "kGPErrorInsufficientBalance" = "Insufficient balance.";
 "kGPErrorRedeemInvalidPreimage" = "The preimage is incorrect.";
 "kGPErrorApiNodeVersionTooLow" = "The current API node version is too low.";
+"kGPErrorExceedMaxSupply" = "Exceed the maximum supply of assets. transaction failed.";
 "kGPErrorBlindReceiptIsNotExisted" = "The blind receipt does not exist.";
 "kGPErrorBlindVerifySumFailed" = "The amount of blind input and output is not equal.";
 "kGPErrorFeePoolInsufficient" = "The fee pool balance of the fee asset is insufficient.";

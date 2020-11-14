@@ -1827,6 +1827,7 @@
 "kGPErrorInsufficientBalance" = "手数料は不足します。";
 "kGPErrorRedeemInvalidPreimage" = "元の画像が正しくありません。";
 "kGPErrorApiNodeVersionTooLow" = "現在のAPIノードのバージョンが低すぎます。";
+"kGPErrorExceedMaxSupply" = "超过资产最大供应量，交易失败。";
 "kGPErrorBlindReceiptIsNotExisted" = "ブラインド領収書は存在しません。";
 "kGPErrorBlindVerifySumFailed" = "ブラインド入力と出力の量は等しくありません。";
 "kGPErrorFeePoolInsufficient" = "手数料資産に対応する手数料プールの残高が不足しています。";

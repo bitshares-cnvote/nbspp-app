@@ -79,6 +79,13 @@
                         [self makeToast:NSLocalizedString(@"kGPErrorApiNodeVersionTooLow", @"当前API节点版本太低。")];
                         return;
                     }
+                    
+                    //  Execution error: Assert Exception: _dynamic_data_obj->current_supply + o.delta_debt.amount <= _debt_asset->options.max_supply: Borrowing this quantity would exceed MAX_SUPPLY
+                    if ([lowermsg rangeOfString:@"borrowing this quantity would exceed max_supply"].location != NSNotFound) {
+                        [self makeToast:NSLocalizedString(@"kGPErrorExceedMaxSupply", @"超过最大供应量上限，借款失败。")];
+                        return;
+                    }
+                    
                     if ([lowermsg rangeOfString:@"fee pool balance"].location != NSNotFound) {
                         //  format = "core_fee_paid <= fee_asset_dyn_data->fee_pool: Fee pool balance of '${b}' is less than the ${r} required to convert ${c}";
                         [self makeToast:NSLocalizedString(@"kGPErrorFeePoolInsufficient", @"手续费资产对应的手续费池余额不足。")];
