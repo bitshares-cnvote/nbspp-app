@@ -75,6 +75,12 @@
     return nil;
 }
 
+- (CGFloat)getMainViewOffsetY
+{
+    //  REMARK：子类实现
+    return 0;
+}
+
 - (void)initUI
 {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
@@ -84,7 +90,7 @@
     
     ThemeManager* theme = [ThemeManager sharedThemeManager];
     
-    _navView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 32)];
+    _navView = [[UIView alloc]initWithFrame:CGRectMake(0, [self getMainViewOffsetY], kScreenWidth, 32)];
     _navView.backgroundColor = theme.navigationBarBackColor;
     
     //  REMARK：默认选中tag
@@ -127,7 +133,11 @@
     CGFloat kScreenWidth = screenRect.size.width;
     CGFloat kScreenHeight = screenRect.size.height;
     
-    _mainScrollView = [[MyScrollView alloc]initWithFrame:CGRectMake(0, 32, kScreenWidth, kScreenHeight-[self heightForTabBar])];
+    CGFloat navHeight = _navView.bounds.size.height + [self getMainViewOffsetY];
+    _mainScrollView = [[MyScrollView alloc]initWithFrame:CGRectMake(0,
+                                                                    navHeight,
+                                                                    kScreenWidth,
+                                                                    kScreenHeight-navHeight-[self heightForTabBar])];
     _mainScrollView.delegate = self;
     _mainScrollView.backgroundColor = [ThemeManager sharedThemeManager].appBackColor;
     _mainScrollView.pagingEnabled = YES;
