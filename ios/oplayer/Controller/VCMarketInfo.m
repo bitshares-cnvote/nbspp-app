@@ -8,6 +8,7 @@
 
 #import "VCMarketInfo.h"
 #import "ViewMarketTickerInfoCell.h"
+#import "ScheduleManager.h"
 
 #import "VCKLine.h"
 #import "VCTradeMain.h"
@@ -168,12 +169,15 @@
     
 	// Do any additional setup after loading the view.
     
+    id latestAppAnnouncement = [ScheduleManager sharedScheduleManager].latestAppAnnouncement;
+    NSInteger notice_bar_height = latestAppAnnouncement && [latestAppAnnouncement count] > 0 ? 32 : 0;
+    
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGRect rect = CGRectMake(0,
                              0,
                              screenRect.size.width,
                              // 32 + 32  :  公告栏 + page nav
-                             screenRect.size.height - [self heightForStatusAndNaviBar] - [self heightForTabBar] - 32 - 32 - [self heightForBottomSafeArea]);
+                             screenRect.size.height - [self heightForStatusAndNaviBar] - [self heightForTabBar] - notice_bar_height - 32 - [self heightForBottomSafeArea]);
     
     //  UI - 主列表
     _mainTableView = [[UITableViewBase alloc] initWithFrame:rect style:UITableViewStylePlain];
