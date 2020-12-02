@@ -169,7 +169,11 @@
 	// Do any additional setup after loading the view.
     
     CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGRect rect = CGRectMake(0, 0, screenRect.size.width, screenRect.size.height - [self heightForStatusAndNaviBar] - [self heightForTabBar] - 32 - [self heightForBottomSafeArea]);
+    CGRect rect = CGRectMake(0,
+                             0,
+                             screenRect.size.width,
+                             // 32 + 32  :  公告栏 + page nav
+                             screenRect.size.height - [self heightForStatusAndNaviBar] - [self heightForTabBar] - 32 - 32 - [self heightForBottomSafeArea]);
     
     //  UI - 主列表
     _mainTableView = [[UITableViewBase alloc] initWithFrame:rect style:UITableViewStylePlain];

@@ -253,7 +253,13 @@
                         initFullUserData = [chainMgr queryFullAccountInfo:[[walletMgr getWalletInfo] objectForKey:@"kAccountName"]];
                     }
                     WsPromise* initOtc = [[OtcManager sharedOtcManager] queryConfig];
-                    return [[WsPromise all:@[initTickerData, initGlobalProperties, initFeeAssetInfo, initFullUserData, initOtc]] then:(^id(id data_array) {
+                    WsPromise* initAppAnnouncement = [[ScheduleManager sharedScheduleManager] queryAppAnnouncement];
+                    return [[WsPromise all:@[initTickerData,
+                                             initGlobalProperties,
+                                             initFeeAssetInfo,
+                                             initFullUserData,
+                                             initOtc,
+                                             initAppAnnouncement]] then:(^id(id data_array) {
                         [self hideBlockView];
                         //  更新全局属性
                         [chainMgr updateObjectGlobalProperties:[data_array objectAtIndex:1]];

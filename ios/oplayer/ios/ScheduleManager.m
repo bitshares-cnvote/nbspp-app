@@ -12,6 +12,7 @@
 #import "TempManager.h"
 #import "AppCommon.h"
 #import "OrgUtils.h"
+#import "NativeAppDelegate.h"
 
 #import <Crashlytics/Crashlytics.h>
 
@@ -79,6 +80,8 @@ static ScheduleManager *_sharedScheduleManager = nil;
     self = [super init];
     if (self)
     {
+        self.latestAppAnnouncement = nil;
+        
         _task_hash_ticker = [NSMutableDictionary dictionary];
         _sub_market_infos = [NSMutableDictionary dictionary];
         _ts_last_tick = CFAbsoluteTimeGetCurrent();
@@ -91,6 +94,49 @@ static ScheduleManager *_sharedScheduleManager = nil;
                                                    object:nil];
     }
     return self;
+}
+
+/*
+ *  (public) 查询app公告信息
+ */
+- (WsPromise*)queryAppAnnouncement
+{
+    return [WsPromise promise:^(WsResolveHandler resolve, WsRejectHandler reject) {
+        [self subAppAnnouncement:^(NSArray *json) {
+            if (json && [json count] > 0) {
+                [self performSelector:@selector(subAppAnnouncement:) withObject:nil afterDelay:kBtsAppAnnouncementUpdateInterval];
+            }
+            resolve(json);
+        }];
+    }];
+}
+
+- (void)subAppAnnouncement:(void (^)(NSArray* json))first_callback
+{
+    id url = [NSString stringWithFormat:@"https://nbs.plus/app/announcement.json?t=%@", @([[NSDate date] timeIntervalSince1970])];
+    [OrgUtils asyncFetchJson:url
+                     timeout:[[NativeAppDelegate sharedAppDelegate] getRequestTimeout]
+             completionBlock:^(id json_array)
+     {
+        if (first_callback) {
+            //  首次查询
+            if (json_array && [json_array isKindOfClass:[NSArray class]]) {
+                self.latestAppAnnouncement = json_array;
+            } else {
+                self.latestAppAnnouncement = nil;
+            }
+            first_callback(self.latestAppAnnouncement);
+        } else {
+            //  循环检测
+            if (json_array && [json_array isKindOfClass:[NSArray class]] && [json_array count] > 0) {
+                self.latestAppAnnouncement = json_array;
+                [[NSNotificationCenter defaultCenter] postNotificationName:kBtsSubAppAnnouncementNewData
+                                                                    object:nil
+                                                                  userInfo:@{@"data":self.latestAppAnnouncement}];
+            }
+            [self performSelector:@selector(subAppAnnouncement:) withObject:nil afterDelay:kBtsAppAnnouncementUpdateInterval];
+        }
+    }];
 }
 
 - (void)dealloc

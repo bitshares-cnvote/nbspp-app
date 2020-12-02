@@ -11,6 +11,7 @@
 #import "GrapheneConnectionManager.h"
 #import "ScheduleManager.h"
 #import "GrapheneApi.h"
+#import "ViewVerticalScrollText.h"
 
 #import "VCTradingPairMgr.h"
 #import "VCMarketInfo.h"
@@ -34,6 +35,8 @@
     BOOL                        _selfShowing;                       //  首页自身是否显示中
     BOOL                        _grapheneInitDone;                  //  石墨烯网络是否初始化完毕
     NSTimer*                    _tickerRefreshTimer;                //  ticker 数据定时刷新计时器
+    
+    ViewVerticalScrollText*     _viewAppNotice;
 }
 
 @end
@@ -48,7 +51,11 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kBtsSubAppAnnouncementNewData object:nil];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    _viewAppNotice = nil;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -196,6 +203,35 @@
     return [ary copy];
 }
 
+- (CGFloat)getMainViewOffsetY
+{
+    id latestAppAnnouncement = [ScheduleManager sharedScheduleManager].latestAppAnnouncement;
+    if (latestAppAnnouncement && [latestAppAnnouncement count] > 0) {
+        //  公告栏
+        return 32;
+    } else {
+        return 0;
+    }
+}
+
+- (void)onSubAppAnnouncementNewData:(NSNotification*)notification
+{
+    if (!notification){
+        return;
+    }
+    id userinfo = notification.userInfo;
+    if (!userinfo){
+        return;
+    }
+    id data = [userinfo objectForKey:@"data"];
+    if (!data || [data count] <= 0) {
+        return;
+    }
+    if (_viewAppNotice) {
+        _viewAppNotice.textArray = [data copy];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -208,6 +244,17 @@
                                                                             action:@selector(onAddMarketInfos)];
     addBtn.tintColor = [ThemeManager sharedThemeManager].navigationBarTextColor;
     self.navigationItem.rightBarButtonItem = addBtn;
+    
+    //  UI - 广告
+    id latestAppAnnouncement = [ScheduleManager sharedScheduleManager].latestAppAnnouncement;
+    if (latestAppAnnouncement && [latestAppAnnouncement count] > 0) {
+        _viewAppNotice = [[ViewVerticalScrollText alloc] init];
+        _viewAppNotice.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [self getMainViewOffsetY]);
+        [self.view addSubview:_viewAppNotice];
+        _viewAppNotice.textArray = [latestAppAnnouncement copy];
+    } else {
+        _viewAppNotice = nil;
+    }
     
 	// Do any additional setup after loading the view.
     
@@ -227,6 +274,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(onUIApplicationWillEnterForegroundNotification)
                                                  name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+    //  APP公告事件
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onSubAppAnnouncementNewData:)
+                                                 name:kBtsSubAppAnnouncementNewData
                                                object:nil];
     
     //  初始化完毕

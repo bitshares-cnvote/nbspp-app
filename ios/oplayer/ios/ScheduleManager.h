@@ -39,7 +39,12 @@
 @end
 
 //  [通知]
-#define kBtsSubMarketNotifyNewData  @"kBtsSubMarketNotifyNewData"
+#define kBtsSubMarketNotifyNewData      @"kBtsSubMarketNotifyNewData"
+//  事件：获取公告成功
+#define kBtsSubAppAnnouncementNewData   @"kBtsSubAppAnnouncementNewData"
+
+//  公告更新 间隔时间 单位：秒
+#define kBtsAppAnnouncementUpdateInterval   300
 
 //  订阅交易对信息最小更新间隔（即在这个间隔内不管是否有notify都不会更新。）REMARK：目前这个值实际最低在3s左右，因为3s是一个区块的生成最短间隔。
 #define kScheduleSubMarketIntervalMin  500.0f
@@ -76,7 +81,14 @@
 
 @interface ScheduleManager : NSObject
 
+@property (nonatomic, strong) NSArray* latestAppAnnouncement;           //  最新公告数据
+
 + (ScheduleManager*)sharedScheduleManager;
+
+/*
+ *  (public) 查询app公告信息
+ */
+- (WsPromise*)queryAppAnnouncement;
 
 /**
  *  根据合并后的市场信息自动添加 or 移除 ticker 更新计划。
