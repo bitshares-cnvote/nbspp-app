@@ -1,11 +1,18 @@
 package com.btsplusplus.fowallet
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
+import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
 import bitshares.*
 import com.fowallet.walletcore.bts.ChainObjectManager
+import com.sunfusheng.marqueeview.MarqueeView
 import kotlinx.android.synthetic.main.activity_index_markets.*
+import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
@@ -15,6 +22,9 @@ class ActivityIndexMarkets : BtsppActivity() {
     private val fragmens: ArrayList<Fragment> = ArrayList()
 
     private var _tickerRefreshTimer: Timer? = null
+    private var _notify_handler: Handler? = null
+    private var _viewAppNotice: MarqueeView<String>? = null
+    private var _currAppNotice: JSONArray? = null
 
     /**
      * 重载 - 返回键按下
@@ -25,6 +35,7 @@ class ActivityIndexMarkets : BtsppActivity() {
 
     //  事件：将要进入后台
     override fun onPause() {
+        _notify_handler?.let { handler -> NotificationCenter.sharedNotificationCenter().removeObserver(kBtsSubAppAnnouncementNewData, handler) }
         super.onPause()
         //  停止计时器
         stopTickerRefreshTimer()
@@ -35,6 +46,7 @@ class ActivityIndexMarkets : BtsppActivity() {
     //  事件：已经进入前台
     override fun onResume() {
         super.onResume()
+        _notify_handler?.let { handler -> NotificationCenter.sharedNotificationCenter().addObserver(kBtsSubAppAnnouncementNewData, handler) }
         //  回到前台检测是否需要重新连接。
         GrapheneConnectionManager.sharedGrapheneConnectionManager().reconnect_all()
         //  自选市场可能发生变化，重新加载。
@@ -58,6 +70,37 @@ class ActivityIndexMarkets : BtsppActivity() {
                 })
             }
         }
+
+        //  初始化公告
+        val latestAppAnnouncement = ScheduleManager.sharedScheduleManager().latestAppAnnouncement
+        if (latestAppAnnouncement != null) {
+            findViewById<LinearLayout>(R.id.layout_app_announcement).visibility = View.VISIBLE
+
+            _viewAppNotice = findViewById(R.id.tv_app_announcement_title)
+
+            refreshAppAnnouncementMessage(latestAppAnnouncement)
+
+            //  公告 点击事件
+            _viewAppNotice!!.setOnItemClickListener { position, _ ->
+                val url = _currAppNotice?.optJSONObject(position)?.optString("url", null)
+                if (url != null && url.isNotEmpty()) {
+                    openURL(url)
+                }
+            }
+
+            //  监听：新的公告
+            _notify_handler = object : Handler() {
+                override fun handleMessage(msg: Message?) {
+                    super.handleMessage(msg)
+                    if (msg != null) {
+                        onSubAppAnnouncementNewData(msg)
+                    }
+                }
+            }
+        } else {
+            findViewById<LinearLayout>(R.id.layout_app_announcement).visibility = View.GONE
+        }
+
         //  设置 fragment
         setFragments()
         setViewPager(1, R.id.view_pager, R.id.tablayout, fragmens)
@@ -71,6 +114,30 @@ class ActivityIndexMarkets : BtsppActivity() {
 
         // 设置底部导航栏样式
         setBottomNavigationStyle(0)
+    }
+
+    /**
+     *  刷新公告信息
+     */
+    private fun refreshAppAnnouncementMessage(data: JSONArray?) {
+        val messages = ArrayList<String>()
+        _currAppNotice = data
+        _currAppNotice?.forEach<JSONObject> {
+            messages.add(it!!.getString("title"))
+        }
+        _viewAppNotice?.startWithList(messages)
+    }
+
+    /**
+     * 接收到订阅消息
+     */
+    private fun onSubAppAnnouncementNewData(msg: Message) {
+        val userinfo = msg.obj as? JSONObject
+        val data = userinfo?.optJSONArray("data")
+        if (data == null || data.length() <= 0) {
+            return
+        }
+        refreshAppAnnouncementMessage(data)
     }
 
     /**

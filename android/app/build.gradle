@@ -10,8 +10,8 @@ android {
         applicationId "plus.nbs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 202010151
-        versionName "1.2"
+        versionCode 202011121
+        versionName "1.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
@@ -84,4 +84,6 @@ dependencies {
     implementation files('libs/x86.jar')
     //  for flurry
     implementation 'com.flurry.android:analytics:11.6.0@aar'
+    //  for notice
+    implementation 'com.sunfusheng:MarqueeView:1.4.1'
 }

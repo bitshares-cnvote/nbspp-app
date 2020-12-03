@@ -174,6 +174,8 @@ class ActivityLaunch : BtsppActivity() {
                         }
                         //  初始化OTC数据
                         put("kQueryConfig", OtcManager.sharedOtcManager().queryConfig())
+                        //  初始化公告
+                        put("kInitAppAnnouncement", ScheduleManager.sharedScheduleManager().queryAppAnnouncement())
                     }
                     return@then Promise.map(promise_map).then {
                         //  更新全局属性

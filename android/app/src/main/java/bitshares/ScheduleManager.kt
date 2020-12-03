@@ -18,7 +18,13 @@ const val kScheduleTickerIntervalErrorFactor: Float = 0.9f
 const val kScheduleTickerIntervalStep: Float = 1000.0f
 
 //  [通知]
-const val kBtsSubMarketNotifyNewData: String = "kBtsSubMarketNotifyNewData"
+const val kBtsSubMarketNotifyNewData = "kBtsSubMarketNotifyNewData"
+
+//  事件：获取公告成功
+const val kBtsSubAppAnnouncementNewData = "kBtsSubAppAnnouncementNewData"
+
+//  公告更新 间隔时间 单位：秒
+const val kBtsAppAnnouncementUpdateInterval = 300L
 
 //  订阅交易对信息最小更新间隔（即在这个间隔内不管是否有notify都不会更新。）
 const val kScheduleSubMarketIntervalMin: Float = 500.0f
@@ -81,6 +87,8 @@ class ScheduleManager {
 
     var _sub_market_infos = mutableMapOf<String, ScheduleSubMarket>()
 
+    var latestAppAnnouncement: JSONArray? = null
+
     //  单例方法
     companion object {
         private var _sharedScheduleManager = ScheduleManager()
@@ -90,6 +98,50 @@ class ScheduleManager {
         }
     }
 
+    /**
+     *  (public) 查询app公告信息
+     */
+    fun queryAppAnnouncement(): Promise {
+        val p = Promise()
+        subAppAnnouncement { json_array ->
+            if (json_array != null && json_array.length() > 0) {
+                Utils.delay_sec(kBtsAppAnnouncementUpdateInterval) {
+                    subAppAnnouncement(null)
+                }
+            }
+            p.resolve(json_array)
+        }
+        return p
+    }
+
+    private fun subAppAnnouncementResponsned(json_array: JSONArray?, first_callback: ((json: JSONArray?) -> Unit)? = null) {
+        if (first_callback != null) {
+            //  首次查询
+            latestAppAnnouncement = json_array
+            first_callback(latestAppAnnouncement)
+        } else {
+            //  循环检测
+            if (json_array != null && json_array.length() > 0) {
+                latestAppAnnouncement = json_array
+                NotificationCenter.sharedNotificationCenter().postNotificationName(kBtsSubAppAnnouncementNewData, JSONObject().apply {
+                    put("data", latestAppAnnouncement)
+                })
+            }
+            Utils.delay_sec(kBtsAppAnnouncementUpdateInterval) {
+                subAppAnnouncement(null)
+            }
+        }
+    }
+
+    private fun subAppAnnouncement(first_callback: ((json: JSONArray?) -> Unit)? = null) {
+        val url = "https://nbs.plus/app/announcement.json?t=${Date().time}"
+        OrgUtils.asyncJsonGet(url).then {
+            subAppAnnouncementResponsned(it as? JSONArray, first_callback)
+            return@then null
+        }.catch {
+            subAppAnnouncementResponsned(null, first_callback)
+        }
+    }
 
     fun startTimer() {
         if (_timer_per_seconds == null) {

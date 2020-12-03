@@ -15,7 +15,6 @@
         android:paddingTop="15dp"
         android:orientation="vertical">
 
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -52,54 +51,6 @@
                 android:layout_marginRight="10dp"  />
 
         </FrameLayout>
-
-
-
-        <!--<android.support.design.widget.AppBarLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:theme="@style/AppTheme.AppBarOverlay">-->
-
-            <!--<LinearLayout-->
-                <!--android:layout_marginTop="15dp"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="40dp">-->
-
-
-                <!--<TextView-->
-                    <!--android:id="@+id/btn_reset_all"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="40dp"-->
-                    <!--android:gravity="left|center_vertical"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:text="@string/nameReset"-->
-                    <!--style="@style/kNavigationBarTextStyle" />-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/title"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="40dp"-->
-                    <!--android:gravity="center"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:text="@string/debtPageMortgageLoan"-->
-                    <!--style="@style/kNavigationBarTextStyle" />-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/btn_select_debt_asset"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="40dp"-->
-                    <!--android:gravity="right|center_vertical"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:text="@string/debtPageSelectAssets"-->
-                    <!--style="@style/kNavigationBarTextStyle" />-->
-
-
-            <!--</LinearLayout>-->
-
-        <!--</android.support.design.widget.AppBarLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -517,8 +468,6 @@
         </ScrollView>
 
     </LinearLayout>
-
-
 
     <LinearLayout
         android:layout_width="match_parent"

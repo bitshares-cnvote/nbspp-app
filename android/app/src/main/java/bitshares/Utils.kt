@@ -757,5 +757,9 @@ class Utils {
         fun delay(body: () -> Unit) {
             android.os.Handler(Looper.getMainLooper()).postDelayed({ body() }, 1L)
         }
+
+        fun delay_sec(sec: Long, body: () -> Unit) {
+            android.os.Handler(Looper.getMainLooper()).postDelayed({ body() }, sec * 1000)
+        }
     }
 }
