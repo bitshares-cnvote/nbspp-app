@@ -186,6 +186,8 @@
     <string name="kLblMembershipLifetime">终身会员</string>
     <string name="kLblAccountLocked">锁定中</string>
     <string name="kLblAccountUnlocked">未锁定</string>
+    <string name="kUserLockTipMessageLocked">已锁定。</string>
+    <string name="kUserLockTipMessageUnlocked">已解锁。</string>
     <string name="kLblCellMyProposal">提案管理</string>
     <string name="kLblCellAssetMgr">资产管理</string>
     <string name="kLblCellWalletAndMultiSign">钱包&amp;多签</string>

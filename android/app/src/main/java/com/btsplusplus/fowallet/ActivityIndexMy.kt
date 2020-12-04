@@ -1,6 +1,8 @@
 package com.btsplusplus.fowallet
 
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import bitshares.*
 import com.btsplusplus.fowallet.utils.VcUtils
@@ -124,14 +126,17 @@ class ActivityIndexMy : BtsppActivity() {
     private fun _refreshFaceUI() {
         val walletMgr = WalletManager.sharedWalletManager()
         if (walletMgr.isWalletExist()) {
+            findViewById<ImageView>(R.id.img_btn_lock).visibility = View.VISIBLE
+            findViewById<ImageView>(R.id.img_btn_lock).setOnClickListener { onLockButtonClicked() }
             val account = walletMgr.getWalletAccountInfo()!!.getJSONObject("account")
             //  第一行
-            val name = account.getString("name")
             if (walletMgr.isLocked()) {
-                findViewById<TextView>(R.id.label_txt_accoutname).text = "${name}(${R.string.kLblAccountLocked.xmlstring(this)})"
+                findViewById<ImageView>(R.id.img_btn_lock).setImageDrawable(resources.getDrawable(R.drawable.icon_locked))
             } else {
-                findViewById<TextView>(R.id.label_txt_accoutname).text = "${name}(${R.string.kLblAccountUnlocked.xmlstring(this)})"
+                findViewById<ImageView>(R.id.img_btn_lock).setImageDrawable(resources.getDrawable(R.drawable.icon_unlocked))
             }
+            findViewById<TextView>(R.id.label_txt_accoutname).text = account.getString("name")
+
             //  第二行
             if (Utils.isBitsharesVIP(account.optString("membership_expiration_date", ""))) {
                 findViewById<TextView>(R.id.label_txt_status).text = "${R.string.kLblMembership.xmlstring(this)}${R.string.kLblMembershipLifetime.xmlstring(this)}"
@@ -139,8 +144,34 @@ class ActivityIndexMy : BtsppActivity() {
                 findViewById<TextView>(R.id.label_txt_status).text = "${R.string.kLblMembership.xmlstring(this)}${R.string.kLblMembershipBasic.xmlstring(this)}"
             }
         } else {
+            findViewById<ImageView>(R.id.img_btn_lock).visibility = View.GONE
+            findViewById<ImageView>(R.id.img_btn_lock).setOnClickListener(null)
             findViewById<TextView>(R.id.label_txt_accoutname).text = R.string.kAccountManagement.xmlstring(this)
             findViewById<TextView>(R.id.label_txt_status).text = R.string.tip_click_to_login.xmlstring(this)
+        }
+    }
+
+    /**
+     *  事件 - 解锁/锁定 按钮点击。
+     */
+    private fun onLockButtonClicked() {
+        val walletMgr = WalletManager.sharedWalletManager()
+        if (!walletMgr.isWalletExist()) {
+            return
+        }
+        if (walletMgr.isLocked()) {
+            //  解锁
+            guardWalletUnlocked(false) { unlocked ->
+                if (unlocked) {
+                    _refreshFaceUI()
+                    showToast(resources.getString(R.string.kUserLockTipMessageUnlocked))
+                }
+            }
+        } else {
+            //  锁定
+            walletMgr.Lock()
+            _refreshFaceUI()
+            showToast(resources.getString(R.string.kUserLockTipMessageLocked))
         }
     }
 }

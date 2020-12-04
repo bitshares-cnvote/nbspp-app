@@ -7,7 +7,6 @@ import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.TextView
 import bitshares.*
 import com.fowallet.walletcore.bts.ChainObjectManager
 import com.sunfusheng.marqueeview.MarqueeView

@@ -186,6 +186,8 @@
     <string name="kLblMembershipLifetime">一生会員</string>
     <string name="kLblAccountLocked">ロックする中</string>
     <string name="kLblAccountUnlocked">ロックしていません</string>
+    <string name="kUserLockTipMessageLocked">正常にロックされました。</string>
+    <string name="kUserLockTipMessageUnlocked">正常にロック解除されました。</string>
     <string name="kLblCellMyProposal">提案管理</string>
     <string name="kLblCellAssetMgr">資産管理</string>
     <string name="kLblCellWalletAndMultiSign">ウオレット&amp;多く署名</string>

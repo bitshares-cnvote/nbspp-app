@@ -186,6 +186,8 @@
     <string name="kLblMembershipLifetime">Lifetime member</string>
     <string name="kLblAccountLocked">Locked</string>
     <string name="kLblAccountUnlocked">Unlocked</string>
+    <string name="kUserLockTipMessageLocked">Locked successfully.</string>
+    <string name="kUserLockTipMessageUnlocked">Successfully unlocked.</string>
     <string name="kLblCellMyProposal">Pending proposal</string>
     <string name="kLblCellAssetMgr">Asset Management</string>
     <string name="kLblCellWalletAndMultiSign">Wallet &amp; Multi-signature</string>
