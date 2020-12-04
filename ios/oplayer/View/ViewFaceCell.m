@@ -16,12 +16,16 @@
 
 @interface ViewFaceCell()
 {
+    __weak UIViewController*  _owner;       //  REMARK：声明为 weak，否则会导致循环引用。
+    
     CGFloat         _bannerImageW;
     CGFloat         _bannerImageH;
     CGFloat         _bannerNormalHeight;    //  REMARK：banner静止时显示的尺寸高度
     CGFloat         _bannerDragHeight;      //  拖拽高度应该是静止显示高度的一半，顶部和底部各移动一半。
     
     UIImageView*    _banner;
+    
+    UIButton*       _btnLock;               //  锁
     
     UIImageView*    _pFaceIcon;
     UILabel*        _lbName;
@@ -35,10 +39,12 @@
 
 - (void)dealloc
 {
+    _owner = nil;
     _banner = nil;
+    _btnLock = nil;
 }
 
-- (id)init
+- (id)initWithOwner:(UIViewController*)vc
 {
     self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
     if (self) {
@@ -48,6 +54,8 @@
         self.hideBottomLine = YES;
         
         self.backgroundColor = [UIColor clearColor];
+        
+        _owner = vc;
         
         //  banner
         UIImage* bannerImage = [UIImage imageNamed:@"banner_center"];
@@ -63,6 +71,13 @@
         _banner.hidden = YES;//TODO:fowallet 图片考虑取消，用背景图。！！！重要
         
         [self.contentView addSubview:_banner];
+        
+        //  锁&解锁按钮
+        _btnLock = [UIButton buttonWithType:UIButtonTypeSystem];
+        _btnLock.tintColor = [ThemeManager sharedThemeManager].textColorMain;
+        _btnLock.userInteractionEnabled = YES;
+        [_btnLock addTarget:self action:@selector(onLockButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:_btnLock];
         
         //  头像
         _pFaceIcon = [[UIImageView alloc] initWithImage:[UIImage templateImageNamed:@"iconAvatar"]];
@@ -89,6 +104,16 @@
         [self.contentView addSubview:_lbUserName];
     }
     return self;
+}
+
+- (void)onLockButtonClicked:(UIButton*)sender
+{
+    if (sender.isHidden) {
+        return;
+    }
+    if (_owner && [_owner respondsToSelector:@selector(onLockButtonClicked:)]){
+        [_owner performSelector:@selector(onLockButtonClicked:) withObject:sender];
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -124,23 +149,23 @@
     _lbName.textColor = [ThemeManager sharedThemeManager].textColorMain;
     _lbUserName.textColor = [ThemeManager sharedThemeManager].textColorNormal;
     
-    
     WalletManager* walletMgr = [WalletManager sharedWalletManager];
     if (![walletMgr isWalletExist])
     {
         _lbName.text = NSLocalizedString(@"kAccountManagement", @"帐号管理");
         _lbUserName.text = NSLocalizedString(@"tip_click_to_login", @"点此登录");
+        _btnLock.hidden = YES;
     }
     else
     {
+        _btnLock.hidden = NO;
         id wallet_info = [[walletMgr getWalletAccountInfo] objectForKey:@"account"];
         if ([walletMgr isLocked]){
-            _lbName.text = [NSString stringWithFormat:@"%@(%@)",
-                            [walletMgr getWalletAccountName], NSLocalizedString(@"kLblAccountLocked", @"锁定中")];
+            [_btnLock setImage:[UIImage templateImageNamed:@"iconLocked"] forState:UIControlStateNormal];
         }else{
-            _lbName.text = [NSString stringWithFormat:@"%@(%@)",
-                            [walletMgr getWalletAccountName], NSLocalizedString(@"kLblAccountUnlocked", @"未锁定")];
+            [_btnLock setImage:[UIImage templateImageNamed:@"iconUnlocked"] forState:UIControlStateNormal];
         }
+        _lbName.text = [walletMgr getWalletAccountName];
         if ([OrgUtils isBitsharesVIP:[wallet_info objectForKey:@"membership_expiration_date"]]){
             _lbUserName.text = [NSString stringWithFormat:@"%@%@",
                                 NSLocalizedString(@"kLblMembership", @"状态："), NSLocalizedString(@"kLblMembershipLifetime", @"终身会员")];
@@ -161,11 +186,19 @@
     
     CGFloat fTextOffsetX    = _pFaceIcon.frame.origin.x + faceSize.width + 12;
     CGFloat fWidth          = self.frame.size.width;
-    
+        
     //  44是2行的总高度 64是3行多高度
     CGFloat fTextOffsetY = statusBarH + (_bannerNormalHeight - 44 - statusBarH) / 2.0f;
     _lbName.frame           = CGRectMake(fTextOffsetX, fTextOffsetY, fWidth, 24);
     _lbUserName.frame       = CGRectMake(fTextOffsetX, fTextOffsetY + 24, fWidth, 20);
+    
+    //  解锁按钮
+    if (!_btnLock.isHidden) {
+        CGFloat fBtnLockWidth = 22;
+        CGSize size = [ViewUtils auxSizeWithLabel:_lbName];
+        _btnLock.frame = CGRectMake(fTextOffsetX + size.width + 4, fTextOffsetY + (24 - fBtnLockWidth) / 2, fBtnLockWidth, fBtnLockWidth);
+    }
+    
 }
 
 @end

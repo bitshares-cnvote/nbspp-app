@@ -94,6 +94,32 @@ enum
     }
 }
 
+/*
+ *  事件 - 解锁/锁定 按钮点击。
+ */
+- (void)onLockButtonClicked:(UIButton*)sender
+{
+    WalletManager* walletMgr = [WalletManager sharedWalletManager];
+    if (![walletMgr isWalletExist]) {
+        return;
+    }
+    
+    if ([walletMgr isLocked]) {
+        //  解锁
+        [self GuardWalletUnlocked:NO body:^(BOOL unlocked) {
+            if (unlocked) {
+                [_mainTableView reloadData];
+                [OrgUtils makeToast:NSLocalizedString(@"kUserLockTipMessageUnlocked", @"已解锁")];
+            }
+        }];
+    } else {
+        //  锁定
+        [walletMgr Lock];
+        [_mainTableView reloadData];
+        [OrgUtils makeToast:NSLocalizedString(@"kUserLockTipMessageLocked", @"已锁定")];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -141,7 +167,7 @@ enum
     [self.view addSubview:_mainTableView];
     
     //  头像view
-    _faceView = [[ViewFaceCell alloc] init];
+    _faceView = [[ViewFaceCell alloc] initWithOwner:self];
 }
 
 -(void)viewWillAppear:(BOOL)animated

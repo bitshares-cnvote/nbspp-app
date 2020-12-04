@@ -200,6 +200,8 @@
 "kLblMembershipLifetime" = "Lifetime member";
 "kLblAccountLocked" = "Locked";
 "kLblAccountUnlocked" = "Unlocked";
+"kUserLockTipMessageLocked" = "Locked successfully.";
+"kUserLockTipMessageUnlocked" = "Successfully unlocked.";
 "kLblCellMyProposal" = "Pending proposal";
 "kLblCellAssetMgr" = "Asset Management";
 "kLblCellWalletAndMultiSign" = "Wallet & Multi-signature";

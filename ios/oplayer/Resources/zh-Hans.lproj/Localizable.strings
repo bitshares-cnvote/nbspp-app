@@ -200,6 +200,8 @@
 "kLblMembershipLifetime" = "终身会员";
 "kLblAccountLocked" = "锁定中";
 "kLblAccountUnlocked" = "未锁定";
+"kUserLockTipMessageLocked" = "已锁定。";
+"kUserLockTipMessageUnlocked" = "已解锁。";
 "kLblCellMyProposal" = "提案管理";
 "kLblCellAssetMgr" = "资产管理";
 "kLblCellWalletAndMultiSign" = "钱包&多签";

@@ -11,7 +11,7 @@
 
 @interface ViewFaceCell : UITableViewCellBase
 
-- (id)init;
+- (id)initWithOwner:(UIViewController*)vc;
 
 - (void)refreshBackgroundOffset:(NSInteger)offset;
 - (NSInteger)getMaxDragHeight;

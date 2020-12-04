@@ -200,6 +200,8 @@
 "kLblMembershipLifetime" = "一生会員";
 "kLblAccountLocked" = "ロックする中";
 "kLblAccountUnlocked" = "ロックしていません";
+"kUserLockTipMessageLocked" = "正常にロックされました。";
+"kUserLockTipMessageUnlocked" = "正常にロック解除されました。";
 "kLblCellMyProposal" = "提案管理";
 "kLblCellAssetMgr" = "資産管理";
 "kLblCellWalletAndMultiSign" = "ウオレット&多く署名";
