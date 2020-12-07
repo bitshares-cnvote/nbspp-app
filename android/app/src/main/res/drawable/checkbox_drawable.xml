@@ -2,9 +2,11 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- checked -->
     <item
-        android:state_checked="true"
-        android:drawable="@drawable/ic_checkbox_check"
-        />
+        android:state_checked="true">
+        <bitmap 
+            android:src="@drawable/ic_checkbox_check" 
+            android:tint="@color/theme01.textColorHighlight"/>
+    </item>
     <!-- default -->
     <item
         android:state_checked="false">
