@@ -7,7 +7,9 @@
         />
     <!-- default -->
     <item
-        android:state_checked="false"
-        android:drawable="@drawable/ic_checkbox_uncheck"
-        />
+        android:state_checked="false">
+        <bitmap 
+            android:src="@drawable/ic_checkbox_uncheck" 
+            android:tint="@color/theme01.textColorNormal"/>
+    </item>
 </selector>
