@@ -137,13 +137,15 @@ class ViewBidAsk : FrameLayout {
             //  绘制买卖背景深度信息
             val buy_block_layout_params = LinearLayout.LayoutParams(Utils.toDp(5f * i, res), layout_view_height)
             val buy_block_layout = TextView(ctx)
-            buy_block_layout.setBackgroundColor(res.getColor(R.color.theme01_buyColor2))
+            buy_block_layout.setBackgroundColor(res.getColor(R.color.theme01_buyColor))
+            buy_block_layout.background.alpha = 50
             buy_block_layout.layoutParams = buy_block_layout_params
             buy_block_layout.visibility = View.GONE
 
             val sell_block_layout_params = LinearLayout.LayoutParams(Utils.toDp(5f * i, res), layout_view_height)
             val sell_block_layout = TextView(ctx)
-            sell_block_layout.setBackgroundColor(res.getColor(R.color.theme01_sellColor2))
+            sell_block_layout.setBackgroundColor(res.getColor(R.color.theme01_sellColor))
+            sell_block_layout.background.alpha = 50
             sell_block_layout.layoutParams = sell_block_layout_params
             sell_block_layout.visibility = View.GONE
 
