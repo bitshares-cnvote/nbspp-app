@@ -433,17 +433,19 @@ fun android.app.Activity.GuardProposalOrNormalTransaction(opcode: EBitsharesOper
 fun android.app.Activity.guardWalletUnlocked(checkActivePermission: Boolean, body: (unlocked: Boolean) -> Unit) {
     val walletMgr = WalletManager.sharedWalletManager()
     if (walletMgr.isLocked()) {
-        val title = if (walletMgr.getWalletMode() == AppCacheManager.EWalletMode.kwmPasswordOnlyMode.value) R.string.unlockTipsUnlockAccount.xmlstring(this) else R.string.unlockTipsUnlockWallet.xmlstring(this)
-        val placeholder = when (walletMgr.getWalletMode()) {
-            //  账号密码
-            AppCacheManager.EWalletMode.kwmPasswordOnlyMode.value -> resources.getString(R.string.unlockTipsPleaseInputAccountPassword)
-            //  交易密码
-            AppCacheManager.EWalletMode.kwmPasswordWithWallet.value -> resources.getString(R.string.kLoginTipsPlaceholderTradePassword)
-            AppCacheManager.EWalletMode.kwmPrivateKeyWithWallet.value -> resources.getString(R.string.kLoginTipsPlaceholderTradePassword)
-            AppCacheManager.EWalletMode.kwmBrainKeyWithWallet.value -> resources.getString(R.string.kLoginTipsPlaceholderTradePassword)
-            //  钱包密码
-            AppCacheManager.EWalletMode.kwmFullWalletMode.value -> resources.getString(R.string.registerLoginPagePleaseInputWalletPws)
-            else -> resources.getString(R.string.kLoginImportTipsPleaseInputPassword)
+        val title: String
+        val placeholder: String
+        when (walletMgr.getWalletMode()) {
+            AppCacheManager.EWalletMode.kwmPasswordOnlyMode.value -> {
+                //  解锁账号
+                title = resources.getString(R.string.unlockTipsUnlockAccount)
+                placeholder = resources.getString(R.string.unlockTipsPleaseInputAccountPassword)
+            }
+            else -> {
+                //  解锁钱包
+                title = resources.getString(R.string.unlockTipsUnlockWallet)
+                placeholder = resources.getString(R.string.unlockTipsPleaseInputWalletPassword)
+            }
         }
         UtilsAlert.showInputBox(this, title, placeholder, resources.getString(R.string.unlockBtnUnlock)).then {
             val password = it as? String
