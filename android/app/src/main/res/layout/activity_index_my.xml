@@ -133,6 +133,7 @@
                     android:src="@drawable/ic_btn_right_arrow" />
 
             </LinearLayout>
+            <View android:layout_height="1px" android:background="@color/theme01.bottomLineColor" android:layout_marginTop="0dp" android:layout_width="fill_parent"></View>
 
             <!-- order -->
             <LinearLayout
@@ -170,7 +171,7 @@
                     android:src="@drawable/ic_btn_right_arrow" />
 
             </LinearLayout>
-
+            <View android:layout_height="1px" android:background="@color/theme01.bottomLineColor" android:layout_marginTop="0dp" android:layout_width="fill_parent"></View>
 
             <!-- wallet -->
             <LinearLayout
@@ -208,6 +209,7 @@
                     android:src="@drawable/ic_btn_right_arrow" />
 
             </LinearLayout>
+            <View android:layout_height="1px" android:background="@color/theme01.bottomLineColor" android:layout_marginTop="0dp" android:layout_width="fill_parent"></View>
 
             <!-- proposal -->
             <LinearLayout
@@ -245,6 +247,7 @@
                     android:src="@drawable/ic_btn_right_arrow" />
 
             </LinearLayout>
+            <View android:layout_height="1px" android:background="@color/theme01.bottomLineColor" android:layout_marginTop="0dp" android:layout_width="fill_parent"></View>
 
             <!-- asset manager -->
             <LinearLayout
@@ -282,6 +285,7 @@
                     android:src="@drawable/ic_btn_right_arrow" />
 
             </LinearLayout>
+            <View android:layout_height="1px" android:background="@color/theme01.bottomLineColor" android:layout_marginTop="0dp" android:layout_width="fill_parent"></View>
 
             <!-- faq -->
             <LinearLayout
@@ -319,6 +323,7 @@
                     android:src="@drawable/ic_btn_right_arrow" />
 
             </LinearLayout>
+            <View android:layout_height="1px" android:background="@color/theme01.bottomLineColor" android:layout_marginTop="0dp" android:layout_width="fill_parent"></View>
 
             <!-- 分享链接、设置 -->
             <!-- <LinearLayout
@@ -390,6 +395,7 @@
                     android:src="@drawable/ic_btn_right_arrow" />
 
             </LinearLayout>
+            <View android:layout_height="1px" android:background="@color/theme01.bottomLineColor" android:layout_marginTop="0dp" android:layout_width="fill_parent"></View>
             
         </LinearLayout>
 
