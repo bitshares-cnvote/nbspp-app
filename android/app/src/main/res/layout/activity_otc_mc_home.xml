@@ -146,6 +146,7 @@
                         android:layout_height="20dp"
                         android:foregroundGravity="right"
                         android:layout_gravity="center_vertical|right"
+                        android:tint="@color/theme01.textColorMain"
                         android:src="@drawable/ic_btn_right_arrow" />
                 </LinearLayout>
 
@@ -186,6 +187,7 @@
                         android:layout_height="20dp"
                         android:foregroundGravity="right"
                         android:layout_gravity="center_vertical|right"
+                        android:tint="@color/theme01.textColorMain"
                         android:src="@drawable/ic_btn_right_arrow" />
                 </LinearLayout>
                 <!-- <View android:layout_marginTop="5dp" android:layout_height="1dp" android:background="@color/theme01.bottomLineColor" android:layout_width="fill_parent"></View> -->
@@ -224,6 +226,7 @@
                         android:layout_height="20dp"
                         android:foregroundGravity="right"
                         android:layout_gravity="center_vertical|right"
+                        android:tint="@color/theme01.textColorMain"
                         android:src="@drawable/ic_btn_right_arrow" />
                 </LinearLayout>
                 <!-- <View android:layout_marginTop="5dp" android:layout_height="1dp" android:background="@color/theme01.bottomLineColor" android:layout_width="fill_parent"></View> -->
@@ -262,6 +265,7 @@
                         android:layout_height="20dp"
                         android:foregroundGravity="right"
                         android:layout_gravity="center_vertical|right"
+                        android:tint="@color/theme01.textColorMain"
                         android:src="@drawable/ic_btn_right_arrow" />
                 </LinearLayout>
                 <!-- <View android:layout_marginTop="5dp" android:layout_height="1dp" android:background="@color/theme01.bottomLineColor" android:layout_width="fill_parent"></View> -->
@@ -300,6 +304,7 @@
                         android:layout_height="20dp"
                         android:foregroundGravity="right"
                         android:layout_gravity="center_vertical|right"
+                        android:tint="@color/theme01.textColorMain"
                         android:src="@drawable/ic_btn_right_arrow" />
                 </LinearLayout>
                 <!-- <View android:layout_marginTop="5dp" android:layout_height="1dp" android:background="@color/theme01.bottomLineColor" android:layout_width="fill_parent"></View> -->
@@ -340,6 +345,7 @@
                         android:layout_height="20dp"
                         android:foregroundGravity="right"
                         android:layout_gravity="center_vertical|right"
+                        android:tint="@color/theme01.textColorMain"
                         android:src="@drawable/ic_btn_right_arrow" />
                 </LinearLayout>
                 <!-- <View android:layout_marginTop="5dp" android:layout_height="1dp" android:background="@color/theme01.bottomLineColor" android:layout_width="fill_parent"></View> -->

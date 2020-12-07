@@ -61,7 +61,7 @@
             app:tabTextAppearance="@style/CommonTabTextStyle"
             app:tabIndicatorColor="@color/theme01.tintColor"
             app:tabRippleColor="#aaaaaa"
-            app:tabTextColor="#ffffff">
+            app:tabTextColor="@color/theme01.textColorMain">
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"

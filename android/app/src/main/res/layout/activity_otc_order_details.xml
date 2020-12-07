@@ -267,6 +267,7 @@
                                     android:id="@+id/img_icon_arrow_curr_payment_method"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:tint="@color/theme01.textColorMain"
                                     android:src="@drawable/ic_btn_right_arrow"/>
 
                             </LinearLayout>

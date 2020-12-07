@@ -97,6 +97,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:foregroundGravity="right"
+                            android:tint="@color/theme01.textColorMain"
                             android:src="@drawable/ic_btn_right_arrow" />
                     </LinearLayout>
 
@@ -187,7 +188,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@color/colorPrimary"
                     android:layout_marginTop="20dp"
                     android:orientation="horizontal">
 

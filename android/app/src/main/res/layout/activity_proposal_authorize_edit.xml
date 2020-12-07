@@ -122,6 +122,7 @@
                             android:layout_weight="1"
 
                             android:foregroundGravity="right"
+                            android:tint="@color/theme01.textColorMain"
                             android:src="@drawable/ic_btn_right_arrow" />
 
 
@@ -179,6 +180,7 @@
                             android:layout_weight="1"
 
                             android:foregroundGravity="right"
+                            android:tint="@color/theme01.textColorMain"
                             android:src="@drawable/ic_btn_right_arrow" />
 
 
@@ -192,7 +194,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:background="@color/colorPrimary"
                     android:layout_marginTop="20dp"
                     android:orientation="horizontal">
 

@@ -89,8 +89,8 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical|right"
                 android:layout_weight="0.5"
-
                 android:foregroundGravity="right"
+                android:tint="@color/theme01.textColorMain"
                 android:src="@drawable/ic_btn_right_arrow" />
         </LinearLayout>
 

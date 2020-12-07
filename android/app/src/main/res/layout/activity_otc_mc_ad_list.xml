@@ -68,7 +68,7 @@
             app:tabTextAppearance="@style/KPageTabTextStyle"
             app:tabIndicatorColor="#ff0000"
             app:tabRippleColor="#aaaaaa"
-            app:tabTextColor="#ffffff">
+            app:tabTextColor="@color/theme01.textColorMain">
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
