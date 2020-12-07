@@ -6,111 +6,121 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_gravity="bottom|end"
-        android:background="@color/theme01.tabBarColor"
-        android:orientation="horizontal">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <FrameLayout
-            android:id="@+id/bottom_nav_markets_frame"
+        <View android:layout_height="1dp" android:background="@color/theme01.bottomLineColor" android:layout_marginTop="0dp" android:layout_width="fill_parent"></View>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_height="48dp"
+            android:layout_gravity="bottom|end"
+            android:background="@color/theme01.tabBarColor"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/bottom_nav_image_view_markets"
-                android:layout_width="wrap_content"
-                android:layout_height="28dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="0dp"
-                app:srcCompat="@drawable/ic_bottom_markets" />
+            <FrameLayout
+                android:id="@+id/bottom_nav_markets_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/bottom_nav_text_view_markets"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="28dp"
-                android:text="@string/kTabBarNameMarkets"
-                android:textColor="@color/theme01.textColorGray"
-                android:textSize="10dp" />
-        </FrameLayout>
+                <ImageView
+                    android:id="@+id/bottom_nav_image_view_markets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="0dp"
+                    app:srcCompat="@drawable/ic_bottom_markets" />
 
-        <FrameLayout
-            android:id="@+id/bottom_nav_diya_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+                <TextView
+                    android:id="@+id/bottom_nav_text_view_markets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="28dp"
+                    android:text="@string/kTabBarNameMarkets"
+                    android:textColor="@color/theme01.textColorGray"
+                    android:textSize="10dp" />
+            </FrameLayout>
 
-            <ImageView
-                android:id="@+id/bottom_nav_image_view_diya"
-                android:layout_width="wrap_content"
-                android:layout_height="28dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="0dp"
-                app:srcCompat="@drawable/ic_bottom_diya" />
+            <FrameLayout
+                android:id="@+id/bottom_nav_diya_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/bottom_nav_text_view_diya"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="28dp"
-                android:text="@string/kTabBarNameCollateral"
-                android:textColor="@color/theme01.textColorGray"
-                android:textSize="10dp" />
+                <ImageView
+                    android:id="@+id/bottom_nav_image_view_diya"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="0dp"
+                    app:srcCompat="@drawable/ic_bottom_diya" />
 
-        </FrameLayout>
+                <TextView
+                    android:id="@+id/bottom_nav_text_view_diya"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="28dp"
+                    android:text="@string/kTabBarNameCollateral"
+                    android:textColor="@color/theme01.textColorGray"
+                    android:textSize="10dp" />
 
-        <FrameLayout
-            android:id="@+id/bottom_nav_services_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            </FrameLayout>
 
-            <ImageView
-                android:id="@+id/bottom_nav_image_view_services"
-                android:layout_width="wrap_content"
-                android:layout_height="28dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="0dp"
-                app:srcCompat="@drawable/ic_bottom_service" />
+            <FrameLayout
+                android:id="@+id/bottom_nav_services_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/bottom_nav_text_view_services"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="28dp"
-                android:text="@string/kTabBarNameServices"
-                android:textColor="@color/theme01.textColorGray"
-                android:textSize="10dp" />
-        </FrameLayout>
+                <ImageView
+                    android:id="@+id/bottom_nav_image_view_services"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="0dp"
+                    app:srcCompat="@drawable/ic_bottom_service" />
 
-        <FrameLayout
-            android:id="@+id/bottom_nav_my_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+                <TextView
+                    android:id="@+id/bottom_nav_text_view_services"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="28dp"
+                    android:text="@string/kTabBarNameServices"
+                    android:textColor="@color/theme01.textColorGray"
+                    android:textSize="10dp" />
+            </FrameLayout>
 
-            <ImageView
-                android:id="@+id/bottom_nav_image_view_my"
-                android:layout_width="wrap_content"
-                android:layout_height="28dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="0dp"
-                app:srcCompat="@drawable/ic_bottom_my" />
+            <FrameLayout
+                android:id="@+id/bottom_nav_my_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/bottom_nav_text_view_my"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="28dp"
-                android:text="@string/kTabBarNameMy"
-                android:textColor="@color/theme01.textColorGray"
-                android:textSize="10dp" />
-        </FrameLayout>
+                <ImageView
+                    android:id="@+id/bottom_nav_image_view_my"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="0dp"
+                    app:srcCompat="@drawable/ic_bottom_my" />
+
+                <TextView
+                    android:id="@+id/bottom_nav_text_view_my"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="28dp"
+                    android:text="@string/kTabBarNameMy"
+                    android:textColor="@color/theme01.textColorGray"
+                    android:textSize="10dp" />
+            </FrameLayout>
+        </LinearLayout>
+
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
