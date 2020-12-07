@@ -90,7 +90,7 @@
             android:id="@+id/tv_my_favs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/theme01.color03"
+            android:textColor="@color/theme01.textColorHighlight"
             android:textStyle="bold"
             android:layout_marginTop="5dp"
             android:text="@string/kSearchTipsMyFavAccount"

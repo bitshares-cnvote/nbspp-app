@@ -781,9 +781,9 @@ class ViewKLine : ViewBase {
             maskPath.close()
 
             //  TODO:color
-            val lg = LinearGradient(0f, 0f, 0f, 400f, resources.getColor(R.color.theme01_color03), resources.getColor(R.color.theme01_color01), Shader.TileMode.CLAMP)
+            val lg = LinearGradient(0f, 0f, 0f, 400f, resources.getColor(R.color.theme01_textColorHighlight), resources.getColor(R.color.theme01_color01), Shader.TileMode.CLAMP)
             paint.strokeWidth = 1.0f
-            paint.color = resources.getColor(R.color.theme01_color03)
+            paint.color = resources.getColor(R.color.theme01_textColorHighlight)
             paint.style = Paint.Style.FILL
 
             paint.shader = lg

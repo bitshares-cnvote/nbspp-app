@@ -452,7 +452,7 @@ class FragmentAssets : BtsppFragment() {
                     else -> assert(false)
                 }
                 tv7.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14.0f)
-                tv7.setTextColor(resources.getColor(R.color.theme01_color03))
+                tv7.setTextColor(resources.getColor(R.color.theme01_textColorHighlight))
                 tv7.gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER
                 tv7.layoutParams = layout_tv7
                 tv7.tag = action
@@ -729,7 +729,7 @@ class FragmentAssets : BtsppFragment() {
                 val viewAll = TextView(_ctx!!)
                 viewAll.text = _ctx!!.resources.getString(R.string.kVcAssetViewAllAssets)
                 viewAll.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15.0f)
-                viewAll.setTextColor(resources.getColor(R.color.theme01_color03))
+                viewAll.setTextColor(resources.getColor(R.color.theme01_textColorHighlight))
                 viewAll.gravity = Gravity.CENTER or Gravity.CENTER_VERTICAL
                 val viewAll_layout_param = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, toDp(40f))
                 viewAll_layout_param.gravity = Gravity.CENTER or Gravity.CENTER_VERTICAL

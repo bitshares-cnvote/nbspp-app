@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ActivityAccountQueryResult"
-    android:background="@color/theme01.color09">
+    android:background="@color/theme01.appBackColor">
 
 
     <LinearLayout
@@ -44,7 +44,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical|right"
                 android:text="@string/Cancel"
-                android:textColor="@color/theme01.color03"
+                android:textColor="@color/theme01.textColorHighlight"
                 android:foregroundGravity="right"/>
 
 
@@ -55,7 +55,7 @@
             android:id="@+id/tv_title_from_services_account_query"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/theme01.color03"
+            android:textColor="@color/theme01.textColorHighlight"
             android:textStyle="bold"
             android:layout_marginTop="5dp"
             android:text="@string/search_result"
