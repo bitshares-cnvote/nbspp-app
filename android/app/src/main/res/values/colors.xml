@@ -29,7 +29,7 @@
     <!--静谧蓝-->
     <color name="theme01.color01">#131f2f</color>
     <!-- <color name="theme01.color02">#ffffff</color> -->
-    <color name="theme01.color03">#5988cf</color>
+    <!-- <color name="theme01.color03">#5988cf</color> -->
     <!-- <color name="theme01.color04">#6b86a4</color> -->
     <!-- <color name="theme01.color05">#3e526a</color> -->
     <!-- <color name="theme01.color06">#fc6d5f</color> -->
@@ -38,7 +38,7 @@
     <color name="theme01.color09">#0b131d</color>
 
     <!-- syalon added, 如何动态切换呢？？ -->
-    <color name="theme01.appBackColor">#131f30</color>
+<!--     <color name="theme01.appBackColor">#131f30</color>
     <color name="theme01.contentBackColor">#333333</color>
     <color name="theme01.bottomLineColor">#1a273a</color>
     <color name="theme01.buyColor">#03c087</color>
@@ -63,7 +63,38 @@
     <color name="theme01.tabBarColor2">#cc172941</color>
 
     <color name="theme01.mainButtonBackColor">#e76d42</color>
+    <color name="theme01.mainButtonTextColor">#ffffff</color> -->
+
+
+    <!-- 新白色主題 -->
+    <color name="theme01.appBackColor">#fefefe</color>
+    <color name="theme01.contentBackColor">#333333</color>
+    <color name="theme01.bottomLineColor">#eff1f3</color>
+    <color name="theme01.buyColor">#4daa90</color>
+    <color name="theme01.sellColor">#c15465</color>
+    <color name="theme01.zeroColor">#8c9fad</color>
+    <color name="theme01.callOrderColor">#fabe00</color>
+    <color name="theme01.textColorPercent">#ffffff</color>
+    <color name="theme01.textColorHighlight">#2a64e4</color>
+    <color name="theme01.textColorGray">#c6ced4</color>
+    <color name="theme01.textColorNormal">#8f9eab</color>
+    <color name="theme01.textColorMain">#15181e</color>
+    <color name="theme01.ma5Color">#f6dc93</color>
+    <color name="theme01.ma10Color">#61d1c0</color>
+    <color name="theme01.ma30Color">#cb92fe</color>
+
+    <color name="theme01.tintColor">#e76d42</color>
+
+ <!--    <color name="theme01.buyColor2">#122f38</color>
+    <color name="theme01.sellColor2">#282732</color> -->
+
+    <!-- TODO:2.0 -->
+    <color name="theme01.tabBarColor">#fefefe</color>
+    <color name="theme01.tabBarColor2">#c6ced4</color>
+
+    <color name="theme01.mainButtonBackColor">#e76d42</color>
     <color name="theme01.mainButtonTextColor">#ffffff</color>
+
 
 
 <!-- 
