@@ -99,6 +99,11 @@ class ViewBidAsk : FrameLayout {
             val tv5 = ViewUtils.createTextViewForOrderBook(ctx, "--", Gravity.RIGHT, R.color.theme01_textColorNormal, 6f, layout_view_height)
             val tv6 = ViewUtils.createTextViewForOrderBook(ctx, idnum, Gravity.RIGHT, R.color.theme01_textColorNormal, 2f, layout_view_height)
 
+            tv2.paint.isFakeBoldText = true
+            tv3.paint.isFakeBoldText = true
+            tv4.paint.isFakeBoldText = true
+            tv5.paint.isFakeBoldText = true
+
             tv3.setPadding(0, 0, Utils.toDp(5f, res), 0)
             tv4.setPadding(Utils.toDp(5f, res), 0, 0, 0)
 
@@ -138,14 +143,14 @@ class ViewBidAsk : FrameLayout {
             val buy_block_layout_params = LinearLayout.LayoutParams(Utils.toDp(5f * i, res), layout_view_height)
             val buy_block_layout = TextView(ctx)
             buy_block_layout.setBackgroundColor(res.getColor(R.color.theme01_buyColor))
-            buy_block_layout.background.alpha = 50
+            buy_block_layout.background.alpha = 70
             buy_block_layout.layoutParams = buy_block_layout_params
             buy_block_layout.visibility = View.GONE
 
             val sell_block_layout_params = LinearLayout.LayoutParams(Utils.toDp(5f * i, res), layout_view_height)
             val sell_block_layout = TextView(ctx)
             sell_block_layout.setBackgroundColor(res.getColor(R.color.theme01_sellColor))
-            sell_block_layout.background.alpha = 50
+            sell_block_layout.background.alpha = 70
             sell_block_layout.layoutParams = sell_block_layout_params
             sell_block_layout.visibility = View.GONE
 

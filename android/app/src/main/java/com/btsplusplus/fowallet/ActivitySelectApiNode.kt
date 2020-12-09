@@ -292,7 +292,7 @@ class ActivitySelectApiNode : BtsppActivity() {
                             }
                             text = resources.getString(R.string.kSettingApiCellCustomFlag)
                             setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11.0f)
-                            setTextColor(resources.getColor(R.color.theme01_textColorMain))
+                            setTextColor(resources.getColor(R.color.theme01_textColorFlag))
                             gravity = Gravity.CENTER_VERTICAL
                             setPadding(4.dp, 1.dp, 4.dp, 1.dp)
                             background = resources.getDrawable(R.drawable.border_text_view)

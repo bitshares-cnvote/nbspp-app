@@ -345,7 +345,7 @@ class ActivityWalletManager : BtsppActivity() {
         tv_tag_of_current_account_layout_params.setMargins(4.dp, 0, 0, 0)
         tv_tag_of_current_account_layout_params.gravity = Gravity.CENTER_VERTICAL
         val tv_tag_of_current_account = TextView(this)
-        tv_tag_of_current_account.setTextColor(resources.getColor(R.color.theme01_textColorMain))
+        tv_tag_of_current_account.setTextColor(resources.getColor(R.color.theme01_textColorFlag))
         tv_tag_of_current_account.text = resources.getString(R.string.kWalletCellCurrentAccount)
         tv_tag_of_current_account.setTextSize(TypedValue.COMPLEX_UNIT_DIP, small_font_size)
         tv_tag_of_current_account.setPadding(4.dp, 1.dp, 4.dp, 1.dp)

@@ -259,7 +259,7 @@ class FragmentMarginRanking : BtsppFragment() {
                         addView(TextView(_ctx).apply {
                             text = resources.getString(R.string.kVcRankFlagWillSettlement)
                             setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12.0f)
-                            setTextColor(resources.getColor(R.color.theme01_textColorMain))
+                            setTextColor(resources.getColor(R.color.theme01_textColorFlag))
                             background = resources.getDrawable(R.drawable.flag_settlement)
                             gravity = Gravity.CENTER.or(Gravity.CENTER_VERTICAL)
                             setPadding(4.dp, 1.dp, 4.dp, 1.dp)

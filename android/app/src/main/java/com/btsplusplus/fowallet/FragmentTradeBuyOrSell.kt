@@ -328,10 +328,12 @@ class FragmentTradeBuyOrSell : BtsppFragment() {
         val tv_price = TextView(_ctx)
         tv_price.text = ""// OrgUtils.formatFloatValue(item.getString("price").toDouble(), _tradingPair._displayPrecision)
         tv_price.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11.0f)
+        tv_price.paint.isFakeBoldText = true
 
         val tv_quantity = TextView(_ctx)
         tv_quantity.text = ""// OrgUtils.formatFloatValue(item.getString("amount").toDouble(), _tradingPair._numPrecision)
         tv_quantity.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11.0f)
+        tv_quantity.paint.isFakeBoldText = true
         tv_quantity.setTextColor(_ctx.resources.getColor(R.color.theme01_textColorNormal))
         tv_quantity.gravity = Gravity.RIGHT
         tv_quantity.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -372,6 +374,7 @@ class FragmentTradeBuyOrSell : BtsppFragment() {
         tv_price.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
         tv_price.text = if (item != null) OrgUtils.formatFloatValue(item.getString("price").toDouble(), _tradingPair._displayPrecision, false) else "--"
         tv_price.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11.0f)
+        tv_price.paint.isFakeBoldText = true
         if (is_buy) {
             tv_price.setTextColor(_ctx.resources.getColor(R.color.theme01_buyColor))
         } else {
@@ -383,6 +386,7 @@ class FragmentTradeBuyOrSell : BtsppFragment() {
         tv_quantity.layoutParams = LinearLayout.LayoutParams(16.dp, LinearLayout.LayoutParams.WRAP_CONTENT)
         tv_quantity.text = if (item != null) OrgUtils.formatFloatValue(item.getString("quote").toDouble(), _tradingPair._numPrecision, false) else "--"
         tv_quantity.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11.0f)
+        tv_quantity.paint.isFakeBoldText = true
         tv_quantity.setTextColor(_ctx.resources.getColor(R.color.theme01_textColorNormal))
         tv_quantity.gravity = Gravity.RIGHT
         tv_quantity.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -407,7 +411,7 @@ class FragmentTradeBuyOrSell : BtsppFragment() {
         } else {
             view_block.setBackgroundColor(_ctx.resources.getColor(R.color.theme01_sellColor))
         }
-        view_block.background.alpha = 50
+        view_block.background.alpha = 70
         view_block.visibility = View.INVISIBLE
 
         layout_view_block.addView(view_block)

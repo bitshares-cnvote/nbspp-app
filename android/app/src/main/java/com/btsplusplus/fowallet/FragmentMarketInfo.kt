@@ -322,6 +322,7 @@ class FragmentMarketInfo : BtsppFragment() {
             val tv1 = TextView(ctx).apply {
                 setTextColor(resources.getColor(R.color.theme01_textColorMain))
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15f)
+                paint.isFakeBoldText = true
                 text = quote_name
             }
             addView(tv1)
@@ -340,7 +341,7 @@ class FragmentMarketInfo : BtsppFragment() {
                 addView(TextView(ctx).apply {
                     text = resources.getString(R.string.kSettingApiCellCustomFlag)
                     setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10.0f)
-                    setTextColor(resources.getColor(R.color.theme01_textColorMain))
+                    setTextColor(resources.getColor(R.color.theme01_textColorFlag))
                     background = resources.getDrawable(R.drawable.border_text_view)
                     gravity = Gravity.CENTER.or(Gravity.CENTER_VERTICAL)
                     setPadding(4.dp, 1.dp, 4.dp, 1.dp)
@@ -351,7 +352,7 @@ class FragmentMarketInfo : BtsppFragment() {
         //  24H量
         val tv_volume = TextView(ctx).apply {
             layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.MATCH_PARENT).apply {
-                setMargins(toDp(10f), toDp(23f), 0, 0)
+                setMargins(toDp(10f), 25.dp, 0, 0)
             }
             text = ticker_show_data.getString("volume_str")
             setTextColor(resources.getColor(R.color.theme01_textColorNormal))
@@ -365,14 +366,15 @@ class FragmentMarketInfo : BtsppFragment() {
             }
             text = ticker_show_data.getString("price_str")
             gravity = Gravity.RIGHT or Gravity.CENTER_VERTICAL
+            paint.isFakeBoldText = true
             setTextColor(resources.getColor(R.color.theme01_textColorMain))
             setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13.5f)
         }
 
         //  百分比
         val tv_percent = TextView(ctx).apply {
-            layoutParams = FrameLayout.LayoutParams(toDp(70f), toDp(25f), Gravity.RIGHT or Gravity.CENTER_VERTICAL).apply {
-                setMargins(0, 0, toDp(10f), 0)
+            layoutParams = FrameLayout.LayoutParams(toDp(70f), 30.dp, Gravity.RIGHT or Gravity.CENTER_VERTICAL).apply {
+                setMargins(0, 0, 5.dp, 0)
             }
             gravity = Gravity.CENTER or Gravity.CENTER_VERTICAL
             setTextColor(resources.getColor(R.color.theme01_textColorPercent))
@@ -387,7 +389,13 @@ class FragmentMarketInfo : BtsppFragment() {
         cell.addView(tv_price)
         cell.addView(tv_percent)
 
-        container.addView(cell)
+        val cell_and_line = LinearLayout(ctx).apply {
+            layoutParams = LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+            orientation = LinearLayout.VERTICAL
+            addView(cell)
+            addView(ViewLine(ctx, margin_bottom = 3.dp, line_height = 1))
+        }
+        container.addView(cell_and_line)
 
         //  添加到缓存
         _label_arrays.add(jsonArrayfrom(base_symbol, quote_symbol, tv_price, tv_percent, tv_volume))

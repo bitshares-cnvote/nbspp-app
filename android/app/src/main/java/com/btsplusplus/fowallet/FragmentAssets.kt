@@ -300,6 +300,7 @@ class FragmentAssets : BtsppFragment() {
         val tv1 = TextView(ctx)
         tv1.text = data.getString("name")
         tv1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13.0f)
+        tv1.paint.isFakeBoldText = true
         tv1.setTextColor(resources.getColor(R.color.theme01_textColorMain))
         tv1.gravity = Gravity.CENTER_VERTICAL
         tv1.setPadding(0, 0, toDp(4.0f), 0)
@@ -312,7 +313,7 @@ class FragmentAssets : BtsppFragment() {
             val tv2 = TextView(ctx)
             tv2.text = if (isCore) "Core" else if (isSmart) "Smart" else "Prediction"
             tv2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11.0f)
-            tv2.setTextColor(resources.getColor(R.color.theme01_textColorMain))
+            tv2.setTextColor(resources.getColor(R.color.theme01_textColorFlag))
             tv2.gravity = Gravity.CENTER_VERTICAL
             tv2.setPadding(4.dp, 1.dp, 4.dp, 1.dp)
             tv2.background = resources.getDrawable(R.drawable.border_text_view)
@@ -327,7 +328,7 @@ class FragmentAssets : BtsppFragment() {
         } else {
             tv3.text = "≈ ${estimate_value}${SettingManager.sharedSettingManager().getEstimateAssetSymbol()}"
             if (data.getDouble("estimate_value_real") >= 0) {
-                tv3.setTextColor(resources.getColor(R.color.theme01_textColorMain))
+                tv3.setTextColor(resources.getColor(R.color.theme01_textColorGray))
             } else {
                 tv3.setTextColor(resources.getColor(R.color.theme01_tintColor))
             }
@@ -468,13 +469,7 @@ class FragmentAssets : BtsppFragment() {
 
         }
 
-        // 线
-        val lv_line = View(ctx)
-        val layout_line = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, toDp(1.0f))
-        lv_line.setBackgroundColor(resources.getColor(R.color.theme01_bottomLineColor))
-        lv_line.layoutParams = layout_line
-        layout_line.setMargins(0, 0, 0, toDp(6f))
-
+        //  线
         container.addView(ly1)
         container.addView(ly2)
         for (ly in dynamic_layout_list) {
@@ -483,7 +478,7 @@ class FragmentAssets : BtsppFragment() {
         if (ly3 != null) {
             container.addView(ly3)
         }
-        container.addView(lv_line)
+        container.addView(ViewLine(ctx, margin_bottom = 6.dp))
     }
 
     private fun onActionButtonClicked(clicked_asset_id: String, tag: EBitsharesAssetOpKind) {

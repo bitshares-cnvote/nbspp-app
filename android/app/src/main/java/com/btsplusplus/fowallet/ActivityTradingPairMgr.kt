@@ -239,7 +239,7 @@ class ActivityTradingPairMgr : BtsppActivity() {
                 text = resources.getString(R.string.kSettingApiCellCustomFlag)
                 gravity = Gravity.CENTER_VERTICAL
                 setPadding(4.dp, 1.dp, 4.dp, 1.dp)
-                setTextColor(resources.getColor(R.color.theme01_textColorMain))
+                setTextColor(resources.getColor(R.color.theme01_textColorFlag))
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10.0f)
                 background = resources.getDrawable(R.drawable.border_text_view)
             }
