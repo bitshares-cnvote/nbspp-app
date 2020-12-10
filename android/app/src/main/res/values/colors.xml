@@ -69,16 +69,17 @@
     <!-- 新白色主題 -->
     <color name="theme01.appBackColor">#fefefe</color>
     <color name="theme01.contentBackColor">#333333</color>
-    <color name="theme01.bottomLineColor">#eff1f3</color>
-    <color name="theme01.buyColor">#4daa90</color>
+    <color name="theme01.bottomLineColor">#d7dde4</color>
+    <color name="theme01.buyColor">#03c087</color>
     <color name="theme01.sellColor">#c15465</color>
     <color name="theme01.zeroColor">#8c9fad</color>
     <color name="theme01.callOrderColor">#fabe00</color>
     <color name="theme01.textColorPercent">#ffffff</color>
     <color name="theme01.textColorHighlight">#2a64e4</color>
-    <color name="theme01.textColorGray">#c6ced4</color>
-    <color name="theme01.textColorNormal">#8f9eab</color>
+    <color name="theme01.textColorGray">#8f9eab</color>
+    <color name="theme01.textColorNormal">#8096a8</color>
     <color name="theme01.textColorMain">#15181e</color>
+    <color name="theme01.textColorFlag">#fefefe</color>
     <color name="theme01.ma5Color">#f6dc93</color>
     <color name="theme01.ma10Color">#61d1c0</color>
     <color name="theme01.ma30Color">#cb92fe</color>
