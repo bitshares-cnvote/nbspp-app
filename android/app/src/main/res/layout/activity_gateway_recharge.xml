@@ -125,14 +125,11 @@
             <TextView
                 android:id="@+id/tip_of_recharge_page"
                 android:layout_marginTop="40dp"
-                android:padding="5dp"
                 android:lineHeight="10dp"
                 android:maxLines="10"
-                android:singleLine="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/theme01.textColorMain"
-                android:background="@color/theme01.textColorGray"
+                style="@style/kUiTipsStyle"
                 android:textSize="13dp"
                 android:gravity="left"/>
 

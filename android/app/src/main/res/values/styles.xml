@@ -67,6 +67,16 @@
         <item name="android:textColor">@color/theme01.mainButtonTextColor</item>
     </style>
 
+    <style name="kUiTipsStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/theme01.tabBarColor2</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/theme01.textColorMain</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+
     <style name="kNormalButtonStyle">
         <item name="android:layout_height">36dp</item>
         <item name="android:background">@color/theme01.textColorGray</item>

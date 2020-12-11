@@ -128,16 +128,13 @@
             <!-- 提示信息 -->
             <TextView
                 android:id="@+id/tip_from_recharge_page"
+                style="@style/kUiTipsStyle"
                 android:layout_marginTop="25dp"
                 android:padding="5dp"
                 android:lineHeight="10dp"
                 android:maxLines="10"
-                android:singleLine="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/theme01.textColorMain"
-                android:background="@color/theme01.textColorGray"
-                android:textSize="13dp"
                 android:text="@string/kVcStTipUiBackupYourReceipt"
                 android:gravity="left"/>
 
