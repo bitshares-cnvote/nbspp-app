@@ -318,6 +318,7 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.backgroundColor = [UIColor clearColor];
     }
+    cell.showCustomBottomLine = YES;
     
     id group_info = nil;
     

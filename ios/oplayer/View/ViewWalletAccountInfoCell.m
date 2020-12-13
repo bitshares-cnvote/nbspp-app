@@ -80,7 +80,7 @@
         UIColor* backColor = [ThemeManager sharedThemeManager].textColorHighlight;
         _lbCurrentFlag.textAlignment = NSTextAlignmentCenter;
         _lbCurrentFlag.backgroundColor = [UIColor clearColor];
-        _lbCurrentFlag.textColor = [ThemeManager sharedThemeManager].textColorMain;
+        _lbCurrentFlag.textColor = [ThemeManager sharedThemeManager].textColorFlag;
         _lbCurrentFlag.font = [UIFont boldSystemFontOfSize:12];
         _lbCurrentFlag.layer.borderWidth = 1;
         _lbCurrentFlag.layer.cornerRadius = 2;
@@ -178,7 +178,7 @@
         if (owner_status == EAPS_ENOUGH_PERMISSION || owner_status == EAPS_FULL_PERMISSION){
             borderColor = theme.textColorHighlight;
             backColor = theme.textColorHighlight;
-            textColor = theme.textColorMain;
+            textColor = theme.textColorFlag;
         }else if (owner_status == EAPS_PARTIAL_PERMISSION){
             borderColor = theme.textColorHighlight;
             backColor = [UIColor clearColor];
@@ -195,7 +195,7 @@
         if (active_status == EAPS_ENOUGH_PERMISSION || active_status == EAPS_FULL_PERMISSION){
             borderColor = theme.textColorHighlight;
             backColor = theme.textColorHighlight;
-            textColor = theme.textColorMain;
+            textColor = theme.textColorFlag;
         }else if (active_status == EAPS_PARTIAL_PERMISSION){
             borderColor = theme.textColorHighlight;
             backColor = [UIColor clearColor];
@@ -212,7 +212,7 @@
         if ([[_item objectForKey:@"haveMemoPermission"] boolValue]){
             borderColor = theme.textColorHighlight;
             backColor = theme.textColorHighlight;
-            textColor = theme.textColorMain;
+            textColor = theme.textColorFlag;
         }else{
             borderColor = theme.textColorGray;
             backColor = [UIColor clearColor];
