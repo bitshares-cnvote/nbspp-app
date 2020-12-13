@@ -122,7 +122,7 @@
     _lbDate.frame = CGRectMake(fOffsetX + fDiameter + 8, fOffsetY + 2 + 20.0f, fWidth, 20.0f);
     
     _lbStatus.text = @"已认证";
-    _lbStatus.textColor = theme.textColorMain;
+    _lbStatus.textColor = theme.textColorFlag;
     UIColor* backColor = theme.textColorHighlight;
     _lbStatus.layer.borderColor = backColor.CGColor;
     _lbStatus.layer.backgroundColor = backColor.CGColor;

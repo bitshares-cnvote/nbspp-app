@@ -48,7 +48,7 @@
     UIColor* backColor = [ThemeManager sharedThemeManager].textColorHighlight;
     label.textAlignment = NSTextAlignmentCenter;
     label.backgroundColor = [UIColor clearColor];
-    label.textColor = [ThemeManager sharedThemeManager].textColorMain;
+    label.textColor = [ThemeManager sharedThemeManager].textColorFlag;
     label.font = [UIFont boldSystemFontOfSize:12];
     label.layer.borderWidth = 1;
     label.layer.cornerRadius = 2;

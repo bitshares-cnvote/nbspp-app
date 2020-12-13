@@ -85,7 +85,7 @@
         _lbWillSettlementFlag = [ViewUtils auxGenLabel:[UIFont boldSystemFontOfSize:12.0f] superview:self];
         UIColor* backColor = [ThemeManager sharedThemeManager].sellColor;
         _lbWillSettlementFlag.textAlignment = NSTextAlignmentCenter;
-        _lbWillSettlementFlag.textColor = [ThemeManager sharedThemeManager].textColorMain;
+        _lbWillSettlementFlag.textColor = [ThemeManager sharedThemeManager].textColorFlag;
         _lbWillSettlementFlag.layer.borderWidth = 1;
         _lbWillSettlementFlag.layer.cornerRadius = 2;
         _lbWillSettlementFlag.layer.masksToBounds = YES;

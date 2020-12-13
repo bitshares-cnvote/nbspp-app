@@ -68,6 +68,7 @@
         _lbAssetName = [self auxGenLabel:[UIFont boldSystemFontOfSize:16]];
         _lbAssetType = [self auxGenLabel:[UIFont boldSystemFontOfSize:12]];
         UIColor* backColor = [ThemeManager sharedThemeManager].textColorHighlight;
+        _lbAssetType.textColor= [ThemeManager sharedThemeManager].textColorFlag;
         _lbAssetType.textAlignment = NSTextAlignmentCenter;
         _lbAssetType.layer.borderWidth = 1;
         _lbAssetType.layer.cornerRadius = 2;

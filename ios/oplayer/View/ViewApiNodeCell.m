@@ -52,7 +52,7 @@
         UIColor* backColor = theme.textColorHighlight;
         _lbCustomLabel = [ViewUtils auxGenLabel:[UIFont systemFontOfSize:12] superview:self];
         _lbCustomLabel.backgroundColor = [UIColor clearColor];
-        _lbCustomLabel.textColor = [ThemeManager sharedThemeManager].textColorMain;
+        _lbCustomLabel.textColor = [ThemeManager sharedThemeManager].textColorFlag;
         _lbCustomLabel.layer.borderWidth = 1;
         _lbCustomLabel.layer.cornerRadius = 2;
         _lbCustomLabel.layer.masksToBounds = YES;

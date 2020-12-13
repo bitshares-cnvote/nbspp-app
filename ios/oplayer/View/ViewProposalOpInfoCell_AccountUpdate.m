@@ -78,7 +78,7 @@
         UIColor* backColor = [ThemeManager sharedThemeManager].sellColor;
         _lbDangerous.textAlignment = NSTextAlignmentCenter;
         _lbDangerous.backgroundColor = [UIColor clearColor];
-        _lbDangerous.textColor = [ThemeManager sharedThemeManager].textColorMain;
+        _lbDangerous.textColor = [ThemeManager sharedThemeManager].textColorFlag;
         _lbDangerous.font = [UIFont boldSystemFontOfSize:12];
         _lbDangerous.layer.borderWidth = 1;
         _lbDangerous.layer.cornerRadius = 2;

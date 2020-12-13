@@ -27,7 +27,7 @@ static ThemeManager *_sharedThemeManager = nil;
 
 @synthesize appBackColor, contentBackColor, bottomLineColor;
 @synthesize buyColor, sellColor, zeroColor, callOrderColor;
-@synthesize textColorPercent, textColorHighlight, textColorGray, textColorNormal, textColorMain;
+@synthesize textColorPercent, textColorHighlight, textColorGray, textColorNormal, textColorMain, textColorFlag;
 @synthesize ma5Color, ma10Color, ma30Color;
 @synthesize navigationBarBackColor, navigationBarTextColor;
 @synthesize tabBarColor;
@@ -86,6 +86,7 @@ static ThemeManager *_sharedThemeManager = nil;
                           @"textColorGray",
                           @"textColorNormal",
                           @"textColorMain",
+                          @"textColorFlag",
                           @"ma5Color",
                           @"ma10Color",
                           @"ma30Color",
@@ -134,6 +135,7 @@ static ThemeManager *_sharedThemeManager = nil;
     self.textColorGray = nil;
     self.textColorNormal = nil;
     self.textColorMain = nil;
+    self.textColorFlag = nil;
     self.ma5Color = nil;
     self.ma10Color = nil;
     self.ma30Color = nil;
@@ -304,41 +306,40 @@ static ThemeManager *_sharedThemeManager = nil;
 - (NSDictionary*)genDefaultThemeColors
 {
     NSDictionary *defaultTheme = @{
-                                   @"themeCode": @"dark",
-                                   @"themeName": @"商务黑",
+                                   @"themeCode": @"white",
+                                   @"themeName": @"珍珠白",
                                    @"colors":
                                        @{
-//                                           @"appBackColor"            : @"1c1d1f",//  高端黑
-//                                           @"appBackColor"            : @"131e32",  //  暗黑蓝
-                                           @"appBackColor"            : @"131f30",  //  暗黑蓝
+                                           @"appBackColor"            : @"fefefe",
                                            @"contentBackColor"        : @"333333",
-                                           @"bottomLineColor"         : @"1a273a",  //  TODO:fowallet color 颜色是否太深了
-//                                           @"bottomLineColor"         : @"ffffff",  //  test color
+                                           @"bottomLineColor"         : @"d7dde4",
                                            @"buyColor"                : @"03c087",
-                                           @"sellColor"               : @"e76d42",
+                                           @"sellColor"               : @"c15465",
                                            @"zeroColor"               : @"8c9fad",
-                                           @"callOrderColor"          : @"ffff00",
+                                           @"callOrderColor"          : @"fabe00",
+                                           
                                            @"textColorPercent"        : @"ffffff",
-                                           @"textColorHighlight"      : @"5786d2",
-                                           @"textColorGray"           : @"3d526b",
-                                           @"textColorNormal"         : @"6d87a8",
-                                           @"textColorMain"           : @"ffffff",
+                                           @"textColorHighlight"      : @"2a64e4",
+                                           @"textColorGray"           : @"8f9eab",
+                                           @"textColorNormal"         : @"8096a8",
+                                           @"textColorMain"           : @"15181e",
+                                           @"textColorFlag"           : @"fefefe",
+                                           
                                            @"ma5Color"                : @"f6dc93",
                                            @"ma10Color"               : @"61d1c0",
                                            @"ma30Color"               : @"cb92fe",
                                            
-                                           @"navigationBarBackColor"  : @"131f30",  //  同 appBackColor
-                                           @"navigationBarTextColor"  : @"ffffff",  //  同 textColorMain
-//                                           @"tabBarColor"             : @"fe6c5a",
-                                           @"tabBarColor"             : @"172941",  //  火币蓝
+                                           @"navigationBarBackColor"  : @"ffffff",  //  同 appBackColor
+                                           @"navigationBarTextColor"  : @"1f3f59",  //  同 textColorMain
+                                           @"tabBarColor"             : @"f2f2f2",  //  火币蓝
                                            @"blockButtonBackColor"    : @"607D8B",
                                            @"blockButtonTextColor"    : @"ffffff",
-                                           @"mainButtonBackColor"     : @"e76d42",
+                                           @"mainButtonBackColor"     : @"fe6c5a",
                                            @"mainButtonTextColor"     : @"ffffff",
                                            @"frameButtonBorderColor"  : @"607D8B",
                                            @"frameButtonTextColor"    : @"607D8B",
 //                                           @"tintColor"               : @"fe6c5a",
-                                           @"tintColor"               : @"e76d42",  //  同 textColorHighlight
+                                           @"tintColor"               : @"fe6c5a",  //  同 textColorHighlight
                                            @"iconColor"               : @"fe6c5a",
                                            @"textColor01"             : @"212121",
                                            @"textColor02"             : @"727272",
@@ -363,6 +364,7 @@ static ThemeManager *_sharedThemeManager = nil;
     self.textColorGray          = [themeColors objectForKey:@"textColorGray"];
     self.textColorNormal        = [themeColors objectForKey:@"textColorNormal"];
     self.textColorMain          = [themeColors objectForKey:@"textColorMain"];
+    self.textColorFlag          = [themeColors objectForKey:@"textColorFlag"];
     self.ma5Color               = [themeColors objectForKey:@"ma5Color"];
     self.ma10Color              = [themeColors objectForKey:@"ma10Color"];
     self.ma30Color              = [themeColors objectForKey:@"ma30Color"];

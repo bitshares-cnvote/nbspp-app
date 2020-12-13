@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-#define kAppDefaultThemeCode    @"blue"
-#define kAppDefaultThemeName    @"暗黑蓝"  //  TODO:多语言
+#define kAppDefaultThemeCode    @"white"
+#define kAppDefaultThemeName    @"珍珠白"  //  TODO:多语言
 
 @interface ThemeManager : NSObject
 
@@ -29,6 +29,7 @@
 @property (nonatomic, retain) UIColor* textColorGray;           //  文字颜色：/usdt等不明显颜色
 @property (nonatomic, retain) UIColor* textColorNormal;         //  文字颜色：24h量等普通颜色
 @property (nonatomic, retain) UIColor* textColorMain;           //  文字颜色：数字资产名称、价格等主要颜色
+@property (nonatomic, retain) UIColor* textColorFlag;           //  文字颜色：core smart等文字颜色
 
 @property (nonatomic, retain) UIColor* ma5Color;                //  移动均线颜色
 @property (nonatomic, retain) UIColor* ma10Color;

@@ -82,7 +82,7 @@
         UIColor* backColor = [ThemeManager sharedThemeManager].textColorHighlight;
         _lbAssetType.textAlignment = NSTextAlignmentCenter;
         _lbAssetType.backgroundColor = [UIColor clearColor];
-        _lbAssetType.textColor = [ThemeManager sharedThemeManager].textColorMain;
+        _lbAssetType.textColor = [ThemeManager sharedThemeManager].textColorFlag;
         _lbAssetType.font = [UIFont boldSystemFontOfSize:12];
         _lbAssetType.layer.borderWidth = 1;
         _lbAssetType.layer.cornerRadius = 2;
