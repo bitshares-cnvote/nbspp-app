@@ -410,7 +410,6 @@
 		3FB8F91521CE66C200DA88E2 /* WjCryptLib_Rc4.c in Sources */ = {isa = PBXBuildFile; fileRef = B7BDA99A20B3A3D100738F12 /* WjCryptLib_Rc4.c */; };
 		3FB8F91621CE66C200DA88E2 /* DFReachabilityUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8F88A21CA4BA000DA88E2 /* DFReachabilityUtil.m */; };
 		3FB8F91721CE66C200DA88E2 /* SphereMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = F5666A3A1D631D2800ADA3C6 /* SphereMenu.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		3FB8F91821CE66C200DA88E2 /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = B76132FF1DBE0EE100F61A37 /* NJKWebViewProgress.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3FB8F91921CE66C200DA88E2 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = F531ECB71D670895009328A4 /* AFURLResponseSerialization.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3FB8F91A21CE66C200DA88E2 /* XzEnc.c in Sources */ = {isa = PBXBuildFile; fileRef = B7BDAA7720B3C77400738F12 /* XzEnc.c */; };
 		3FB8F91B21CE66C200DA88E2 /* WjCryptLib_AesOfb.c in Sources */ = {isa = PBXBuildFile; fileRef = B7BDA99620B3A3D100738F12 /* WjCryptLib_AesOfb.c */; };
@@ -486,7 +485,6 @@
 		3FB8F96221CE66C200DA88E2 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8F88C21CA4BA000DA88E2 /* Reachability.m */; };
 		3FB8F96321CE66C200DA88E2 /* VCBtsaiWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = B72A843D20CA628600D92A25 /* VCBtsaiWebView.m */; };
 		3FB8F96421CE66C200DA88E2 /* VCNotice.m in Sources */ = {isa = PBXBuildFile; fileRef = B79FC2D31A45E8A0000D49D5 /* VCNotice.m */; };
-		3FB8F96521CE66C200DA88E2 /* VCWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BEC2811A4601440049EB1F /* VCWebView.m */; };
 		3FB8F96621CE66C200DA88E2 /* StyledPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = ED96A08C186C62AD002181D4 /* StyledPageControl.m */; };
 		3FB8F96721CE66C200DA88E2 /* VCTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EDC7D39B1869D430009F40F1 /* VCTest.m */; };
 		3FB8F96821CE66C200DA88E2 /* Ppmd7Enc.c in Sources */ = {isa = PBXBuildFile; fileRef = B7BDAA6820B3C77400738F12 /* Ppmd7Enc.c */; };
@@ -1033,7 +1031,6 @@
 		B75B39461C5B5E70004C37E1 /* UITableViewCellBase.m in Sources */ = {isa = PBXBuildFile; fileRef = B75B39451C5B5E70004C37E1 /* UITableViewCellBase.m */; };
 		B75EF4D31D599179003DE28A /* IntervalManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B75EF4D21D599179003DE28A /* IntervalManager.m */; };
 		B76016F91DC8CEAF00D2BA9B /* banner_center@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B76016F81DC8CEAF00D2BA9B /* banner_center@2x.png */; };
-		B76133021DBE0EE100F61A37 /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = B76132FF1DBE0EE100F61A37 /* NJKWebViewProgress.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		B76133031DBE0EE100F61A37 /* NJKWebViewProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B76133011DBE0EE100F61A37 /* NJKWebViewProgressView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		B764AEA320B5160000BDFC1B /* VCServices.m in Sources */ = {isa = PBXBuildFile; fileRef = B764AEA220B515FF00BDFC1B /* VCServices.m */; };
 		B76577341C131FD900274158 /* icon_3_3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B76577331C131FD900274158 /* icon_3_3@2x.png */; };
@@ -1174,7 +1171,6 @@
 		B7BDAAA120B3C77500738F12 /* XzDec.c in Sources */ = {isa = PBXBuildFile; fileRef = B7BDAA7620B3C77400738F12 /* XzDec.c */; };
 		B7BDAAA220B3C77500738F12 /* XzEnc.c in Sources */ = {isa = PBXBuildFile; fileRef = B7BDAA7720B3C77400738F12 /* XzEnc.c */; };
 		B7BDAAA320B3C77500738F12 /* XzIn.c in Sources */ = {isa = PBXBuildFile; fileRef = B7BDAA7920B3C77400738F12 /* XzIn.c */; };
-		B7BEC2821A4601440049EB1F /* VCWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BEC2811A4601440049EB1F /* VCWebView.m */; };
 		B7C0411121081D7200848CBC /* VCVote.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C0410F21081D7200848CBC /* VCVote.m */; };
 		B7C041142108275900848CBC /* ViewCommitteeVoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C041122108275800848CBC /* ViewCommitteeVoteCell.m */; };
 		B7C04117210867C300848CBC /* ViewWorkerVoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C04116210867C300848CBC /* ViewWorkerVoteCell.m */; };
@@ -1988,8 +1984,6 @@
 		B75EF4D11D599179003DE28A /* IntervalManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IntervalManager.h; path = ios/IntervalManager.h; sourceTree = "<group>"; };
 		B75EF4D21D599179003DE28A /* IntervalManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IntervalManager.m; path = ios/IntervalManager.m; sourceTree = "<group>"; };
 		B76016F81DC8CEAF00D2BA9B /* banner_center@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "banner_center@2x.png"; path = "Images/banner_center@2x.png"; sourceTree = "<group>"; };
-		B76132FE1DBE0EE100F61A37 /* NJKWebViewProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJKWebViewProgress.h; sourceTree = "<group>"; };
-		B76132FF1DBE0EE100F61A37 /* NJKWebViewProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NJKWebViewProgress.m; sourceTree = "<group>"; };
 		B76133001DBE0EE100F61A37 /* NJKWebViewProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJKWebViewProgressView.h; sourceTree = "<group>"; };
 		B76133011DBE0EE100F61A37 /* NJKWebViewProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NJKWebViewProgressView.m; sourceTree = "<group>"; };
 		B764AEA120B515FF00BDFC1B /* VCServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VCServices.h; path = TabBarControllers/VCServices.h; sourceTree = "<group>"; };
@@ -2223,8 +2217,6 @@
 		B7BDAA7820B3C77400738F12 /* XzEnc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XzEnc.h; sourceTree = "<group>"; };
 		B7BDAA7920B3C77400738F12 /* XzIn.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = XzIn.c; sourceTree = "<group>"; };
 		B7BDAAA420B3C7B700738F12 /* LzmaAppleCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LzmaAppleCommon.h; sourceTree = "<group>"; };
-		B7BEC2801A4601440049EB1F /* VCWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VCWebView.h; path = Controller/VCWebView.h; sourceTree = "<group>"; };
-		B7BEC2811A4601440049EB1F /* VCWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VCWebView.m; path = Controller/VCWebView.m; sourceTree = "<group>"; };
 		B7C0410F21081D7200848CBC /* VCVote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VCVote.m; path = Controller/VCVote.m; sourceTree = "<group>"; };
 		B7C0411021081D7200848CBC /* VCVote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VCVote.h; path = Controller/VCVote.h; sourceTree = "<group>"; };
 		B7C041122108275800848CBC /* ViewCommitteeVoteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewCommitteeVoteCell.m; path = View/ViewCommitteeVoteCell.m; sourceTree = "<group>"; };
@@ -2755,8 +2747,6 @@
 				B7B1E3311DBF3E1C000B9635 /* VCBaseWebView.m */,
 				B7D7DFEE1C5CEFBF007D13DA /* VCSelectTheme.h */,
 				B7D7DFEF1C5CEFBF007D13DA /* VCSelectTheme.m */,
-				B7BEC2801A4601440049EB1F /* VCWebView.h */,
-				B7BEC2811A4601440049EB1F /* VCWebView.m */,
 				ED75E626186C63C9009BEF5E /* MyNavigationController.h */,
 				ED75E627186C63C9009BEF5E /* MyNavigationController.mm */,
 				ED75E628186C63C9009BEF5E /* MyTabBarController.h */,
@@ -3654,8 +3644,6 @@
 		B76132FD1DBE0EE100F61A37 /* NJKWebViewProgress */ = {
 			isa = PBXGroup;
 			children = (
-				B76132FE1DBE0EE100F61A37 /* NJKWebViewProgress.h */,
-				B76132FF1DBE0EE100F61A37 /* NJKWebViewProgress.m */,
 				B76133001DBE0EE100F61A37 /* NJKWebViewProgressView.h */,
 				B76133011DBE0EE100F61A37 /* NJKWebViewProgressView.m */,
 			);
@@ -5073,7 +5061,6 @@
 				3FB8F91621CE66C200DA88E2 /* DFReachabilityUtil.m in Sources */,
 				3FB8F91721CE66C200DA88E2 /* SphereMenu.m in Sources */,
 				3FDD800F21D8C68600DA61FC /* VCProposalAuthorizeEdit.m in Sources */,
-				3FB8F91821CE66C200DA88E2 /* NJKWebViewProgress.m in Sources */,
 				3F291BDA22B48EFB002E0CBD /* GatewayAssetItemData.m in Sources */,
 				3FB8F91921CE66C200DA88E2 /* AFURLResponseSerialization.m in Sources */,
 				3FB8F91A21CE66C200DA88E2 /* XzEnc.c in Sources */,
@@ -5192,7 +5179,6 @@
 				3FD0AD5623C1FA9D0035018E /* VCAssetDetails.m in Sources */,
 				3FB8F96321CE66C200DA88E2 /* VCBtsaiWebView.m in Sources */,
 				3FB8F96421CE66C200DA88E2 /* VCNotice.m in Sources */,
-				3FB8F96521CE66C200DA88E2 /* VCWebView.m in Sources */,
 				3F009A02239FAA9A00A77E4A /* VCOtcMcAdList.m in Sources */,
 				3F2E6E2D233E0B3600BF4B78 /* ViewPermissionInfoCellB.m in Sources */,
 				3FB8F96621CE66C200DA88E2 /* StyledPageControl.m in Sources */,
@@ -5451,7 +5437,6 @@
 				3FF2E98F23D1C360006F98D0 /* VCAssetOpCommon.m in Sources */,
 				F5666A3B1D631D2800ADA3C6 /* SphereMenu.m in Sources */,
 				3FDD800E21D8C68600DA61FC /* VCProposalAuthorizeEdit.m in Sources */,
-				B76133021DBE0EE100F61A37 /* NJKWebViewProgress.m in Sources */,
 				3F291BD922B48EFB002E0CBD /* GatewayAssetItemData.m in Sources */,
 				F531ECBE1D670895009328A4 /* AFURLResponseSerialization.m in Sources */,
 				B7BDAAA220B3C77500738F12 /* XzEnc.c in Sources */,
@@ -5570,7 +5555,6 @@
 				3FADCF9523D6EF1F00043305 /* VCSettlementOrders.m in Sources */,
 				3FD0AD5523C1FA9D0035018E /* VCAssetDetails.m in Sources */,
 				B79FC2D41A45E8A0000D49D5 /* VCNotice.m in Sources */,
-				B7BEC2821A4601440049EB1F /* VCWebView.m in Sources */,
 				3F2E6E2C233E0B3600BF4B78 /* ViewPermissionInfoCellB.m in Sources */,
 				3F009A01239FAA9A00A77E4A /* VCOtcMcAdList.m in Sources */,
 				ED96A096186C62AD002181D4 /* StyledPageControl.m in Sources */,

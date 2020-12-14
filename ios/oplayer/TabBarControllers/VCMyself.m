@@ -30,7 +30,6 @@
 #import "AppCacheManager.h"
 
 #import "VCNotice.h"
-#import "VCWebView.h"
 
 #ifdef DEBUG
 #import "VCTest.h"

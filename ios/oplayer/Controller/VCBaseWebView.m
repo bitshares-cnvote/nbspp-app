@@ -14,10 +14,8 @@
 {
     NSURL*                  _default_url;
     
-    NJKWebViewProgress*     _progressProxy; //  for UIWebView watch progress
     NJKWebViewProgressView* _progressView;  //  loading progress view
     
-    UIWebView*              _webview;
     WKWebView*              _wkWebview;
 }
 
@@ -30,12 +28,6 @@
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     _default_url = nil;
     _progressView = nil;
-    if (_progressProxy)
-    {
-        _progressProxy.webViewProxyDelegate = nil;
-        _progressProxy.progressDelegate = nil;
-        _progressProxy = nil;
-    }
     if (_wkWebview)
     {
         //  移除观察者，不移除会崩溃。
@@ -45,12 +37,6 @@
         [_wkWebview stopLoading];
         _wkWebview = nil;
     }
-    else if (_webview)
-    {
-        _webview.delegate = nil;
-        [_webview stopLoading];
-        _webview = nil;
-    }
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -58,9 +44,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        _webview = nil;
         _wkWebview = nil;
-        _progressProxy = nil;
         _progressView = nil;
         _default_url = nil;
     }
@@ -92,10 +76,6 @@
     {
         [_wkWebview loadRequest:[NSURLRequest requestWithURL:url]];
     }
-    else
-    {
-        [_webview loadRequest:[NSURLRequest requestWithURL:url]];
-    }
 }
 
 /**
@@ -107,10 +87,6 @@
     {
         [_wkWebview reload];
     }
-    else
-    {
-        [_webview reload];
-    }
 }
 
 /**
@@ -121,11 +97,6 @@
     if (_wkWebview && [_wkWebview canGoBack])
     {
         [_wkWebview goBack];
-        return YES;
-    }
-    else if (_webview && [_webview canGoBack])
-    {
-        [_webview goBack];
         return YES;
     }
     else
@@ -149,29 +120,15 @@
     _progressView.progressBarView.backgroundColor = [ThemeManager sharedThemeManager].mainButtonBackColor;
     
     //  根据系统版本创建加载对应的 webview
-    if ([NativeAppDelegate systemVersion] >= 8)
-    {
-        _wkWebview = [[WKWebView alloc] initWithFrame:[self rectWithoutNavi]];
-        _wkWebview.navigationDelegate = self;
-        _wkWebview.allowsBackForwardNavigationGestures = YES;
-        [self.view addSubview:_wkWebview];
-//        [_wkWebview release];
-        //  监听进度
-        [_wkWebview addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
-        [_wkWebview addObserver:self forKeyPath:@"canGoBack" options:NSKeyValueObservingOptionNew context:nil];
-    }
-    else
-    {
-        //  创建监听进度的代理
-        _progressProxy = [[NJKWebViewProgress alloc] init];
-        _progressProxy.webViewProxyDelegate = self;
-        _progressProxy.progressDelegate = self;
-        
-        _webview = [[UIWebView alloc] initWithFrame:[self rectWithoutNavi]];
-        [self.view addSubview:_webview];
-//        [_webview release];
-        _webview.delegate = _progressProxy;
-    }
+    //    if ([NativeAppDelegate systemVersion] >= 8)
+    _wkWebview = [[WKWebView alloc] initWithFrame:[self rectWithoutNavi]];
+    _wkWebview.navigationDelegate = self;
+    _wkWebview.allowsBackForwardNavigationGestures = YES;
+    [self.view addSubview:_wkWebview];
+    //        [_wkWebview release];
+    //  监听进度
+    [_wkWebview addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
+    [_wkWebview addObserver:self forKeyPath:@"canGoBack" options:NSKeyValueObservingOptionNew context:nil];
     
     //  加载默认URL
     if (_default_url){
@@ -194,23 +151,6 @@
     [_progressView removeFromSuperview];
 }
 
-#pragma mark- UIWebViewDelegate
-
-- (void)webViewDidStartLoad:(UIWebView *)webView
-{
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-}
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-}
-
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
-{
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-}
-
 #pragma mark - WKNavigationDelegate
 - (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation
 {
@@ -226,13 +166,6 @@
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error
 {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-}
-
-#pragma mark - NJKWebViewProgressDelegate
--(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
-{
-    //  UIWebView 在这里设置进度
-    [_progressView setProgress:progress animated:YES];
 }
 
 #pragma mark- watch WKWebView load progress...

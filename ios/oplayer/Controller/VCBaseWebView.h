@@ -8,9 +8,8 @@
 
 #import "VCBase.h"
 #import <WebKit/WebKit.h>
-#import "NJKWebViewProgress.h"
 
-@interface VCBaseWebView : VCBase<UIWebViewDelegate, WKNavigationDelegate, NJKWebViewProgressDelegate>
+@interface VCBaseWebView : VCBase<WKNavigationDelegate>
 
 - (id)initWithDefaultURL:(NSURL*)url;
 - (void)loadRequest:(NSURL*)url;
