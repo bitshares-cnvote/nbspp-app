@@ -76,7 +76,7 @@ enum
         [obj addObject:@[@(kVcSubAccountQuery),     @"kServicesCellLabelAccountSearch"]];       //  帐号查询
         //  TODO:7.0 通用资产查询（目前仅支持智能币查询）
         //  [obj addObject:@[@(kVcSubAssetQuery),       @"TODO:4.0资产查询"]];//TODO:4.0 lang
-        if ([[[ChainObjectManager sharedChainObjectManager] getMainSmartAssetList] count] > 0) {
+        if ([[[SettingManager sharedSettingManager] getAppMainSmartAssetList] count] > 0) {
             [obj addObject:@[@(kVcSubAssetInfos),   @"kServicesCellLabelSmartCoin"]];           //  智能币
         }
     })] copy];

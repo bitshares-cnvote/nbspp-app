@@ -34,7 +34,7 @@
     if (self) {
         //  初始化默认资产
         ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
-        id list = [chainMgr getMainSmartAssetList];
+        id list = [[SettingManager sharedSettingManager] getAppMainSmartAssetList];
         assert(list && [list count] > 0);
         _currAsset = [chainMgr getAssetBySymbol:[list firstObject]];
     }
@@ -74,7 +74,7 @@
 {
     NSMutableArray* asset_list = [NSMutableArray array];
     ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
-    for (id symbol in [chainMgr getMainSmartAssetList]) {
+    for (id symbol in [[SettingManager sharedSettingManager] getAppMainSmartAssetList]) {
         [asset_list addObject:[chainMgr getAssetBySymbol:symbol]];
     }
     [asset_list addObject:@{@"symbol":NSLocalizedString(@"kVcAssetMgrCellValueSmartBackingAssetCustom", @"自定义"), @"is_custom":@YES}];
