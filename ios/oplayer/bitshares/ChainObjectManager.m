@@ -926,7 +926,10 @@ static ChainObjectManager *_sharedChainObjectManager = nil;
 - (WsPromise*)grapheneNetworkInit
 {
     GrapheneApi* api = [[GrapheneConnectionManager sharedGrapheneConnectionManager] any_connection].api_db;
-    return [[api exec:@"get_chain_properties" params:@[]] then:(^id(id chain_properties) {
+    id p1 = [api exec:@"get_chain_properties" params:@[]];
+    id p2 = [[SettingManager sharedSettingManager] queryAppSettingsOnChain];
+    return [[WsPromise all:@[p1, p2]] then:^id(id data_array) {
+        id chain_properties = [data_array objectAtIndex:0];
         //  石墨烯网络区块链ID和BTS主网链ID不同，则为测试网络，不判断核心资产名字。因为测试网络资产名字也可能为BTS。
         id chain_id = [chain_properties objectForKey:@"chain_id"];
         if (!chain_id || ![chain_id isEqualToString:@BTS_NETWORK_CHAIN_ID]){
@@ -946,7 +949,7 @@ static ChainObjectManager *_sharedChainObjectManager = nil;
             //  正式网络：直接返回初始化成功
             return @YES;
         }
-    })];
+    }];
 }
 
 #pragma mark- for ticker data
@@ -2174,10 +2177,9 @@ static ChainObjectManager *_sharedChainObjectManager = nil;
     assert(catalog);
     GrapheneApi* api = [[GrapheneConnectionManager sharedGrapheneConnectionManager] any_connection].api_custom_operations;
     if (api && [api isInited]) {
-        //  TODO:2.9 vector<account_storage_object>
         return [api exec:@"get_storage_info" params:@[account_name_or_id, catalog]];
     } else {
-        //  TODO:2.9 不支持返回空，还是报错？
+        //  REMARK：API节点不支持该插件则返回空数据
         return [WsPromise resolve:@[]];
     }
 }

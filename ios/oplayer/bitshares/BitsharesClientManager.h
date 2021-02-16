@@ -107,6 +107,7 @@ enum
  *  OP - 存储账号自定义数据（REMARK：在 custom OP 的 data 字段中存储数据）
  */
 - (WsPromise*)accountStorageMap:(NSString*)account opdata:(NSDictionary*)account_storage_map_opdata;
+- (WsPromise*)accountStorageMap:(NSString*)account remove:(BOOL)remove catalog:(NSString*)catalog key_values:(NSArray*)key_values;
 
 /**
  *  计算手续费

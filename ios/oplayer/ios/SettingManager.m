@@ -92,6 +92,8 @@ static SettingManager *_sharedSettingManager = nil;
     if (self)
     {
         self.serverConfig = [NSDictionary dictionary];
+        _haveOnChainAppSettings = NO;
+        _onChainAppSettings = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -99,6 +101,9 @@ static SettingManager *_sharedSettingManager = nil;
 - (void)dealloc
 {
     self.serverConfig = nil;
+    [_onChainAppSettings removeAllObjects];
+    _onChainAppSettings = nil;
+    _haveOnChainAppSettings = NO;
 }
 
 - (NSMutableDictionary*)loadSettingHash
@@ -227,6 +232,104 @@ static SettingManager *_sharedSettingManager = nil;
 - (NSDictionary*)getAllSetting
 {
     return [[self loadSettingHash] copy];
+}
+
+#pragma mark app settings on chain
+
+/*
+ *  (public) 查询所有链上配置信息
+ */
+- (WsPromise*)queryAppSettingsOnChain
+{
+#ifdef kAppOnChainSettingsAccount
+    if ([kAppOnChainSettingsAccount isEqualToString:@""]) {
+        //  链上设置账号为空
+        [self _queryAppSettingsOnChainResponsed:nil];
+        return [WsPromise resolve:@(_haveOnChainAppSettings)];
+    } else {
+        //  已定义：链上设置账号，查询链上信息。
+        return [[[ChainObjectManager sharedChainObjectManager] queryAccountStorageInfo:kAppOnChainSettingsAccount
+                                                                               catalog:kAppStorageCatalogAppSetings] then:^id(id data_array) {
+            //  account_storage_object 数组
+            [self _queryAppSettingsOnChainResponsed:data_array];
+            return @(_haveOnChainAppSettings);
+        }];
+    }
+#else
+    //  未定义：链上设置账号
+    [self _queryAppSettingsOnChainResponsed:nil];
+    return [WsPromise resolve:@(_haveOnChainAppSettings)];
+#endif  //  kAppOnChainSettingsAccount
+}
+
+- (void)_queryAppSettingsOnChainResponsed:(id)data_array
+{
+    [_onChainAppSettings removeAllObjects];
+    
+    if (!data_array || [data_array count] <= 0) {
+        _haveOnChainAppSettings = NO;
+        return;
+    }
+    
+    _haveOnChainAppSettings = YES;
+    for (id item in data_array) {
+        id key = [item objectForKey:@"key"];
+        assert(key);
+        [_onChainAppSettings setObject:item forKey:key];
+    }
+}
+
+/*
+ *  (public) 获取APP链上设置数据
+ */
+- (id)getOnChainAppSetting:(NSString*)key
+{
+    assert(key);
+    if (_haveOnChainAppSettings) {
+        id storage_object = [_onChainAppSettings objectForKey:key];
+        if (storage_object) {
+            return [storage_object objectForKey:@"value"];
+        }
+    }
+    return nil;
+}
+
+#pragma mark- final settings
+
+/*
+ *  (public) 获取设置 - 智能币配置列表
+ */
+- (id)getAppMainSmartAssetList
+{
+    id list = [self getOnChainAppSetting:kAppStorageKeyAppSetings_AssetSmartMainList];
+    if (list && [list count] > 0) {
+        return list;
+    }
+    return [[ChainObjectManager sharedChainObjectManager] getMainSmartAssetList];
+}
+
+/*
+ *  (public) 获取设置 - 已知网关资产发行账号列表
+ */
+- (id)getAppKnownGatewayAccounts
+{
+    id list = [self getOnChainAppSetting:kAppStorageKeyAppSetings_KnownGatewayAccounts];
+    if (list && [list count] > 0) {
+        return list;
+    }
+    return @[];
+}
+
+/*
+ *  (public) 获取设置 - 已知交易所充值账号列表
+ */
+- (id)getAppKnownCexDepositAccounts
+{
+    id list = [self getOnChainAppSetting:kAppStorageKeyAppSetings_KnownCexDepositAccounts];
+    if (list && [list count] > 0) {
+        return list;
+    }
+    return @[];
 }
 
 @end

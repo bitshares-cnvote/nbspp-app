@@ -366,14 +366,27 @@ static BitsharesClientManager *_sharedBitsharesClientManager = nil;
  */
 - (WsPromise*)accountStorageMap:(NSString*)account opdata:(NSDictionary*)account_storage_map_opdata
 {
-    //  TODO: fee asset id
-    id opdata = @{
+    //  TODO:TBD fee asset id
+    id op_custom = @{
         @"fee":@{@"amount":@0, @"asset_id":[ChainObjectManager sharedChainObjectManager].grapheneCoreAssetID},
         @"payer":account,
         @"id":@0,
         @"data":[T_custom_plugin_operation encode_to_bytes:@{@"data":@[@(ebcdt_account_map), account_storage_map_opdata]}]
     };
-    return [self runSingleTransaction:opdata opcode:ebo_custom fee_paying_account:[opdata objectForKey:@"payer"]];
+    return [self runSingleTransaction:op_custom opcode:ebo_custom fee_paying_account:[op_custom objectForKey:@"payer"]];
+}
+
+- (WsPromise*)accountStorageMap:(NSString*)account remove:(BOOL)remove catalog:(NSString*)catalog key_values:(NSArray*)key_values
+{
+    assert(account);
+    assert(catalog);
+    assert(key_values && [key_values count] > 0);
+    id op_account_storage_map = @{
+        @"remove":@(remove),
+        @"catalog":catalog,
+        @"key_values":key_values
+    };
+    return [self accountStorageMap:account opdata:op_account_storage_map];
 }
 
 /**

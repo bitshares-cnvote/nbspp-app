@@ -71,6 +71,9 @@
 #define kAppCommunityFaucetAddress  @"https://faucet.nbs.life/api/v1/accounts"
 #define kAppConfigFile              @"fowallet_config_nbs_mainnet.json"
 
+//  REMARK: APP链端配置信息账号ID（可以为空或不定义该宏）
+#define kAppOnChainSettingsAccount  @"1.2.4755"  //  app-settings
+
 #elif kAppChannelID == 1
 
 //  AppStore版参数

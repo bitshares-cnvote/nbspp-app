@@ -129,7 +129,7 @@
         _api_db = [[GrapheneApi alloc] initWithConnection:self andApi:@"database"];
         _api_net= [[GrapheneApi alloc] initWithConnection:self andApi:@"network_broadcast"];
         _api_history = [[GrapheneApi alloc] initWithConnection:self andApi:@"history"];
-        _api_custom_operations = [[GrapheneApi alloc] initWithConnection:self andApi:@"custom"];
+        _api_custom_operations = [[GrapheneApi alloc] initWithConnection:self andApi:@"custom_operations"];
         
         _init_done = NO;
     }
