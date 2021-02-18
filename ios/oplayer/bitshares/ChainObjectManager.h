@@ -373,4 +373,9 @@
  */
 - (WsPromise*)queryAccountStorageInfo:(NSString*)account_name_or_id catalog:(NSString*)catalog;
 
+/*
+ * (public) 查询账号所有量化机器人数据。
+ */
+- (WsPromise*)queryAccountAllBotsData:(NSString*)account_id;
+
 @end

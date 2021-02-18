@@ -97,4 +97,15 @@ typedef void (^UITapGestureRecognizerBlockHandler)(id weak_self, UITapGestureRec
  */
 + (BOOL)processMyFavPairStateChanged:(id)quote base:(id)base associated_view:(UIButton*)associated_view;
 
+/*
+ *  (public) UI - 显示数字输入对话框
+ */
++ (void)showInputDecimalClicked:(NSString*)args_title
+                    placeholder:(NSString*)args_placeholder
+                      precision:(NSInteger)precision
+                      min_value:(NSDecimalNumber*)n_min_value
+                      max_value:(NSDecimalNumber*)n_max_value
+                          scale:(NSDecimalNumber*)n_scale
+                       callback:(void (^)(NSDecimalNumber* n_value))callback;
+
 @end

@@ -2184,4 +2184,24 @@ static ChainObjectManager *_sharedChainObjectManager = nil;
     }
 }
 
+/*
+ * (public) 查询账号所有量化机器人数据。
+ */
+- (WsPromise*)queryAccountAllBotsData:(NSString*)account_id
+{
+    return [[[ChainObjectManager sharedChainObjectManager] queryAccountStorageInfo:account_id
+                                                                           catalog:kAppStorageCatalogBotsGridBots] then:^id(id data_array) {
+        NSMutableDictionary* resultHash = [NSMutableDictionary dictionary];
+        if (data_array && [data_array isKindOfClass:[NSArray class]]) {
+            for (id storage_item in data_array) {
+                id bots_key = [storage_item objectForKey:@"key"];
+                if (bots_key) {
+                    [resultHash setObject:storage_item forKey:bots_key];
+                }
+            }
+        }
+        return resultHash;
+    }];
+}
+
 @end
