@@ -99,13 +99,16 @@ enum
 #endif  //  kAppModuleEnableOTC
     })] copy];
     
-    NSArray* pSection5 = @[
-#if kAppModuleEnableGateway
-        @[@(kVcSubDepositWithdraw),     @"kServicesCellLabelDepositWithdraw"],                  //  充币提币
-#endif  //  kAppModuleEnableGateway
-        @[@(kVcSubAdvanced),            @"kServicesCellLabelAdvFunction"],                      //  高级功能
-        @[@(kVcSubBtsExplorer),         @"kServicesCellLabelBtsExplorer"],                      //  BTS区块浏览器
-    ];
+    id enabled_gateway_list = [[[SettingManager sharedSettingManager] getAppKnownGatewayList] ruby_select:^BOOL(id gateway_config) {
+        return ![[gateway_config objectForKey:@"disabled"] boolValue];
+    }];
+    NSArray* pSection5 = [[[NSMutableArray array] ruby_apply:(^(id obj) {
+        if (enabled_gateway_list && [enabled_gateway_list count] > 0) {
+            [obj addObject:@[@(kVcSubDepositWithdraw),  @"kServicesCellLabelDepositWithdraw"]]; //  充币提币
+        }
+        [obj addObject:@[@(kVcSubAdvanced),             @"kServicesCellLabelAdvFunction"]];     //  高级功能
+        [obj addObject:@[@(kVcSubBtsExplorer),          @"kServicesCellLabelBtsExplorer"]];     //  BTS区块浏览器
+    })] copy];
     
     _dataArray = [@[pSection1, pSection2, pSection3, pSection4, pSection5] ruby_select:^BOOL(id section) {
         return [section count] > 0;

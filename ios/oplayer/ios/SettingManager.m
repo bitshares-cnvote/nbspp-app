@@ -309,6 +309,18 @@ static SettingManager *_sharedSettingManager = nil;
 }
 
 /*
+ *  (public) 获取设置 - 网关列表信息
+ */
+- (id)getAppKnownGatewayList
+{
+    id list = [self getOnChainAppSetting:kAppStorageKeyAppSetings_KnownGatewayList];
+    if (list && [list count] > 0) {
+        return list;
+    }
+    return @[];
+}
+
+/*
  *  (public) 获取设置 - 已知网关资产发行账号列表
  */
 - (id)getAppKnownGatewayAccounts

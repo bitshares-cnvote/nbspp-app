@@ -36,7 +36,7 @@
 #define kAppModuleEnableTabMarket   1
 #define kAppModuleEnableTabDebt     0
 #define kAppModuleEnableOTC         0
-#define kAppModuleEnableGateway     0
+//#define kAppModuleEnableGateway     0
 #define kAppModuleEnableFaq         1
 #define kAppCheckUpdate             0
 
@@ -63,7 +63,7 @@
 #define kAppModuleEnableTabMarket   1
 #define kAppModuleEnableTabDebt     1
 #define kAppModuleEnableOTC         0
-#define kAppModuleEnableGateway     1
+//#define kAppModuleEnableGateway     1
 #define kAppModuleEnableFaq         1
 #define kAppCheckUpdate             1
 
@@ -80,7 +80,7 @@
 #define kAppModuleEnableTabMarket   1
 #define kAppModuleEnableTabDebt     1
 #define kAppModuleEnableOTC         0
-#define kAppModuleEnableGateway     0
+//#define kAppModuleEnableGateway     0
 #define kAppModuleEnableFaq         0
 #define kAppCheckUpdate             1
 

@@ -213,83 +213,78 @@ enum
     assert([[WalletManager sharedWalletManager] isWalletExist]);
     _fullAccountData = [[WalletManager sharedWalletManager] getWalletAccountInfo];
     
-    //  TODO:1.6 动态加载配置数据
-    _gatewayArray = @[
-        //    TODO:2.5 open的新api还存在部分bug，open那边再进行修复，待修复完毕之后再开放该功能。
-        //                      @{
-        //                          //    API reference: https://github.com/bitshares/bitshares-ui/files/3068123/OL-gateways-api.pdf
-        //                          @"name":@"OpenLedger",
-        //                          @"api":[[OpenLedger alloc] initWithApiConfig:@{
-        //                                                                         @"base":@"https://gateway.openledger.io",
-        //                                                                         @"assets":@"/assets",
-        //                                                                         @"exchanges":@"/exchanges",
-        //                                                                         @"request_deposit_address":@"/exchanges/%@/transfer/source/prototype",
-        //                                                                         @"validate":@"/exchanges/%@/transfer/destination",
-        //                                                                         }],
-        //                          @"helps":@[
-        //                                  @{@"title":NSLocalizedString(@"kVcDWHelpTitleSupport", @"帮助"), @"value":@"https://openledger.freshdesk.com", @"url":@YES},
-        //                                  ],
-        //                          },
-//        @{
-//            @"name":@"GDEX",
-//            @"api":[[GatewayBase alloc] initWithApiConfig:@{
-//                @"base":@"https://api.gdex.io/adjust",
-//                @"coin_list":@"/coins",
-//                @"active_wallets":@"/active-wallets",
-//                @"trading_pairs":@"/trading-pairs",
-//                @"request_deposit_address":@"/simple-api/initiate-trade",
-//                @"check_address":@"/wallets/%@/address-validator",
-//            }],
-//            @"helps":@[
-//                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleSupport", @"帮助"),
-//                      @"value":@"https://support.gdex.io/", @"url":@YES},
-//                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleQQ", @"客服QQ"),
-//                      @"value":@"602573197"},
-//                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleTelegram", @"电报"),
-//                      @"value":@"https://t.me/GDEXer", @"url":@YES}
-//            ],
-//        },
-//        @{
-//            //    API reference: https://docs.google.com/document/d/196hdHb1BTGdmuVi_w74y7lt4Acl0mqt8P02Xg4GSkcI/edit
-//            @"name":@"RuDEX",
-//            @"api":[[RuDEX alloc] initWithApiConfig:@{
-//                @"base":@"https://gateway.rudex.org/api/v0_3",
-//                @"coin_list":@"/coins",
-//                @"request_deposit_address":@"/wallets/%@/new-deposit-address",
-//                @"check_address":@"/wallets/%@/check-address",
-//            }],
-//            @"helps":@[
-//                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleSupport", @"帮助"),
-//                      @"value":@"https://rudex.freshdesk.com", @"url":@YES},
-//                    @{@"title":@"Twitter",
-//                      @"value":@"https://twitter.com/rudex_bitshares", @"url":@YES},
-//                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleTelegram", @"电报"),
-//                      @"value":@"https://t.me/BitSharesDEX_RU", @"url":@YES},
-//            ],
-//        },
-        
-        //  TODO:2.1
-        @{
-            //    API reference: https://docs.google.com/document/d/196hdHb1BTGdmuVi_w74y7lt4Acl0mqt8P02Xg4GSkcI/edit
-            @"name":@"DEX",
-            @"api":[[RuDEX alloc] initWithApiConfig:@{
-                @"base":@"http://bridge.lanou3g.org:81/api/nbs",
-                @"coin_list":@"/coin",
-                @"request_deposit_address":@"/wallet",
-                @"check_address":@"/check-address",
-            }],
-            @"helps":@[
-                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleSupport", @"帮助"),
-                      @"value":@"https://rudex.freshdesk.com", @"url":@YES},
-                    @{@"title":@"Twitter",
-                      @"value":@"https://twitter.com/rudex_bitshares", @"url":@YES},
-                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleTelegram", @"电报"),
-                      @"value":@"https://t.me/BitSharesDEX_RU", @"url":@YES},
-            ],
-        },
-    ];
+//    //  TODO:1.6 动态加载配置数据
+//    _gatewayArray = @[
+//        //    TODO:2.5 open的新api还存在部分bug，open那边再进行修复，待修复完毕之后再开放该功能。
+//        //                      @{
+//        //                          //    API reference: https://github.com/bitshares/bitshares-ui/files/3068123/OL-gateways-api.pdf
+//        //                          @"name":@"OpenLedger",
+//        //                          @"api":[[OpenLedger alloc] initWithApiConfig:@{
+//        //                                                                         @"base":@"https://gateway.openledger.io",
+//        //                                                                         @"assets":@"/assets",
+//        //                                                                         @"exchanges":@"/exchanges",
+//        //                                                                         @"request_deposit_address":@"/exchanges/%@/transfer/source/prototype",
+//        //                                                                         @"validate":@"/exchanges/%@/transfer/destination",
+//        //                                                                         }],
+//        //                          @"helps":@[
+//        //                                  @{@"title":NSLocalizedString(@"kVcDWHelpTitleSupport", @"帮助"), @"value":@"https://openledger.freshdesk.com", @"url":@YES},
+//        //                                  ],
+//        //                          },
+////        @{
+////            @"name":@"GDEX",
+////            @"api":[[GatewayBase alloc] initWithApiConfig:@{
+////                @"base":@"https://api.gdex.io/adjust",
+////                @"coin_list":@"/coins",
+////                @"active_wallets":@"/active-wallets",
+////                @"trading_pairs":@"/trading-pairs",
+////                @"request_deposit_address":@"/simple-api/initiate-trade",
+////                @"check_address":@"/wallets/%@/address-validator",
+////            }],
+////            @"helps":@[
+////                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleSupport", @"帮助"),
+////                      @"value":@"https://support.gdex.io/", @"url":@YES},
+////                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleQQ", @"客服QQ"),
+////                      @"value":@"602573197"},
+////                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleTelegram", @"电报"),
+////                      @"value":@"https://t.me/GDEXer", @"url":@YES}
+////            ],
+////        },
+////        @{
+////            //    API reference: https://docs.google.com/document/d/196hdHb1BTGdmuVi_w74y7lt4Acl0mqt8P02Xg4GSkcI/edit
+////            @"name":@"RuDEX",
+////            @"api":[[RuDEX alloc] initWithApiConfig:@{
+////                @"base":@"https://gateway.rudex.org/api/v0_3",
+////                @"coin_list":@"/coins",
+////                @"request_deposit_address":@"/wallets/%@/new-deposit-address",
+////                @"check_address":@"/wallets/%@/check-address",
+////            }],
+////            @"helps":@[
+////                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleSupport", @"帮助"),
+////                      @"value":@"https://rudex.freshdesk.com", @"url":@YES},
+////                    @{@"title":@"Twitter",
+////                      @"value":@"https://twitter.com/rudex_bitshares", @"url":@YES},
+////                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleTelegram", @"电报"),
+////                      @"value":@"https://t.me/BitSharesDEX_RU", @"url":@YES},
+////            ],
+////        },
+//    ];
+//
+    //  动态
+    NSMutableArray* enabled_gateway_list = [NSMutableArray array];
+    for (id gateway_config in [[SettingManager sharedSettingManager] getAppKnownGatewayList]) {
+        if (![[gateway_config objectForKey:@"disabled"] boolValue]) {
+            id api = [gateway_config objectForKey:@"api"];
+            assert(api);
+            [enabled_gateway_list addObject:@{
+                @"name": [gateway_config objectForKey:@"name"] ?: @"",
+                @"api": [[RuDEX alloc] initWithApiConfig:api],
+                @"helps": [gateway_config objectForKey:@"helps"] ?: @[]
+            }];
+        }
+    }
+    assert([enabled_gateway_list count] > 0);
+    _gatewayArray = [enabled_gateway_list copy];
     
-    assert([_gatewayArray count] > 0);
     id defaultGatewayName = NSLocalizedString(@"appDepositWithdrawDefaultGateway", @"defaultGatewayName");
     for (id gateway in _gatewayArray) {
         if ([[gateway objectForKey:@"name"] isEqualToString:defaultGatewayName]){

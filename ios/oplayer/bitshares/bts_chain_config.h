@@ -359,6 +359,9 @@ typedef enum EBitsharesOperations
 //  KEY：APP设置 > 智能资产列表
 #define kAppStorageKeyAppSetings_AssetSmartMainList         @"asset.smart.mainlist"
 
+//  KEY：APP设置 > 已知网关列表
+#define kAppStorageKeyAppSetings_KnownGatewayList           @"known.gateway.list"
+
 //  KEY：APP设置 > 已知网关资产发行账号列表
 #define kAppStorageKeyAppSetings_KnownGatewayAccounts       @"known.gateway.accounts"
 

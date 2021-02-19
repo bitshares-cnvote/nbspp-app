@@ -87,6 +87,11 @@
 - (id)getAppMainSmartAssetList;
 
 /*
+ *  (public) 获取设置 - 网关列表信息
+ */
+- (id)getAppKnownGatewayList;
+
+/*
  *  (public) 获取设置 - 已知网关资产发行账号列表
  */
 - (id)getAppKnownGatewayAccounts;
