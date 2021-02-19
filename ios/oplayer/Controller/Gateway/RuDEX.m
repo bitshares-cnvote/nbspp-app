@@ -74,17 +74,17 @@
             appext.enableWithdraw = enableWithdraw;
             appext.enableDeposit = enableDeposit;
             appext.symbol = symbol;
-            appext.backSymbol = [item[@"backingCoin"] uppercaseString];
+            appext.backSymbol = symbol;//TODO:[item[@"backingCoin"] uppercaseString];
             appext.name = item[@"name"];
             appext.intermediateAccount = item[@"issuerId"] ?: item[@"issuer"];
             appext.balance = balance_item;
             appext.depositMinAmount = [NSString stringWithFormat:@"%@", n_minAmount];
             appext.withdrawMinAmount = [NSString stringWithFormat:@"%@", n_minAmount];
-            appext.withdrawGateFee = @"";
+            appext.withdrawGateFee = [NSString stringWithFormat:@"%@", item[@"gateFee"] ?: @""];
             appext.supportMemo = [[item objectForKey:@"memoSupport"] boolValue];
             appext.confirm_block_number = confirm_block_number;
             appext.coinType = item[@"symbol"];
-            appext.backingCoinType = item[@"backingCoin"];
+            appext.backingCoinType = [NSString stringWithFormat:@"%@", item[@"code"]];
             
             id new_item = [item mutableCopy];
             [new_item setObject:appext forKey:@"kAppExt"];
@@ -104,11 +104,10 @@
     
     //  if memo not supported - should request deposit address
     if (![[item objectForKey:@"memoSupport"] boolValue]){
-        id walletType = [item objectForKey:@"walletType"];
-        assert(walletType);
+//        id walletType = [item objectForKey:@"code"];
+//        assert(walletType);
         id request_deposit_address_base = [self.api_config_json objectForKey:@"request_deposit_address"];
-        id final_url = [NSString stringWithFormat:@"%@%@", self.api_config_json[@"base"],
-                        [NSString stringWithFormat:request_deposit_address_base, walletType]];
+        id final_url = [NSString stringWithFormat:@"%@%@", self.api_config_json[@"base"], request_deposit_address_base];
         
         return [self requestDepositAddressCore:item
                                         appext:appext
@@ -148,16 +147,16 @@
 {
     //  TODO:仅验证地址
     
-    id walletType = [item objectForKey:@"walletType"];
+    id walletType = [item objectForKey:@"code"];
     assert(walletType);
     
     id check_address_base = [self.api_config_json objectForKey:@"check_address"];
-    id final_url = [NSString stringWithFormat:@"%@%@", self.api_config_json[@"base"],
-                    [NSString stringWithFormat:check_address_base, walletType]];
+    id final_url = [NSString stringWithFormat:@"%@%@", self.api_config_json[@"base"], check_address_base];
     
     return [WsPromise promise:^(WsResolveHandler resolve, WsRejectHandler reject) {
         id post_args = @{
                          @"address":address,
+                         @"inputCoinType": walletType,
                          };
         [[[OrgUtils asyncPostUrl_jsonBody:final_url args:post_args] then:(^id(id resp_data) {
             if (resp_data && [resp_data isKindOfClass:[NSDictionary class]] && [[resp_data objectForKey:@"isValid"] boolValue]){

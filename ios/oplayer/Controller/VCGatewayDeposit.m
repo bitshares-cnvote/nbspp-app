@@ -116,7 +116,7 @@ enum
     NSMutableArray* msgArray = [NSMutableArray array];
     [msgArray addObject:NSLocalizedString(@"kVcDWTipsImportantTitle", @"【重要】")];
     //  min deposit value
-    id inputCoinType = [[_depositAddrItem objectForKey:@"inputCoinType"] uppercaseString];
+    id inputCoinType = [appext.name uppercaseString];
     id minAmount = appext.depositMinAmount;
     if (minAmount && ![minAmount isEqualToString:@""]){
         [msgArray addObject:[NSString stringWithFormat:NSLocalizedString(@"kVcDWTipsMinDepositAmount", @"最小充币数量：%@%@。小于最小数量将无法入账且无法退回。\n"), minAmount, inputCoinType]];

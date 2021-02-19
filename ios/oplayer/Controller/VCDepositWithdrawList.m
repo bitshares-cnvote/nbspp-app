@@ -230,33 +230,53 @@ enum
         //                                  @{@"title":NSLocalizedString(@"kVcDWHelpTitleSupport", @"帮助"), @"value":@"https://openledger.freshdesk.com", @"url":@YES},
         //                                  ],
         //                          },
-        @{
-            @"name":@"GDEX",
-            @"api":[[GatewayBase alloc] initWithApiConfig:@{
-                @"base":@"https://api.gdex.io/adjust",
-                @"coin_list":@"/coins",
-                @"active_wallets":@"/active-wallets",
-                @"trading_pairs":@"/trading-pairs",
-                @"request_deposit_address":@"/simple-api/initiate-trade",
-                @"check_address":@"/wallets/%@/address-validator",
-            }],
-            @"helps":@[
-                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleSupport", @"帮助"),
-                      @"value":@"https://support.gdex.io/", @"url":@YES},
-                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleQQ", @"客服QQ"),
-                      @"value":@"602573197"},
-                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleTelegram", @"电报"),
-                      @"value":@"https://t.me/GDEXer", @"url":@YES}
-            ],
-        },
+//        @{
+//            @"name":@"GDEX",
+//            @"api":[[GatewayBase alloc] initWithApiConfig:@{
+//                @"base":@"https://api.gdex.io/adjust",
+//                @"coin_list":@"/coins",
+//                @"active_wallets":@"/active-wallets",
+//                @"trading_pairs":@"/trading-pairs",
+//                @"request_deposit_address":@"/simple-api/initiate-trade",
+//                @"check_address":@"/wallets/%@/address-validator",
+//            }],
+//            @"helps":@[
+//                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleSupport", @"帮助"),
+//                      @"value":@"https://support.gdex.io/", @"url":@YES},
+//                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleQQ", @"客服QQ"),
+//                      @"value":@"602573197"},
+//                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleTelegram", @"电报"),
+//                      @"value":@"https://t.me/GDEXer", @"url":@YES}
+//            ],
+//        },
+//        @{
+//            //    API reference: https://docs.google.com/document/d/196hdHb1BTGdmuVi_w74y7lt4Acl0mqt8P02Xg4GSkcI/edit
+//            @"name":@"RuDEX",
+//            @"api":[[RuDEX alloc] initWithApiConfig:@{
+//                @"base":@"https://gateway.rudex.org/api/v0_3",
+//                @"coin_list":@"/coins",
+//                @"request_deposit_address":@"/wallets/%@/new-deposit-address",
+//                @"check_address":@"/wallets/%@/check-address",
+//            }],
+//            @"helps":@[
+//                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleSupport", @"帮助"),
+//                      @"value":@"https://rudex.freshdesk.com", @"url":@YES},
+//                    @{@"title":@"Twitter",
+//                      @"value":@"https://twitter.com/rudex_bitshares", @"url":@YES},
+//                    @{@"title":NSLocalizedString(@"kVcDWHelpTitleTelegram", @"电报"),
+//                      @"value":@"https://t.me/BitSharesDEX_RU", @"url":@YES},
+//            ],
+//        },
+        
+        //  TODO:2.1
         @{
             //    API reference: https://docs.google.com/document/d/196hdHb1BTGdmuVi_w74y7lt4Acl0mqt8P02Xg4GSkcI/edit
-            @"name":@"RuDEX",
+            @"name":@"DEX",
             @"api":[[RuDEX alloc] initWithApiConfig:@{
-                @"base":@"https://gateway.rudex.org/api/v0_3",
-                @"coin_list":@"/coins",
-                @"request_deposit_address":@"/wallets/%@/new-deposit-address",
-                @"check_address":@"/wallets/%@/check-address",
+                @"base":@"http://bridge.lanou3g.org:81/api/nbs",
+                @"coin_list":@"/coin",
+                @"request_deposit_address":@"/wallet",
+                @"check_address":@"/check-address",
             }],
             @"helps":@[
                     @{@"title":NSLocalizedString(@"kVcDWHelpTitleSupport", @"帮助"),

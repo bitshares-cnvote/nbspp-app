@@ -865,6 +865,12 @@
 		3FE4E94E22F7C0490056A44F /* HDWallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE4E94C22F7C0480056A44F /* HDWallet.m */; };
 		3FE4E95122FBCFE60056A44F /* ViewAvailableAndFeeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE4E95022FBCFE60056A44F /* ViewAvailableAndFeeCell.m */; };
 		3FE4E95222FBCFE60056A44F /* ViewAvailableAndFeeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE4E95022FBCFE60056A44F /* ViewAvailableAndFeeCell.m */; };
+		3FE7756125DBDC6900592A84 /* VCBotsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE7756025DBDC6800592A84 /* VCBotsManager.m */; };
+		3FE7756225DBDC6900592A84 /* VCBotsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE7756025DBDC6800592A84 /* VCBotsManager.m */; };
+		3FE7756725DBED3600592A84 /* ViewBotsGridInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE7756625DBED3600592A84 /* ViewBotsGridInfoCell.m */; };
+		3FE7756825DBED3600592A84 /* ViewBotsGridInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE7756625DBED3600592A84 /* ViewBotsGridInfoCell.m */; };
+		3FE7756D25DD316700592A84 /* VCBotsCreate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE7756B25DD316700592A84 /* VCBotsCreate.m */; };
+		3FE7756E25DD316700592A84 /* VCBotsCreate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE7756B25DD316700592A84 /* VCBotsCreate.m */; };
 		3FEA20E22398DF890097F1FF /* iconOtcQrcode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FEA20E02398DF880097F1FF /* iconOtcQrcode@2x.png */; };
 		3FEA20E32398DF890097F1FF /* iconOtcQrcode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FEA20E02398DF880097F1FF /* iconOtcQrcode@2x.png */; };
 		3FEA20E52398DF890097F1FF /* iconOtcQrcode@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FEA20E12398DF890097F1FF /* iconOtcQrcode@3x.png */; };
@@ -1747,6 +1753,12 @@
 		3FE4E94C22F7C0480056A44F /* HDWallet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HDWallet.m; path = bitshares/HDWallet.m; sourceTree = "<group>"; };
 		3FE4E94F22FBCFE60056A44F /* ViewAvailableAndFeeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewAvailableAndFeeCell.h; path = View/ViewAvailableAndFeeCell.h; sourceTree = "<group>"; };
 		3FE4E95022FBCFE60056A44F /* ViewAvailableAndFeeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewAvailableAndFeeCell.m; path = View/ViewAvailableAndFeeCell.m; sourceTree = "<group>"; };
+		3FE7755F25DBDC6800592A84 /* VCBotsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VCBotsManager.h; path = Controller/VCBotsManager.h; sourceTree = "<group>"; };
+		3FE7756025DBDC6800592A84 /* VCBotsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VCBotsManager.m; path = Controller/VCBotsManager.m; sourceTree = "<group>"; };
+		3FE7756525DBED3600592A84 /* ViewBotsGridInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewBotsGridInfoCell.h; path = View/ViewBotsGridInfoCell.h; sourceTree = "<group>"; };
+		3FE7756625DBED3600592A84 /* ViewBotsGridInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewBotsGridInfoCell.m; path = View/ViewBotsGridInfoCell.m; sourceTree = "<group>"; };
+		3FE7756B25DD316700592A84 /* VCBotsCreate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VCBotsCreate.m; path = Controller/VCBotsCreate.m; sourceTree = "<group>"; };
+		3FE7756C25DD316700592A84 /* VCBotsCreate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VCBotsCreate.h; path = Controller/VCBotsCreate.h; sourceTree = "<group>"; };
 		3FEA20E02398DF880097F1FF /* iconOtcQrcode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iconOtcQrcode@2x.png"; path = "Images/iconOtcQrcode@2x.png"; sourceTree = "<group>"; };
 		3FEA20E12398DF890097F1FF /* iconOtcQrcode@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iconOtcQrcode@3x.png"; path = "Images/iconOtcQrcode@3x.png"; sourceTree = "<group>"; };
 		3FEA20E823993B520097F1FF /* iconSwitch@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iconSwitch@3x.png"; path = "Images/iconSwitch@3x.png"; sourceTree = "<group>"; };
@@ -2582,6 +2594,10 @@
 		18FF068617E00B110088405E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3FE7756C25DD316700592A84 /* VCBotsCreate.h */,
+				3FE7756B25DD316700592A84 /* VCBotsCreate.m */,
+				3FE7755F25DBDC6800592A84 /* VCBotsManager.h */,
+				3FE7756025DBDC6800592A84 /* VCBotsManager.m */,
 				3F627A0924D4F9D200673A36 /* VCAssetOpStakeVote.h */,
 				3F627A0A24D4F9D300673A36 /* VCAssetOpStakeVote.m */,
 				3F8B929924C83BE2005929D0 /* VCBtsppSdkWebView.h */,
@@ -2768,6 +2784,8 @@
 		18FF069017E00C5C0088405E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3FE7756525DBED3600592A84 /* ViewBotsGridInfoCell.h */,
+				3FE7756625DBED3600592A84 /* ViewBotsGridInfoCell.m */,
 				3FCEC5602575E9CF00060C2D /* ViewVerticalScrollText.h */,
 				3FCEC55F2575E9CF00060C2D /* ViewVerticalScrollText.m */,
 				3F333B1C2476283C00E43B83 /* ViewMyPairsCell.h */,
@@ -4914,6 +4932,7 @@
 				3F6541A3241918F400167794 /* VCNewAccountPasswordConfirm.m in Sources */,
 				3FC4D44D226F2EEB00787082 /* VCHtlcList.m in Sources */,
 				3FEFFD36237A83D90019799D /* ViewWebviewPayment.m in Sources */,
+				3FE7756E25DD316700592A84 /* VCBotsCreate.m in Sources */,
 				3FB8F8AE21CE66C200DA88E2 /* ViewLimitOrderInfoCell.m in Sources */,
 				3FB8F8AF21CE66C200DA88E2 /* VCSlideControllerBase.m in Sources */,
 				3FB8F8B021CE66C200DA88E2 /* MyTabBarController.m in Sources */,
@@ -4986,6 +5005,7 @@
 				3F9A730D21E5C20500DAF7A2 /* ViewGatewayCoinInfoCell.m in Sources */,
 				3FCCFB1E24B1C2F500CAF17E /* VCMyContact.m in Sources */,
 				3F2B7A5823D2E819006B1359 /* ViewTextFieldAmountCell.m in Sources */,
+				3FE7756825DBED3600592A84 /* ViewBotsGridInfoCell.m in Sources */,
 				3FB8F8DE21CE66C200DA88E2 /* NativeAppDelegate.mm in Sources */,
 				3FB8F8DF21CE66C200DA88E2 /* MyLabel.m in Sources */,
 				3F05DDBE230B7D76002934DA /* VCLaunch.m in Sources */,
@@ -5217,6 +5237,7 @@
 				3FB8F97F21CE66C200DA88E2 /* SRConstants.m in Sources */,
 				3FB8F98021CE66C200DA88E2 /* GrapheneConnectionManager.m in Sources */,
 				3F2D83B22412127D00024FFA /* ViewApiNodeCell.m in Sources */,
+				3FE7756225DBDC6900592A84 /* VCBotsManager.m in Sources */,
 				3FB8F98121CE66C200DA88E2 /* SRRandom.m in Sources */,
 				3FADCF8C23D69B4600043305 /* VCAssetCreateOrEdit.m in Sources */,
 				3F6471C523A5DC8F005F8AB8 /* VCOtcMcMerchantApply.m in Sources */,
@@ -5291,6 +5312,7 @@
 				3F6541A2241918F400167794 /* VCNewAccountPasswordConfirm.m in Sources */,
 				3FC4D44C226F2EEB00787082 /* VCHtlcList.m in Sources */,
 				3FEFFD35237A83D90019799D /* ViewWebviewPayment.m in Sources */,
+				3FE7756D25DD316700592A84 /* VCBotsCreate.m in Sources */,
 				B786D52020F1FE7200427C08 /* ViewLimitOrderInfoCell.m in Sources */,
 				B72A845320CBE13B00D92A25 /* VCSlideControllerBase.m in Sources */,
 				ED75E62B186C63C9009BEF5E /* MyTabBarController.m in Sources */,
@@ -5363,6 +5385,7 @@
 				EDDB1BF717AA093000E892BA /* NativeAppDelegate.mm in Sources */,
 				3FCCFB1D24B1C2F500CAF17E /* VCMyContact.m in Sources */,
 				3F2B7A5723D2E819006B1359 /* ViewTextFieldAmountCell.m in Sources */,
+				3FE7756725DBED3600592A84 /* ViewBotsGridInfoCell.m in Sources */,
 				B7F9DA71212A6A1300185503 /* MyLabel.m in Sources */,
 				3F05DDBD230B7D76002934DA /* VCLaunch.m in Sources */,
 				B737851321017782001EEA8C /* DirectionPanGestureRecognizer.m in Sources */,
@@ -5594,6 +5617,7 @@
 				B714094120A31CC300003311 /* SRConstants.m in Sources */,
 				B7C041202109BDC400848CBC /* GrapheneConnectionManager.m in Sources */,
 				3F2D83B12412127D00024FFA /* ViewApiNodeCell.m in Sources */,
+				3FE7756125DBDC6900592A84 /* VCBotsManager.m in Sources */,
 				B714094720A31CC300003311 /* SRRandom.m in Sources */,
 				3FADCF8B23D69B4600043305 /* VCAssetCreateOrEdit.m in Sources */,
 				3F6471C423A5DC8F005F8AB8 /* VCOtcMcMerchantApply.m in Sources */,
