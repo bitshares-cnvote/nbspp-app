@@ -14,7 +14,7 @@
         android:layout_marginTop="25dp"
         android:orientation="vertical">
 
-        <!-- title -->
+        <!-- 导航栏 -->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -54,7 +54,6 @@
 
         </FrameLayout>
 
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -71,7 +70,7 @@
 
                 <!-- withdraw address -->
                 <TextView
-                    android:layout_marginTop="10.dp"
+                    android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/kVcDWCellWithdrawAddress"
@@ -79,17 +78,16 @@
                     android:textSize="13dp"
                     android:gravity="left"/>
 
-
                 <EditText
                     android:id="@+id/tf_withdraw_address"
+                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/kTextFieldNormal"
                     android:hint="@string/kVcDWCellWithdrawPlaceholderAddress"
                     android:paddingLeft="0dp"
-                    android:textSize="17dp" />
-
-                <View android:layout_height="1dp" android:layout_marginTop="0dp" android:background="@color/theme01.bottomLineColor" android:layout_width="fill_parent"></View>
+                    android:textSize="16dp" />
+                <View android:layout_marginTop="10dp" android:layout_height="1dp" android:background="@color/theme01.bottomLineColor" android:layout_width="fill_parent"></View>
 
                 <!-- available balance -->
                 <LinearLayout

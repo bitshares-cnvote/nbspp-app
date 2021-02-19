@@ -234,7 +234,7 @@ class ActivityGatewayWithdraw : BtsppActivity() {
         }
 
         //  提币按钮
-        val tv_button_withdraw = TextViewEx(ctx, resources.getString(R.string.kVcDWWithdrawSubmitButton), gravity = Gravity.CENTER, width = LLAYOUT_MATCH, height = 32.dp, margin_top = 10.dp)
+        val tv_button_withdraw = TextViewEx(ctx, resources.getString(R.string.kVcDWWithdrawSubmitButton), gravity = Gravity.CENTER, width = LLAYOUT_MATCH, height = 32.dp, margin_top = 10.dp, color = R.color.theme01_mainButtonTextColor)
         tv_button_withdraw.setBackgroundColor(resources.getColor(R.color.theme01_mainButtonBackColor))
         tv_button_withdraw.setOnClickListener { gotoWithdrawCore() }
 
