@@ -67,6 +67,10 @@ open class T_Base_companion {
         T_account_transfer.register_subfields()
         T_vesting_balance_withdraw.register_subfields()
 
+        T_custom.register_subfields()
+        T_account_storage_map.register_subfields()
+        T_custom_plugin_operation.register_subfields()
+
         T_op_wrapper.register_subfields()
 
         T_proposal_create.register_subfields()
@@ -964,6 +968,38 @@ class T_vesting_balance_withdraw : T_Base() {
     }
 }
 
+class T_custom : T_Base() {
+    companion object : T_Base_companion() {
+        override fun register_subfields() {
+            add_field("fee", T_asset)
+            add_field("payer", Tm_protocol_id_type(EBitsharesObjectType.ebot_account))
+            add_field("required_auths", Tm_set(Tm_protocol_id_type(EBitsharesObjectType.ebot_account)))
+            add_field("id", T_uint16)
+            add_field("data", Tm_bytes())
+        }
+    }
+}
+
+class T_account_storage_map : T_Base() {
+    companion object : T_Base_companion() {
+        override fun register_subfields() {
+            add_field("remove", T_bool)
+            add_field("catalog", T_string)
+            add_field("key_values", Tm_map(T_string, Tm_optional(T_string)))
+        }
+    }
+}
+
+class T_custom_plugin_operation : T_Base() {
+    companion object : T_Base_companion() {
+        override fun register_subfields() {
+            add_field("data",  Tm_static_variant(JSONArray().apply {
+                T_account_storage_map
+            }))
+        }
+    }
+}
+
 class T_op_wrapper : T_Base() {
     companion object : T_Base_companion() {
         override fun register_subfields() {
@@ -1475,6 +1511,7 @@ class T_operation : T_Base() {
                 EBitsharesOperations.ebo_account_upgrade.value -> T_account_upgrade
                 EBitsharesOperations.ebo_account_transfer.value -> T_account_transfer
                 EBitsharesOperations.ebo_vesting_balance_withdraw.value -> T_vesting_balance_withdraw
+                EBitsharesOperations.ebo_custom.value -> T_custom
                 EBitsharesOperations.ebo_proposal_create.value -> T_proposal_create
                 EBitsharesOperations.ebo_proposal_update.value -> T_proposal_update
                 EBitsharesOperations.ebo_proposal_delete.value -> T_proposal_delete

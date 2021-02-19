@@ -43,6 +43,7 @@ android {
             buildConfigField "String", "kAppConfigFile", "\"fowallet_config_nbs_testnet.json\""
             buildConfigField "boolean", "kUseCommunityFaucet", "true"
             buildConfigField "String", "kAppCommunityFaucetAddress", "\"https://testfaucet.nbs.life/\""
+            buildConfigField "String", "kAppOnChainSettingsAccount", "\"\""
         }
         //  for nbs mainnet
         nbsmain {
@@ -52,6 +53,8 @@ android {
             buildConfigField "String", "kAppConfigFile", "\"fowallet_config_nbs_mainnet.json\""
             buildConfigField "boolean", "kUseCommunityFaucet", "false"
             buildConfigField "String", "kAppCommunityFaucetAddress", "\"https://faucet.nbs.life/\""
+            //  app-settings
+            buildConfigField "String", "kAppOnChainSettingsAccount", "\"1.2.4755\""
         }
     }
     buildTypes {

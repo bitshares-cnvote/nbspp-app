@@ -1,6 +1,8 @@
 package bitshares
 
+import com.btsplusplus.fowallet.BuildConfig
 import com.fowallet.walletcore.bts.ChainObjectManager
+import org.json.JSONArray
 import org.json.JSONObject
 
 class SettingManager {
@@ -37,6 +39,10 @@ class SettingManager {
     //        "en" => [],
     //    },
     var serverConfig: JSONObject? = null
+
+    //  链上配置数据
+    private var _haveOnChainAppSettings = false                             //  是否存在链上配置数据 默认: false
+    private var _onChainAppSettings = JSONObject()                          //  链上设置数据
 
     constructor()
 
@@ -141,5 +147,61 @@ class SettingManager {
     private fun _save_setting_hash(setting: JSONObject) {
         val fullname = OrgUtils.makeFullPathByAppStorage(kAppCacheNameUserSettingByApp)
         OrgUtils.write_file_from_json(fullname, setting)
+    }
+
+    //  app settings on chain
+
+    /**
+     *  (public) 查询所有链上配置信息
+     */
+    fun queryAppSettingsOnChain(): Promise {
+        if (BuildConfig.kAppOnChainSettingsAccount.isEmpty()) {
+            //  链上设置账号为空
+            _queryAppSettingsOnChainResponsed(null)
+            return Promise._resolve(_haveOnChainAppSettings)
+        } else {
+            //  已定义：链上设置账号，查询链上信息。
+            return ChainObjectManager.sharedChainObjectManager().queryAccountStorageInfo(BuildConfig.kAppOnChainSettingsAccount, kAppStorageCatalogAppSetings).then {
+                _queryAppSettingsOnChainResponsed(it as? JSONArray)
+                return@then _haveOnChainAppSettings
+            }
+        }
+    }
+
+    private fun _queryAppSettingsOnChainResponsed(data_array: JSONArray?) {
+        _onChainAppSettings = JSONObject()
+
+        if (data_array == null || data_array.length() <= 0) {
+            _haveOnChainAppSettings = false
+            return
+        }
+
+        _haveOnChainAppSettings = true
+        data_array.forEach<JSONObject> { item ->
+            val key = item!!.getString("key")
+            _onChainAppSettings.put(key, item)
+        }
+    }
+
+    /**
+     *  (public) 获取APP链上设置数据
+     */
+    fun getOnChainAppSetting(key: String): Any? {
+        if (_haveOnChainAppSettings) {
+            val storage_object = _onChainAppSettings.optJSONObject(key)
+            return storage_object?.opt("value")
+        }
+        return null
+    }
+
+    /**
+     *  (public) 获取设置 - 智能币配置列表
+     */
+    fun getAppMainSmartAssetList(): JSONArray {
+        val list = getOnChainAppSetting(kAppStorageKeyAppSetings_AssetSmartMainList) as? JSONArray
+        if (list != null && list.length() > 0) {
+            return list
+        }
+        return ChainObjectManager.sharedChainObjectManager().getMainSmartAssetList()
     }
 }

@@ -1,6 +1,13 @@
 package bitshares
 
 /**
+ *  石墨烯 custom OP 中数据子类型定义
+ */
+enum class EBitsharesCustomDataType(val value: Int) {
+    ebcdt_account_map(0),   //  账号自定义数据存储（插件）
+}
+
+/**
  *  账号模式，密码语言枚举。
  */
 enum class EBitsharesAccountPasswordLang(val value: Int) {
@@ -312,6 +319,18 @@ const val GRAPHENE_DEFAULT_MAX_SHORT_SQUEEZE_RATIO        = 1500  ///< Stop call
 //        "last_irreversible_block_num"=>28508796}}
 const val BTS_DYNAMIC_GLOBAL_PROPERTIES_ID: String = "2.1.0"
 
+/*
+ *  链端数据存在KEY和类别定义
+ */
+
+//  类别：APP设置
+const val kAppStorageCatalogAppSetings           = "app.settings"
+
+//  KEY：APP设置 > 流动性池默认列表
+const val kAppStorageKeyAppSetings_LpMainList    = "liquidity.pool.mainlist"
+
+//  KEY：APP设置 > 智能资产列表
+const val kAppStorageKeyAppSetings_AssetSmartMainList = "asset.smart.mainlist"
 
 /**
  *  各种交易操作枚举定义

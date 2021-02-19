@@ -30,7 +30,7 @@ class ActivityAssetInfos : BtsppActivity() {
 
         //  初始化默认资产
         val chainMgr = ChainObjectManager.sharedChainObjectManager()
-        val list = chainMgr.getMainSmartAssetList()
+        val list = SettingManager.sharedSettingManager().getAppMainSmartAssetList()
         assert(list.length() > 0)
         _curr_asset = chainMgr.getAssetBySymbol(list.first<String>()!!)
 
@@ -80,7 +80,7 @@ class ActivityAssetInfos : BtsppActivity() {
         //  获取配置的默认列表
         val chainMgr = ChainObjectManager.sharedChainObjectManager()
         val asset_list = JSONArray()
-        chainMgr.getMainSmartAssetList().forEach<String> { symbol ->
+        SettingManager.sharedSettingManager().getAppMainSmartAssetList().forEach<String> { symbol ->
             asset_list.put(chainMgr.getAssetBySymbol(symbol!!))
         }
 

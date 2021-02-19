@@ -296,7 +296,7 @@ class ChainObjectManager {
         val symbols = JSONObject()
 
         //  智能资产
-        for (sym in getMainSmartAssetList().forin<String>()) {
+        for (sym in SettingManager.sharedSettingManager().getAppMainSmartAssetList().forin<String>()) {
             symbols.put(sym!!, true)
         }
 
@@ -865,14 +865,19 @@ class ChainObjectManager {
 
 
     /**
-     *  (public) 石墨烯网络初始化，优先调用。重要。
+     *  (public) 初始化部分石墨烯网络参数 和 APP链端配置，优先调用。重要。
      */
     fun grapheneNetworkInit(): Promise {
         val conn = GrapheneConnectionManager.sharedGrapheneConnectionManager().any_connection()
-        return conn.async_exec_db("get_chain_properties").then { chain_properties: Any? ->
-            val json = chain_properties as JSONObject
+
+        val p1 = conn.async_exec_db("get_chain_properties")
+        val p2 = SettingManager.sharedSettingManager().queryAppSettingsOnChain()
+
+        return Promise.all(p1, p2).then {
+            val data_array = it as JSONArray
+            val chain_properties = data_array.getJSONObject(0)
             //  石墨烯网络区块链ID和BTS主网链ID不同，则为测试网络，不判断核心资产名字。因为测试网络资产名字也可能为BTS。
-            val chain_id = json.optString("chain_id")
+            val chain_id = chain_properties.optString("chain_id")
             isTestNetwork = chain_id == null || chain_id.toString() != BTS_NETWORK_CHAIN_ID
             grapheneChainID = chain_id.toString()
             if (isTestNetwork) {
@@ -888,7 +893,6 @@ class ChainObjectManager {
                 return@then true
             }
         }
-
     }
 
 
@@ -2008,5 +2012,13 @@ class ChainObjectManager {
         }
     }
 
+    /**
+     * (public) 查询账号链上自定义存储的数据。
+     */
+    fun queryAccountStorageInfo(account_name_or_id: String, catalog: String): Promise {
+        //  REMARK：API节点不支持会报错
+        val conn = GrapheneConnectionManager.sharedGrapheneConnectionManager().any_connection()
+        return conn.async_exec_custom_operations("get_storage_info", jsonArrayfrom(account_name_or_id, catalog))
+    }
 
 }

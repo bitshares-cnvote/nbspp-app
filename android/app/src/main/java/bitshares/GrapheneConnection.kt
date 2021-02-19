@@ -42,7 +42,7 @@ class GrapheneConnection {
 
     var server_node_url = ""
     private var _wsrpc: GrapheneWebSocket? = null
-    private var _api_list = arrayOf("database", "network_broadcast", "history")
+    private var _api_list = arrayOf("database", "network_broadcast", "history", "custom_operations")
 
     fun initWithNode(wssURL: String, max_retry_num: Int, connect_timeout: Int): GrapheneConnection {
         server_node_url = wssURL
@@ -103,6 +103,10 @@ class GrapheneConnection {
 
     fun async_exec_history(method: String, params: JSONArray = JSONArray()): Promise {
         return async_exec("history", method, params)
+    }
+
+    fun async_exec_custom_operations(method: String, params: JSONArray = JSONArray()): Promise {
+        return async_exec("custom_operations", method,  params)
     }
 
 }

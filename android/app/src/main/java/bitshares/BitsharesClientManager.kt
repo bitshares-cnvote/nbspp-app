@@ -3,6 +3,7 @@ package com.fowallet.walletcore.bts
 import android.app.Activity
 import android.content.Context
 import bitshares.*
+import bitshares.serializer.T_custom_plugin_operation
 import com.btsplusplus.fowallet.R
 import com.btsplusplus.fowallet.utils.ModelUtils
 import com.btsplusplus.fowallet.utils.StealthTransferUtils
@@ -279,6 +280,35 @@ class BitsharesClientManager {
      */
     fun vestingBalanceWithdraw(opdata: JSONObject): Promise {
         return runSingleTransaction(opdata, EBitsharesOperations.ebo_vesting_balance_withdraw, opdata.getString("owner"))
+    }
+
+    /**
+     *  OP - 存储账号自定义数据（REMARK：在 custom OP 的 data 字段中存储数据）
+     */
+    fun accountStorageMap(account: String, account_storage_map_opdata: JSONObject): Promise {
+        val op_custom = JSONObject().apply {
+            put("fee", JSONObject().apply {
+                put("amount", 0)
+                //  TODO:TBD fee asset id
+                put("asset_id", ChainObjectManager.sharedChainObjectManager().grapheneCoreAssetID)
+            })
+            put("payer", account)
+            put("id", 0)
+            put("data", T_custom_plugin_operation.encode_to_bytes(JSONObject().apply {
+                put("data", jsonArrayfrom(EBitsharesCustomDataType.ebcdt_account_map.value, account_storage_map_opdata))
+            }))
+        }
+        return runSingleTransaction(op_custom, EBitsharesOperations.ebo_custom, op_custom.getString("payer"))
+    }
+
+    fun accountStorageMap(account: String, remove: Boolean, catalog: String, key_values: JSONArray): Promise {
+        assert(key_values.length() > 0)
+        val op_account_storage_map = JSONObject().apply {
+            put("remove", remove)
+            put("catalog", catalog)
+            put("key_values", key_values)
+        }
+        return accountStorageMap(account, op_account_storage_map)
     }
 
     /**

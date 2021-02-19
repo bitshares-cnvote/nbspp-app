@@ -30,7 +30,7 @@ class ActivityIndexServices : BtsppActivity() {
         setBottomNavigationStyle(2)
 
         //  设置模块可见性
-        if (ChainObjectManager.sharedChainObjectManager().getMainSmartAssetList().length() > 0) {
+        if (SettingManager.sharedSettingManager().getAppMainSmartAssetList().length() > 0) {
             layout_smart_coin.visibility = View.VISIBLE
         } else {
             layout_smart_coin.visibility = View.GONE
@@ -94,7 +94,7 @@ class ActivityIndexServices : BtsppActivity() {
             goTo(ActivityAccountQueryBase::class.java, true)
         }
 
-        if (ChainObjectManager.sharedChainObjectManager().getMainSmartAssetList().length() > 0) {
+        if (SettingManager.sharedSettingManager().getAppMainSmartAssetList().length() > 0) {
             layout_smart_coin.setOnClickListener {
                 goTo(ActivityAssetInfos::class.java, true)
             }
