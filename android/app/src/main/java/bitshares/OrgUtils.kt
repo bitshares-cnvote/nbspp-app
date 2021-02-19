@@ -575,13 +575,13 @@ class OrgUtils {
         /**
          * 异步GET请求
          */
-        fun asyncJsonGet(url: String, args: JSONObject? = null): Promise {
+        fun asyncJsonGet(url: String, args: JSONObject? = null, timeout: Int = 10 * 1000): Promise {
             val p = Promise()
             var finalurl = url
             if (args != null) {
                 finalurl = "$url?${_makeKeyValueString(args)}"
             }
-            _asyncExecRequest(p, finalurl, body = null)
+            _asyncExecRequest(p, finalurl, body = null, timeout = timeout)
             return p
         }
 
@@ -593,14 +593,14 @@ class OrgUtils {
             return list.joinToString("&")
         }
 
-        private fun _asyncExecRequest(p: Promise, url: String, body: String?, headers: JSONObject? = null) {
+        private fun _asyncExecRequest(p: Promise, url: String, body: String?, headers: JSONObject? = null, timeout: Int = 10 * 1000) {
             Thread(Runnable {
                 var input: InputStream? = null
                 var output: ByteArrayOutputStream? = null
                 try {
                     //  open network connection
                     val conn = URL(url).openConnection() as HttpURLConnection
-                    conn.connectTimeout = 10 * 1000
+                    conn.connectTimeout = timeout
                     conn.useCaches = false
                     conn.doInput = true
 
