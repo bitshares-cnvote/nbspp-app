@@ -70,7 +70,7 @@ class ActivityGatewayDeposit : BtsppActivity() {
         val msgArray = mutableListOf<String>()
         msgArray.add(R.string.kVcDWTipsImportantTitle.xmlstring(this))
         //  min deposit value
-        val inputCoinType = _depositAddrItem.getString("inputCoinType").toUpperCase()
+        val inputCoinType = appext.name.toUpperCase()
         val minAmount = appext.depositMinAmount
         if (minAmount != null && minAmount.isNotEmpty()) {
             msgArray.add(String.format(R.string.kVcDWTipsMinDepositAmount.xmlstring(this), minAmount, inputCoinType))

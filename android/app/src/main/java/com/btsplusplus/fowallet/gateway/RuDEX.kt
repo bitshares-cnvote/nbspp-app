@@ -56,17 +56,17 @@ class RuDEX : GatewayBase() {
             appext.enableWithdraw = enableWithdraw
             appext.enableDeposit = enableDeposit
             appext.symbol = symbol
-            appext.backSymbol = item.getString("backingCoin").toUpperCase()
+            appext.backSymbol = symbol// TODO:item.getString("backingCoin").toUpperCase()
             appext.name = item.getString("name")
             appext.intermediateAccount = item.optString("issuerId") ?: item.optString("issuer")
             appext.balance = balance_item
             appext.depositMinAmount = n_minAmount.toString()
             appext.withdrawMinAmount = n_minAmount.toString()
-            appext.withdrawGateFee = ""
+            appext.withdrawGateFee = item.optString("gateFee")
             appext.supportMemo = item.getBoolean("memoSupport")
             appext.confirm_block_number = confirm_block_number
             appext.coinType = item.getString("symbol")
-            appext.backingCoinType = item.getString("backingCoin")
+            appext.backingCoinType = item.optString("code")//TODO: item.getString("backingCoin")
 
             item.put("kAppExt", appext)
             result.put(item)
@@ -83,9 +83,9 @@ class RuDEX : GatewayBase() {
 
         //  if memo not supported - should request deposit address
         if (!item.isTrue("memoSupport")) {
-            val walletType = item.getString("walletType")
+//            val walletType = item.getString("walletType")
             val request_deposit_address_base = _api_config_json.getString("request_deposit_address")
-            val final_url = "${_api_config_json.getString("base")}${String.format(request_deposit_address_base, walletType)}"
+            val final_url = "${_api_config_json.getString("base")}$request_deposit_address_base"
             return requestDepositAddressCore(item, appext, final_url, fullAccountData, ctx)
         }
 
@@ -119,14 +119,14 @@ class RuDEX : GatewayBase() {
     override fun checkAddress(item: JSONObject, address: String, memo: String?, amount: String): Promise {
 
         //  TODO:仅验证地址
-        val walletType = item.getString("walletType")
+        val walletType = item.getString("code")
 
         val check_address_base = _api_config_json.getString("check_address")
         val api_base = _api_config_json.getString("base")
-        val final_url = "$api_base${String.format(check_address_base, walletType)}"
+        val final_url = "$api_base$check_address_base"
 
         val p = Promise()
-        OrgUtils.asyncPost_jsonBody(final_url, jsonObjectfromKVS("address", address)).then {
+        OrgUtils.asyncPost_jsonBody(final_url, jsonObjectfromKVS("address", address, "inputCoinType", walletType)).then {
             val json = it as? JSONObject
             if (json != null && json.isTrue("isValid")) {
                 p.resolve(true)

@@ -66,7 +66,13 @@ class ActivityIndexServices : BtsppActivity() {
             layout_group_otc.visibility = View.GONE
         }
 
-        if (BuildConfig.kAppModuleEnableGateway) {
+        val enabled_gateway_list = JSONArray()
+        for (gateway_config in SettingManager.sharedSettingManager().getAppKnownGatewayList().forin<JSONObject>()) {
+            if (gateway_config != null && !gateway_config.isTrue("disabled")) {
+                enabled_gateway_list.put(gateway_config)
+            }
+        }
+        if (enabled_gateway_list.length() > 0) {
             layout_recharge_and_withdraw_of_service.visibility = View.VISIBLE
         } else {
             layout_recharge_and_withdraw_of_service.visibility = View.GONE
@@ -140,7 +146,7 @@ class ActivityIndexServices : BtsppActivity() {
             }
         }
 
-        if (BuildConfig.kAppModuleEnableGateway) {
+        if (enabled_gateway_list.length() > 0) {
             layout_recharge_and_withdraw_of_service.setOnClickListener {
                 guardWalletExist { goTo(ActivityDepositAndWithdraw::class.java, true) }
             }

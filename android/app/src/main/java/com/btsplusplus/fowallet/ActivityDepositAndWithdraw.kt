@@ -42,80 +42,94 @@ class ActivityDepositAndWithdraw : BtsppActivity() {
 
         //  TODO:1.6 动态加载配置数据
         val ctx = this
-        _gatewayArray = JSONArray().apply {
-            //  TODO:2.5 open的新api还存在部分bug，open那边再进行修复，待修复完毕之后再开放该功能。
-//            // OpenLedger   API reference: https://github.com/bitshares/bitshares-ui/files/3068123/OL-gateways-api.pdf
+//        _gatewayArray = JSONArray().apply {
+//            //  TODO:2.5 open的新api还存在部分bug，open那边再进行修复，待修复完毕之后再开放该功能。
+////            // OpenLedger   API reference: https://github.com/bitshares/bitshares-ui/files/3068123/OL-gateways-api.pdf
+////            put(JSONObject().apply {
+////                put("name", "OpenLedger")
+////                put("api", OpenLedger().initWithApiConfig(JSONObject().apply {
+////                    put("base", "https://gateway.openledger.io")
+////                    put("assets", "/assets")
+////                    put("exchanges", "/exchanges")
+////                    put("request_deposit_address", "/exchanges/%s/transfer/source/prototype")
+////                    put("validate", "/exchanges/%s/transfer/destination")
+////                }))
+////                put("helps", JSONArray().apply {
+////                    put(JSONObject().apply {
+////                        put("title", R.string.kVcDWHelpTitleSupport.xmlstring(ctx))
+////                        put("value", "https://openledger.freshdesk.com")
+////                        put("url", true)
+////                    })
+////                })
+////            })
+//            //  GDEX
 //            put(JSONObject().apply {
-//                put("name", "OpenLedger")
-//                put("api", OpenLedger().initWithApiConfig(JSONObject().apply {
-//                    put("base", "https://gateway.openledger.io")
-//                    put("assets", "/assets")
-//                    put("exchanges", "/exchanges")
-//                    put("request_deposit_address", "/exchanges/%s/transfer/source/prototype")
-//                    put("validate", "/exchanges/%s/transfer/destination")
+//                put("name", "GDEX")
+//                put("api", GatewayBase().initWithApiConfig(JSONObject().apply {
+//                    put("base", "https://api.gdex.io/adjust")
+//                    put("coin_list", "/coins")
+//                    put("active_wallets", "/active-wallets")
+//                    put("trading_pairs", "/trading-pairs")
+//                    put("request_deposit_address", "/simple-api/initiate-trade")
+//                    put("check_address", "/wallets/%s/address-validator")
 //                }))
 //                put("helps", JSONArray().apply {
 //                    put(JSONObject().apply {
 //                        put("title", R.string.kVcDWHelpTitleSupport.xmlstring(ctx))
-//                        put("value", "https://openledger.freshdesk.com")
-//                        put("url", true)
+//                        put("value", "https://support.gdex.io/")
+//                    })
+//                    put(JSONObject().apply {
+//                        put("title", R.string.kVcDWHelpTitleQQ.xmlstring(ctx))
+//                        put("value", "602573197")
+//                    })
+//                    put(JSONObject().apply {
+//                        put("title", R.string.kVcDWHelpTitleTelegram.xmlstring(ctx))
+//                        put("value", "https://t.me/GDEXer")
 //                    })
 //                })
 //            })
-            //  GDEX
-            put(JSONObject().apply {
-                put("name", "GDEX")
-                put("api", GatewayBase().initWithApiConfig(JSONObject().apply {
-                    put("base", "https://api.gdex.io/adjust")
-                    put("coin_list", "/coins")
-                    put("active_wallets", "/active-wallets")
-                    put("trading_pairs", "/trading-pairs")
-                    put("request_deposit_address", "/simple-api/initiate-trade")
-                    put("check_address", "/wallets/%s/address-validator")
-                }))
-                put("helps", JSONArray().apply {
-                    put(JSONObject().apply {
-                        put("title", R.string.kVcDWHelpTitleSupport.xmlstring(ctx))
-                        put("value", "https://support.gdex.io/")
-                    })
-                    put(JSONObject().apply {
-                        put("title", R.string.kVcDWHelpTitleQQ.xmlstring(ctx))
-                        put("value", "602573197")
-                    })
-                    put(JSONObject().apply {
-                        put("title", R.string.kVcDWHelpTitleTelegram.xmlstring(ctx))
-                        put("value", "https://t.me/GDEXer")
-                    })
+//            //  RuDEX   API reference: https://docs.google.com/document/d/196hdHb1BTGdmuVi_w74y7lt4Acl0mqt8P02Xg4GSkcI/edit
+//            put(JSONObject().apply {
+//                put("name", "RuDEX")
+//                put("api", RuDEX().initWithApiConfig(JSONObject().apply {
+//                    put("base", "https://gateway.rudex.org/api/v0_3")
+//                    put("coin_list", "/coins")
+//                    put("request_deposit_address", "/wallets/%s/new-deposit-address")
+//                    put("check_address", "/wallets/%s/check-address")
+//                }))
+//                put("helps", JSONArray().apply {
+//                    put(JSONObject().apply {
+//                        put("title", R.string.kVcDWHelpTitleSupport.xmlstring(ctx))
+//                        put("value", "https://rudex.freshdesk.com")
+//                    })
+//                    put(JSONObject().apply {
+//                        put("title", "Twitter")
+//                        put("value", "https://twitter.com/rudex_bitshares")
+//                    })
+//                    put(JSONObject().apply {
+//                        put("title", R.string.kVcDWHelpTitleTelegram.xmlstring(ctx))
+//                        put("value", "https://t.me/BitSharesDEX_RU")
+//                    })
+//                })
+//            })
+//        }
+
+        //  动态获取网关信息
+        val enabled_gateway_list = JSONArray()
+        for (gateway_config in SettingManager.sharedSettingManager().getAppKnownGatewayList().forin<JSONObject>()) {
+            if (gateway_config != null && !gateway_config.isTrue("disabled")) {
+                val api = gateway_config.getJSONObject("api")
+                enabled_gateway_list.put(JSONObject().apply {
+                    put("name", gateway_config.optString("name"))
+                    put("api", RuDEX().initWithApiConfig(api))
+                    put("helps", gateway_config.optJSONArray("helps") ?: JSONArray())
                 })
-            })
-            //  RuDEX   API reference: https://docs.google.com/document/d/196hdHb1BTGdmuVi_w74y7lt4Acl0mqt8P02Xg4GSkcI/edit
-            put(JSONObject().apply {
-                put("name", "RuDEX")
-                put("api", RuDEX().initWithApiConfig(JSONObject().apply {
-                    put("base", "https://gateway.rudex.org/api/v0_3")
-                    put("coin_list", "/coins")
-                    put("request_deposit_address", "/wallets/%s/new-deposit-address")
-                    put("check_address", "/wallets/%s/check-address")
-                }))
-                put("helps", JSONArray().apply {
-                    put(JSONObject().apply {
-                        put("title", R.string.kVcDWHelpTitleSupport.xmlstring(ctx))
-                        put("value", "https://rudex.freshdesk.com")
-                    })
-                    put(JSONObject().apply {
-                        put("title", "Twitter")
-                        put("value", "https://twitter.com/rudex_bitshares")
-                    })
-                    put(JSONObject().apply {
-                        put("title", R.string.kVcDWHelpTitleTelegram.xmlstring(ctx))
-                        put("value", "https://t.me/BitSharesDEX_RU")
-                    })
-                })
-            })
+            }
         }
+        assert(enabled_gateway_list.length() > 0)
+        _gatewayArray = enabled_gateway_list
 
         //  初始化默认网关
-        assert(_gatewayArray.length() > 0)
         _currGateway = _gatewayArray.first<JSONObject>()!!
         val defaultGatewayName = R.string.appDepositWithdrawDefaultGateway.xmlstring(this)
         for (gateway in _gatewayArray.forin<JSONObject>()) {
@@ -382,10 +396,10 @@ class ActivityDepositAndWithdraw : BtsppActivity() {
         var textColor: Int
         var backColor: Int
         if (appext.enableDeposit) {
-            textColor = resources.getColor(R.color.theme01_textColorMain)
+            textColor = resources.getColor(R.color.theme01_textColorFlag)
             backColor = resources.getColor(R.color.theme01_textColorHighlight)
         } else {
-            textColor = resources.getColor(R.color.theme01_textColorNormal)
+            textColor = resources.getColor(R.color.theme01_textColorFlag)
             backColor = resources.getColor(R.color.theme01_textColorGray)
         }
         val layout_tv_recharge = LinearLayout(this)
@@ -403,10 +417,10 @@ class ActivityDepositAndWithdraw : BtsppActivity() {
 
         //  提币
         if (appext.enableWithdraw) {
-            textColor = resources.getColor(R.color.theme01_textColorMain)
+            textColor = resources.getColor(R.color.theme01_textColorFlag)
             backColor = resources.getColor(R.color.theme01_textColorHighlight)
         } else {
-            textColor = resources.getColor(R.color.theme01_textColorNormal)
+            textColor = resources.getColor(R.color.theme01_textColorFlag)
             backColor = resources.getColor(R.color.theme01_textColorGray)
         }
         val tv_withdraw = TextView(this)

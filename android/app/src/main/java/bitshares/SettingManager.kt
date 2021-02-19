@@ -204,4 +204,15 @@ class SettingManager {
         }
         return ChainObjectManager.sharedChainObjectManager().getMainSmartAssetList()
     }
+
+    /**
+     *  (public) 获取设置 - 网关列表信息
+     */
+    fun getAppKnownGatewayList(): JSONArray {
+        val list = getOnChainAppSetting(kAppStorageKeyAppSetings_KnownGatewayList) as? JSONArray
+        if (list != null && list.length() > 0) {
+            return list
+        }
+        return JSONArray()
+    }
 }

@@ -332,6 +332,9 @@ const val kAppStorageKeyAppSetings_LpMainList    = "liquidity.pool.mainlist"
 //  KEY：APP设置 > 智能资产列表
 const val kAppStorageKeyAppSetings_AssetSmartMainList = "asset.smart.mainlist"
 
+//  KEY：APP设置 > 已知网关列表
+const val kAppStorageKeyAppSetings_KnownGatewayList = "known.gateway.list"
+
 /**
  *  各种交易操作枚举定义
  */

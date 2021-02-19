@@ -24,7 +24,7 @@ android {
         buildConfigField "boolean", "kAppModuleEnableTabMarket", "true"
         buildConfigField "boolean", "kAppModuleEnableTabDebt", "true"
         buildConfigField "boolean", "kAppModuleEnableOTC", "false"
-        buildConfigField "boolean", "kAppModuleEnableGateway", "false"
+//        buildConfigField "boolean", "kAppModuleEnableGateway", "false"
         buildConfigField "boolean", "kAppCheckUpdate", "true"
 
         buildConfigField "String", "kAppCommunityFaucetAddress", "\"\""
@@ -39,7 +39,7 @@ android {
             //  0:iOS企业版 1:AppStore版 10:btspp 20:community(bbf) 100:baichenglian
             buildConfigField "int", "kAppChannelID", "10"
             buildConfigField "boolean", "kAppModuleEnableOTC", "false"
-            buildConfigField "boolean", "kAppModuleEnableGateway", "false"
+//            buildConfigField "boolean", "kAppModuleEnableGateway", "false"
             buildConfigField "String", "kAppConfigFile", "\"fowallet_config_nbs_testnet.json\""
             buildConfigField "boolean", "kUseCommunityFaucet", "true"
             buildConfigField "String", "kAppCommunityFaucetAddress", "\"https://testfaucet.nbs.life/\""
@@ -49,7 +49,7 @@ android {
         nbsmain {
             buildConfigField "int", "kAppChannelID", "20"
             buildConfigField "boolean", "kAppModuleEnableOTC", "false"
-            buildConfigField "boolean", "kAppModuleEnableGateway", "false"
+//            buildConfigField "boolean", "kAppModuleEnableGateway", "false"
             buildConfigField "String", "kAppConfigFile", "\"fowallet_config_nbs_mainnet.json\""
             buildConfigField "boolean", "kUseCommunityFaucet", "false"
             buildConfigField "String", "kAppCommunityFaucetAddress", "\"https://faucet.nbs.life/\""
