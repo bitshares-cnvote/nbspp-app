@@ -115,7 +115,7 @@ static ScheduleManager *_sharedScheduleManager = nil;
 {
     id url = [NSString stringWithFormat:@"https://www.nbs.plus/app/announcement.json?t=%@", @([[NSDate date] timeIntervalSince1970])];
     [OrgUtils asyncFetchJson:url
-                     timeout:[[NativeAppDelegate sharedAppDelegate] getRequestTimeout]
+                     timeout:2.0f   // [[NativeAppDelegate sharedAppDelegate] getRequestTimeout]
              completionBlock:^(id json_array)
      {
         if (first_callback) {
