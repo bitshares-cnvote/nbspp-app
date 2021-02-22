@@ -314,10 +314,10 @@ open class GatewayBase {
                     p.resolve(String.format(R.string.kVcDWErrTipsRequestDepositAddrFailed2.xmlstring(ctx), "inputCoinType"))
                     return@then null
                 }
-                if (resp_data.optString("outputCoinType").toLowerCase() != coinType) {
-                    p.resolve(String.format(R.string.kVcDWErrTipsRequestDepositAddrFailed2.xmlstring(ctx), "outputCoinType"))
-                    return@then null
-                }
+//                if (resp_data.optString("outputCoinType").toLowerCase() != coinType) {
+//                    p.resolve(String.format(R.string.kVcDWErrTipsRequestDepositAddrFailed2.xmlstring(ctx), "outputCoinType"))
+//                    return@then null
+//                }
                 //  获取成功。
                 p.resolve(resp_data)
             }
