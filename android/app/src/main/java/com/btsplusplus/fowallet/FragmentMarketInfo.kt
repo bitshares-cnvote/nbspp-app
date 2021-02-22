@@ -191,7 +191,8 @@ class FragmentMarketInfo : BtsppFragment() {
                 flmain.addView(tvmain)
 
                 //  介绍按钮
-                if (group_info.optBoolean("intro", false)) {
+                val group_link = group.optString("group_link")
+                if (group_link.isNotEmpty()) {
                     val inmain = TextView(_context).apply {
                         layoutParams = FrameLayout.LayoutParams(toDp(100f), FrameLayout.LayoutParams.MATCH_PARENT).apply {
                             setMargins(0, 0, toDp(10f), 0)
@@ -202,7 +203,7 @@ class FragmentMarketInfo : BtsppFragment() {
                         setTextColor(resources.getColor(R.color.theme01_textColorGray))
                         setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f)
                         setOnClickListener {
-                            VcUtils.gotoQaView(activity!!, "qa_gateway", resources.getString(R.string.kVcTitleWhatIsGateway))
+                            activity!!.openURL(group_link)
                         }
                     }
                     flmain.addView(inmain)

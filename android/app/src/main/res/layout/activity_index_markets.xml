@@ -87,6 +87,7 @@
             app:tabTextAppearance="@style/KPageTabTextStyle"
             app:tabIndicatorColor="#ff0000"
             app:tabRippleColor="#aaaaaa"
+            app:tabMode="scrollable"
             app:tabTextColor="@color/theme01.textColorMain">
         </android.support.design.widget.TabLayout>
 

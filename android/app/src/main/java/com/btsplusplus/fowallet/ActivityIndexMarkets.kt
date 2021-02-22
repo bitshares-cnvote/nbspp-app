@@ -63,9 +63,15 @@ class ActivityIndexMarkets : BtsppActivity() {
             tab.addTab(tab.newTab().apply {
                 text = resources.getString(R.string.kLabelMarketFavorites)
             })
+            val self = this
             ChainObjectManager.sharedChainObjectManager().getMergedMarketInfos().forEach { market ->
                 tab.addTab(tab.newTab().apply {
-                    text = market.getJSONObject("base").getString("name")
+                    val name_key = market.optString("name_key")
+                    text = if (name_key.isNotEmpty()) {
+                        resources.getString(resources.getIdentifier(name_key, "string", self.packageName))
+                    } else {
+                        market.getJSONObject("base").getString("name")
+                    }
                 })
             }
         }
