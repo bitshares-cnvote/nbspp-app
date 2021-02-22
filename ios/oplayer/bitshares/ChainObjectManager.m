@@ -325,7 +325,7 @@ static ChainObjectManager *_sharedChainObjectManager = nil;
     NSMutableDictionary* symbols = [NSMutableDictionary dictionary];
     
     //  智能资产
-    for (id sym in [self getMainSmartAssetList]) {
+    for (id sym in [[SettingManager sharedSettingManager] getAppMainSmartAssetList]) {
         [symbols setObject:@YES forKey:sym];
     }
     
