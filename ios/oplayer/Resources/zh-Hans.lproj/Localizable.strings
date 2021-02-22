@@ -13,14 +13,18 @@
 
 "kLabelMarketFavorites" = "自选";
 "kLabelGroupNameMain" = "主区";
+"kLabelGroupNameOTC" = "人人承兑";
+"kLabelGroupNamePerpetual" = "永续合约";
 "kLabelGroupNameCommunity" = "社区";
 "kLabelGroupNameMinerZone" = "挖矿区";
+"kLabelGroupNameDEX" = "DEX(网关)";
 "kLabelGroupNameGDEX" = "GDEX(网关)";
 "kLabelGroupNameWWW" = "WWW(网关)";
 "kLabelGroupNameOPEN" = "OPEN(网关)";
 "kLabelGroupNameWIN" = "WIN(网关)";
 "kLabelGroupNameOther" = "其他";
 "kLabelGroupIntroduction" = "介绍 >";
+"kLabelMarketNameFutures" = "合约";
 
 "kLabelNoFavMarket" = "没有任何自选";
 "kLabelBtnNameAddPair" = "添加";

@@ -187,10 +187,10 @@
     UIColor* btnTextColor;
     UIColor* btnBackColor;
     if (appext.enableDeposit){
-        btnTextColor = [ThemeManager sharedThemeManager].textColorMain;
+        btnTextColor = [ThemeManager sharedThemeManager].textColorFlag;
         btnBackColor = [ThemeManager sharedThemeManager].textColorHighlight;
     }else{
-        btnTextColor = [ThemeManager sharedThemeManager].textColorNormal;
+        btnTextColor = [ThemeManager sharedThemeManager].textColorFlag;
         btnBackColor = [ThemeManager sharedThemeManager].textColorGray;
     }
     _lbDeposit.layer.borderColor = btnBackColor.CGColor;
@@ -199,10 +199,10 @@
     
     //  提币按钮色调
     if (appext.enableWithdraw){
-        btnTextColor = [ThemeManager sharedThemeManager].textColorMain;
+        btnTextColor = [ThemeManager sharedThemeManager].textColorFlag;
         btnBackColor = [ThemeManager sharedThemeManager].textColorHighlight;
     }else{
-        btnTextColor = [ThemeManager sharedThemeManager].textColorNormal;
+        btnTextColor = [ThemeManager sharedThemeManager].textColorFlag;
         btnBackColor = [ThemeManager sharedThemeManager].textColorGray;
     }
     _lbWithdraw.layer.borderColor = btnBackColor.CGColor;

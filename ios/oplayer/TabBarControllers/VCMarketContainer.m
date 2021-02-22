@@ -187,7 +187,8 @@
 {
     NSMutableArray* ary = [NSMutableArray arrayWithObject:NSLocalizedString(@"kLabelMarketFavorites", @"自选")];
     [ary addObjectsFromArray:[[[ChainObjectManager sharedChainObjectManager] getMergedMarketInfos] ruby_map:(^id(id market) {
-        return [[market objectForKey:@"base"] objectForKey:@"name"];
+        id name_key = [market objectForKey:@"name_key"];
+        return name_key && ![name_key isEqualToString:@""] ? NSLocalizedString(name_key, @"market name") : [[market objectForKey:@"base"] objectForKey:@"name"];
     })]];
     return [ary copy];
 }

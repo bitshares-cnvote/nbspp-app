@@ -13,14 +13,18 @@
 
 "kLabelMarketFavorites" = "自選";
 "kLabelGroupNameMain" = "メイン";
+"kLabelGroupNameOTC" = "Stablecoin";
+"kLabelGroupNamePerpetual" = "Perpetual";
 "kLabelGroupNameCommunity" = "コミュニティ";
 "kLabelGroupNameMinerZone" = "マイニングエリア";
+"kLabelGroupNameDEX" = "DEX(ゲートウェイ)";
 "kLabelGroupNameGDEX" = "GDEX(ゲートウェイ)";
 "kLabelGroupNameWWW" = "WWW(ゲートウェイ)";
 "kLabelGroupNameOPEN" = "OPEN(ゲートウェイ)";
 "kLabelGroupNameWIN" = "WIN(ゲートウェイ)";
 "kLabelGroupNameOther" = "その他の";
 "kLabelGroupIntroduction" = "绍介 >";
+"kLabelMarketNameFutures" = "Futures";//TODO:
 
 "kLabelNoFavMarket" = "自選はありません";
 "kLabelBtnNameAddPair" = "添加";//TODO:

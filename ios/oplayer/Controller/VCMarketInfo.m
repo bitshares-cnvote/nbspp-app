@@ -263,9 +263,17 @@
         return;
     }
     
-    NSLog(@"intro clicked: %@", @(sender.tag));
-    [_owner gotoQaView:@"qa_gateway"
-                 title:NSLocalizedString(@"kVcTitleWhatIsGateway", @"什么是网关？")];
+    id group_data = [_marketInfos[@"group_list"] objectAtIndex:sender.tag];
+    id group_link = [group_data objectForKey:@"group_link"];
+    if (!group_link || [group_link isEqualToString:@""]) {
+        return;
+    }
+    
+    [OrgUtils safariOpenURL:group_link];
+    
+//    NSLog(@"intro clicked: %@", @(sender.tag));
+//    [_owner gotoQaView:@"qa_gateway"
+//                 title:NSLocalizedString(@"kVcTitleWhatIsGateway", @"什么是网关？")];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -282,14 +290,16 @@
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.font = [UIFont boldSystemFontOfSize:16];
         
-        id group_key = [_marketInfos[@"group_list"] objectAtIndex:section][@"group_key"];
+        id group_data = [_marketInfos[@"group_list"] objectAtIndex:section];
+        id group_key = group_data[@"group_key"];
         id group_info = [[ChainObjectManager sharedChainObjectManager] getGroupInfoFromGroupKey:group_key];
         titleLabel.text = NSLocalizedString([group_info objectForKey:@"name_key"], @"分区名字");
         
         [myView addSubview:titleLabel];
         
         //  是否有介绍按钮
-        if ([[group_info objectForKey:@"intro"] boolValue]){
+        id group_link = [group_data objectForKey:@"group_link"];
+        if (group_link && ![group_link isEqualToString:@""]) {
             UIButton* introButton = [UIButton buttonWithType:UIButtonTypeSystem];
             introButton.titleLabel.font = [UIFont systemFontOfSize:13];
             introButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;

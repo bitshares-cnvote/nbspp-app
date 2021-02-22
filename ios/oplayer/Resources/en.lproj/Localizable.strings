@@ -13,14 +13,18 @@
 
 "kLabelMarketFavorites" = "Favorites";
 "kLabelGroupNameMain" = "Main";
+"kLabelGroupNameOTC" = "Stablecoin";
+"kLabelGroupNamePerpetual" = "Perpetual";
 "kLabelGroupNameCommunity" = "Community";
 "kLabelGroupNameMinerZone" = "Mining Area";
+"kLabelGroupNameDEX" = "DEX(Gateway)";
 "kLabelGroupNameGDEX" = "GDEX(Gateway)";
 "kLabelGroupNameWWW" = "WWW(Gateway)";
 "kLabelGroupNameOPEN" = "OPEN(Gateway)";
 "kLabelGroupNameWIN" = "WIN(Gateway)";
 "kLabelGroupNameOther" = "Other";
 "kLabelGroupIntroduction" = "Introduction >";
+"kLabelMarketNameFutures" = "Futures";
 
 "kLabelNoFavMarket" = "You have not added any favorites market.";
 "kLabelBtnNameAddPair" = "Add";
