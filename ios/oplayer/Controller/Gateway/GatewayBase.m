@@ -341,10 +341,10 @@
                     resolve([NSString stringWithFormat:NSLocalizedString(@"kVcDWErrTipsRequestDepositAddrFailed2", @"获取充币地址异常，字段'%@'校验失败，请联系网关客服。"), @"inputCoinType"]);
                     return nil;
                 }
-                if (![[[resp_data objectForKey:@"outputCoinType"] lowercaseString] isEqualToString:coinType]){
-                    resolve([NSString stringWithFormat:NSLocalizedString(@"kVcDWErrTipsRequestDepositAddrFailed2", @"获取充币地址异常，字段'%@'校验失败，请联系网关客服。"), @"outputCoinType"]);
-                    return nil;
-                }
+//                if (![[[resp_data objectForKey:@"outputCoinType"] lowercaseString] isEqualToString:coinType]){
+//                    resolve([NSString stringWithFormat:NSLocalizedString(@"kVcDWErrTipsRequestDepositAddrFailed2", @"获取充币地址异常，字段'%@'校验失败，请联系网关客服。"), @"outputCoinType"]);
+//                    return nil;
+//                }
                 //  获取成功。
                 resolve(resp_data);
             }
