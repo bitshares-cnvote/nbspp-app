@@ -2,6 +2,7 @@ package com.btsplusplus.fowallet
 
 import android.os.Bundle
 import android.view.Gravity
+import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -255,6 +256,15 @@ class ActivityGatewayWithdraw : BtsppActivity() {
             aux_data_uilist.forEach<LinearLayout> { addView(it!!) }
             addView(layout_min_withdraw_in_account)
             addView(tv_button_withdraw)
+        }
+
+        //  提示信息
+        val withdrawlTips = _withdrawAssetItem.optString("withdrawlTips")
+        if (withdrawlTips.isNotEmpty()) {
+            tv_ui_msg.text = withdrawlTips
+            tv_ui_msg.visibility = View.VISIBLE
+        } else {
+            tv_ui_msg.visibility = View.GONE
         }
     }
 

@@ -58,9 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
             <LinearLayout
-                android:id="@+id/layout_parent_of_withdraw_page"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="72.dp"
@@ -149,13 +147,27 @@
                         android:gravity="right|center_vertical"/>
 
                 </LinearLayout>
-
-
                 <View android:layout_height="1dp" android:layout_marginTop="10dp" android:background="@color/theme01.bottomLineColor" android:layout_width="fill_parent"></View>
 
+                <!-- 动态字段区域 -->
+                <LinearLayout
+                    android:id="@+id/layout_parent_of_withdraw_page"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
+                </LinearLayout>
+
+                <!-- 提示 -->
+                <TextView
+                    android:id="@+id/tv_ui_msg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="" 
+                    style="@style/kUiTipsStyle"
+                    />
+                    
             </LinearLayout>
-
 
         </ScrollView>
 
