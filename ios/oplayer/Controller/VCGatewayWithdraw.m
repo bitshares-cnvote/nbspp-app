@@ -9,6 +9,7 @@
 #import "VCGatewayWithdraw.h"
 #import "BitsharesClientManager.h"
 
+#import "ViewTipsInfoCell.h"
 #import "VCSearchNetwork.h"
 
 #import "MBProgressHUD.h"
@@ -28,6 +29,7 @@ enum
     kVcFormData = 0,            //  表单数据
     kVcAuxData,                 //  附加数据
     kVcSubmit,                  //  提币按钮
+    kVcUiTips,                  //  [可选] 提币附加信息
     
     kVcMax
 };
@@ -63,6 +65,7 @@ enum
     MyTextField*            _tf_memo;
     
     ViewBlockLabel*         _goto_submit;
+    ViewTipsInfoCell*       _cellTips;
     
     NSDictionary*           _asset;
     NSDecimalNumber*        _n_available;
@@ -95,6 +98,7 @@ enum
         _tf_memo.delegate = nil;
         _tf_memo = nil;
     }
+    _cellTips = nil;
     _asset = nil;
     _n_available = nil;
     _cellAssetAvailable = nil;
@@ -313,6 +317,17 @@ enum
     
     //  提交按钮
     _goto_submit = [self createCellLableButton:NSLocalizedString(@"kVcDWWithdrawSubmitButton", @"提币")];
+    
+    //  UI - 提示信息
+    id withdrawlTips = [_withdrawAssetItem objectForKey:@"withdrawlTips"];
+    if (withdrawlTips && [withdrawlTips isKindOfClass:[NSString class]] && ![withdrawlTips isEqualToString:@""]) {
+        _cellTips = [[ViewTipsInfoCell alloc] initWithText:withdrawlTips];
+        _cellTips.hideBottomLine = YES;
+        _cellTips.hideTopLine = YES;
+        _cellTips.backgroundColor = [UIColor clearColor];
+    } else {
+        _cellTips = nil;
+    }
 }
 
 -(void)onTap:(UITapGestureRecognizer*)pTap
@@ -641,7 +656,12 @@ enum
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return kVcMax;
+    if (_cellTips) {
+        return kVcMax;
+    } else {
+        //  去掉UI提示信息
+        return kVcMax - 1;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -650,6 +670,8 @@ enum
         return [_data_type_array count];
     else if (section == kVcAuxData)
         return [_aux_data_array count];
+    else if (section == kVcUiTips)
+        return 1;
     else
         return 2;
 }
@@ -671,6 +693,8 @@ enum
             break;
         case kVcAuxData:
             return 28.0f;
+        case kVcUiTips:
+            return [_cellTips calcCellDynamicHeight:tableView.layoutMargins.left];
         default:
             break;
     }
@@ -785,6 +809,8 @@ enum
         cell.detailTextLabel.textColor = [ThemeManager sharedThemeManager].textColorNormal;
         cell.detailTextLabel.font = [UIFont systemFontOfSize:13.0];
         return cell;
+    }else if (indexPath.section == kVcUiTips){
+        return _cellTips;
     }else{
         if (indexPath.row == 0){
             return _cellFinalValue;
