@@ -201,7 +201,7 @@
             
             _lbBotsStatus.text = @"运行中";
         } else {
-            UIColor* backColor = theme.textColorHighlight;
+            UIColor* backColor = theme.textColorGray;
             _lbBotsStatus.layer.borderColor = backColor.CGColor;
             _lbBotsStatus.layer.backgroundColor = backColor.CGColor;
             _lbBotsStatus.text = @"已停止";
@@ -266,7 +266,7 @@
     _lbAmount.text = n_amount ? [OrgUtils formatFloatValue:n_amount] : @"--";
     _lbAmount.textColor = theme.textColorNormal;
     
-    _lbTradeNum.text = @"0";//TODO:ing
+    _lbTradeNum.text = [NSString stringWithFormat:@"%@", @([[value objectForKey:@"trade_num"] integerValue])];
     _lbTradeNum.textColor = theme.textColorNormal;
     
     _lbApy.text = @"333%";//TODO:ing

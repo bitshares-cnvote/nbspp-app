@@ -156,6 +156,15 @@
         }
     }
     
+    //  根据ID降序排列
+    if ([_dataArray count] > 0){
+        [_dataArray sortUsingComparator:(^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            NSInteger id1 = [[[[[obj1 objectForKey:@"raw"] objectForKey:@"id"] componentsSeparatedByString:@"."] lastObject] integerValue];
+            NSInteger id2 = [[[[[obj2 objectForKey:@"raw"] objectForKey:@"id"] componentsSeparatedByString:@"."] lastObject] integerValue];
+            return id2 - id1;
+        })];
+    }
+    
     //  刷新UI
     [self refreshView];
 }
@@ -370,8 +379,8 @@
                     
                     @"status": @"running",
                     // @"msg": @"",
-                    // @"slot_index": @(-1),
-                    // @"order_num": 0,
+                    // @"mask": @"",
+                    // @"trade_num": 0,
                     
                     @"ext": @{
                             @"init_time": @((NSInteger)[[NSDate date] timeIntervalSince1970]),
