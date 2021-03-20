@@ -195,7 +195,7 @@ class ActivityTransfer : BtsppActivity() {
             val self = this
             goTo(ActivityScanResultPaySuccess::class.java, true, clear_navigation_stack = true, args = JSONObject().apply {
                 put("result", tx_data)
-                put("to_account", _full_account_data!!.getJSONObject("account"))
+                put("to_account", _transfer_args!!.getJSONObject("to"))
                 put("amount_string", amount_string)
                 put("success_tip_string", self.resources.getString(R.string.kVcTransferTipLabelTransferSuccess))
             })
