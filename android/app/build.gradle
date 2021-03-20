@@ -10,8 +10,8 @@ android {
         applicationId "plus.nbs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 202012111
-        versionName "2.0"
+        versionCode 202103201
+        versionName "2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
@@ -38,7 +38,7 @@ android {
         nbstest {
             //  0:iOS企业版 1:AppStore版 10:btspp 20:community(bbf) 100:baichenglian
             buildConfigField "int", "kAppChannelID", "10"
-            buildConfigField "boolean", "kAppModuleEnableOTC", "false"
+            buildConfigField "boolean", "kAppModuleEnableOTC", "true"
 //            buildConfigField "boolean", "kAppModuleEnableGateway", "false"
             buildConfigField "String", "kAppConfigFile", "\"fowallet_config_nbs_testnet.json\""
             buildConfigField "boolean", "kUseCommunityFaucet", "true"
@@ -48,7 +48,7 @@ android {
         //  for nbs mainnet
         nbsmain {
             buildConfigField "int", "kAppChannelID", "20"
-            buildConfigField "boolean", "kAppModuleEnableOTC", "false"
+            buildConfigField "boolean", "kAppModuleEnableOTC", "true"
 //            buildConfigField "boolean", "kAppModuleEnableGateway", "false"
             buildConfigField "String", "kAppConfigFile", "\"fowallet_config_nbs_mainnet.json\""
             buildConfigField "boolean", "kUseCommunityFaucet", "false"

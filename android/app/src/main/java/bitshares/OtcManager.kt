@@ -867,34 +867,8 @@ class OtcManager {
      *  (public) 查询动态配置信息
      */
     fun queryConfig(): Promise {
-        val p = Promise()
-        //  TODO:2.9 asste name encode
-        ChainObjectManager.sharedChainObjectManager().queryAssetData("CCTEST").then {
-            var config: JSONObject? = null
-            val asset_data = it as? JSONObject
-            if (asset_data != null) {
-                val json = asset_data.getJSONObject("options").getString("description").to_json_object()
-                val main = json?.optString("main", null)
-                if (main != null && main.isNotEmpty() && main.length % 2 == 0) {
-                    config = main.hexDecode().utf8String().to_json_object()
-                }
-            }
-            if (config != null) {
-                //  更新节点URL
-                val api = config.optJSONObject("urls")?.optString("api", null)
-                if (api != null && api.isNotEmpty()) {
-                    _base_api = api.toString()
-                }
-                //  更新配置
-                server_config = config
-            }
-            p.resolve(server_config)
-            return@then null
-        }.catch {
-            //  查询失败，返回之前的数据。
-            p.resolve(server_config)
-        }
-        return p
+        server_config = SettingManager.sharedSettingManager().getOnChainAppSetting(kAppStorageKeyAppSetings_OtcConfigInfo) as? JSONObject
+        return Promise._resolve(server_config)
     }
 
     /**

@@ -335,6 +335,9 @@ const val kAppStorageKeyAppSetings_AssetSmartMainList = "asset.smart.mainlist"
 //  KEY：APP设置 > 已知网关列表
 const val kAppStorageKeyAppSetings_KnownGatewayList = "known.gateway.list"
 
+//  KEY：APP设置 > OTC配置
+const val kAppStorageKeyAppSetings_OtcConfigInfo = "otc.config.info"
+
 /**
  *  各种交易操作枚举定义
  */
