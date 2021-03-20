@@ -593,7 +593,7 @@ enum
         [OrgUtils logEvents:@"txPayTransferFullOK" params:@{@"asset":asset[@"symbol"]}];
         id amount_string = [NSString stringWithFormat:@"%@ %@", [_transfer_args objectForKey:@"kAmount"], asset[@"symbol"]];
         VCPaySuccess* vc = [[VCPaySuccess alloc] initWithResult:tx_data
-                                                     to_account:[_full_account_data objectForKey:@"account"]
+                                                     to_account:[_transfer_args objectForKey:@"to"]
                                                   amount_string:amount_string
                                              success_tip_string:NSLocalizedString(@"kVcTransferTipLabelTransferSuccess", @"转账成功")];
         [self clearPushViewController:vc vctitle:@"" backtitle:kVcDefaultBackTitleName];

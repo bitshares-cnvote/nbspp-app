@@ -944,6 +944,7 @@ static NSInteger gen_notify_unique_id()
                 }
             }];
         }else{
+            //  TODO:BUG checkActivePermission 在已经解锁的情况下没进行 check。
             body(YES);
         }
     }];

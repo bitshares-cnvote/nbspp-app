@@ -223,8 +223,10 @@ enum
                 {
                     id order_amount = [_op_data objectForKey:@"order_amount"];
                     if (order_amount) {
-                        //  TODO:-4
-                        id n_order_amount = [NSDecimalNumber decimalNumberWithMantissa:[order_amount integerValue] exponent:-4 isNegative:NO];
+                        id quote = [_op_data objectForKey:@"quote"];
+                        assert(quote);
+                        NSInteger precision = [[quote objectForKey:@"precision"] integerValue];
+                        id n_order_amount = [NSDecimalNumber decimalNumberWithMantissa:[order_amount integerValue] exponent:-precision isNegative:NO];
                         cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", n_order_amount];
                     } else {
                         cell.detailTextLabel.text = @"请输入每格交易数量";
