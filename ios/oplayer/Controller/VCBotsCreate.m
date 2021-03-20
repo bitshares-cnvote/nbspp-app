@@ -460,7 +460,7 @@ enum
                         @"base": base_id,
                         @"quote": quote_id,
                 },
-                @"status": @"stopped",
+                @"status": @"created",
             };
             //  TODO:catalog
             id bots_key = [VCBotsManager calcBotsKey:init_bots_data[@"args"] catalog:kAppStorageCatalogBotsGridBots account:op_account_id];

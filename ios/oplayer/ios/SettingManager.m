@@ -344,4 +344,29 @@ static SettingManager *_sharedSettingManager = nil;
     return @[];
 }
 
+/*
+ *  (public) 获取设置 - 是否启用网格机器人模块
+ */
+- (BOOL)isAppEnableModuleGridBots
+{
+    id bots_config = [self getOnChainAppSetting:kAppStorageKeyAppSetings_BotsConfigInfo];
+    if (!bots_config || [bots_config count] <= 0) {
+        return NO;
+    }
+    NSString* grid_bots_trader = [bots_config objectForKey:@"grid_bots_trader"];
+    if (!grid_bots_trader || [grid_bots_trader isEqualToString:@""]) {
+        return NO;
+    }
+    return YES;
+}
+
+/*
+ *  (public) 获取设置 - 获取网格机器人授权账号
+ */
+- (NSString*)getAppGridBotsTraderAccount
+{
+    assert([self isAppEnableModuleGridBots]);
+    return [[self getOnChainAppSetting:kAppStorageKeyAppSetings_BotsConfigInfo] objectForKey:@"grid_bots_trader"];
+}
+
 @end

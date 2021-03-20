@@ -12,6 +12,8 @@
 #import "OrgUtils.h"
 #import "ScheduleManager.h"
 #import "VCSettlementOrders.h"
+#import "VCBotsManager.h"
+#import "VCBotsCreate.h"
 #import "MBProgressHUDSingleton.h"
 
 @interface VCUserOrdersPages ()
@@ -34,9 +36,16 @@
 
 - (NSArray*)getTitleStringArray
 {
-    return @[NSLocalizedString(@"kVcOrderPageOpenOrders", @"当前订单"),
-             NSLocalizedString(@"kVcOrderPageHistory", @"历史订单"),
-             NSLocalizedString(@"kVcOrderPageSettleOrders", @"清算单")];
+    if ([[SettingManager sharedSettingManager] isAppEnableModuleGridBots]) {
+        return @[NSLocalizedString(@"kVcOrderPageOpenOrders", @"当前订单"),
+                 NSLocalizedString(@"kVcOrderPageHistory", @"历史订单"),
+                 NSLocalizedString(@"kVcOrderPageSettleOrders", @"清算单"),
+                 @"量化订单"];//TODO:2.2 lang
+    } else {
+        return @[NSLocalizedString(@"kVcOrderPageOpenOrders", @"当前订单"),
+                 NSLocalizedString(@"kVcOrderPageHistory", @"历史订单"),
+                 NSLocalizedString(@"kVcOrderPageSettleOrders", @"清算单")];
+    }
 }
 
 - (NSArray*)getSubPageVCArray
@@ -44,7 +53,12 @@
     id vc01 = [[VCUserOrders alloc] initWithOwner:self data:_userFullInfo history:NO tradingPair:_tradingPair filter:NO];
     id vc02 = [[VCUserOrders alloc] initWithOwner:self data:_tradeHistory history:YES tradingPair:_tradingPair filter:NO];
     id vc03 = [[VCSettlementOrders alloc] initWithOwner:self tradingPair:nil fullAccountInfo:_userFullInfo];
-    return @[vc01, vc02, vc03];
+    id ary = [NSMutableArray arrayWithObjects:vc01, vc02, vc03, nil];
+    if ([[SettingManager sharedSettingManager] isAppEnableModuleGridBots]) {
+        id vc04 = [[VCBotsManager alloc] initWithOwner:self];
+        [ary addObject:vc04];
+    }
+    return [ary copy];
 }
 
 - (id)initWithUserFullInfo:(NSDictionary*)userFullInfo tradeHistory:(NSArray*)tradeHistory tradingPair:(TradingPair*)tradingPair;
@@ -67,23 +81,38 @@
 
 - (void)onPageChanged:(NSInteger)tag
 {
-    NSLog(@"onPageChanged: %@", @(tag));
-    
-    //  gurad
-    if ([[MBProgressHUDSingleton sharedMBProgressHUDSingleton] is_showing]){
+    [super onPageChanged:tag];
+    id page = [self currentPage];
+    if (page && [page isKindOfClass:[VCBotsManager class]]) {
+        //  右上角新增按钮
+        UIBarButtonItem* addBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                target:self
+                                                                                action:@selector(onAddNewAssetClicked)];
+        addBtn.tintColor = [ThemeManager sharedThemeManager].navigationBarTextColor;
+        self.navigationItem.rightBarButtonItem = addBtn;
+    } else {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+}
+
+- (void)onAddNewAssetClicked
+{
+    id page = [self currentPage];
+    if (!page || ![page isKindOfClass:[VCBotsManager class]]) {
         return;
     }
     
-    //  query
-    if (_subvcArrays){
-        id vc = [_subvcArrays safeObjectAtIndex:tag - 1];
-        if (vc){
-            if ([vc isKindOfClass:[VCSettlementOrders class]]){
-                VCSettlementOrders* vc_settlement_orders = (VCSettlementOrders*)vc;
-                [vc_settlement_orders querySettlementOrders];
-            }
+    WsPromiseObject* result_promise = [[WsPromiseObject alloc] init];
+    VCBotsCreate* vc = [[VCBotsCreate alloc] initWithResultPromise:result_promise];
+    //  TODO:3.1 lang
+    [self pushViewController:vc vctitle:@"创建网格交易" backtitle:kVcDefaultBackTitleName];
+    [result_promise then:^id(id dirty) {
+        //  刷新UI
+        if (dirty && [dirty boolValue]) {
+            [page onControllerPageChanged];
         }
-    }
+        return nil;
+    }];
 }
 
 @end

@@ -101,4 +101,14 @@
  */
 - (id)getAppKnownCexDepositAccounts;
 
+/*
+ *  (public) 获取设置 - 是否启用网格机器人模块
+ */
+- (BOOL)isAppEnableModuleGridBots;
+
+/*
+ *  (public) 获取设置 - 获取网格机器人授权账号
+ */
+- (NSString*)getAppGridBotsTraderAccount;
+
 @end

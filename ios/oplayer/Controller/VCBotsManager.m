@@ -9,10 +9,10 @@
 #import "VCBotsManager.h"
 #import "ViewBotsGridInfoCell.h"
 
-#import "VCBotsCreate.h"
-
 @interface VCBotsManager ()
 {
+    __weak VCBase*          _owner;         //  REMARK：声明为 weak，否则会导致循环引用。
+    
     UITableViewBase*        _mainTableView;
     NSMutableArray*         _dataArray;
     
@@ -25,6 +25,7 @@
 
 -(void)dealloc
 {
+    _owner = nil;
     _dataArray = nil;
     _lbEmpty = nil;
     if (_mainTableView){
@@ -34,10 +35,12 @@
     }
 }
 
-- (id)init
+- (id)initWithOwner:(VCBase*)owner
 {
     self = [super init];
     if (self) {
+        assert(owner);
+        _owner = owner;
         assert([[WalletManager sharedWalletManager] isWalletExist]);
         _dataArray = [NSMutableArray array];
     }
@@ -70,7 +73,7 @@
     id active_permission = [latest_account_data objectForKey:@"active"];
     assert(active_permission);
     
-    id const_bots_account_id = @"1.2.4653";//TODO:TODO:!!!!!!!!
+    id const_bots_account_id = [[SettingManager sharedSettingManager] getAppGridBotsTraderAccount];
     
     NSInteger weight_threshold = [[active_permission objectForKey:@"weight_threshold"] integerValue];
     for (id item in [active_permission objectForKey:@"account_auths"]) {
@@ -185,7 +188,7 @@
     
     ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
     
-    [self showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];
+    [_owner showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];
     [[[chainMgr queryAccountStorageInfo:account_name
                                 catalog:kAppStorageCatalogBotsGridBots] then:^id(id data_array) {
         NSMutableDictionary* ids = [NSMutableDictionary dictionary];
@@ -209,29 +212,22 @@
         }
         return [[chainMgr queryAllGrapheneObjects:[ids allKeys]] then:^id(id data) {
             [self onQueryMyBotsListResponsed:data_array];
-            [self hideBlockView];
+            [_owner hideBlockView];
             return nil;
         }];
     }] catch:^id(id error) {
-        [self hideBlockView];
+        [_owner hideBlockView];
         [OrgUtils showGrapheneError:error];
         return nil;
     }];
 }
 
-- (void)onAddNewAssetClicked
+/*
+ *  事件 - 页VC切换。
+ */
+- (void)onControllerPageChanged
 {
-    WsPromiseObject* result_promise = [[WsPromiseObject alloc] init];
-    VCBotsCreate* vc = [[VCBotsCreate alloc] initWithResultPromise:result_promise];
-    //  TODO:3.1 lang
-    [self pushViewController:vc vctitle:@"创建网格机器人" backtitle:kVcDefaultBackTitleName];
-    [result_promise then:^id(id dirty) {
-        //  刷新UI
-        if (dirty && [dirty boolValue]) {
-            [self queryMyBotsList];
-        }
-        return nil;
-    }];
+    [self queryMyBotsList];
 }
 
 - (void)viewDidLoad
@@ -240,14 +236,7 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [ThemeManager sharedThemeManager].appBackColor;
-    
-    //  右上角新增按钮
-    UIBarButtonItem* addBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                            target:self
-                                                                            action:@selector(onAddNewAssetClicked)];
-    addBtn.tintColor = [ThemeManager sharedThemeManager].navigationBarTextColor;
-    self.navigationItem.rightBarButtonItem = addBtn;
-    
+        
     //  UI - 列表
     CGRect rect = [self rectWithoutNavi];
     _mainTableView = [[UITableViewBase alloc] initWithFrame:rect style:UITableViewStylePlain];
@@ -259,12 +248,9 @@
     _mainTableView.hidden = NO;
     
     //  UI - 空 TODO:3.1 lang
-    _lbEmpty = [self genCenterEmptyLabel:rect txt:@"机器人为空，点击右上角创建机器人策略。"];
+    _lbEmpty = [self genCenterEmptyLabel:rect txt:@"网格交易订单为空，点击右上角创建网格交易。"];
     _lbEmpty.hidden = YES;
     [self.view addSubview:_lbEmpty];
-    
-    //  查询
-    [self queryMyBotsList];
 }
 
 #pragma mark- TableView delegate method
@@ -309,9 +295,9 @@
     
     //  TODO:lang 动态列表
     id list = [[[NSMutableArray array] ruby_apply:^(id ary) {
-        [ary addObject:@{@"type":@(0), @"title":@"启动机器人"}];
-        [ary addObject:@{@"type":@(1), @"title":@"停止机器人"}];
-        [ary addObject:@{@"type":@(2), @"title":@"删除机器人"}];
+        [ary addObject:@{@"type":@(0), @"title":@"启动网格交易"}];
+        [ary addObject:@{@"type":@(1), @"title":@"停止网格交易"}];
+        [ary addObject:@{@"type":@(2), @"title":@"删除网格交易"}];
     }] copy];
     
     [[MyPopviewManager sharedMyPopviewManager] showActionSheet:self
@@ -345,19 +331,19 @@
     //  步骤：查询 & 启动 & 转账
     
     //  不支持提案：多签账号不支持跑量化机器人，量化授权会失去多签账号的意义。
-    [self GuardWalletUnlocked:YES body:^(BOOL unlocked) {
+    [_owner GuardWalletUnlocked:YES body:^(BOOL unlocked) {
         if (unlocked){
             id op_account = [[[WalletManager sharedWalletManager] getWalletAccountInfo] objectForKey:@"account"];
             id op_account_id = [op_account objectForKey:@"id"];
             id storage_item = [item objectForKey:@"raw"];
             id bots_key = [storage_item objectForKey:@"key"];
             
-            [self showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];
+            [_owner showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];
             [[[[ChainObjectManager sharedChainObjectManager] queryAccountAllBotsData:op_account_id] then:^id(id result_hash) {
                 id latest_storage_item = [result_hash objectForKey:bots_key];
                 if (!latest_storage_item) {
-                    [self hideBlockView];
-                    [OrgUtils makeToast:@"该量化机器人已经删除了。"];
+                    [_owner hideBlockView];
+                    [OrgUtils makeToast:@"该网格交易已经删除了。"];
                     //  刷新界面
                     [self onQueryMyBotsListResponsed:result_hash];
                     return nil;
@@ -365,8 +351,8 @@
                 
                 id status = [[latest_storage_item objectForKey:@"value"] objectForKey:@"status"];
                 if ([self isValidBotsData:latest_storage_item] && status && [status isEqualToString:@"running"]) {
-                    [self hideBlockView];
-                    [OrgUtils makeToast:@"机器人已经在运行中。"];
+                    [_owner hideBlockView];
+                    [OrgUtils makeToast:@"网格交易已经在运行中。"];
                     //  刷新界面
                     [self onQueryMyBotsListResponsed:result_hash];
                     return nil;
@@ -396,21 +382,21 @@
                                                                                           remove:NO
                                                                                          catalog:kAppStorageCatalogBotsGridBots
                                                                                       key_values:key_values] then:^id(id data) {
-                    [self hideBlockView];
+                    [_owner hideBlockView];
                     [OrgUtils makeToast:@"启动成功。"];
                     [self queryMyBotsList];
                     return nil;
                 }];
                 return nil;
-
+                
             }] catch:^id(id error) {
                 
-                [self hideBlockView];
+                [_owner hideBlockView];
                 [OrgUtils showGrapheneError:error];
                 
                 return nil;
             }];
-        
+            
         }
     }];
 }
@@ -418,7 +404,7 @@
 - (void)_stopBots:(id)item
 {
     //  不支持提案：多签账号不支持跑量化机器人，量化授权会失去多签账号的意义。
-    [self GuardWalletUnlocked:YES body:^(BOOL unlocked) {
+    [_owner GuardWalletUnlocked:YES body:^(BOOL unlocked) {
         if (unlocked){
             
             
@@ -427,21 +413,21 @@
             id storage_item = [item objectForKey:@"raw"];
             id bots_key = [storage_item objectForKey:@"key"];
             
-            [self showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];
+            [_owner showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];
             [[[[ChainObjectManager sharedChainObjectManager] queryAccountAllBotsData:op_account_id] then:^id(id result_hash) {
                 id latest_storage_item = [result_hash objectForKey:bots_key];
                 if (!latest_storage_item) {
-                    [self hideBlockView];
-                    [OrgUtils makeToast:@"该量化机器人已经删除了。"];
+                    [_owner hideBlockView];
+                    [OrgUtils makeToast:@"该网格交易已经删除了。"];
                     //  刷新界面
                     [self onQueryMyBotsListResponsed:result_hash];
                     return nil;
                 }
-
+                
                 id status = [[latest_storage_item objectForKey:@"value"] objectForKey:@"status"];
                 if (![self isValidBotsData:latest_storage_item] || !status || ![status isEqualToString:@"running"]) {
-                    [self hideBlockView];
-                    [OrgUtils makeToast:@"机器人已停止。"];
+                    [_owner hideBlockView];
+                    [OrgUtils makeToast:@"网格交易已停止。"];
                     //  刷新界面
                     [self onQueryMyBotsListResponsed:result_hash];
                     return nil;
@@ -458,15 +444,15 @@
                                                                                           remove:NO
                                                                                          catalog:kAppStorageCatalogBotsGridBots
                                                                                       key_values:key_values] then:^id(id data) {
-                    [self hideBlockView];
-                    [OrgUtils makeToast:@"机器人已停止。"];
+                    [_owner hideBlockView];
+                    [OrgUtils makeToast:@"网格交易已停止。"];
                     [self queryMyBotsList];
                     return nil;
                 }];
-
+                
             }] catch:^id(id error) {
                 
-                [self hideBlockView];
+                [_owner hideBlockView];
                 [OrgUtils showGrapheneError:error];
                 
                 return nil;
@@ -478,7 +464,7 @@
 - (void)_deleteBots:(id)item
 {
     //  不支持提案：多签账号不支持跑量化机器人，量化授权会失去多签账号的意义。
-    [self GuardWalletUnlocked:YES body:^(BOOL unlocked) {
+    [_owner GuardWalletUnlocked:YES body:^(BOOL unlocked) {
         if (unlocked){
             
             
@@ -487,12 +473,12 @@
             id storage_item = [item objectForKey:@"raw"];
             id bots_key = [storage_item objectForKey:@"key"];
             
-            [self showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];
+            [_owner showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];
             [[[[ChainObjectManager sharedChainObjectManager] queryAccountAllBotsData:op_account_id] then:^id(id result_hash) {
                 id latest_storage_item = [result_hash objectForKey:bots_key];
                 if (!latest_storage_item) {
-                    [self hideBlockView];
-                    [OrgUtils makeToast:@"该量化机器人已经删除了。"];
+                    [_owner hideBlockView];
+                    [OrgUtils makeToast:@"该网格交易已经删除了。"];
                     //  刷新界面
                     [self onQueryMyBotsListResponsed:result_hash];
                     return nil;
@@ -500,8 +486,8 @@
                 
                 id status = [[latest_storage_item objectForKey:@"value"] objectForKey:@"status"];
                 if ([self isValidBotsData:latest_storage_item] && status && [status isEqualToString:@"running"]) {
-                    [self hideBlockView];
-                    [OrgUtils makeToast:@"该量化机器人正在运行中，请先停止。"];
+                    [_owner hideBlockView];
+                    [OrgUtils makeToast:@"该网格交易正在运行中，请先停止。"];
                     //  刷新界面
                     [self onQueryMyBotsListResponsed:result_hash];
                     return nil;
@@ -512,7 +498,7 @@
                                                                                           remove:YES
                                                                                          catalog:kAppStorageCatalogBotsGridBots
                                                                                       key_values:key_values] then:^id(id data) {
-                    [self hideBlockView];
+                    [_owner hideBlockView];
                     [OrgUtils makeToast:@"删除成功。"];
                     [self queryMyBotsList];
                     return nil;
@@ -520,7 +506,7 @@
                 
             }] catch:^id(id error) {
                 
-                [self hideBlockView];
+                [_owner hideBlockView];
                 [OrgUtils showGrapheneError:error];
                 
                 return nil;

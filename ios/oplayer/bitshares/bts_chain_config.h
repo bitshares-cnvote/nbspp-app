@@ -371,4 +371,7 @@ typedef enum EBitsharesOperations
 //  KEY：APP设置 > OTC配置
 #define kAppStorageKeyAppSetings_OtcConfigInfo              @"otc.config.info"
 
+//  KEY：APP设置 > BOTS配置
+#define kAppStorageKeyAppSetings_BotsConfigInfo             @"bots.config.info"
+
 #endif /* __bts_chain_config__ */

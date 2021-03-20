@@ -11,8 +11,6 @@
 #import "NativeAppDelegate.h"
 #import "VCBtsppSdkWebView.h"
 
-#import "VCBotsManager.h"
-
 @interface VCTest ()
 {
     UITableView*    _mainTableView;
@@ -97,13 +95,10 @@
     switch (indexPath.row) {
         case 0:
         {
-//            [OrgUtils showMessage:@"test"];
+            [OrgUtils showMessage:@"test"];
             
 //            VCBtsppSdkWebView* vc = [[VCBtsppSdkWebView alloc] initWithUrl:@"l"];
 //            [self pushViewController:vc vctitle:@"测试webview" backtitle:kVcDefaultBackTitleName];
-            
-            VCBotsManager* vc = [[VCBotsManager alloc] init];
-            [self pushViewController:vc vctitle:@"机器人" backtitle:kVcDefaultBackTitleName];
         }
             break;
         default:
