@@ -368,4 +368,7 @@ typedef enum EBitsharesOperations
 //  KEY：APP设置 > 已知交易所充值账号列表
 #define kAppStorageKeyAppSetings_KnownCexDepositAccounts    @"known.cex.deposit.accounts"
 
+//  KEY：APP设置 > OTC配置
+#define kAppStorageKeyAppSetings_OtcConfigInfo              @"otc.config.info"
+
 #endif /* __bts_chain_config__ */

@@ -652,55 +652,8 @@ static OtcManager *_sharedOtcManager = nil;
  */
 - (WsPromise*)queryConfig
 {
-    return [WsPromise promise:^(WsResolveHandler resolve, WsRejectHandler reject) {
-        //  TODO:2.9 asste name encode
-        [[[[ChainObjectManager sharedChainObjectManager] queryAssetData:@"CCTEST"] then:^id(id asset_data) {
-            id config = nil;
-            if (asset_data) {
-                NSString* main = [[OrgUtils parse_json:[[asset_data objectForKey:@"options"] objectForKey:@"description"]] objectForKey:@"main"];
-                if (main && ![main isEqualToString:@""] && main.length % 2 == 0) {
-                    //{
-                    //    merchant =     {
-                    //        entry =         {
-                    //            msg = "";
-                    //            type = 1;
-                    //        };
-                    //    };
-                    //    order =     {
-                    //        enable = 1;
-                    //        msg = "";
-                    //    };
-                    //    urls =     {
-                    //        agreement = "https://www.baidu.com/";
-                    //        api = "http://otc-api.gdex.vip";
-                    //    };
-                    //    user =     {
-                    //        entry =         {
-                    //            msg = "";
-                    //            type = 1;
-                    //        };
-                    //    };
-                    //}
-                    config = [OrgUtils parse_json:[OrgUtils hexDecode:main]];
-                }
-            }
-            if (config) {
-                //  更新节点URL
-                NSString* api = [[config objectForKey:@"urls"] objectForKey:@"api"];
-                if (api && ![api isEqualToString:@""]) {
-                    _base_api = [api copy];
-                }
-                //  更新配置
-                _server_config = config;
-            }
-            resolve(_server_config);
-            return nil;
-        }] catch:^id(id error) {
-            //  查询失败，返回之前的数据。
-            resolve(_server_config);
-            return nil;
-        }];
-    }];
+    _server_config = [[SettingManager sharedSettingManager] getOnChainAppSetting:kAppStorageKeyAppSetings_OtcConfigInfo];
+    return [WsPromise resolve:_server_config];
 }
 
 /*
