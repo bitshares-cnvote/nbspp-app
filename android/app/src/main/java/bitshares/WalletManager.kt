@@ -887,7 +887,7 @@ class WalletManager {
         val from = memo_object.getString("from")
         val to = memo_object.getString("to")
         val nonce = memo_object.getString("nonce")
-        val message = memo_object.getString("message")
+        val message = memo_object.opt("message")
 
         //  1、获取私钥和公钥（from和to任意一方私钥即可，双方均可解密。）
         var pubkey: String? = null
@@ -919,7 +919,12 @@ class WalletManager {
             return null
         }
 
-        val plain_ptr = nativePtr.bts_aes256_decrypt_with_checksum(memo_private_key32, public_key, nonce.utf8String(), message.hexDecode())
+        val raw_message = if (message is ByteArray) {
+            message
+        } else {
+            (message as String).hexDecode()
+        }
+        val plain_ptr = nativePtr.bts_aes256_decrypt_with_checksum(memo_private_key32, public_key, nonce.utf8String(), raw_message)
         if (plain_ptr == null) {
             return null
         }
