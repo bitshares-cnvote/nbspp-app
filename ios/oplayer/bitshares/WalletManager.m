@@ -906,7 +906,7 @@ static int _unique_nonce_entropy = -1;              //  辅助生成 unique64 �
     NSString* from = [memo_object objectForKey:@"from"];
     NSString* to = [memo_object objectForKey:@"to"];
     id nonce = [memo_object objectForKey:@"nonce"];
-    NSString* message = [memo_object objectForKey:@"message"];
+    id message = [memo_object objectForKey:@"message"];
     assert(from && to && nonce && message);
     
     //  1、获取私钥和公钥（from和to任意一方私钥即可，双方均可解密。）
@@ -941,7 +941,7 @@ static int _unique_nonce_entropy = -1;              //  辅助生成 unique64 �
     }
 
     //  2、解密
-    NSData* raw_message = [OrgUtils hexDecode:message];
+    NSData* raw_message = [message isKindOfClass:[NSData class]] ? message : [OrgUtils hexDecode:message];
     size_t output_size = (size_t)raw_message.length;
     unsigned char output[output_size];
 
