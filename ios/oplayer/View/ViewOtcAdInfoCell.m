@@ -77,6 +77,7 @@
         
         _imageHeader = [self auxGenLabel:[UIFont systemFontOfSize:14]];
         _imageHeader.textAlignment = NSTextAlignmentCenter;
+        _imageHeader.textColor = [ThemeManager sharedThemeManager].textColorFlag;
         
         _lbUsername = [self auxGenLabel:[UIFont boldSystemFontOfSize:16]];
         
@@ -103,7 +104,7 @@
         }
         _lbSubmit = [UIButton buttonWithType:UIButtonTypeCustom];
         _lbSubmit.titleLabel.font = [UIFont boldSystemFontOfSize:14];
-        [_lbSubmit setTitleColor:[ThemeManager sharedThemeManager].textColorMain forState:UIControlStateNormal];
+        [_lbSubmit setTitleColor:[ThemeManager sharedThemeManager].textColorFlag forState:UIControlStateNormal];
         [_lbSubmit addTarget:self action:@selector(onSubmitButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         _lbSubmit.layer.borderWidth = 1;
         _lbSubmit.layer.cornerRadius = 0;

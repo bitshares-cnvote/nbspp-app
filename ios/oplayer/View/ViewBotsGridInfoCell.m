@@ -252,7 +252,7 @@
     //  第四行 每格交易数量 交易次数 年华收益 标题
     _lbAmountTitle.text = @"每格交易数量";
     _lbTradeNumTitle.text = @"交易次数";
-    _lbApyTitle.text = @"年华收益";
+    _lbApyTitle.text = @"年化收益";
     _lbAmountTitle.textColor = theme.textColorGray;
     _lbTradeNumTitle.textColor = theme.textColorGray;
     _lbApyTitle.textColor = theme.textColorGray;
