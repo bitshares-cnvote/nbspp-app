@@ -58,7 +58,7 @@ class ViewOtcMerchantCell : LinearLayout {
                     addView(TextView(_ctx).apply {
                         text = _data.getString("merchantNickname").substring(0, 1)
                         setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14.0f)
-                        setTextColor(_ctx.resources.getColor(R.color.theme01_textColorMain))
+                        setTextColor(_ctx.resources.getColor(R.color.theme01_textColorFlag))
                         background = _ctx.resources.getDrawable(R.drawable.circle_character_view)
 
                         layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
@@ -245,7 +245,7 @@ class ViewOtcMerchantCell : LinearLayout {
                             setBackgroundColor(resources.getColor(R.color.theme01_sellColor))
                         }
                         setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14.0f)
-                        setTextColor(resources.getColor(R.color.theme01_textColorMain))
+                        setTextColor(resources.getColor(R.color.theme01_textColorFlag))
                         gravity = Gravity.TOP
                         setPadding(20.dp, 5.dp, 20.dp, 5.dp)
                     }
@@ -263,7 +263,7 @@ class ViewOtcMerchantCell : LinearLayout {
                             }
                             setBackgroundColor(resources.getColor(R.color.theme01_textColorHighlight))
                             setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14.0f)
-                            setTextColor(resources.getColor(R.color.theme01_textColorMain))
+                            setTextColor(resources.getColor(R.color.theme01_textColorFlag))
                             gravity = Gravity.TOP
                             setPadding(20.dp, 5.dp, 20.dp, 5.dp)
                         }

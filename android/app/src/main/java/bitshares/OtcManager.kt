@@ -868,6 +868,13 @@ class OtcManager {
      */
     fun queryConfig(): Promise {
         server_config = SettingManager.sharedSettingManager().getOnChainAppSetting(kAppStorageKeyAppSetings_OtcConfigInfo) as? JSONObject
+        server_config?.let { config ->
+            //  更新节点URL
+            val api = config.optJSONObject("urls")?.optString("api", null)
+            if (api != null && api.isNotEmpty()) {
+                _base_api = api.toString()
+            }
+        }
         return Promise._resolve(server_config)
     }
 
