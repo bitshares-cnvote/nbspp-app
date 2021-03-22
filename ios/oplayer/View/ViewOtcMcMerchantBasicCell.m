@@ -53,6 +53,7 @@
         
         _imageHeader = [self auxGenLabel:[UIFont systemFontOfSize:20]];
         _imageHeader.textAlignment = NSTextAlignmentCenter;
+        _imageHeader.textColor = [ThemeManager sharedThemeManager].textColorFlag;
         
         _lbUsername = [self auxGenLabel:[UIFont boldSystemFontOfSize:15]];
         
