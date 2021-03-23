@@ -38,9 +38,11 @@ class ActivityOtcMcAssetList : BtsppActivity() {
         val chain_asset_map = JSONObject()
         if (chainAssets != null) {
             for (asset in chainAssets.forin<JSONObject>()) {
-                val symbol = asset!!.optString("symbol", null)
-                if (symbol != null) {
-                    chain_asset_map.put(symbol, asset)
+                if (asset != null) {
+                    val symbol = asset!!.optString("symbol", null)
+                    if (symbol != null) {
+                        chain_asset_map.put(symbol, asset)
+                    }
                 }
             }
         }
