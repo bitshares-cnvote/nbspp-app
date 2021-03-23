@@ -291,12 +291,13 @@ class TradingPair {
 
             val display_min_fraction: Int = ChainObjectManager.sharedChainObjectManager().getDefaultParameters().getInt("display_min_fraction")
             //  REMARK：这里用 %f 格式化代理 %@，否则对于部分小数会格式化出 1e-06 等不可期的数据。
-            val price: String = String.format("%f", ref_item.getDouble("price"))
+            val item_price = ref_item.getDouble("price")
+            val price: String = String.format("%f", item_price)
             price.fixComma().let { new_price ->
                 if (new_price.indexOf(".") != -1) {
                     val ary = new_price.split(".")
                     val part1: String = ary[0]       //  整数部分
-                    if (part1.toInt() > 0) {
+                    if (item_price > 1.0) {
                         _displayPrecision = Math.max(_displayPrecision - part1.length, display_min_fraction)
                     } else {
                         val part2: String = ary[1]   //  小数部分
