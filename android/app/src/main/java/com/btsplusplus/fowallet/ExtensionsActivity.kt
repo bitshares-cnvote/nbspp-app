@@ -191,7 +191,12 @@ fun android.app.Activity.viewUserAssets(account_name_or_id: String) {
 
     val chainMgr = ChainObjectManager.sharedChainObjectManager()
     chainMgr.queryFullAccountInfo(account_name_or_id).then {
-        val full_account_data = it as JSONObject
+        val full_account_data = it as? JSONObject
+        if (full_account_data == null) {
+            mask.dismiss()
+            showToast(resources.getString(R.string.kGPErrorAccountNotExist))
+            return@then null
+        }
         val userAssetDetailInfos = OrgUtils.calcUserAssetDetailInfos(full_account_data)
         val args = userAssetDetailInfos.getJSONObject("validBalancesHash").keys().toJSONArray()
         return@then chainMgr.queryAllAssetsInfo(args).then {
