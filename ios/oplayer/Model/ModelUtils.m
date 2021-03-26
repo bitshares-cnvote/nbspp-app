@@ -11,8 +11,63 @@
 #import "ChainObjectManager.h"
 #import "OrgUtils.h"
 #import "TradingPair.h"
+#import "SettingManager.h"
 
 @implementation ModelUtils
+
+/*
+ *  (public) 资产 - 是否是挖矿相关的资产
+ */
++ (BOOL)assetIsMinerAsset:(id)asset_object_or_asset_id
+{
+    assert(asset_object_or_asset_id);
+    
+    NSString* oid = [asset_object_or_asset_id isKindOfClass:[NSDictionary class]] ? [asset_object_or_asset_id objectForKey:@"id"] : asset_object_or_asset_id;
+    
+    for (id miner_item in [[SettingManager sharedSettingManager] getAppAssetMinerList]) {
+        if (oid && [oid isEqualToString:[[[miner_item objectForKey:@"price"] objectForKey:@"amount_to_sell"] objectForKey:@"asset_id"]]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+/*
+ *  (public) 资产 - 是否是参与挖矿的资产
+ */
++ (BOOL)assetIsMinerInAsset:(id)asset_object_or_asset_id
+{
+    assert(asset_object_or_asset_id);
+    
+    NSString* oid = [asset_object_or_asset_id isKindOfClass:[NSDictionary class]] ? [asset_object_or_asset_id objectForKey:@"id"] : asset_object_or_asset_id;
+    
+    for (id miner_item in [[SettingManager sharedSettingManager] getAppAssetMinerList]) {
+        if (oid && [[miner_item objectForKey:@"miner"] boolValue] && [oid isEqualToString:[[[miner_item objectForKey:@"price"] objectForKey:@"amount_to_sell"] objectForKey:@"asset_id"]]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+/*
+ *  (public) 资产 - 是否是退出挖矿的资产
+ */
++ (BOOL)assetIsMinerOutAsset:(id)asset_object_or_asset_id
+{
+    assert(asset_object_or_asset_id);
+    
+    NSString* oid = [asset_object_or_asset_id isKindOfClass:[NSDictionary class]] ? [asset_object_or_asset_id objectForKey:@"id"] : asset_object_or_asset_id;
+    
+    for (id miner_item in [[SettingManager sharedSettingManager] getAppAssetMinerList]) {
+        if (oid && ![[miner_item objectForKey:@"miner"] boolValue] && [oid isEqualToString:[[[miner_item objectForKey:@"price"] objectForKey:@"amount_to_sell"] objectForKey:@"asset_id"]]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
 
 /*
  *  (public) 资产 - 判断资产是否允许强清

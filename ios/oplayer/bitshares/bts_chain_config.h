@@ -374,4 +374,7 @@ typedef enum EBitsharesOperations
 //  KEY：APP设置 > BOTS配置
 #define kAppStorageKeyAppSetings_BotsConfigInfo             @"bots.config.info"
 
+//  KEY：APP设置 > 挖矿资产列表（快速兑换列表）
+#define kAppStorageKeyAppSetings_AssetMinerList             @"asset.miner.list"
+
 #endif /* __bts_chain_config__ */

@@ -111,4 +111,14 @@
  */
 - (NSString*)getAppGridBotsTraderAccount;
 
+/*
+ *  (public) 获取设置 - 挖矿资产列表（快速兑换列表）
+ */
+- (id)getAppAssetMinerList;
+
+/*
+ *  (public) 获取设置 - 挖矿配置条目
+ */
+- (id)getAppAssetMinerItem:(id)asset_id;
+
 @end

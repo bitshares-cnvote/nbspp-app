@@ -13,6 +13,22 @@
 @interface ModelUtils : NSObject
 
 /*
+ *  (public) 资产 - 是否是挖矿相关的资产
+ */
++ (BOOL)assetIsMinerAsset:(id)asset_object_or_asset_id;
+
+/*
+ *  (public) 资产 - 是否是参与挖矿的资产
+ */
++ (BOOL)assetIsMinerInAsset:(id)asset_object_or_asset_id;
+
+/*
+ *  (public) 资产 - 是否是退出挖矿的资产
+ */
++ (BOOL)assetIsMinerOutAsset:(id)asset_object_or_asset_id;
+
+
+/*
  *  (public) 资产 - 判断资产是否允许强清
  */
 + (BOOL)assetCanForceSettle:(id)asset_object;

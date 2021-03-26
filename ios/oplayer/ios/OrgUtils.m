@@ -79,6 +79,10 @@
                         [self makeToast:NSLocalizedString(@"kGPErrorApiNodeVersionTooLow", @"当前API节点版本太低。")];
                         return;
                     }
+                    if ([lowermsg rangeOfString:@"killing limit order due to unable to fill"].location != NSNotFound) {
+                        [self makeToast:NSLocalizedString(@"kGPErrorLimitOrderUnableToFill", @"订单簿深度不足，兑换失败。")];
+                        return;
+                    }
                     
                     //  Execution error: Assert Exception: _dynamic_data_obj->current_supply + o.delta_debt.amount <= _debt_asset->options.max_supply: Borrowing this quantity would exceed MAX_SUPPLY
                     if ([lowermsg rangeOfString:@"borrowing this quantity would exceed max_supply"].location != NSNotFound) {

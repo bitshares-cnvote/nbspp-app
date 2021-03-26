@@ -369,4 +369,29 @@ static SettingManager *_sharedSettingManager = nil;
     return [[self getOnChainAppSetting:kAppStorageKeyAppSetings_BotsConfigInfo] objectForKey:@"grid_bots_trader"];
 }
 
+/*
+ *  (public) 获取设置 - 挖矿资产列表（快速兑换列表）
+ */
+- (id)getAppAssetMinerList
+{
+    id list = [self getOnChainAppSetting:kAppStorageKeyAppSetings_AssetMinerList];
+    if (list && [list count] > 0) {
+        return list;
+    }
+    return @[];
+}
+
+/*
+ *  (public) 获取设置 - 挖矿配置条目
+ */
+- (id)getAppAssetMinerItem:(id)asset_id
+{
+    for (id miner_item in [self getAppAssetMinerList]) {
+        if (asset_id && [asset_id isEqualToString:[[[miner_item objectForKey:@"price"] objectForKey:@"amount_to_sell"] objectForKey:@"asset_id"]]) {
+            return miner_item;
+        }
+    }
+    return nil;
+}
+
 @end

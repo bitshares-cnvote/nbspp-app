@@ -611,6 +611,12 @@
 "kVcAssetOpUpdateAssetSubmitTipsOK" = "更新资产成功。";
 "kVcAssetOpUpdateBitassetSubmitTipsOK" = "更新智能币成功。";
 
+"kVcAssetOpMinerUiTips" = "【温馨提示】\n1、根据 1:%@ 比例快速兑换 %@ 资产，如果市场深度不足则会兑换失败。\n2、根据市场情况可能存在少许误差。";
+"kVcAssetOpMinerCellPlaceholderAmount" = "请输入兑换数量";
+"kVcAssetOpMinerBtnName" = "%@ 兑换 %@";
+"kVcAssetOpMinerSubmitTipsPleaseInputValidAmount" = "请输入有效的兑换数量。";
+"kVcAssetOpMinerSubmitTipSwapOK" = "兑换成功。";
+
 "kVcAssetOpSettleTipsDisableSettle" = "该资产禁止清算。";
 "kVcAssetOpSettleTipsMustGlobalSettleFirst" = "预测市场全局清算完成之后才可以进行清算操作。";
 "kVcAssetOpSettleTipsNoFeedData" = "该资产没有有效的喂价，不可清算。";
@@ -1833,6 +1839,7 @@
 "kGPErrorInsufficientBalance" = "手续费不足。";
 "kGPErrorRedeemInvalidPreimage" = "原像不正确。";
 "kGPErrorApiNodeVersionTooLow" = "当前API节点版本太低。";
+"kGPErrorLimitOrderUnableToFill" = "订单簿深度不足，兑换失败。";
 "kGPErrorExceedMaxSupply" = "超过资产最大供应量，交易失败。";
 "kGPErrorBlindReceiptIsNotExisted" = "隐私收据不存在。";
 "kGPErrorBlindVerifySumFailed" = "隐私输入和输出金额不相等。";
