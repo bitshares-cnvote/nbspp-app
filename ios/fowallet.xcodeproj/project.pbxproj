@@ -1518,6 +1518,9 @@
 		3FD3DD2F2316A579009760A0 /* VCScanAccountName.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD3DD2C2316A578009760A0 /* VCScanAccountName.m */; };
 		3FD3DD332317B8FC009760A0 /* VCScanTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD3DD312317B8FC009760A0 /* VCScanTransfer.m */; };
 		3FD3DD342317B8FC009760A0 /* VCScanTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD3DD312317B8FC009760A0 /* VCScanTransfer.m */; };
+		3FDBAC81260999D100223C89 /* VCAssetOpMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FDBAC7F260999D100223C89 /* VCAssetOpMiner.m */; };
+		3FDBAC82260999D100223C89 /* VCAssetOpMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FDBAC7F260999D100223C89 /* VCAssetOpMiner.m */; };
+		3FDBAC83260999D100223C89 /* VCAssetOpMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FDBAC7F260999D100223C89 /* VCAssetOpMiner.m */; };
 		3FDD7FFA21D46F9800DA61FC /* VCVestingBalance.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FDD7FF821D46F9700DA61FC /* VCVestingBalance.m */; };
 		3FDD7FFB21D46F9800DA61FC /* VCVestingBalance.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FDD7FF821D46F9700DA61FC /* VCVestingBalance.m */; };
 		3FDD7FFE21D728DF00DA61FC /* ViewVestingBalanceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FDD7FFD21D728DF00DA61FC /* ViewVestingBalanceCell.m */; };
@@ -2424,6 +2427,8 @@
 		3FD3DD2D2316A579009760A0 /* VCScanAccountName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCScanAccountName.h; sourceTree = "<group>"; };
 		3FD3DD312317B8FC009760A0 /* VCScanTransfer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VCScanTransfer.m; sourceTree = "<group>"; };
 		3FD3DD322317B8FC009760A0 /* VCScanTransfer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCScanTransfer.h; sourceTree = "<group>"; };
+		3FDBAC7F260999D100223C89 /* VCAssetOpMiner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VCAssetOpMiner.m; path = Controller/VCAssetOpMiner.m; sourceTree = "<group>"; };
+		3FDBAC80260999D100223C89 /* VCAssetOpMiner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VCAssetOpMiner.h; path = Controller/VCAssetOpMiner.h; sourceTree = "<group>"; };
 		3FDD7FF821D46F9700DA61FC /* VCVestingBalance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VCVestingBalance.m; path = Controller/VCVestingBalance.m; sourceTree = "<group>"; };
 		3FDD7FF921D46F9800DA61FC /* VCVestingBalance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VCVestingBalance.h; path = Controller/VCVestingBalance.h; sourceTree = "<group>"; };
 		3FDD7FFC21D728DF00DA61FC /* ViewVestingBalanceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewVestingBalanceCell.h; path = View/ViewVestingBalanceCell.h; sourceTree = "<group>"; };
@@ -3341,6 +3346,8 @@
 		18FF068617E00B110088405E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3FDBAC80260999D100223C89 /* VCAssetOpMiner.h */,
+				3FDBAC7F260999D100223C89 /* VCAssetOpMiner.m */,
 				3FE7756C25DD316700592A84 /* VCBotsCreate.h */,
 				3FE7756B25DD316700592A84 /* VCBotsCreate.m */,
 				3FE7755F25DBDC6800592A84 /* VCBotsManager.h */,
@@ -6117,6 +6124,7 @@
 				3FAF686825EF76C6007DD9F3 /* DirectionPanGestureRecognizer.m in Sources */,
 				3FAF686925EF76C6007DD9F3 /* mztools.c in Sources */,
 				3FAF686A25EF76C6007DD9F3 /* 7zAlloc.c in Sources */,
+				3FDBAC83260999D100223C89 /* VCAssetOpMiner.m in Sources */,
 				3FAF686B25EF76C6007DD9F3 /* SAMKeychain.m in Sources */,
 				3FAF686C25EF76C6007DD9F3 /* 7zStream.c in Sources */,
 				3FAF686D25EF76C6007DD9F3 /* BraIA64.c in Sources */,
@@ -6497,6 +6505,7 @@
 				3FB8F8E021CE66C200DA88E2 /* DirectionPanGestureRecognizer.m in Sources */,
 				3FB8F8E121CE66C200DA88E2 /* mztools.c in Sources */,
 				3FB8F8E221CE66C200DA88E2 /* 7zAlloc.c in Sources */,
+				3FDBAC82260999D100223C89 /* VCAssetOpMiner.m in Sources */,
 				3FB8F8E321CE66C200DA88E2 /* SAMKeychain.m in Sources */,
 				3FB8F8E421CE66C200DA88E2 /* 7zStream.c in Sources */,
 				3FB8F8E521CE66C200DA88E2 /* BraIA64.c in Sources */,
@@ -6877,6 +6886,7 @@
 				B7A13B781CA1443A0096A6A4 /* mztools.c in Sources */,
 				B7BDAA7A20B3C77400738F12 /* 7zAlloc.c in Sources */,
 				B7D5862C2115A9FA00FED7B0 /* SAMKeychain.m in Sources */,
+				3FDBAC81260999D100223C89 /* VCAssetOpMiner.m in Sources */,
 				B7BDAA8220B3C77400738F12 /* 7zStream.c in Sources */,
 				B7BDAA8A20B3C77500738F12 /* BraIA64.c in Sources */,
 				3F0DA369218851FF006E1004 /* VCQrScan.m in Sources */,
@@ -7329,7 +7339,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2.0.0.1214;
+				CURRENT_PROJECT_VERSION = 2.2.0.0320;
 				DEPLOYMENT_POSTPROCESSING = NO;
 				DEVELOPMENT_TEAM = 8R3442PYU5;
 				ENABLE_BITCODE = NO;
@@ -7360,7 +7370,7 @@
 					"$(PROJECT_DIR)/oplayer/libs/secp256k1",
 					"$(PROJECT_DIR)/oplayer/libs/Flurry",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.2;
 				OTHER_LDFLAGS = (
 					"-lxml2",
 					"-lz",
@@ -7388,7 +7398,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 2.0.0.1214;
+				CURRENT_PROJECT_VERSION = 2.2.0.0320;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				DEVELOPMENT_TEAM = 8R3442PYU5;
 				ENABLE_BITCODE = NO;
@@ -7418,7 +7428,7 @@
 					"$(PROJECT_DIR)/oplayer/libs/secp256k1",
 					"$(PROJECT_DIR)/oplayer/libs/Flurry",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.2;
 				OTHER_LDFLAGS = (
 					"-lxml2",
 					"-lz",

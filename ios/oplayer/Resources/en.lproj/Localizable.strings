@@ -457,6 +457,8 @@
 "kVcAssetTotalValue" = "Estimated Total Value(%@)";
 "kVcAssetBtnTransfer" = "Transfer";
 "kVcAssetBtnTrade" = "Trade";
+"kVcAssetBtnMiner" = "Mining";
+"kVcAssetBtnFastSwap" = "Swap";
 "kVcAssetBtnSettle" = "Settle";
 "kVcAssetBtnReserve" = "Reserve";
 "kVcAssetBtnStakeVote" = "Stake";
@@ -611,7 +613,7 @@
 "kVcAssetOpUpdateAssetSubmitTipsOK" = "Update asset succeeded.";
 "kVcAssetOpUpdateBitassetSubmitTipsOK" = "Update bitasset succeeded.";
 
-"kVcAssetOpMinerUiTips" = "[Reminder]\n1. Quickly swap %@ assets according to the ratio of 1:%@. If the market depth is insufficient, the swap will fail. \n2. There may be a slight error according to market conditions.";
+"kVcAssetOpMinerUiTips" = "[Reminder]\n1. Quickly swap %@ assets in the order book. \n2. the swap ratio is 1:%@, if the market depth is insufficient, the swap will fail. \n3. There may be a slight error according to market conditions.";
 "kVcAssetOpMinerCellPlaceholderAmount" = "Please enter the swap amount";
 "kVcAssetOpMinerBtnName" = "Swap %@ for %@";
 "kVcAssetOpMinerSubmitTipsPleaseInputValidAmount" = "Please enter a valid swap amount.";
@@ -1188,7 +1190,9 @@
 "kVcTitleOtcMcApply" = "商家申请";//TODO:
 "kVcTitleSearchAssets" = "Search for assets";
 "kVcTitleSearchBackAsset" = "Search for backing assets";
-"kVcTitleAssetOpSettle" = "Initiate settlement";
+"kVcTitleAssetOpSettle" = "Settlement";
+"kVcTitleAssetOpMinerIn" = "Mining";
+"kVcTitleAssetOpMinerOut" = "Exit mining";
 "kVcTitleAssetOpReserve" = "Reserve assets";
 "kVcTitleAssetOpStakeVoteCreateTicket" = "Create stake vote";
 "kVcTitleAssetOpStakeVoteUpdateTicket" = "Update stake vote";

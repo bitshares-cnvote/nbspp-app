@@ -13,6 +13,7 @@
 #import "SettingManager.h"
 #import "bts_chain_config.h"
 #import "Extension.h"
+#import "ModelUtils.h"
 
 @interface ViewAssetInfoCell()
 {
@@ -304,6 +305,15 @@
     if (_btnArray) {
         //  TODO:4.0 后续可扩展【更多】按钮
         NSMutableArray* all_actions = [NSMutableArray arrayWithObjects:@(ebaok_transfer), @(ebaok_trade), nil];
+        
+        //  【挖矿】和【闪兑】
+        id asset_id = [_item objectForKey:@"id"];
+        if ([ModelUtils assetIsMinerInAsset:asset_id]) {
+            [all_actions addObject:@(ebaok_miner)];
+        } else if ([ModelUtils assetIsMinerOutAsset:asset_id]) {
+            [all_actions addObject:@(ebaok_fast_swap)];
+        }
+        
         if (bIsSmart || bIsPredictionMarket) {
             [all_actions addObject:@(ebaok_settle)];
         } else {
@@ -340,6 +350,12 @@
                     break;
                 case ebaok_trade:
                     [btn updateTitleWithoutAnimation:NSLocalizedString(@"kVcAssetBtnTrade", @"交易")];
+                    break;
+                case ebaok_miner:
+                    [btn updateTitleWithoutAnimation:NSLocalizedString(@"kVcAssetBtnMiner", @"挖矿")];
+                    break;;
+                case ebaok_fast_swap:
+                    [btn updateTitleWithoutAnimation:NSLocalizedString(@"kVcAssetBtnFastSwap", @"闪兑")];
                     break;
                 case ebaok_settle:
                     [btn updateTitleWithoutAnimation:NSLocalizedString(@"kVcAssetBtnSettle", @"清算")];

@@ -133,8 +133,8 @@ enum
     
     id n_unit_price = [n_min_to_receive decimalNumberByDividingBy:n_amount_to_sell];
     
-    return [NSString stringWithFormat:NSLocalizedString(@"kVcAssetOpMinerUiTips", @"【温馨提示】\n1、根据 1:%@ 比例快速兑换 %@ 资产，如果市场深度不足则会兑换失败。\n2、根据市场情况可能存在少许误差。"),
-            n_unit_price, _curr_receive_asset[@"symbol"]];
+    return [NSString stringWithFormat:NSLocalizedString(@"kVcAssetOpMinerUiTips", @"【温馨提示】\n1、在订单簿中快速兑换 %@ 资产。\n2、兑换比例为 1:%@，如果市场深度不足则会兑换失败。\n3、根据市场情况可能存在少许误差。"),
+            _curr_receive_asset[@"symbol"], n_unit_price];
 }
 
 - (void)viewDidLoad

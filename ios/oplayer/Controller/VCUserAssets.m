@@ -21,6 +21,7 @@
 #import "VCUserActivity.h"
 #import "VCAssetOpCommon.h"
 #import "VCAssetOpStakeVote.h"
+#import "VCAssetOpMiner.h"
 
 #import "MBProgressHUD.h"
 #import "OrgUtils.h"
@@ -105,9 +106,9 @@
     self.view.backgroundColor = [ThemeManager sharedThemeManager].appBackColor;
     
     //  导航栏右边 收藏 和 区块浏览器 按钮
-//    id btn1 = [self naviButtonWithImage:@"iconFav" action:@selector(onRightOrderButtonClicked) color:theme.textColorNormal];
-//    id btn2 = [self naviButtonWithImage:@"iconFav" action:@selector(onRightUserButtonClicked) color:theme.textColorNormal];
-//    [self.navigationItem setRightBarButtonItems:@[btn2, btn1]];
+    //    id btn1 = [self naviButtonWithImage:@"iconFav" action:@selector(onRightOrderButtonClicked) color:theme.textColorNormal];
+    //    id btn2 = [self naviButtonWithImage:@"iconFav" action:@selector(onRightUserButtonClicked) color:theme.textColorNormal];
+    //    [self.navigationItem setRightBarButtonItems:@[btn2, btn1]];
     
     id account_name = [[_fullAccountInfo objectForKey:@"account"] objectForKey:@"name"];
     
@@ -621,6 +622,10 @@
         case ebaok_trade:
             [self onButtonClicked_Trade:button row:[row integerValue]];
             break;
+        case ebaok_miner:
+        case ebaok_fast_swap:
+            [self onButtonClicked_AssetMiner:button row:[row integerValue]];
+            break;
         case ebaok_settle:
             [self onButtonClicked_AssetSettle:button row:[row integerValue]];
             break;
@@ -647,6 +652,47 @@
             assert(false);
             break;
     }
+}
+
+/*
+ *  操作 - 资产参与挖矿/退出挖矿
+ */
+- (void)onButtonClicked_AssetMiner:(UIButton*)button row:(NSInteger)row
+{
+    ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
+    
+    id clicked_asset = [_assetDataArray objectAtIndex:row];
+    assert(clicked_asset);
+    id oid = clicked_asset[@"id"];
+    
+    id curr_asset = [chainMgr getChainObjectByID:oid];
+    id miner_item = [[SettingManager sharedSettingManager] getAppAssetMinerItem:oid];
+    assert(miner_item);
+    assert(curr_asset);
+    
+    id min_to_receive_asset_id = [[[miner_item objectForKey:@"price"] objectForKey:@"min_to_receive"] objectForKey:@"asset_id"];
+    
+    id p1 = [chainMgr queryFullAccountInfo:[[_accountInfo objectForKey:@"account"] objectForKey:@"id"]];
+    id p2 = [chainMgr queryAllGrapheneObjects:@[min_to_receive_asset_id]];
+    
+    [VcUtils simpleRequest:_owner
+                   request:[WsPromise all:@[p1, p2]]
+                  callback:^(id data_array) {
+        id full_account = [data_array objectAtIndex:0];
+        WsPromiseObject* result_promise = [[WsPromiseObject alloc] init];
+        VCAssetOpMiner* vc = [[VCAssetOpMiner alloc] initWithMinerItem:miner_item
+                                                     full_account_data:full_account
+                                                        result_promise:result_promise];
+        id title = [[miner_item objectForKey:@"miner"] boolValue] ? NSLocalizedString(@"kVcTitleAssetOpMinerIn", @"挖矿") : NSLocalizedString(@"kVcTitleAssetOpMinerOut", @"退出挖矿");
+        [_owner pushViewController:vc vctitle:title backtitle:kVcDefaultBackTitleName];
+        [result_promise then:^id(id dirty) {
+            //  刷新UI
+            if (dirty && [dirty boolValue]) {
+                //  TODO:5.0 考虑刷新界面
+            }
+            return nil;
+        }];
+    }];
 }
 
 /*
