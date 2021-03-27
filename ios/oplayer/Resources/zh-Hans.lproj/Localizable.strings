@@ -459,6 +459,8 @@
 "kVcAssetBtnTrade" = "交易";
 "kVcAssetBtnMiner" = "挖矿";
 "kVcAssetBtnFastSwap" = "闪兑";
+"kVcAssetBtnGatewayDeposit" = "充币";
+"kVcAssetBtnGatewayWithdrawal" = "提币";
 "kVcAssetBtnSettle" = "清算";
 "kVcAssetBtnReserve" = "销毁";
 "kVcAssetBtnStakeVote" = "锁仓";

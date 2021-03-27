@@ -22,6 +22,7 @@
 #import "VCAssetOpCommon.h"
 #import "VCAssetOpStakeVote.h"
 #import "VCAssetOpMiner.h"
+#import "VCDepositWithdrawList.h"
 
 #import "MBProgressHUD.h"
 #import "OrgUtils.h"
@@ -625,6 +626,14 @@
         case ebaok_miner:
         case ebaok_fast_swap:
             [self onButtonClicked_AssetMiner:button row:[row integerValue]];
+            break;
+        case ebaok_gateway_deposit:
+        case ebaok_gateway_withdrawal:
+        {
+            VCDepositWithdrawList* vc = [[VCDepositWithdrawList alloc] init];
+            vc.title = NSLocalizedString(@"kVcTitleDepositWithdraw", @"冲币提币");
+            [_owner pushViewController:vc vctitle:nil backtitle:kVcDefaultBackTitleName];
+        }
             break;
         case ebaok_settle:
             [self onButtonClicked_AssetSettle:button row:[row integerValue]];

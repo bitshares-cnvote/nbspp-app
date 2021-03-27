@@ -459,6 +459,8 @@
 "kVcAssetBtnTrade" = "取引";
 "kVcAssetBtnMiner" = "鉱業";
 "kVcAssetBtnFastSwap" = "スワップ";
+"kVcAssetBtnGatewayDeposit" = "入金";
+"kVcAssetBtnGatewayWithdrawal" = "出金";
 "kVcAssetBtnSettle" = "決済";
 "kVcAssetBtnReserve" = "消却";
 "kVcAssetBtnStakeVote" = "锁仓";//TODO:

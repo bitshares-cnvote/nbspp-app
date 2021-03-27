@@ -14,6 +14,7 @@
 #import "bts_chain_config.h"
 #import "Extension.h"
 #import "ModelUtils.h"
+#import "ChainObjectManager.h"
 
 @interface ViewAssetInfoCell()
 {
@@ -306,24 +307,36 @@
         //  TODO:4.0 后续可扩展【更多】按钮
         NSMutableArray* all_actions = [NSMutableArray arrayWithObjects:@(ebaok_transfer), @(ebaok_trade), nil];
         
-        //  【挖矿】和【闪兑】
+        //  网关资产判断，如果是网关资产，则添加 充币和提币，去掉其他 action。
         id asset_id = [_item objectForKey:@"id"];
-        if ([ModelUtils assetIsMinerInAsset:asset_id]) {
-            [all_actions addObject:@(ebaok_miner)];
-        } else if ([ModelUtils assetIsMinerOutAsset:asset_id]) {
-            [all_actions addObject:@(ebaok_fast_swap)];
+        id curr_asset = [[ChainObjectManager sharedChainObjectManager] getChainObjectByID:asset_id];
+        assert(curr_asset);
+        if ([ModelUtils assetIsGatewayAsset:curr_asset]) {
+            //  【充币】和【提币】
+            [all_actions addObject:@(ebaok_gateway_deposit)];
+            [all_actions addObject:@(ebaok_gateway_withdrawal)];
+        } else {
+        
+            //  【挖矿】和【闪兑】
+            if ([ModelUtils assetIsMinerInAsset:asset_id]) {
+                [all_actions addObject:@(ebaok_miner)];
+            } else if ([ModelUtils assetIsMinerOutAsset:asset_id]) {
+                [all_actions addObject:@(ebaok_fast_swap)];
+            }
+            
+            if (bIsSmart || bIsPredictionMarket) {
+                [all_actions addObject:@(ebaok_settle)];
+            } else {
+                [all_actions addObject:@(ebaok_reserve)];
+            }
+            //  todo nbs: remote state
+    //        //  锁仓投票（仅针对BTS）
+    //        if (bIsCore) {
+    //            [all_actions addObject:@(ebaok_stake_vote)];
+    //        }
+            
         }
         
-        if (bIsSmart || bIsPredictionMarket) {
-            [all_actions addObject:@(ebaok_settle)];
-        } else {
-            [all_actions addObject:@(ebaok_reserve)];
-        }
-        //  todo nbs: remote state
-//        //  锁仓投票（仅针对BTS）
-//        if (bIsCore) {
-//            [all_actions addObject:@(ebaok_stake_vote)];
-//        }
         NSArray* final_actions;
 //        //  按钮太多，添加【更多】按钮。
 //        if ([all_actions count] > [_btnArray count]) {
@@ -356,6 +369,12 @@
                     break;;
                 case ebaok_fast_swap:
                     [btn updateTitleWithoutAnimation:NSLocalizedString(@"kVcAssetBtnFastSwap", @"闪兑")];
+                    break;
+                case ebaok_gateway_deposit:
+                    [btn updateTitleWithoutAnimation:NSLocalizedString(@"kVcAssetBtnGatewayDeposit", @"充币")];
+                    break;
+                case ebaok_gateway_withdrawal:
+                    [btn updateTitleWithoutAnimation:NSLocalizedString(@"kVcAssetBtnGatewayWithdrawal", @"提币")];
                     break;
                 case ebaok_settle:
                     [btn updateTitleWithoutAnimation:NSLocalizedString(@"kVcAssetBtnSettle", @"清算")];

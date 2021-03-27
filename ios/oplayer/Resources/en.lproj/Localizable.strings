@@ -459,6 +459,8 @@
 "kVcAssetBtnTrade" = "Trade";
 "kVcAssetBtnMiner" = "Mining";
 "kVcAssetBtnFastSwap" = "Swap";
+"kVcAssetBtnGatewayDeposit" = "Deposit";
+"kVcAssetBtnGatewayWithdrawal" = "Withdraw";
 "kVcAssetBtnSettle" = "Settle";
 "kVcAssetBtnReserve" = "Reserve";
 "kVcAssetBtnStakeVote" = "Stake";

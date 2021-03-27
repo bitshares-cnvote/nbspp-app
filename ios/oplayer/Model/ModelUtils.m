@@ -70,6 +70,26 @@
 }
 
 /*
+ *  (public) 资产 - 资产是否是网关资产判断
+ */
++ (BOOL)assetIsGatewayAsset:(NSDictionary*)asset_object
+{
+    assert(asset_object);
+    id issuer = [asset_object objectForKey:@"issuer"];
+    if (issuer && ![issuer isEqualToString:@""]) {
+        id knownGatewayAccountsList = [[SettingManager sharedSettingManager] getAppKnownGatewayAccounts];
+        if (knownGatewayAccountsList && [knownGatewayAccountsList count] > 0) {
+            for (NSString* gateway_account in knownGatewayAccountsList) {
+                if ([gateway_account isEqualToString:issuer]) {
+                    return YES;
+                }
+            }
+        }
+    }
+    return NO;
+}
+
+/*
  *  (public) 资产 - 判断资产是否允许强清
  */
 + (BOOL)assetCanForceSettle:(id)asset_object

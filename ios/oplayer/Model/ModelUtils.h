@@ -27,6 +27,10 @@
  */
 + (BOOL)assetIsMinerOutAsset:(id)asset_object_or_asset_id;
 
+/*
+ *  (public) 资产 - 资产是否是网关资产判断
+ */
++ (BOOL)assetIsGatewayAsset:(NSDictionary*)asset_object;
 
 /*
  *  (public) 资产 - 判断资产是否允许强清
