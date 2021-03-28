@@ -15,6 +15,7 @@
 #import "VCLaunch.h"
 #import "VCMarketContainer.h"
 #import "VCDebt.h"
+#import "VCMiner.h"
 #import "VCServices.h"
 #import "VCMyself.h"
 
@@ -417,6 +418,14 @@ nav.navigationBar.titleTextAttributes = textAttributes;
     vcDebt.tabBarItem = tabarItem;
     [tabControllers addObject:vcDebt];
 #endif  //  kAppModuleEnableTabDebt
+
+    //  TODO:2.2 TODO:2.3 TODO:3.0 lang
+    VCMiner* vcMiner = [[VCMiner alloc] init];
+    vcMiner.title = NSLocalizedString(@"kTabBarNameMiner", @"挖矿");
+    tabarItem = [[GRCustomUITabBarItem alloc]initWithTitle:NSLocalizedString(@"kTabBarNameMiner", @"挖矿") tag:0];
+    tabarItem.imageString = @"tabService";//TODO:2.2 TODO:2.3 TODO:3.0 icon
+    vcMiner.tabBarItem = tabarItem;
+    [tabControllers addObject:vcMiner];
     
     VCServices* vcServices = [[VCServices alloc] init];
     vcServices.title = NSLocalizedString(@"kTabBarNameServices", @"服务");

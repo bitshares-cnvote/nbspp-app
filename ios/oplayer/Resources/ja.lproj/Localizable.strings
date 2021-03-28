@@ -6,6 +6,7 @@
 /* 首页行情 */
 "kTabBarNameMarkets" = "市況";
 "kTabBarNameCollateral" = "担保";
+"kTabBarNameMiner" = "鉱業";
 "kTabBarNameServices" = "サービス";
 "kTabBarNameMy" = "私の";
 
@@ -71,6 +72,19 @@
 "kDebtTipTxUpdatePositionOK" = "ポジションを更新，しかしネットワークが異常で、少しの後でまた試みてください。";
 "kDebtWarmTips" = "【暖かいヒント】\n1、フィード価格が強制単価まで下がると、負債を返済するためにシステムが自動的に資産を売却します。 リスクを管理するように注意してください。 \n2、借金がロックされると、担保によってマージン率が変化します。 \n3、マージン率がロックされると、担保によって借金が変化します。";
 "kDebtWarmTipsForPM" = "【暖かいヒント】\n現在の資産は、予測される市場資産です。 借り入れの量と担保の量は1：1で一定です。";
+
+/* 中间挖矿界面各种入口 */
+"kMinerSecTitleMiner" = "NBS锁仓挖矿";//TODO:
+"kMinerSecTitleScny" = "nbCNY抵押挖矿";//TODO:
+"kMinerSecTitleShare" = "推荐挖矿";//TODO:
+"kMinerCellLabelMinerMining" = "一键挖矿";//TODO:
+"kMinerCellLabelScnyMining" = "一键挖矿";//TODO:
+"kMinerCellLabelMinerExit" = "一键退出";//TODO:
+"kMinerCellLabelScnyExit" = "一键退出";//TODO:
+"kMinerCellLabelDataMiner" = "MINER推荐挖矿数据";//TODO:
+"kMinerCellLabelDataScny" = "SCNY推荐挖矿数据";//TODO:
+"kMinerCellLabelShareLink" = "推荐好友";//TODO:
+"kMinerCellClickTipsDontSupportedFeature" = "该功能未开启。";//TODO:
 
 /* 服务界面 */
 "kServicesCellLabelQrScan" = "スキャン";

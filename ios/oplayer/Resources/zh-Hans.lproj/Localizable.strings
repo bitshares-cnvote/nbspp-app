@@ -6,6 +6,7 @@
 /* 首页行情 */
 "kTabBarNameMarkets" = "行情";
 "kTabBarNameCollateral" = "抵押";
+"kTabBarNameMiner" = "挖矿";
 "kTabBarNameServices" = "服务";
 "kTabBarNameMy" = "我的";
 
@@ -71,6 +72,19 @@
 "kDebtTipTxUpdatePositionOK" = "债仓调整完毕，但刷新界面数据失败，请稍后再试。";
 "kDebtWarmTips" = "【温馨提示】\n1、当喂价下降到强平触发价时，系统将会自动出售您的抵押资产用于归还借款。请注意调整抵押率控制风险。\n2、当锁定借款金额时，抵押率会随抵押物数量变化而变化。\n3、当锁定抵押率时，借款金额会随抵押物数量变化而变化。";
 "kDebtWarmTipsForPM" = "【温馨提示】\n当前资产为预测市场资产。借款金额和抵押物数量恒定为 1:1。";
+
+/* 中间挖矿界面各种入口 */
+"kMinerSecTitleMiner" = "NBS锁仓挖矿";
+"kMinerSecTitleScny" = "nbCNY抵押挖矿";
+"kMinerSecTitleShare" = "推荐挖矿";
+"kMinerCellLabelMinerMining" = "一键挖矿";
+"kMinerCellLabelScnyMining" = "一键挖矿";
+"kMinerCellLabelMinerExit" = "一键退出";
+"kMinerCellLabelScnyExit" = "一键退出";
+"kMinerCellLabelDataMiner" = "MINER推荐挖矿数据";
+"kMinerCellLabelDataScny" = "SCNY推荐挖矿数据";
+"kMinerCellLabelShareLink" = "推荐好友";
+"kMinerCellClickTipsDontSupportedFeature" = "该功能未开启。";
 
 /* 服务界面 */
 "kServicesCellLabelQrScan" = "扫一扫";

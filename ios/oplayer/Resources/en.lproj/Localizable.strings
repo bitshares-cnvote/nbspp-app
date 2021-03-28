@@ -6,6 +6,7 @@
 /* 首页行情 */
 "kTabBarNameMarkets" = "Markets";
 "kTabBarNameCollateral" = "Margin";
+"kTabBarNameMiner" = "Mining";
 "kTabBarNameServices" = "Services";
 "kTabBarNameMy" = "My";
 
@@ -71,6 +72,19 @@
 "kDebtTipTxUpdatePositionOK" = "Update position successfully, but the refresh failed. Please try again later.";
 "kDebtWarmTips" = "[Tips]\n1. When the feed price drops to the call price, the system will automatically sell your collateral assets for debt repayment. Please pay attention to adjusting the ratio control risks. \n2. When the debt field is locked, the ratio will change with the collateral. \n3. When the ratio field is locked, the debt will change with the collateral.";
 "kDebtWarmTipsForPM" = "[Tips] \nThe current asset is a predicted market asset. The amount of borrowing and collateral is constant at 1: 1.";
+
+/* 中间挖矿界面各种入口 */
+"kMinerSecTitleMiner" = "NBS mining";
+"kMinerSecTitleScny" = "nbCNY mining";
+"kMinerSecTitleShare" = "Share mining";
+"kMinerCellLabelMinerMining" = "Mining";
+"kMinerCellLabelScnyMining" = "Mining";
+"kMinerCellLabelMinerExit" = "Exit mining";
+"kMinerCellLabelScnyExit" = "Exit mining";
+"kMinerCellLabelDataMiner" = "MINER mining data";
+"kMinerCellLabelDataScny" = "SCNY mining data";
+"kMinerCellLabelShareLink" = "Share link";
+"kMinerCellClickTipsDontSupportedFeature" = "This feature is not open.";
 
 /* 服务界面 */
 "kServicesCellLabelQrScan" = "Scan QR code";
