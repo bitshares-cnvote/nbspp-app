@@ -125,34 +125,25 @@
     GrapheneApi* api = [[GrapheneConnectionManager sharedGrapheneConnectionManager] last_connection].api_db;
     
     //  1、获取allfees的promise
-    NSMutableArray* allfees_promises = [NSMutableArray array];
-    for (id fee_asset_id in feeAssets) {
-        [allfees_promises addObject:[api exec:@"get_required_fees" params:@[[self operations_to_object], fee_asset_id]]];
-    }
-    
-    return [[WsPromise all:allfees_promises] then:(^id(id data_array) {
-        NSLog(@"%@", data_array);
+    id first_fee_asset_id = [feeAssets firstObject];
+    return [[api exec:@"get_required_fees" params:@[[self operations_to_object], first_fee_asset_id]] then:^id(id all_op_fee_array) {
+        assert([all_op_fee_array isKindOfClass:[NSArray class]]);
         
-        //  获取所有 promise 中第一个 asset id的手续费。（数组格式：包含所有operation的手续费。）
-        id first_asset_id_fees = [data_array objectAtIndex:0];
+        //  更新所有OP的手续费
+        [all_op_fee_array ruby_each_with_index:^(id op_fee_item, NSInteger idx) {
+            //  REMARK：如果OP为提案类型，这里会把提案的手续费以及提案中对应的所有实际OP的手续费全部返回。（因此需要判断。）
+            if ([op_fee_item isKindOfClass:[NSArray class]]){
+                //  仅第一个手续费对象是提案本身的的手续。
+                op_fee_item = [op_fee_item firstObject];
+            }
+            assert([op_fee_item isKindOfClass:[NSDictionary class]]);
+            //  更新 first: opcode last: opdata
+            [[[_operations objectAtIndex:idx] lastObject] setObject:op_fee_item forKey:@"fee"];
+        }];
         
-        //  取第一个operation的手续费。TODO：更新所有op的手续费，待优化。
-        id first_opfee = [first_asset_id_fees firstObject];
-        
-        //  REMARK：如果OP为提案类型，这里会把提案的手续费以及提案中对应的所有实际OP的手续费全部返回。（因此需要判断。）
-        if ([first_opfee isKindOfClass:[NSArray class]]){
-            //  仅第一个手续费对象是提案本身的的手续。
-            first_opfee = [first_opfee firstObject];
-        }
-        assert([first_opfee isKindOfClass:[NSDictionary class]]);
-        
-        //  更新手续费
-        for (id ops in _operations) {
-            [[ops lastObject] setObject:first_opfee forKey:@"fee"];
-        }
-        
-        return first_asset_id_fees;
-    })];
+        //  返回所有OP的手续费
+        return all_op_fee_array;
+    }];
 }
 
 /**

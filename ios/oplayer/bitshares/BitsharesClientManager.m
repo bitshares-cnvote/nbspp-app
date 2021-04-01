@@ -8,7 +8,6 @@
 
 #import "BitsharesClientManager.h"
 #import "GrapheneApi.h"
-#import "TransactionBuilder.h"
 #import "GrapheneWebSocket.h"
 #import "ChainObjectManager.h"
 #import "GrapheneSerializer.h"
@@ -70,6 +69,17 @@ static BitsharesClientManager *_sharedBitsharesClientManager = nil;
 }
 
 #pragma mark- api
+
+/*
+ *  OP - 手动构造 operation 和 添加 sign_key。对于一次性执行多个操作时需要。
+ */
+- (WsPromise*)buildAndRunTransaction:(void (^)(TransactionBuilder* builder))opration_build_callback
+{
+    assert(opration_build_callback);
+    TransactionBuilder* tr = [[TransactionBuilder alloc] init];
+    opration_build_callback(tr);
+    return [self process_transaction:tr];
+}
 
 /*
  *  OP - 执行单个 operation 的交易。（可指定是否需要 owner 权限。）
@@ -387,6 +397,32 @@ static BitsharesClientManager *_sharedBitsharesClientManager = nil;
         @"key_values":key_values
     };
     return [self accountStorageMap:account opdata:op_account_storage_map];
+}
+
+/**
+ *  OP - 构造存储数据的 opdata
+ */
+- (id)buildOpData_accountStorageMap:(NSString*)account remove:(BOOL)remove catalog:(NSString*)catalog key_values:(NSArray*)key_values
+{
+    assert(account);
+    assert(catalog);
+    assert(key_values && [key_values count] > 0);
+    
+    id op_account_storage_map = @{
+        @"remove":@(remove),
+        @"catalog":catalog,
+        @"key_values":key_values
+    };
+    
+    //  TODO:TBD fee asset id
+    id op_custom = @{
+        @"fee":@{@"amount":@0, @"asset_id":[ChainObjectManager sharedChainObjectManager].grapheneCoreAssetID},
+        @"payer":account,
+        @"id":@0,
+        @"data":[T_custom_plugin_operation encode_to_bytes:@{@"data":@[@(ebcdt_account_map), op_account_storage_map]}]
+    };
+    
+    return op_custom;
 }
 
 /**

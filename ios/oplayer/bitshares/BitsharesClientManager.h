@@ -10,6 +10,7 @@
 #import "WsPromise.h"
 #import "Extension.h"
 #import "BinSerializer.h"
+#import "TransactionBuilder.h"
 
 #include "bts_wallet_core.h"
 
@@ -30,6 +31,11 @@ enum
 + (BitsharesClientManager*)sharedBitsharesClientManager;
 
 #pragma mark- api
+
+/*
+ *  OP - 手动构造 operation 和 添加 sign_key。对于一次性执行多个操作时需要。
+ */
+- (WsPromise*)buildAndRunTransaction:(void (^)(TransactionBuilder* builder))opration_build_callback;
 
 /*
  *  OP - 执行单个 operation 的交易。（可指定是否需要 owner 权限。）
@@ -108,6 +114,11 @@ enum
  */
 - (WsPromise*)accountStorageMap:(NSString*)account opdata:(NSDictionary*)account_storage_map_opdata;
 - (WsPromise*)accountStorageMap:(NSString*)account remove:(BOOL)remove catalog:(NSString*)catalog key_values:(NSArray*)key_values;
+
+/**
+ *  OP - 构造存储数据的 opdata
+ */
+- (id)buildOpData_accountStorageMap:(NSString*)account remove:(BOOL)remove catalog:(NSString*)catalog key_values:(NSArray*)key_values;
 
 /**
  *  计算手续费
