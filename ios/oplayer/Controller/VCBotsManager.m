@@ -236,7 +236,7 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [ThemeManager sharedThemeManager].appBackColor;
-        
+    
     //  UI - 列表
     CGRect rect = [self rectWithoutNavi];
     _mainTableView = [[UITableViewBase alloc] initWithFrame:rect style:UITableViewStylePlain];
@@ -328,18 +328,24 @@
 
 - (void)_startBots:(id)item
 {
+    //  TODO:lang
+    //  TODO:启动时候 授权判断？？？
+    
     //  步骤：查询 & 启动 & 转账
+    ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
+    WalletManager* walletMgr = [WalletManager sharedWalletManager];
+    BitsharesClientManager* client = [BitsharesClientManager sharedBitsharesClientManager];
     
     //  不支持提案：多签账号不支持跑量化机器人，量化授权会失去多签账号的意义。
     [_owner GuardWalletUnlocked:YES body:^(BOOL unlocked) {
         if (unlocked){
-            id op_account = [[[WalletManager sharedWalletManager] getWalletAccountInfo] objectForKey:@"account"];
+            id op_account = [[walletMgr getWalletAccountInfo] objectForKey:@"account"];
             id op_account_id = [op_account objectForKey:@"id"];
             id storage_item = [item objectForKey:@"raw"];
             id bots_key = [storage_item objectForKey:@"key"];
             
             [_owner showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];
-            [[[[ChainObjectManager sharedChainObjectManager] queryAccountAllBotsData:op_account_id] then:^id(id result_hash) {
+            [[[chainMgr queryAccountAllBotsData:op_account_id] then:^id(id result_hash) {
                 id latest_storage_item = [result_hash objectForKey:bots_key];
                 if (!latest_storage_item) {
                     [_owner hideBlockView];
@@ -358,45 +364,49 @@
                     return nil;
                 }
                 
-                //  TODO:启动参数
-                id args = [[latest_storage_item objectForKey:@"value"] objectForKey:@"args"];
+                //  启动参数
                 id new_bots_data = @{
-                    @"args": args,
-                    
+                    @"args": [[latest_storage_item objectForKey:@"value"] objectForKey:@"args"],
                     @"status": @"running",
-                    // @"msg": @"",
-                    // @"mask": @"",
-                    // @"trade_num": 0,
-                    
-                    @"ext": @{
-                            @"init_time": @((NSInteger)[[NSDate date] timeIntervalSince1970]),
-                            @"init_base_amount": @"1",//TODO:
-                            @"init_quote_amount": @"1",//TODO:
-                    },
                 };
                 id key_values = @[@[bots_key, [new_bots_data to_json]]];
                 
-                //  TODO:转账触发启动事件
-                
-                return [[[BitsharesClientManager sharedBitsharesClientManager] accountStorageMap:op_account_id
-                                                                                          remove:NO
-                                                                                         catalog:kAppStorageCatalogBotsGridBots
-                                                                                      key_values:key_values] then:^id(id data) {
+                return [[client buildAndRunTransaction:^(TransactionBuilder *builder) {
+                    //  OP - 启动
+                    [builder add_operation:ebo_custom
+                                    opdata:[client buildOpData_accountStorageMap:op_account_id
+                                                                          remove:NO
+                                                                         catalog:kAppStorageCatalogBotsGridBots
+                                                                      key_values:key_values]];
+                    
+                    //  OP - 转账
+                    id opdata_transfer = @{
+                        @"fee":@{
+                                @"amount":@0,
+                                @"asset_id":chainMgr.grapheneCoreAssetID,
+                        },
+                        @"from":op_account_id,
+                        @"to":[[SettingManager sharedSettingManager] getAppGridBotsTraderAccount],
+                        @"amount":@{
+                                @"amount":@1,
+                                @"asset_id":chainMgr.grapheneCoreAssetID,
+                        }
+                    };
+                    [builder add_operation:ebo_transfer opdata:opdata_transfer];
+                    
+                    //  获取签名KEY
+                    [builder addSignKeys:[walletMgr getSignKeysFromFeePayingAccount:op_account_id requireOwnerPermission:NO]];
+                }] then:^id(id data) {
                     [_owner hideBlockView];
                     [OrgUtils makeToast:@"启动成功。"];
                     [self queryMyBotsList];
                     return nil;
                 }];
-                return nil;
-                
             }] catch:^id(id error) {
-                
                 [_owner hideBlockView];
                 [OrgUtils showGrapheneError:error];
-                
                 return nil;
             }];
-            
         }
     }];
 }

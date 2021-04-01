@@ -189,7 +189,10 @@
     id quote_symbol = quote_asset ? quote_asset[@"symbol"] : @"--";
     id base_symbol = base_asset ? base_asset[@"symbol"] : @"--";
     //  TODO: lang
-    _lbBotsPairs.text = [NSString stringWithFormat:@"网格交易 (%@/%@)", quote_symbol, base_symbol];
+    
+    _lbBotsPairs.text = [NSString stringWithFormat:@"网格交易#%@ (%@/%@)",
+                         [[[storage_item objectForKey:@"id"] componentsSeparatedByString:@"."] lastObject],
+                         quote_symbol, base_symbol];
     _lbBotsPairs.frame = CGRectMake(xOffset, yOffset, fWidth, firstLineHeight);
     
     if ([[_item objectForKey:@"valid"] boolValue]) {
