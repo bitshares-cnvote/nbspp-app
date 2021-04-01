@@ -9,9 +9,20 @@
 #import "VCBotsManager.h"
 #import "ViewBotsGridInfoCell.h"
 
+/*
+ *  机器人账号授权状态操作枚举
+ */
+enum
+{
+    kBotsAuthorizationStatus_AlreadyAuthorized = 0,
+    kBotsAuthorizationStatus_ContinueToAuthorize,
+    kBotsAuthorizationStatus_StopAuthorization,
+};
+
 @interface VCBotsManager ()
 {
     __weak VCBase*          _owner;         //  REMARK：声明为 weak，否则会导致循环引用。
+    NSDictionary*           _fullAccountData;
     
     UITableViewBase*        _mainTableView;
     NSMutableArray*         _dataArray;
@@ -26,6 +37,7 @@
 -(void)dealloc
 {
     _owner = nil;
+    _fullAccountData = nil;
     _dataArray = nil;
     _lbEmpty = nil;
     if (_mainTableView){
@@ -35,13 +47,14 @@
     }
 }
 
-- (id)initWithOwner:(VCBase*)owner
+- (id)initWithOwner:(VCBase*)owner fullAccountData:(id)fullAccountData
 {
     self = [super init];
     if (self) {
         assert(owner);
+        assert(fullAccountData);
         _owner = owner;
-        assert([[WalletManager sharedWalletManager] isWalletExist]);
+        _fullAccountData = fullAccountData;
         _dataArray = [NSMutableArray array];
     }
     return self;
@@ -183,7 +196,7 @@
 
 - (void)queryMyBotsList
 {
-    id account_name = [[WalletManager sharedWalletManager] getWalletAccountName];
+    id account_name = [[_fullAccountData objectForKey:@"account"] objectForKey:@"name"];
     assert(account_name);
     
     ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
@@ -311,7 +324,23 @@
             id item = [list objectAtIndex:buttonIndex];
             switch ([[item objectForKey:@"type"] integerValue]) {
                 case 0:
-                    [self _startBots:bots];
+                {
+                    [[self processingAuthorizationServer] then:^id(id status) {
+                        NSInteger authorizationStatus = [status integerValue];
+                        switch (authorizationStatus) {
+                            case kBotsAuthorizationStatus_AlreadyAuthorized:
+                            case kBotsAuthorizationStatus_ContinueToAuthorize:
+                                [self _startBots:bots authorizationStatus:authorizationStatus];
+                                break;
+                                //  停止授权，不继续启动。
+                            case kBotsAuthorizationStatus_StopAuthorization:
+                                break;
+                            default:
+                                break;
+                        }
+                        return nil;
+                    }];
+                }
                     break;
                 case 1:
                     [self _stopBots:bots];
@@ -326,20 +355,49 @@
     }];
 }
 
-- (void)_startBots:(id)item
+/*
+ *  (private) 检测机器人账号授权状态
+ */
+- (WsPromise*)processingAuthorizationServer
 {
+    if ([[self class] isAuthorizedToTheBotsManager:[_fullAccountData objectForKey:@"account"]]) {
+        //  已授权
+        return [WsPromise resolve:@(kBotsAuthorizationStatus_AlreadyAuthorized)];
+    } else {
+        return [WsPromise promise:^(WsResolveHandler resolve, WsRejectHandler reject) {
+            //  TODO:lang
+            id value = @"网格交易需要授权服务器进行自动化操作，是否自动授权？";
+            [[UIAlertViewManager sharedUIAlertViewManager] showCancelConfirm:value
+                                                                   withTitle:NSLocalizedString(@"kVcHtlcMessageTipsTitle", @"风险提示")
+                                                                  completion:^(NSInteger buttonIndex)
+             {
+                if (buttonIndex == 1)
+                {
+                    //  继续授权
+                    resolve(@(kBotsAuthorizationStatus_ContinueToAuthorize));
+                } else {
+                    //  停止授权
+                    resolve(@(kBotsAuthorizationStatus_StopAuthorization));
+                }
+            }];
+        }];
+    }
+}
+
+- (void)_startBots:(id)item authorizationStatus:(NSInteger)authorizationStatus
+{
+    assert(item);
+    assert(authorizationStatus != kBotsAuthorizationStatus_StopAuthorization);
     //  TODO:lang
-    //  TODO:启动时候 授权判断？？？
     
     //  步骤：查询 & 启动 & 转账
     ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
-    WalletManager* walletMgr = [WalletManager sharedWalletManager];
     BitsharesClientManager* client = [BitsharesClientManager sharedBitsharesClientManager];
     
     //  不支持提案：多签账号不支持跑量化机器人，量化授权会失去多签账号的意义。
     [_owner GuardWalletUnlocked:YES body:^(BOOL unlocked) {
         if (unlocked){
-            id op_account = [[walletMgr getWalletAccountInfo] objectForKey:@"account"];
+            id op_account = [_fullAccountData objectForKey:@"account"];
             id op_account_id = [op_account objectForKey:@"id"];
             id storage_item = [item objectForKey:@"raw"];
             id bots_key = [storage_item objectForKey:@"key"];
@@ -372,6 +430,35 @@
                 id key_values = @[@[bots_key, [new_bots_data to_json]]];
                 
                 return [[client buildAndRunTransaction:^(TransactionBuilder *builder) {
+                    id const_bots_account_id = [[SettingManager sharedSettingManager] getAppGridBotsTraderAccount];
+                    
+                    //  OP - 授权服务器
+                    if (authorizationStatus == kBotsAuthorizationStatus_ContinueToAuthorize) {
+                        id new_active_permission = [[op_account objectForKey:@"active"] mutableCopy];
+                        NSMutableArray* new_account_auths = [NSMutableArray array];
+                        //  保留 account_auths 权限中的其他权限
+                        for (id item in [new_active_permission objectForKey:@"account_auths"]) {
+                            id account = [item firstObject];
+                            if (![const_bots_account_id isEqualToString:account]) {
+                                [new_account_auths addObject:item];
+                            }
+                        }
+                        //  授权账号：权重 100%
+                        [new_account_auths addObject:@[const_bots_account_id, [new_active_permission objectForKey:@"weight_threshold"]]];
+                        //  仅更新 account_auths 权限，key_auths 等权限保持不变 。
+                        [new_active_permission setObject:[new_account_auths copy] forKey:@"account_auths"];
+                        
+                        id opdata_bots_authority = @{
+                            @"fee":@{
+                                    @"amount":@0,
+                                    @"asset_id":chainMgr.grapheneCoreAssetID,
+                            },
+                            @"account":op_account_id,
+                            @"active":[new_active_permission copy],
+                        };
+                        [builder add_operation:ebo_account_update opdata:opdata_bots_authority];
+                    }
+                    
                     //  OP - 启动
                     [builder add_operation:ebo_custom
                                     opdata:[client buildOpData_accountStorageMap:op_account_id
@@ -386,7 +473,7 @@
                                 @"asset_id":chainMgr.grapheneCoreAssetID,
                         },
                         @"from":op_account_id,
-                        @"to":[[SettingManager sharedSettingManager] getAppGridBotsTraderAccount],
+                        @"to":const_bots_account_id,
                         @"amount":@{
                                 @"amount":@1,
                                 @"asset_id":chainMgr.grapheneCoreAssetID,
@@ -395,7 +482,8 @@
                     [builder add_operation:ebo_transfer opdata:opdata_transfer];
                     
                     //  获取签名KEY
-                    [builder addSignKeys:[walletMgr getSignKeysFromFeePayingAccount:op_account_id requireOwnerPermission:NO]];
+                    [builder addSignKeys:[[WalletManager sharedWalletManager] getSignKeysFromFeePayingAccount:op_account_id
+                                                                                       requireOwnerPermission:NO]];
                 }] then:^id(id data) {
                     [_owner hideBlockView];
                     [OrgUtils makeToast:@"启动成功。"];
@@ -417,8 +505,7 @@
     [_owner GuardWalletUnlocked:YES body:^(BOOL unlocked) {
         if (unlocked){
             
-            
-            id op_account = [[[WalletManager sharedWalletManager] getWalletAccountInfo] objectForKey:@"account"];
+            id op_account = [_fullAccountData objectForKey:@"account"];
             id op_account_id = [op_account objectForKey:@"id"];
             id storage_item = [item objectForKey:@"raw"];
             id bots_key = [storage_item objectForKey:@"key"];
@@ -478,7 +565,7 @@
         if (unlocked){
             
             
-            id op_account = [[[WalletManager sharedWalletManager] getWalletAccountInfo] objectForKey:@"account"];
+            id op_account = [_fullAccountData objectForKey:@"account"];
             id op_account_id = [op_account objectForKey:@"id"];
             id storage_item = [item objectForKey:@"raw"];
             id bots_key = [storage_item objectForKey:@"key"];

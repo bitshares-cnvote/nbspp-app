@@ -55,7 +55,7 @@
     id vc03 = [[VCSettlementOrders alloc] initWithOwner:self tradingPair:nil fullAccountInfo:_userFullInfo];
     id ary = [NSMutableArray arrayWithObjects:vc01, vc02, vc03, nil];
     if ([[SettingManager sharedSettingManager] isAppEnableModuleGridBots]) {
-        id vc04 = [[VCBotsManager alloc] initWithOwner:self];
+        id vc04 = [[VCBotsManager alloc] initWithOwner:self fullAccountData:_userFullInfo];
         [ary addObject:vc04];
     }
     return [ary copy];

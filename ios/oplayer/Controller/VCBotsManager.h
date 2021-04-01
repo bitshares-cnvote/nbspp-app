@@ -10,7 +10,7 @@
 
 @interface VCBotsManager : VCBase<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
-- (id)initWithOwner:(VCBase*)owner;
+- (id)initWithOwner:(VCBase*)owner fullAccountData:(id)fullAccountData;
 
 /*
  *  (public) 计算机器人的 bots_key。
