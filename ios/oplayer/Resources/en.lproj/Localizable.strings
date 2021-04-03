@@ -85,6 +85,7 @@
 "kMinerCellLabelDataScny" = "SCNY mining data";
 "kMinerCellLabelShareLink" = "Share link";
 "kMinerCellClickTipsDontSupportedFeature" = "This feature is not open.";
+"kMinerCellClickTipsInvalidAuthToken" = "The current account login status is invalid, please log in again.";
 
 /* 服务界面 */
 "kServicesCellLabelQrScan" = "Scan QR code";
@@ -1209,6 +1210,8 @@
 "kVcTitleAssetOpSettle" = "Settlement";
 "kVcTitleAssetOpMinerIn" = "Mining";
 "kVcTitleAssetOpMinerOut" = "Exit mining";
+"kVcTitleAssetMiningDataMiner" = "MINER mining data";
+"kVcTitleAssetMiningDataScny" = "SCNY mining data";
 "kVcTitleAssetOpReserve" = "Reserve assets";
 "kVcTitleAssetOpStakeVoteCreateTicket" = "Create stake vote";
 "kVcTitleAssetOpStakeVoteUpdateTicket" = "Update stake vote";

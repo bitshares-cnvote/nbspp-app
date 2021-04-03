@@ -466,8 +466,9 @@
  */
 + (NSString*)genShareLink:(BOOL)containWelcomeMessage
 {
+    //  TODO:2.2 TODO:2.3 TODO:3.0 文案
     WalletManager* walletMgr = [WalletManager sharedWalletManager];
-    id value = [NSString stringWithFormat:@"https://faucet.btspp.io/?lang=%@",
+    id value = [NSString stringWithFormat:@"https://f.nbs.plus/?lang=%@",
                 NSLocalizedString(@"kShareLinkPageDefaultLang", @"share link lang")];
     if ([walletMgr isWalletExist]) {
         value = [NSString stringWithFormat:@"%@&r=%@", value, [walletMgr getWalletAccountName]];

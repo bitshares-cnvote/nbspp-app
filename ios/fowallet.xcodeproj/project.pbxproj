@@ -140,6 +140,33 @@
 		3F6541A3241918F400167794 /* VCNewAccountPasswordConfirm.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6541A0241918F400167794 /* VCNewAccountPasswordConfirm.m */; };
 		3F67F8F523823DCF00B3542E /* VCOtcOrderDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F67F8F323823DCE00B3542E /* VCOtcOrderDetails.m */; };
 		3F67F8F623823DCF00B3542E /* VCOtcOrderDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F67F8F323823DCE00B3542E /* VCOtcOrderDetails.m */; };
+		3F6B6662260F305900B1B5E4 /* VCMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6B6661260F305900B1B5E4 /* VCMiner.m */; };
+		3F6B6663260F305900B1B5E4 /* VCMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6B6661260F305900B1B5E4 /* VCMiner.m */; };
+		3F6B6664260F305900B1B5E4 /* VCMiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6B6661260F305900B1B5E4 /* VCMiner.m */; };
+		3F6B666F260F36B500B1B5E4 /* iconWithdraw@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6B666B260F36B400B1B5E4 /* iconWithdraw@2x.png */; };
+		3F6B6670260F36B500B1B5E4 /* iconWithdraw@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6B666B260F36B400B1B5E4 /* iconWithdraw@2x.png */; };
+		3F6B6671260F36B500B1B5E4 /* iconWithdraw@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6B666B260F36B400B1B5E4 /* iconWithdraw@2x.png */; };
+		3F6B6672260F36B500B1B5E4 /* iconDeposit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6B666C260F36B500B1B5E4 /* iconDeposit@2x.png */; };
+		3F6B6673260F36B500B1B5E4 /* iconDeposit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6B666C260F36B500B1B5E4 /* iconDeposit@2x.png */; };
+		3F6B6674260F36B500B1B5E4 /* iconDeposit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6B666C260F36B500B1B5E4 /* iconDeposit@2x.png */; };
+		3F6B6675260F36B500B1B5E4 /* iconWithdraw@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6B666D260F36B500B1B5E4 /* iconWithdraw@3x.png */; };
+		3F6B6676260F36B500B1B5E4 /* iconWithdraw@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6B666D260F36B500B1B5E4 /* iconWithdraw@3x.png */; };
+		3F6B6677260F36B500B1B5E4 /* iconWithdraw@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6B666D260F36B500B1B5E4 /* iconWithdraw@3x.png */; };
+		3F6B6678260F36B500B1B5E4 /* iconDeposit@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6B666E260F36B500B1B5E4 /* iconDeposit@3x.png */; };
+		3F6B6679260F36B500B1B5E4 /* iconDeposit@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6B666E260F36B500B1B5E4 /* iconDeposit@3x.png */; };
+		3F6B667A260F36B500B1B5E4 /* iconDeposit@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6B666E260F36B500B1B5E4 /* iconDeposit@3x.png */; };
+		3F6B66802610288900B1B5E4 /* NbWalletAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6B667F2610288900B1B5E4 /* NbWalletAPI.m */; };
+		3F6B66812610288900B1B5E4 /* NbWalletAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6B667F2610288900B1B5E4 /* NbWalletAPI.m */; };
+		3F6B66822610288900B1B5E4 /* NbWalletAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6B667F2610288900B1B5E4 /* NbWalletAPI.m */; };
+		3F6B6688261064F000B1B5E4 /* VCMinerRelationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6B6687261064F000B1B5E4 /* VCMinerRelationData.m */; };
+		3F6B6689261064F000B1B5E4 /* VCMinerRelationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6B6687261064F000B1B5E4 /* VCMinerRelationData.m */; };
+		3F6B668A261064F000B1B5E4 /* VCMinerRelationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6B6687261064F000B1B5E4 /* VCMinerRelationData.m */; };
+		3F6B66902610752800B1B5E4 /* ViewMinerRelationDataCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6B668F2610752800B1B5E4 /* ViewMinerRelationDataCell.m */; };
+		3F6B66912610752800B1B5E4 /* ViewMinerRelationDataCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6B668F2610752800B1B5E4 /* ViewMinerRelationDataCell.m */; };
+		3F6B66922610752800B1B5E4 /* ViewMinerRelationDataCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6B668F2610752800B1B5E4 /* ViewMinerRelationDataCell.m */; };
+		3F6B66982611DCFE00B1B5E4 /* ViewMinerRelationDataHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6B66972611DCFE00B1B5E4 /* ViewMinerRelationDataHeaderCell.m */; };
+		3F6B66992611DCFE00B1B5E4 /* ViewMinerRelationDataHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6B66972611DCFE00B1B5E4 /* ViewMinerRelationDataHeaderCell.m */; };
+		3F6B669A2611DCFE00B1B5E4 /* ViewMinerRelationDataHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6B66972611DCFE00B1B5E4 /* ViewMinerRelationDataHeaderCell.m */; };
 		3F6C357A21E86C9E008E2903 /* ViewAddrMemoInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6C357821E86C9D008E2903 /* ViewAddrMemoInfoCell.m */; };
 		3F6C357B21E86C9E008E2903 /* ViewAddrMemoInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6C357821E86C9D008E2903 /* ViewAddrMemoInfoCell.m */; };
 		3F6C35AD21EC83AB008E2903 /* GatewayBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6C35AB21EC83AA008E2903 /* GatewayBase.m */; };
@@ -2261,6 +2288,20 @@
 		3F6541A1241918F400167794 /* VCNewAccountPasswordConfirm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VCNewAccountPasswordConfirm.h; path = Controller/VCNewAccountPasswordConfirm.h; sourceTree = "<group>"; };
 		3F67F8F323823DCE00B3542E /* VCOtcOrderDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VCOtcOrderDetails.m; path = Controller/VCOtcOrderDetails.m; sourceTree = "<group>"; };
 		3F67F8F423823DCE00B3542E /* VCOtcOrderDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VCOtcOrderDetails.h; path = Controller/VCOtcOrderDetails.h; sourceTree = "<group>"; };
+		3F6B6660260F305900B1B5E4 /* VCMiner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VCMiner.h; path = TabBarControllers/VCMiner.h; sourceTree = "<group>"; };
+		3F6B6661260F305900B1B5E4 /* VCMiner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VCMiner.m; path = TabBarControllers/VCMiner.m; sourceTree = "<group>"; };
+		3F6B666B260F36B400B1B5E4 /* iconWithdraw@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iconWithdraw@2x.png"; path = "Images/iconWithdraw@2x.png"; sourceTree = "<group>"; };
+		3F6B666C260F36B500B1B5E4 /* iconDeposit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iconDeposit@2x.png"; path = "Images/iconDeposit@2x.png"; sourceTree = "<group>"; };
+		3F6B666D260F36B500B1B5E4 /* iconWithdraw@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iconWithdraw@3x.png"; path = "Images/iconWithdraw@3x.png"; sourceTree = "<group>"; };
+		3F6B666E260F36B500B1B5E4 /* iconDeposit@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iconDeposit@3x.png"; path = "Images/iconDeposit@3x.png"; sourceTree = "<group>"; };
+		3F6B667E2610288900B1B5E4 /* NbWalletAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NbWalletAPI.h; path = ios/NbWalletAPI.h; sourceTree = "<group>"; };
+		3F6B667F2610288900B1B5E4 /* NbWalletAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NbWalletAPI.m; path = ios/NbWalletAPI.m; sourceTree = "<group>"; };
+		3F6B6686261064EF00B1B5E4 /* VCMinerRelationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VCMinerRelationData.h; path = Controller/VCMinerRelationData.h; sourceTree = "<group>"; };
+		3F6B6687261064F000B1B5E4 /* VCMinerRelationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VCMinerRelationData.m; path = Controller/VCMinerRelationData.m; sourceTree = "<group>"; };
+		3F6B668E2610752800B1B5E4 /* ViewMinerRelationDataCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewMinerRelationDataCell.h; path = View/ViewMinerRelationDataCell.h; sourceTree = "<group>"; };
+		3F6B668F2610752800B1B5E4 /* ViewMinerRelationDataCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewMinerRelationDataCell.m; path = View/ViewMinerRelationDataCell.m; sourceTree = "<group>"; };
+		3F6B66962611DCFD00B1B5E4 /* ViewMinerRelationDataHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewMinerRelationDataHeaderCell.h; path = View/ViewMinerRelationDataHeaderCell.h; sourceTree = "<group>"; };
+		3F6B66972611DCFE00B1B5E4 /* ViewMinerRelationDataHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewMinerRelationDataHeaderCell.m; path = View/ViewMinerRelationDataHeaderCell.m; sourceTree = "<group>"; };
 		3F6C357821E86C9D008E2903 /* ViewAddrMemoInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewAddrMemoInfoCell.m; path = View/ViewAddrMemoInfoCell.m; sourceTree = "<group>"; };
 		3F6C357921E86C9E008E2903 /* ViewAddrMemoInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewAddrMemoInfoCell.h; path = View/ViewAddrMemoInfoCell.h; sourceTree = "<group>"; };
 		3F6C35AB21EC83AA008E2903 /* GatewayBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GatewayBase.m; path = Controller/Gateway/GatewayBase.m; sourceTree = "<group>"; };
@@ -3346,6 +3387,8 @@
 		18FF068617E00B110088405E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3F6B6686261064EF00B1B5E4 /* VCMinerRelationData.h */,
+				3F6B6687261064F000B1B5E4 /* VCMinerRelationData.m */,
 				3FDBAC80260999D100223C89 /* VCAssetOpMiner.h */,
 				3FDBAC7F260999D100223C89 /* VCAssetOpMiner.m */,
 				3FE7756C25DD316700592A84 /* VCBotsCreate.h */,
@@ -3538,6 +3581,10 @@
 		18FF069017E00C5C0088405E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3F6B66962611DCFD00B1B5E4 /* ViewMinerRelationDataHeaderCell.h */,
+				3F6B66972611DCFE00B1B5E4 /* ViewMinerRelationDataHeaderCell.m */,
+				3F6B668E2610752800B1B5E4 /* ViewMinerRelationDataCell.h */,
+				3F6B668F2610752800B1B5E4 /* ViewMinerRelationDataCell.m */,
 				3FE7756525DBED3600592A84 /* ViewBotsGridInfoCell.h */,
 				3FE7756625DBED3600592A84 /* ViewBotsGridInfoCell.m */,
 				3FCEC5602575E9CF00060C2D /* ViewVerticalScrollText.h */,
@@ -3694,6 +3741,10 @@
 		18FF069417E00D870088405E /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				3F6B666C260F36B500B1B5E4 /* iconDeposit@2x.png */,
+				3F6B666E260F36B500B1B5E4 /* iconDeposit@3x.png */,
+				3F6B666B260F36B400B1B5E4 /* iconWithdraw@2x.png */,
+				3F6B666D260F36B500B1B5E4 /* iconWithdraw@3x.png */,
 				3F9EA693247F5261007F3036 /* iconAssetInfo@2x.png */,
 				3F9EA692247F5261007F3036 /* iconAssetInfo@3x.png */,
 				3F94DC3224613A47000D170F /* iconBlindFrom@2x.png */,
@@ -3973,6 +4024,8 @@
 		18FF06C217E039240088405E /* Object */ = {
 			isa = PBXGroup;
 			children = (
+				3F6B667E2610288900B1B5E4 /* NbWalletAPI.h */,
+				3F6B667F2610288900B1B5E4 /* NbWalletAPI.m */,
 				3F8B929324C83B23005929D0 /* BtsppJssdkManager.h */,
 				3F8B929424C83B23005929D0 /* BtsppJssdkManager.m */,
 				3FCC8B6B237A562D00F5664D /* OtcManager.h */,
@@ -4293,12 +4346,14 @@
 			children = (
 				B741A75B20DB807C000FBC00 /* VCDebt.h */,
 				B741A75C20DB807C000FBC00 /* VCDebt.m */,
+				B74D4BC620A2B822009DD9B0 /* VCMarketContainer.h */,
+				B74D4BC520A2B821009DD9B0 /* VCMarketContainer.m */,
+				3F6B6660260F305900B1B5E4 /* VCMiner.h */,
+				3F6B6661260F305900B1B5E4 /* VCMiner.m */,
 				B72A849320CD2BB800D92A25 /* VCMyself.h */,
 				B72A849420CD2BB800D92A25 /* VCMyself.m */,
 				B764AEA120B515FF00BDFC1B /* VCServices.h */,
 				B764AEA220B515FF00BDFC1B /* VCServices.m */,
-				B74D4BC620A2B822009DD9B0 /* VCMarketContainer.h */,
-				B74D4BC520A2B821009DD9B0 /* VCMarketContainer.m */,
 			);
 			name = TabBarControllers;
 			sourceTree = "<group>";
@@ -5111,6 +5166,7 @@
 				3FAF69F325EF76C6007DD9F3 /* iconAvatar@2x.png in Resources */,
 				3FAF69F425EF76C6007DD9F3 /* Share@2x.png in Resources */,
 				3FAF69F525EF76C6007DD9F3 /* iconOtc@2x.png in Resources */,
+				3F6B6674260F36B500B1B5E4 /* iconDeposit@2x.png in Resources */,
 				3FAF69F625EF76C6007DD9F3 /* Back-44@2x.png in Resources */,
 				3FAF69F725EF76C6007DD9F3 /* iconOtcMerchant@2x.png in Resources */,
 				3FAF69F825EF76C6007DD9F3 /* iconExplorer@3x.png in Resources */,
@@ -5139,6 +5195,7 @@
 				3FAF6A0F25EF76C6007DD9F3 /* Living Room@2x.png in Resources */,
 				3FAF6A1025EF76C6007DD9F3 /* Images.xcassets in Resources */,
 				3FAF6A1125EF76C6007DD9F3 /* iconOtcMerchant@3x.png in Resources */,
+				3F6B6671260F36B500B1B5E4 /* iconWithdraw@2x.png in Resources */,
 				3FAF6A1225EF76C6007DD9F3 /* iconOrders@3x.png in Resources */,
 				3FAF6A1325EF76C6007DD9F3 /* iconGame@3x.png in Resources */,
 				3FAF6A1425EF76C6007DD9F3 /* User Groups@2x.png in Resources */,
@@ -5155,6 +5212,7 @@
 				3FAF6A1F25EF76C6007DD9F3 /* kefuavatar@2x.png in Resources */,
 				3FAF6A2025EF76C6007DD9F3 /* iconLocked@2x.png in Resources */,
 				3FAF6A2125EF76C6007DD9F3 /* iconUnchecked@2x.png in Resources */,
+				3F6B667A260F36B500B1B5E4 /* iconDeposit@3x.png in Resources */,
 				3FAF6A2225EF76C6007DD9F3 /* iconQuery@2x.png in Resources */,
 				3FAF6A2325EF76C6007DD9F3 /* Support@2x.png in Resources */,
 				3FAF6A2425EF76C6007DD9F3 /* InfoPlist.strings in Resources */,
@@ -5210,6 +5268,7 @@
 				3FAF6A5525EF76C6007DD9F3 /* ad_logo@2x.png in Resources */,
 				3FAF6A5625EF76C6007DD9F3 /* Remove User@2x.png in Resources */,
 				3FAF6A5725EF76C6007DD9F3 /* iconPmAlipay@3x.png in Resources */,
+				3F6B6677260F36B500B1B5E4 /* iconWithdraw@3x.png in Resources */,
 				3FAF6A5825EF76C6007DD9F3 /* iconOtcReceive@3x.png in Resources */,
 				3FAF6A5925EF76C6007DD9F3 /* User Menu@2x.png in Resources */,
 				3FAF6A5A25EF76C6007DD9F3 /* Star@2x.png in Resources */,
@@ -5357,6 +5416,7 @@
 				3FB0380B2398A8AD00FC859C /* iconOtcUser@3x.png in Resources */,
 				3FEBEEF821DDBBE600C124CF /* iconProposal@3x.png in Resources */,
 				3FB8F9DE21CE66C200DA88E2 /* sns_more_actions@2x.png in Resources */,
+				3F6B6679260F36B500B1B5E4 /* iconDeposit@3x.png in Resources */,
 				3FB8F9DF21CE66C200DA88E2 /* ResignBgdz-50@2x.png in Resources */,
 				3FB8F9E021CE66C200DA88E2 /* Settings@2x.png in Resources */,
 				3FB8F9E121CE66C200DA88E2 /* page_3_b@2x.png in Resources */,
@@ -5420,6 +5480,8 @@
 				3FB8FA0921CE66C200DA88E2 /* Entering Geo Fence@2x.png in Resources */,
 				3FB8FA0A21CE66C200DA88E2 /* iconAvatar@3x.png in Resources */,
 				3FCB3D5224024D7700BA13A0 /* iconSlider@3x.png in Resources */,
+				3F6B6670260F36B500B1B5E4 /* iconWithdraw@2x.png in Resources */,
+				3F6B6676260F36B500B1B5E4 /* iconWithdraw@3x.png in Resources */,
 				3FB038212398AA4200FC859C /* iconPhone@2x.png in Resources */,
 				3FB8FA0B21CE66C200DA88E2 /* iconFeedDetail@2x.png in Resources */,
 				3FB8FA0C21CE66C200DA88E2 /* Help@2x.png in Resources */,
@@ -5439,6 +5501,7 @@
 				3FB8FA1821CE66C200DA88E2 /* iconFav@3x.png in Resources */,
 				3FB8FA1921CE66C200DA88E2 /* iconQuery@3x.png in Resources */,
 				3FB8FA1A21CE66C200DA88E2 /* sns_comment@2x.png in Resources */,
+				3F6B6673260F36B500B1B5E4 /* iconDeposit@2x.png in Resources */,
 				3FB8FA1B21CE66C200DA88E2 /* Businesswoman@2x.png in Resources */,
 				3FEA20EE23993B530097F1FF /* iconSwitch@2x.png in Resources */,
 				3FB8FA1C21CE66C200DA88E2 /* share_to_weixin.png in Resources */,
@@ -5694,6 +5757,7 @@
 				F55325B11C075D3200EC3F95 /* Geo-fence@2x.png in Resources */,
 				B7A3F8881DC6F76700A733DC /* tabvoice@2x.png in Resources */,
 				3F767B0F224B7B310012822D /* InfoPlist.strings in Resources */,
+				3F6B6672260F36B500B1B5E4 /* iconDeposit@2x.png in Resources */,
 				ED3776A91654A8EA0016EC64 /* iTunesArtwork in Resources */,
 				F55325971C075D3200EC3F95 /* Arrow@2x.png in Resources */,
 				F55325AD1C075D3200EC3F95 /* Entering Geo Fence@2x.png in Resources */,
@@ -5722,6 +5786,7 @@
 				3FCB3D5424024D7700BA13A0 /* iconSlider@2x.png in Resources */,
 				B7973C6320E520100052A5F5 /* iconFav@3x.png in Resources */,
 				3FE4E8F82408C299002518BD /* iconUnchecked@2x.png in Resources */,
+				3F6B666F260F36B500B1B5E4 /* iconWithdraw@2x.png in Resources */,
 				3F94DC3324613A48000D170F /* iconBlindTransfer@2x.png in Resources */,
 				B786D51A20EB793500427C08 /* iconQuery@3x.png in Resources */,
 				F5BF57B91E307A0B00DEDE38 /* sns_comment@2x.png in Resources */,
@@ -5738,6 +5803,7 @@
 				F5F114731C22E8E7006AE655 /* icon_2_3@2x.png in Resources */,
 				F55E1D2B1C5F30010072FF99 /* end@2x.png in Resources */,
 				F55325BC1C075D3200EC3F95 /* Plus@2x.png in Resources */,
+				3F6B6678260F36B500B1B5E4 /* iconDeposit@3x.png in Resources */,
 				18FF06C517E03C170088405E /* share_line.png in Resources */,
 				3FA72B572340BC2500EE3DC9 /* iconEdit@2x.png in Resources */,
 				3F37C80F24231CED0028845A /* iconShare@2x.png in Resources */,
@@ -5793,6 +5859,7 @@
 				F5D80A451D13ED8A009D3702 /* Star@2x.png in Resources */,
 				F55E1D341C5F8DCF0072FF99 /* Share-50@2x.png in Resources */,
 				B7973C3A20E205560052A5F5 /* tabMarket_b@2x.png in Resources */,
+				3F6B6675260F36B500B1B5E4 /* iconWithdraw@3x.png in Resources */,
 				B76577341C131FD900274158 /* icon_3_3@2x.png in Resources */,
 				F55325C51C075D3200EC3F95 /* Tram@2x.png in Resources */,
 				F55E1D3A1C5F9E540072FF99 /* arrow right long bold@2x.png in Resources */,
@@ -6049,6 +6116,7 @@
 				3FAF681D25EF76C6007DD9F3 /* VCSlideControllerBase.m in Sources */,
 				3FAF681E25EF76C6007DD9F3 /* MyTabBarController.m in Sources */,
 				3FAF681F25EF76C6007DD9F3 /* SCLTimerDisplay.m in Sources */,
+				3F6B669A2611DCFE00B1B5E4 /* ViewMinerRelationDataHeaderCell.m in Sources */,
 				3FAF682025EF76C6007DD9F3 /* MySearchBar.m in Sources */,
 				3FAF682125EF76C6007DD9F3 /* unzip.c in Sources */,
 				3FAF682225EF76C6007DD9F3 /* Extension.m in Sources */,
@@ -6189,6 +6257,7 @@
 				3FAF68A825EF76C6007DD9F3 /* UIView+Toast.m in Sources */,
 				3FAF68A925EF76C6007DD9F3 /* ViewEmptyInfoCell.m in Sources */,
 				3FAF68AA25EF76C6007DD9F3 /* MKlineIndex.m in Sources */,
+				3F6B668A261064F000B1B5E4 /* VCMinerRelationData.m in Sources */,
 				3FAF68AB25EF76C6007DD9F3 /* WjCryptLib_Rc4.c in Sources */,
 				3FAF68AC25EF76C6007DD9F3 /* VCAssetOpCommon.m in Sources */,
 				3FAF68AD25EF76C6007DD9F3 /* DFReachabilityUtil.m in Sources */,
@@ -6231,8 +6300,10 @@
 				3FAF68D225EF76C6007DD9F3 /* GCDWebServerDataResponse.m in Sources */,
 				3FAF68D325EF76C6007DD9F3 /* MyPopviewManager.m in Sources */,
 				3FAF68D425EF76C6007DD9F3 /* ViewFaceCell.m in Sources */,
+				3F6B66922610752800B1B5E4 /* ViewMinerRelationDataCell.m in Sources */,
 				3FAF68D525EF76C6007DD9F3 /* VCAssetManager.m in Sources */,
 				3FAF68D625EF76C6007DD9F3 /* AesOpt.c in Sources */,
+				3F6B66822610288900B1B5E4 /* NbWalletAPI.m in Sources */,
 				3FAF68D725EF76C6007DD9F3 /* LangManager.m in Sources */,
 				3FAF68D825EF76C6007DD9F3 /* VCBlindBackupReceipt.m in Sources */,
 				3FAF68D925EF76C6007DD9F3 /* GraphenePrivateKey.m in Sources */,
@@ -6365,6 +6436,7 @@
 				3FAF695825EF76C6007DD9F3 /* VCOtcAddAlipay.m in Sources */,
 				3FAF695925EF76C6007DD9F3 /* ViewProposalActionsCell.m in Sources */,
 				3FAF695A25EF76C6007DD9F3 /* MyNavigationController.mm in Sources */,
+				3F6B6664260F305900B1B5E4 /* VCMiner.m in Sources */,
 				3FAF695B25EF76C6007DD9F3 /* ViewProposalAuthorizedStatusCell.m in Sources */,
 				3FAF695C25EF76C6007DD9F3 /* VCStealthTransferHelper.m in Sources */,
 				3FAF695D25EF76C6007DD9F3 /* VCHtlcTransfer.m in Sources */,
@@ -6430,6 +6502,7 @@
 				3FB8F8AF21CE66C200DA88E2 /* VCSlideControllerBase.m in Sources */,
 				3FB8F8B021CE66C200DA88E2 /* MyTabBarController.m in Sources */,
 				3FB8F8B121CE66C200DA88E2 /* SCLTimerDisplay.m in Sources */,
+				3F6B66992611DCFE00B1B5E4 /* ViewMinerRelationDataHeaderCell.m in Sources */,
 				3FB8F8B221CE66C200DA88E2 /* MySearchBar.m in Sources */,
 				3FB8F8B421CE66C200DA88E2 /* unzip.c in Sources */,
 				3FB8F8B521CE66C200DA88E2 /* Extension.m in Sources */,
@@ -6570,6 +6643,7 @@
 				3FB8F91321CE66C200DA88E2 /* UIView+Toast.m in Sources */,
 				3FB8F91421CE66C200DA88E2 /* ViewEmptyInfoCell.m in Sources */,
 				3F9F2C3F2229051700D49165 /* MKlineIndex.m in Sources */,
+				3F6B6689261064F000B1B5E4 /* VCMinerRelationData.m in Sources */,
 				3FB8F91521CE66C200DA88E2 /* WjCryptLib_Rc4.c in Sources */,
 				3FF2E99023D1C360006F98D0 /* VCAssetOpCommon.m in Sources */,
 				3FB8F91621CE66C200DA88E2 /* DFReachabilityUtil.m in Sources */,
@@ -6612,8 +6686,10 @@
 				3FB8F93121CE66C200DA88E2 /* GCDWebServerDataResponse.m in Sources */,
 				3FB8F93221CE66C200DA88E2 /* MyPopviewManager.m in Sources */,
 				3FB8F93321CE66C200DA88E2 /* ViewFaceCell.m in Sources */,
+				3F6B66912610752800B1B5E4 /* ViewMinerRelationDataCell.m in Sources */,
 				3FB83CE023C19A2200CD3EF1 /* VCAssetManager.m in Sources */,
 				3FB8F93421CE66C200DA88E2 /* AesOpt.c in Sources */,
+				3F6B66812610288900B1B5E4 /* NbWalletAPI.m in Sources */,
 				3FF3550721FECDF4008EF213 /* LangManager.m in Sources */,
 				3F9C43E524567CF1000B2683 /* VCBlindBackupReceipt.m in Sources */,
 				3F6532532442A6CE001A0260 /* GraphenePrivateKey.m in Sources */,
@@ -6746,6 +6822,7 @@
 				3F4F293E23727A83007674E5 /* VCOtcAddAlipay.m in Sources */,
 				3FDD800521D763C100DA61FC /* ViewProposalActionsCell.m in Sources */,
 				3FB8F98721CE66C200DA88E2 /* MyNavigationController.mm in Sources */,
+				3F6B6663260F305900B1B5E4 /* VCMiner.m in Sources */,
 				3FDD800B21D77A0700DA61FC /* ViewProposalAuthorizedStatusCell.m in Sources */,
 				3FAFCCD5244D76A4004B7ECC /* VCStealthTransferHelper.m in Sources */,
 				3F78E07722630585007D41A3 /* VCHtlcTransfer.m in Sources */,
@@ -6811,6 +6888,7 @@
 				B72A845320CBE13B00D92A25 /* VCSlideControllerBase.m in Sources */,
 				ED75E62B186C63C9009BEF5E /* MyTabBarController.m in Sources */,
 				B782F0C61D6E94C600F61571 /* SCLTimerDisplay.m in Sources */,
+				3F6B66982611DCFE00B1B5E4 /* ViewMinerRelationDataHeaderCell.m in Sources */,
 				B7973E0920E5D7980052A5F5 /* MySearchBar.m in Sources */,
 				B7A13B791CA1443A0096A6A4 /* unzip.c in Sources */,
 				B7B8811020C4E38500DBCD45 /* Extension.m in Sources */,
@@ -6951,6 +7029,7 @@
 				B7A1A245211D34A400333B00 /* ViewEmptyInfoCell.m in Sources */,
 				3F9F2C3E2229051700D49165 /* MKlineIndex.m in Sources */,
 				B7BDA9A720B3A3D100738F12 /* WjCryptLib_Rc4.c in Sources */,
+				3F6B6688261064F000B1B5E4 /* VCMinerRelationData.m in Sources */,
 				3FB8F88D21CA4BA000DA88E2 /* DFReachabilityUtil.m in Sources */,
 				3FF2E98F23D1C360006F98D0 /* VCAssetOpCommon.m in Sources */,
 				F5666A3B1D631D2800ADA3C6 /* SphereMenu.m in Sources */,
@@ -6993,8 +7072,10 @@
 				B73B4D931CC9D4E90049D9F5 /* MyPopviewManager.m in Sources */,
 				EDFB5514186DCA16005FB755 /* ViewFaceCell.m in Sources */,
 				B7BDAA8420B3C77500738F12 /* AesOpt.c in Sources */,
+				3F6B66902610752800B1B5E4 /* ViewMinerRelationDataCell.m in Sources */,
 				3FB83CDF23C19A2200CD3EF1 /* VCAssetManager.m in Sources */,
 				3FF3550621FECDF4008EF213 /* LangManager.m in Sources */,
+				3F6B66802610288900B1B5E4 /* NbWalletAPI.m in Sources */,
 				B7A13B7A1CA1443A0096A6A4 /* zip.c in Sources */,
 				3F9C43E424567CF1000B2683 /* VCBlindBackupReceipt.m in Sources */,
 				3F6532522442A6CE001A0260 /* GraphenePrivateKey.m in Sources */,
@@ -7127,6 +7208,7 @@
 				3F4F293D23727A83007674E5 /* VCOtcAddAlipay.m in Sources */,
 				3FDD800421D763C100DA61FC /* ViewProposalActionsCell.m in Sources */,
 				ED75E62A186C63C9009BEF5E /* MyNavigationController.mm in Sources */,
+				3F6B6662260F305900B1B5E4 /* VCMiner.m in Sources */,
 				3FDD800A21D77A0700DA61FC /* ViewProposalAuthorizedStatusCell.m in Sources */,
 				3FAFCCD4244D76A4004B7ECC /* VCStealthTransferHelper.m in Sources */,
 				3F78E07622630585007D41A3 /* VCHtlcTransfer.m in Sources */,

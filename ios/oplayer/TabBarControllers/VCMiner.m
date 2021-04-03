@@ -9,6 +9,8 @@
 #import "VCMiner.h"
 
 #import "VCAssetOpMiner.h"
+#import "VCMinerRelationData.h"
+
 #import "WalletManager.h"
 #import "OrgUtils.h"
 
@@ -262,17 +264,17 @@ enum
                 break;
             case kVcSubDataMiner:
             {
-                //  TODO:2.2 TODO:2.3 TODO:3.0 TODO
                 [self GuardWalletExist:^{
-                    [OrgUtils makeToast:@"test miner data"];
+                    [self gotoViewMiningData:@"1.3.23"  //  MINER TODO:立即值
+                                       title:NSLocalizedString(@"kVcTitleAssetMiningDataMiner", @"MINER挖矿数据")];
                 }];
             }
                 break;
             case kVcSubDataScny:
             {
-                //  TODO:2.2 TODO:2.3 TODO:3.0 TODO
                 [self GuardWalletExist:^{
-                    [OrgUtils makeToast:@"test scny data"];
+                    [self gotoViewMiningData:@"1.3.24"  //  SCNY TODO:立即值
+                                       title:NSLocalizedString(@"kVcTitleAssetMiningDataScny", @"SCNY挖矿数据")];
                 }];
             }
                 break;
@@ -293,6 +295,13 @@ enum
             [self pushViewController:vc vctitle:nil backtitle:kVcDefaultBackTitleName];
         }
     }];
+}
+
+- (void)gotoViewMiningData:(NSString*)asset_id title:(NSString*)title
+{
+    assert(asset_id);
+    VCMinerRelationData* vc = [[VCMinerRelationData alloc] initWithAsset:asset_id];
+    [self pushViewController:vc vctitle:title backtitle:kVcDefaultBackTitleName];
 }
 
 - (void)gotoMiningOrExit:(NSString*)asset_id

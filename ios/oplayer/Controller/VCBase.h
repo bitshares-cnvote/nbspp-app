@@ -43,6 +43,7 @@
 #import <Flurry/Flurry.h>
 
 #import "LangManager.h"
+#import "NbWalletAPI.h"
 
 @interface VCBase : UIViewController<UITextFieldDelegate,UITableViewDelegate>
 {
