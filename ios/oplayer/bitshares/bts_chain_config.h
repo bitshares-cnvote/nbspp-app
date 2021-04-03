@@ -360,14 +360,8 @@ typedef enum EBitsharesOperations
 //  KEY：APP设置 > 流动性池默认列表
 #define kAppStorageKeyAppSetings_LpMainList                 @"liquidity.pool.mainlist"
 
-//  KEY：APP设置 > 智能资产列表
-#define kAppStorageKeyAppSetings_AssetSmartMainList         @"asset.smart.mainlist"
-
 //  KEY：APP设置 > 已知网关列表
 #define kAppStorageKeyAppSetings_KnownGatewayList           @"known.gateway.list"
-
-//  KEY：APP设置 > 已知网关资产发行账号列表
-#define kAppStorageKeyAppSetings_KnownGatewayAccounts       @"known.gateway.accounts"
 
 //  KEY：APP设置 > 已知交易所充值账号列表
 #define kAppStorageKeyAppSetings_KnownCexDepositAccounts    @"known.cex.deposit.accounts"
@@ -375,10 +369,10 @@ typedef enum EBitsharesOperations
 //  KEY：APP设置 > OTC配置
 #define kAppStorageKeyAppSetings_OtcConfigInfo              @"otc.config.info"
 
-//  KEY：APP设置 > BOTS配置
-#define kAppStorageKeyAppSetings_BotsConfigInfo             @"bots.config.info"
-
 //  KEY：APP设置 > 挖矿资产列表（快速兑换列表）
 #define kAppStorageKeyAppSetings_AssetMinerList             @"asset.miner.list"
+
+//  KEY：APP设置 > 通用配置
+#define kAppStorageKeyAppSetings_CommonVer01                @"common.settings.ver.1"
 
 #endif /* __bts_chain_config__ */

@@ -121,4 +121,9 @@
  */
 - (id)getAppAssetMinerItem:(id)asset_id;
 
+/*
+ *  (public) 获取设置 - 读取通用配置
+ */
+- (id)getAppCommonSettings:(NSString*)common_key;
+
 @end

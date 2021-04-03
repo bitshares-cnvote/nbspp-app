@@ -301,7 +301,7 @@ static SettingManager *_sharedSettingManager = nil;
  */
 - (id)getAppMainSmartAssetList
 {
-    id list = [self getOnChainAppSetting:kAppStorageKeyAppSetings_AssetSmartMainList];
+    id list = [self getAppCommonSettings:@"asset_smart_mainlist"];
     if (list && [list count] > 0) {
         return list;
     }
@@ -325,7 +325,7 @@ static SettingManager *_sharedSettingManager = nil;
  */
 - (id)getAppKnownGatewayAccounts
 {
-    id list = [self getOnChainAppSetting:kAppStorageKeyAppSetings_KnownGatewayAccounts];
+    id list = [self getAppCommonSettings:@"known_gateway_accounts"];
     if (list && [list count] > 0) {
         return list;
     }
@@ -349,11 +349,7 @@ static SettingManager *_sharedSettingManager = nil;
  */
 - (BOOL)isAppEnableModuleGridBots
 {
-    id bots_config = [self getOnChainAppSetting:kAppStorageKeyAppSetings_BotsConfigInfo];
-    if (!bots_config || [bots_config count] <= 0) {
-        return NO;
-    }
-    NSString* grid_bots_trader = [bots_config objectForKey:@"grid_bots_trader"];
+    NSString* grid_bots_trader = [self getAppCommonSettings:@"grid_bots_trader"];
     if (!grid_bots_trader || [grid_bots_trader isEqualToString:@""]) {
         return NO;
     }
@@ -366,7 +362,7 @@ static SettingManager *_sharedSettingManager = nil;
 - (NSString*)getAppGridBotsTraderAccount
 {
     assert([self isAppEnableModuleGridBots]);
-    return [[self getOnChainAppSetting:kAppStorageKeyAppSetings_BotsConfigInfo] objectForKey:@"grid_bots_trader"];
+    return [self getAppCommonSettings:@"grid_bots_trader"];
 }
 
 /*
@@ -392,6 +388,19 @@ static SettingManager *_sharedSettingManager = nil;
         }
     }
     return nil;
+}
+
+/*
+ *  (public) 获取设置 - 读取通用配置
+ */
+- (id)getAppCommonSettings:(NSString*)common_key
+{
+    assert(common_key);
+    id common_hash = [self getOnChainAppSetting:kAppStorageKeyAppSetings_CommonVer01];
+    if (!common_hash || ![common_hash isKindOfClass:[NSDictionary class]] || [common_hash count] <= 0) {
+        return nil;
+    }
+    return [common_hash objectForKey:common_key];
 }
 
 @end
