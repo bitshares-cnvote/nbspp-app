@@ -33,7 +33,7 @@ enum
 @interface VCNewAccountPassword ()
 {
     NSInteger                       _scene;                 //  使用场景
-    NSString*                       _new_account_name;      //  新账号名，注册时传递，修改密码则为nil。
+    NSDictionary*                   _args;                  //  参数 原样传递，注册时的账号和邀请人等，修改密码则为nil。
     
     UITableView *                   _mainTableView;
     UITableViewCellBase*            _cellTitle;
@@ -60,16 +60,16 @@ enum
         _mainTableView.delegate = nil;
         _mainTableView = nil;
     }
-    _new_account_name = nil;
+    _args = nil;
 }
 
-- (id)initWithScene:(NSInteger)scene args:(NSString*)new_account_name
+- (id)initWithScene:(NSInteger)scene args:(NSDictionary*)args
 {
     self = [super init];
     if (self) {
         _scene = scene;
-        //  保存新账号（可能为nil。)
-        _new_account_name = [new_account_name copy];
+        //  保存参数（可能为nil。)
+        _args = [args copy];
         
         //  REMARK：根据当前语言决定默认密码语言。
         NSString* pass_lang_string = NSLocalizedString(@"kEditPasswordDefaultPasswordLang", @"default password lang string");
@@ -207,7 +207,7 @@ enum
     VCNewAccountPasswordConfirm* vc = [[VCNewAccountPasswordConfirm alloc] initWithPassword:_passwordContent.current_password
                                                                                    passlang:_currPasswordLang
                                                                                       scene:_scene
-                                                                                       args:_new_account_name];
+                                                                                       args:_args];
     [self pushViewController:vc vctitle:NSLocalizedString(@"kVcTitleEditPasswordConfirm", @"验证密码") backtitle:kVcDefaultBackTitleName];
 }
 

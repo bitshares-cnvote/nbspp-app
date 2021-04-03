@@ -24,6 +24,7 @@ enum
 enum
 {
     kVcSubAccountName = 0,      //  帐号
+    kVcSubInviteAccount,        //  邀请人
     
     kVcSubMax
 };
@@ -33,6 +34,7 @@ enum
     UITableView *           _mainTableView;
     
     ViewAdvTextFieldCell*   _cell_account;
+    ViewAdvTextFieldCell*   _cell_invite_account;
     
     ViewBlockLabel*         _lbSubmit;
     //    ViewTipsInfoCell*       _cellTips;
@@ -46,6 +48,7 @@ enum
 {
     //    _cellTips = nil;
     _cell_account = nil;
+    _cell_invite_account = nil;
     
     if (_mainTableView){
         [[IntervalManager sharedIntervalManager] releaseLock:_mainTableView];
@@ -73,6 +76,10 @@ enum
     _cell_account = [[ViewAdvTextFieldCell alloc] initWithTitle:NSLocalizedString(@"kLoginCellAccountName", @"帐号 ")
                                                     placeholder:NSLocalizedString(@"kRegTipsPlaceholderNewAccount", @"请输入新的账号名")];
     [_cell_account auxFastConditionsViewForAccountNameFormat];
+    
+    //  TODO:2.2 TODO:2.3  TODO:3.0 lang
+    _cell_invite_account = [[ViewAdvTextFieldCell alloc] initWithTitle:@"邀请人"
+                                                           placeholder:@"请输入邀请人账号"];
     
     //  UI - 主列表
     _mainTableView = [[UITableView alloc] initWithFrame:[self rectWithoutNavi] style:UITableViewStyleGrouped];
@@ -115,6 +122,7 @@ enum
 {
     [super endInput];
     [_cell_account endInput];
+    [_cell_invite_account endInput];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -134,6 +142,10 @@ enum
     }
     
     id new_account_name = [_cell_account.mainTextfield.text lowercaseString];
+    id invite_account_name = [NSString trim:[_cell_invite_account.mainTextfield.text lowercaseString]];
+    if (!invite_account_name || [invite_account_name isEqualToString:@""]) {
+        invite_account_name = @"test03";//TODO:2.2 load config //  默认邀请账号
+    }
     
     [self showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];
     
@@ -142,7 +154,11 @@ enum
         if ([bExist boolValue]) {
             [OrgUtils makeToast:NSLocalizedString(@"kLoginSubmitTipsAccountAlreadyExist", @"帐号名已存在，请重新输入。")];
         } else {
-            VCNewAccountPassword* vc = [[VCNewAccountPassword alloc] initWithScene:kNewPasswordSceneRegAccount args:new_account_name];
+            id args = @{
+                @"new_account_name": new_account_name,
+                @"invite_account_name": invite_account_name
+            };
+            VCNewAccountPassword* vc = [[VCNewAccountPassword alloc] initWithScene:kNewPasswordSceneRegAccount args:args];
             [self pushViewController:vc vctitle:NSLocalizedString(@"kVcTitleBackupYourPassword", @"备份密码") backtitle:kVcDefaultBackTitleName];
         }
         return nil;
@@ -174,6 +190,8 @@ enum
         switch (indexPath.row) {
             case kVcSubAccountName:
                 return _cell_account.cellHeight;
+            case kVcSubInviteAccount:
+                return _cell_invite_account.cellHeight;
             default:
                 break;
         }
@@ -218,6 +236,8 @@ enum
         switch (indexPath.row) {
             case kVcSubAccountName:
                 return _cell_account;
+            case kVcSubInviteAccount:
+                return _cell_invite_account;
             default:
                 break;
         }

@@ -18,6 +18,6 @@ enum
 
 @interface VCNewAccountPassword : VCBase<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIScrollViewDelegate>
 
-- (id)initWithScene:(NSInteger)scene args:(NSString*)new_account_name;
+- (id)initWithScene:(NSInteger)scene args:(NSDictionary*)args;
 
 @end

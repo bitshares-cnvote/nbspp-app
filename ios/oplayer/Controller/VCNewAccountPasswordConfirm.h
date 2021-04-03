@@ -14,6 +14,6 @@
 - (id)initWithPassword:(NSString*)password
               passlang:(EBitsharesAccountPasswordLang)passlang
                  scene:(NSInteger)scene
-                  args:(NSString*)new_account_name;
+                  args:(NSDictionary*)args;
 
 @end

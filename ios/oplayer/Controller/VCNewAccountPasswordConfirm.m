@@ -33,7 +33,7 @@ enum
 @interface VCNewAccountPasswordConfirm ()
 {
     NSInteger                       _scene;
-    NSString*                       _new_account_name;      //  新账号名，注册时传递，修改密码则为nil。
+    NSDictionary*                   _args;                  //  参数 原样传递，注册时的账号和邀请人等，修改密码则为nil。
     
     NSString*                       _curr_password;
     EBitsharesAccountPasswordLang   _curr_passlang;
@@ -67,21 +67,21 @@ enum
     }
     
     _curr_password = nil;
-    _new_account_name = nil;
+    _args = nil;
     _secTypeArray = nil;
 }
 
 - (id)initWithPassword:(NSString*)password
               passlang:(EBitsharesAccountPasswordLang)passlang
                  scene:(NSInteger)scene
-                  args:(NSString*)new_account_name
+                  args:(NSDictionary*)args
 {
     self = [super init];
     if (self) {
         _curr_password = [password copy];
         _curr_passlang = passlang;
         _scene = scene;
-        _new_account_name = [new_account_name copy];
+        _args = [args copy];
         _curr_modify_range = kModifyAllPermissions;
     }
     return self;
@@ -115,7 +115,7 @@ enum
             
             _cell_account = [[ViewAdvTextFieldCell alloc] initWithTitle:NSLocalizedString(@"kEditPasswordCellTItleYourNewAccountName", @"您的账号")
                                                             placeholder:@""];
-            _cell_account.mainTextfield.text = _new_account_name;
+            _cell_account.mainTextfield.text = [_args objectForKey:@"new_account_name"];
             _cell_account.mainTextfield.userInteractionEnabled = NO;
         }
             break;
@@ -205,28 +205,31 @@ enum
 {
     [self showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];
     
+    id new_account_name = [_args objectForKey:@"new_account_name"];
+    assert(new_account_name);
+    id invite_account_name = [_args objectForKey:@"invite_account_name"];
+    
     //  1、生成各种权限公钥。
     //  REMARK：这里memo单独分类出来，避免和active权限相同。
-    id seed_owner = [NSString stringWithFormat:@"%@owner%@", _new_account_name, _curr_password];
-    id seed_active = [NSString stringWithFormat:@"%@active%@", _new_account_name, _curr_password];
-    id seed_memo = [NSString stringWithFormat:@"%@memo%@", _new_account_name, _curr_password];
+    id seed_owner = [NSString stringWithFormat:@"%@owner%@", new_account_name, _curr_password];
+    id seed_active = [NSString stringWithFormat:@"%@active%@", new_account_name, _curr_password];
+    id seed_memo = [NSString stringWithFormat:@"%@memo%@", new_account_name, _curr_password];
     id owner_key = [OrgUtils genBtsAddressFromPrivateKeySeed:seed_owner];
     id active_key = [OrgUtils genBtsAddressFromPrivateKeySeed:seed_active];
     id memo_key = [OrgUtils genBtsAddressFromPrivateKeySeed:seed_memo];
     
-    //  2、调用水龙头API注册
-    [[OrgUtils asyncCreateAccountFromFaucet:_new_account_name
-                                      owner:owner_key
-                                     active:active_key
-                                       memo:memo_key
-                                    refcode:@""
-                                       chid:kAppChannelID] then:(^id(id err_msg) {
+    //  2、注册
+    [[[NbWalletAPI sharedNbWalletAPI] registerAccount:new_account_name
+                                           invite_key:invite_account_name
+                                                owner:owner_key
+                                               active:active_key
+                                                 memo:memo_key] then:^id(id responsed) {
         [self hideBlockView];
-        
-        if (err_msg && [err_msg isKindOfClass:[NSString class]]) {
+        id err_msg = [responsed objectForKey:@"error"];
+        if (err_msg) {
             //  水龙头注册失败。
-            [OrgUtils logEvents:@"faucetFailed" params:@{@"err":err_msg}];
-            [OrgUtils makeToast:err_msg];
+            [OrgUtils logEvents:@"faucetFailed" params:@{@"new_account_name":new_account_name, @"invite_account_name":invite_account_name ?: @""}];
+            [[NbWalletAPI sharedNbWalletAPI] showError:err_msg];
             return nil;
         } else {
             //  注册成功，直接重新登录。
@@ -242,7 +245,7 @@ enum
             }];
         }
         return nil;
-    })];
+    }];
 }
 
 /*
