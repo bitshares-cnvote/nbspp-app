@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme01.appBackColor"
+    tools:context="com.btsplusplus.fowallet.ActivityMinerRelationData">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="25dp"
+        android:orientation="vertical">
+
+        <!-- 导航栏 -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/layout_back_from_miner_relation_data"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:tint="@color/theme01.textColorMain"
+                    android:src="@drawable/ic_btn_back"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/kBtnBack"
+                    style="@style/kNavigationBarTextStyle"
+                    android:gravity="center_vertical"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
+                android:text="MINER推荐挖矿数据"
+                style="@style/kNavigationBarTextStyle" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+
+                android:padding="10dp"
+                android:background="@drawable/border_text_view"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_invite_number"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="20dp"
+                    android:textColor="@color/theme01.textColorMain"
+                    android:text="总共邀请--人"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                    <LinearLayout
+                        android:layout_marginLeft="30dp"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/valid_invation_volume"
+                            android:textSize="14dp"
+                            android:textColor="@color/theme01.textColorMain"
+                            android:layout_marginTop="5dp"
+                            android:text="有效邀请持有量--"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/miner_lock_profits"
+                            android:textSize="14dp"
+                            android:textColor="@color/theme01.textColorMain"
+                            android:layout_marginTop="5dp"
+                            android:text="MINER锁仓挖矿收益--MCN"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/miner_recommend_profits"
+                            android:textSize="14dp"
+                            android:textColor="@color/theme01.textColorMain"
+                            android:layout_marginTop="5dp"
+                            android:text="MINER推荐挖矿收益--MCN"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_marginTop="15dp"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:textColor="@color/theme01.textColorHighlight"
+                android:text="推荐明细"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ScrollView
+                android:fillViewport="true"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/layout_of_miner_relation_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                </LinearLayout>
+            </ScrollView>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -32,7 +32,7 @@ class ActivityIndexMy : BtsppActivity() {
         setFullScreen()
 
         //  设置底部导航栏样式
-        setBottomNavigationStyle(3)
+        setBottomNavigationStyle(4)
 
         //  设置图标颜色
         val iconcolor = resources.getColor(R.color.theme01_textColorNormal)

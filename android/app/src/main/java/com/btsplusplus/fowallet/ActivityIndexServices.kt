@@ -27,7 +27,7 @@ class ActivityIndexServices : BtsppActivity() {
         setFullScreen()
 
         // 设置底部导航栏样式
-        setBottomNavigationStyle(2)
+        setBottomNavigationStyle(3)
 
         //  设置模块可见性
         if (SettingManager.sharedSettingManager().getAppMainSmartAssetList().length() > 0) {

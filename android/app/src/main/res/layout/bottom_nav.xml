@@ -71,6 +71,33 @@
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/bottom_nav_miner_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/bottom_nav_image_view_miner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="0dp"
+                    app:srcCompat="@drawable/ic_bottom_diya" />
+
+                <TextView
+                    android:id="@+id/bottom_nav_text_view_miner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="28dp"
+                    android:text="挖矿"
+                    android:textColor="@color/theme01.textColorGray"
+                    android:textSize="10dp" />
+
+            </FrameLayout>
+
+
+            <FrameLayout
                 android:id="@+id/bottom_nav_services_frame"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

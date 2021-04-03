@@ -50,10 +50,14 @@ fun AppCompatActivity.setBottomNavigationStyle(position: Int) {
             bottom_nav_image_view_diya.setColorFilter(color)
         }
         2 -> {
+            bottom_nav_text_view_miner.setTextColor(color)
+            bottom_nav_image_view_miner.setColorFilter(color)
+        }
+        3 -> {
             bottom_nav_text_view_services.setTextColor(color)
             bottom_nav_image_view_services.setColorFilter(color)
         }
-        3 -> {
+        4 -> {
             bottom_nav_text_view_my.setTextColor(color)
             bottom_nav_image_view_my.setColorFilter(color)
         }
@@ -82,6 +86,13 @@ fun AppCompatActivity.setBottomNavigationStyle(position: Int) {
         }
     } else {
         bottom_nav_diya_frame.visibility = View.GONE
+    }
+    bottom_nav_miner_frame.setOnClickListener {
+        val top = BtsppApp.getInstance().getTopActivity()
+        if (top == null || top !is ActivityIndexMiner) {
+            goTo(ActivityIndexMiner::class.java)
+            BtsppApp.getInstance().finishAllActivity()
+        }
     }
     bottom_nav_services_frame.setOnClickListener {
         val top = BtsppApp.getInstance().getTopActivity()

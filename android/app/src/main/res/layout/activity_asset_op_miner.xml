@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme01.appBackColor"
+    tools:context="com.btsplusplus.fowallet.ActivityAssetOpMiner">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="25dp"
+        android:orientation="vertical">
+
+        <!-- 导航栏 -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/layout_back_from_assets_op_miner"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:tint="@color/theme01.textColorMain"
+                    android:src="@drawable/ic_btn_back"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/kBtnBack"
+                    style="@style/kNavigationBarTextStyle"
+                    android:gravity="center_vertical"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
+                android:text="挖矿"
+                style="@style/kNavigationBarTextStyle" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <!-- 数量 -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textSize="13dp"
+                    android:text="数量"
+                    android:textColor="@color/theme01.textColorMain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_curr_balance"
+                    android:textSize="13dp"
+                    android:text="-- -- --"
+                    android:gravity="right"
+                    android:textColor="@color/theme01.textColorMain"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <!-- 输入框 XXX | 全部 -->
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/tf_amount"
+                    android:maxLength="24"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    style="@style/kTextFieldDecimalPad"
+                    android:hint="输入兑换数量"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:gravity="right"
+                    android:layout_marginLeft="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_tf_tailer_asset_symbol"
+                        android:textSize="13dp"
+                        android:text="---"
+                        android:textColor="@color/theme01.textColorMain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:textSize="13dp"
+                        android:text="|"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginRight="7dp"
+                        android:textColor="@color/theme01.textColorGray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/btn_tf_tailer_all"
+                        android:textSize="13dp"
+                        android:text="@string/kLabelSendAll"
+                        android:textColor="@color/theme01.textColorHighlight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+            <View android:layout_marginTop="10dp" android:layout_height="1dp" android:background="@color/theme01.bottomLineColor" android:layout_width="fill_parent"></View>
+
+
+            <!-- 兑换按钮 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_submit"
+                    android:layout_width="wrap_content"
+                    style="@style/kMainButtonStyle"
+                    android:gravity="center|center_vertical"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:text="---" />
+            </LinearLayout>
+
+            <!-- 提示信息 -->
+            <TextView
+                android:id="@+id/tv_tips_from_otc_user_auth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/kUiTipsStyle"
+                android:text="【温馨提示】\n1、在订单簿中快速兑换 MINER 资产。\n2、兑换比例为1:1，如果市场深度不足则会兑换失败。\n3、根据市场情况可能存在少许误差。" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
