@@ -14,7 +14,6 @@ static NbWalletAPI *_sharedNbWalletAPI = nil;
 
 @interface NbWalletAPI()
 {
-    NSString* _base_api;
 }
 @end
 
@@ -37,15 +36,22 @@ static NbWalletAPI *_sharedNbWalletAPI = nil;
     self = [super init];
     if (self)
     {
-        //  TODO:2.2 TODO:2.3 TODO:3.0 lang  config?
-        _base_api = @"https://api.nbs.plus/api/v1/";
     }
     return self;
 }
 
 - (void)dealloc
 {
-    _base_api = nil;
+}
+
+/*
+ *  (public) API - 获取API地址。
+ */
+- (NSString*)getApiBaseAddr
+{
+    id baseurl = [[SettingManager sharedSettingManager] getAppUrls:@"nbwallet_api_base"];
+    assert(baseurl && ![baseurl isEqualToString:@""]);
+    return baseurl;
 }
 
 /*
@@ -53,7 +59,7 @@ static NbWalletAPI *_sharedNbWalletAPI = nil;
  */
 - (WsPromise*)login:(NSString*)bts_account_name active_private_key:(NSString*)active_private_key_wif
 {
-    id url = [NSString stringWithFormat:@"%@%@", _base_api, @"user/validateLogin"];
+    id url = [NSString stringWithFormat:@"%@%@", [self getApiBaseAddr], @"user/validateLogin"];
     id sign_args = @{
         @"accountName":bts_account_name,
         @"timestamp":@((NSInteger)[[NSDate date] timeIntervalSince1970])
@@ -88,7 +94,7 @@ static NbWalletAPI *_sharedNbWalletAPI = nil;
     id op_account = [[[WalletManager sharedWalletManager] getWalletAccountInfo] objectForKey:@"account"];
     assert(op_account);
     id account_id = op_account[@"id"];
-    id url = [NSString stringWithFormat:@"%@%@", _base_api, @"user/checkAuthInfo"];
+    id url = [NSString stringWithFormat:@"%@%@", [self getApiBaseAddr], @"user/checkAuthInfo"];
     id args = @{
         @"account_id":@([[[account_id componentsSeparatedByString:@"."] lastObject] integerValue]),
         @"auth":[self _loadUserTokenCookie:account_id]
@@ -110,7 +116,7 @@ static NbWalletAPI *_sharedNbWalletAPI = nil;
 - (WsPromise*)queryRelation:(NSString*)account_id is_miner:(BOOL)is_miner
 {
     assert(account_id);
-    id url = [NSString stringWithFormat:@"%@%@", _base_api, is_miner ? @"bonus_app/relation_miner" : @"bonus_app/relation_scny"];
+    id url = [NSString stringWithFormat:@"%@%@", [self getApiBaseAddr], is_miner ? @"bonus_app/relation_miner" : @"bonus_app/relation_scny"];
     id args = @{
         @"account_id":@([[[account_id componentsSeparatedByString:@"."] lastObject] integerValue]),
         @"auth":[self _loadUserTokenCookie:account_id]
@@ -135,7 +141,7 @@ static NbWalletAPI *_sharedNbWalletAPI = nil;
                        active:(NSString*)active_key
                          memo:(NSString*)memo_key
 {
-    id url = [NSString stringWithFormat:@"%@%@", _base_api, @"user/beingwallet_register"];
+    id url = [NSString stringWithFormat:@"%@%@", [self getApiBaseAddr], @"user/beingwallet_register"];
     id args = @{
         @"name":name,
         @"owner_key":owner_key,

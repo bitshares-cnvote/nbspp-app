@@ -122,33 +122,49 @@ enum
  */
 - (void)onIntroButtonClicked:(UIButton*)sender
 {
-    //  TODO:2.2 TODO:2.3  TODO:3.0
-    //    if (!_owner){
-    //        return;
-    //    }
-    //
-    //    id group_data = [_marketInfos[@"group_list"] objectAtIndex:sender.tag];
-    //    id group_link = [group_data objectForKey:@"group_link"];
-    //    if (!group_link || [group_link isEqualToString:@""]) {
-    //        return;
-    //    }
-    //
-    //    [OrgUtils safariOpenURL:group_link];
+    id url_key = @"";
+    switch (sender.tag) {
+        case kVcSecMiner:
+            url_key = @"mining_miner";
+            break;
+        case kVcSecScny:
+            url_key = @"mining_scny";
+            break;
+        case kVcSecShare:
+            url_key = @"mining_shares";
+            break;
+        default:
+            break;
+    }
+    
+    id url = [[SettingManager sharedSettingManager] getAppUrls:url_key];
+    assert(url && ![url isEqualToString:@""]);
+    
+    [OrgUtils safariOpenURL:url];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     id sec_title = @"";
-    
+    id url_key = @"";
     switch (section) {
         case kVcSecMiner:
+        {
             sec_title = NSLocalizedString(@"kMinerSecTitleMiner", @"NBS锁仓挖矿");
+            url_key = @"mining_miner";
+        }
             break;
         case kVcSecScny:
+        {
             sec_title = NSLocalizedString(@"kMinerSecTitleScny", @"nbCNY抵押挖矿");
+            url_key = @"mining_scny";
+        }
             break;
         case kVcSecShare:
+        {
             sec_title = NSLocalizedString(@"kMinerSecTitleShare", @"推荐挖矿");
+            url_key = @"mining_shares";
+        }
             break;
         default:
             break;
@@ -168,16 +184,19 @@ enum
     [myView addSubview:titleLabel];
     
     //  介绍
-    UIButton* introButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    introButton.titleLabel.font = [UIFont systemFontOfSize:13];
-    introButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-    [introButton setTitle:NSLocalizedString(@"kLabelGroupIntroduction", @"介绍 >") forState:UIControlStateNormal];
-    [introButton setTitleColor:[ThemeManager sharedThemeManager].textColorGray forState:UIControlStateNormal];
-    introButton.userInteractionEnabled = YES;
-    [introButton addTarget:self action:@selector(onIntroButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    introButton.frame = CGRectMake(fWidth - 120 - 12, 0, 120, 44);
-    introButton.tag = section;
-    [myView addSubview:introButton];
+    id url = [[SettingManager sharedSettingManager] getAppUrls:url_key];
+    if (url && ![url isEqualToString:@""]) {
+        UIButton* introButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        introButton.titleLabel.font = [UIFont systemFontOfSize:13];
+        introButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        [introButton setTitle:NSLocalizedString(@"kLabelGroupIntroduction", @"介绍 >") forState:UIControlStateNormal];
+        [introButton setTitleColor:[ThemeManager sharedThemeManager].textColorGray forState:UIControlStateNormal];
+        introButton.userInteractionEnabled = YES;
+        [introButton addTarget:self action:@selector(onIntroButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        introButton.frame = CGRectMake(fWidth - 120 - 12, 0, 120, 44);
+        introButton.tag = section;
+        [myView addSubview:introButton];
+    }
     
     return myView;
 }

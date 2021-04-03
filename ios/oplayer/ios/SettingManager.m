@@ -403,4 +403,17 @@ static SettingManager *_sharedSettingManager = nil;
     return [common_hash objectForKey:common_key];
 }
 
+/*
+ *  (public) 获取设置 - 读取URL配置
+ */
+- (id)getAppUrls:(NSString*)url_key
+{
+    assert(url_key);
+    id urls = [self getAppCommonSettings:@"urls"];
+    if (!urls || [urls count] <= 0) {
+        return nil;
+    }
+    return [urls objectForKey:url_key];
+}
+
 @end

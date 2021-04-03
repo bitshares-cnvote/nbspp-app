@@ -466,10 +466,13 @@
  */
 + (NSString*)genShareLink:(BOOL)containWelcomeMessage
 {
+    id invite_link = [[SettingManager sharedSettingManager] getAppUrls:@"invite_link"];
+    assert(invite_link && ![invite_link isEqualToString:@""]);
+    
     //  TODO:2.2 TODO:2.3 TODO:3.0 文案
     WalletManager* walletMgr = [WalletManager sharedWalletManager];
-    id value = [NSString stringWithFormat:@"https://f.nbs.plus/?lang=%@",
-                NSLocalizedString(@"kShareLinkPageDefaultLang", @"share link lang")];
+    id value = [NSString stringWithFormat:@"%@?lang=%@",
+                invite_link, NSLocalizedString(@"kShareLinkPageDefaultLang", @"share link lang")];
     if ([walletMgr isWalletExist]) {
         value = [NSString stringWithFormat:@"%@&r=%@", value, [walletMgr getWalletAccountName]];
     }
@@ -477,6 +480,7 @@
         value = [NSString stringWithFormat:@"%@\n%@",
                  NSLocalizedString(@"kShareWelcomeMessage", @"欢迎来到比特股去中心化交易平台"), value];
     }
+    
     return value;
 }
 

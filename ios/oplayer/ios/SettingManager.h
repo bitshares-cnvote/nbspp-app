@@ -126,4 +126,9 @@
  */
 - (id)getAppCommonSettings:(NSString*)common_key;
 
+/*
+ *  (public) 获取设置 - 读取URL配置
+ */
+- (id)getAppUrls:(NSString*)url_key;
+
 @end
