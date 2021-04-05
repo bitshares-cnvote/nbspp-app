@@ -94,6 +94,8 @@
 "kMinerCNYShareMiningRewardTitle" = "SCNY推荐挖矿收益";
 "kMinerTotalInviteAccountTitle" = "总共邀请 %@ 人";
 "kMinerTotalInviteAmountTitle" = "有效邀请持有量 %@ %@";
+"kMinerApiErrServerOrNetwork" = "推荐数据服务器或网络异常，请稍后再试。";
+"kMinerApiErrNotSupportedMultiAccount" = "多签账号不支持查看推荐数据。";
 
 /* 服务界面 */
 "kServicesCellLabelQrScan" = "扫一扫";
@@ -349,6 +351,8 @@
 "kRegTipsPlaceholderNewPassword" = "请输入新的密码";
 "kRegTipsPlaceholderNewWalletPassword" = "请输入新的钱包密码";
 "kRegCellLabelWalletPassword" = "钱包密码";
+"kRegCellLabelInviteAccount" = "邀请人";
+"kRegCellPlaceholderInviteAccount" = "请输入邀请人账号";
 "kLoginCellLabelRefCode" = "推荐码";
 "kLoginTipsLoginOK" = "登录成功。";
 "kLoginTipsRegFullOK" = "注册成功。";

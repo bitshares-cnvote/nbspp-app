@@ -90,14 +90,15 @@ enum
 {
     assert(account_id);
     
+    SettingManager* settingMgr = [SettingManager sharedSettingManager];
     ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
     
     //  MINER 或 SCNY 发奖账号
-    id reward_account = [[SettingManager sharedSettingManager] getAppSpecObjectID:is_miner ? @"reward_account_miner" : @"reward_account_scny"];
+    id reward_account = [settingMgr getAppParameters:is_miner ? @"reward_account_miner" : @"reward_account_scny"];
     //  发奖资产ID
-    id reward_asset = [[SettingManager sharedSettingManager] getAppSpecObjectID:@"mining_reward_asset"];
+    id reward_asset = [settingMgr getAppParameters:@"mining_reward_asset"];
     //  推荐挖矿发奖账号
-    id reward_account_shares = [[SettingManager sharedSettingManager] getAppSpecObjectID:@"reward_account_shares"];
+    id reward_account_shares = [settingMgr getAppParameters:is_miner ? @"reward_account_shares_miner" : @"reward_account_shares_scny"];
     assert(reward_account && reward_asset && reward_account_shares);
     
     GrapheneApi* api_history = [[GrapheneConnectionManager sharedGrapheneConnectionManager] any_connection].api_history;
@@ -139,6 +140,31 @@ enum
     }];
 }
 
+/*
+ *  (private) 查询推荐数据（需要登录）。REMARK：不支持多签账号。
+ */
+- (WsPromise*)queryAccountRelationData:(id)op_account is_miner:(BOOL)is_miner login:(BOOL)login
+{
+    assert(op_account);
+    WalletManager* walletMgr = [WalletManager sharedWalletManager];
+    if (login) {
+        assert(![walletMgr isLocked]);
+        id sign_keys = [walletMgr getSignKeys:[op_account objectForKey:@"active"]];
+        assert([sign_keys count] == 1);
+        id active_wif_key = [[walletMgr getGraphenePrivateKeyByPublicKey:[sign_keys firstObject]] toWifString];
+        return [[[NbWalletAPI sharedNbWalletAPI] login:op_account[@"name"]
+                                    active_private_key:active_wif_key] then:^id(id data) {
+            if (!data || [data objectForKey:@"error"]) {
+                return [WsPromise resolve:@{@"error":NSLocalizedString(@"kMinerApiErrServerOrNetwork", @"推荐数据服务器或网络异常，请稍后再试。")}];
+            } else {
+                return [[NbWalletAPI sharedNbWalletAPI] queryRelation:op_account[@"id"] is_miner:is_miner];
+            }
+        }];
+    } else {
+        return [[NbWalletAPI sharedNbWalletAPI] queryRelation:op_account[@"id"] is_miner:is_miner];
+    }
+}
+
 - (void)queryAllData
 {
     id op_account = [[[WalletManager sharedWalletManager] getWalletAccountInfo] objectForKey:@"account"];
@@ -150,7 +176,7 @@ enum
     BOOL is_miner = [_asset_id isEqualToString:@"1.3.23"];  //  TODO:MINER立即值
     
     //  查询推荐关系
-    id p1 = [[NbWalletAPI sharedNbWalletAPI] queryRelation:account_id is_miner:is_miner];
+    id p1 = [self queryAccountRelationData:op_account is_miner:is_miner login:NO];
     
     //  查询收益数据（最近的NCN转账明细）
     id p2 = [self queryLatestRewardData:account_id is_miner:is_miner];
@@ -160,7 +186,28 @@ enum
         id data_reward_hash = [data_array objectAtIndex:1];
         if (!data_relation || [data_relation objectForKey:@"error"]) {
             [self hideBlockView];
-            [OrgUtils makeToast:NSLocalizedString(@"kMinerCellClickTipsInvalidAuthToken", @"当前账号登录信息失效，请重新登录。")];
+            //  第一次查询失败的情况
+            if ([WalletManager isMultiSignPermission:op_account[@"active"]]) {
+                //  多签账号不支持
+                [OrgUtils makeToast:NSLocalizedString(@"kMinerApiErrNotSupportedMultiAccount", @"多签账号不支持查看推荐数据。")];
+            } else {
+                //  非多签账号 解锁后重新查询。
+                [self GuardWalletUnlocked:YES body:^(BOOL unlocked) {
+                    if (unlocked) {
+                        [self showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];
+                        [[self queryAccountRelationData:op_account is_miner:is_miner login:YES] then:^id(id data_relation2) {
+                            if (!data_relation2 || [data_relation2 objectForKey:@"error"]) {
+                                [self hideBlockView];
+                                [OrgUtils makeToast:NSLocalizedString(@"kMinerApiErrServerOrNetwork", @"推荐数据服务器或网络异常，请稍后再试。")];
+                            } else {
+                                [self onQueryResponsed:data_relation2 data_reward_hash:data_reward_hash];
+                                [self hideBlockView];
+                            }
+                            return nil;
+                        }];
+                    }
+                }];
+            }
         } else {
             [self onQueryResponsed:data_relation data_reward_hash:data_reward_hash];
             [self hideBlockView];

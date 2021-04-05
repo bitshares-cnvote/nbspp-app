@@ -77,9 +77,9 @@ enum
                                                     placeholder:NSLocalizedString(@"kRegTipsPlaceholderNewAccount", @"请输入新的账号名")];
     [_cell_account auxFastConditionsViewForAccountNameFormat];
     
-    //  TODO:2.2 TODO:2.3  TODO:3.0 lang
-    _cell_invite_account = [[ViewAdvTextFieldCell alloc] initWithTitle:@"邀请人"
-                                                           placeholder:@"请输入邀请人账号"];
+    //  UI - 邀请人
+    _cell_invite_account = [[ViewAdvTextFieldCell alloc] initWithTitle:NSLocalizedString(@"kRegCellLabelInviteAccount", @"邀请人")
+                                                           placeholder:NSLocalizedString(@"kRegCellPlaceholderInviteAccount", @"请输入邀请人账号")];
     
     //  UI - 主列表
     _mainTableView = [[UITableView alloc] initWithFrame:[self rectWithoutNavi] style:UITableViewStyleGrouped];
@@ -144,7 +144,8 @@ enum
     id new_account_name = [_cell_account.mainTextfield.text lowercaseString];
     id invite_account_name = [NSString trim:[_cell_invite_account.mainTextfield.text lowercaseString]];
     if (!invite_account_name || [invite_account_name isEqualToString:@""]) {
-        invite_account_name = @"test03";//TODO:2.2 load config //  默认邀请账号
+        invite_account_name = [[SettingManager sharedSettingManager] getAppParameters:@"default_invite_account"];
+        assert(invite_account_name);
     }
     
     [self showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];

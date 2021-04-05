@@ -68,11 +68,10 @@ static NbWalletAPI *_sharedNbWalletAPI = nil;
     [args setObject:[self _sign:sign_args active_private_key:active_private_key_wif] forKey:@"signature"];
     return [WsPromise promise:^(WsResolveHandler resolve, WsRejectHandler reject) {
         [[[self _queryApiCore:url args:[args copy] headers:nil is_post:YES] then:^id(id data) {
-            id account_id = [data objectForKey:@"account_id"];
+            id account_id = [data objectForKey:@"account_id"] ?: [data objectForKey:@"accountId"];
             id auth = [data objectForKey:@"auth"];
             if (!account_id || !auth || [auth isEqualToString:@""]) {
-                //  TODO:2.2
-                resolve(@{@"error": @"TODO:ERROR"});
+                resolve(@{@"error": NSLocalizedString(@"kMinerApiErrServerOrNetwork", @"推荐数据服务器或网络异常，请稍后再试。")});
             } else {
                 [self _saveUserTokenCookie:[NSString stringWithFormat:@"1.2.%@", account_id] token:auth];
                 resolve(@{@"data": data});
@@ -122,7 +121,7 @@ static NbWalletAPI *_sharedNbWalletAPI = nil;
         @"owner_key":owner_key,
         @"active_key":active_key,
         @"memo_key":memo_key,
-        @"invite_key":invite_account_name ?: @"",//TODO:2.2 TODO:2.3 TODO:3.0 default account?
+        @"invite_key":invite_account_name ?: [[SettingManager sharedSettingManager] getAppParameters:@"default_invite_account"],
         //  unused
         @"refcode":@"",
         @"referrer":@"",
@@ -198,9 +197,8 @@ static NbWalletAPI *_sharedNbWalletAPI = nil;
     assert(request_promise);
     return [WsPromise promise:^(WsResolveHandler resolve, WsRejectHandler reject) {
         [[request_promise then:^id(id responsed) {
-            //  TODO:2.3 lang&text 推荐挖矿服务器
             if (!responsed) {
-                reject(NSLocalizedString(@"kOtcMgrErrNetworkOrServerFailed", @"服务器或网络异常，请稍后再试。"));
+                reject(NSLocalizedString(@"kMinerApiErrServerOrNetwork", @"推荐数据服务器或网络异常，请稍后再试。"));
                 return nil;
             }
             if ([responsed isKindOfClass:[NSDictionary class]]) {
@@ -212,7 +210,7 @@ static NbWalletAPI *_sharedNbWalletAPI = nil;
                 } else {
                     id err = [responsed objectForKey:@"msg"];
                     if (!err || [err isEqualToString:@""]) {
-                        err = NSLocalizedString(@"kOtcMgrErrNetworkOrServerFailed", @"服务器或网络异常，请稍后再试。");
+                        err = NSLocalizedString(@"kMinerApiErrServerOrNetwork", @"推荐数据服务器或网络异常，请稍后再试。");
                     }
                     reject(err);
                 }
@@ -222,7 +220,7 @@ static NbWalletAPI *_sharedNbWalletAPI = nil;
             }
             return nil;
         }] catch:^id(id error) {
-            reject(NSLocalizedString(@"kOtcMgrErrNetworkOrServerFailed", @"服务器或网络异常，请稍后再试。"));
+            reject(NSLocalizedString(@"kMinerApiErrServerOrNetwork", @"推荐数据服务器或网络异常，请稍后再试。"));
             return nil;
         }];
     }];

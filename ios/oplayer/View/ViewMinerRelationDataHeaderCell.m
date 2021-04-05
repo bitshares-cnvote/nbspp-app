@@ -127,7 +127,7 @@
     }
     
     ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
-    id reward_asset = [chainMgr getChainObjectByID:[[SettingManager sharedSettingManager] getAppSpecObjectID:@"mining_reward_asset"]];
+    id reward_asset = [chainMgr getChainObjectByID:[[SettingManager sharedSettingManager] getAppParameters:@"mining_reward_asset"]];
     assert(reward_asset);
     
     if (_item) {

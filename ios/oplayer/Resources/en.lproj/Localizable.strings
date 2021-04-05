@@ -94,6 +94,8 @@
 "kMinerCNYShareMiningRewardTitle" = "SCNY shares revenue";
 "kMinerTotalInviteAccountTitle" = "Total shares %@ accounts";
 "kMinerTotalInviteAmountTitle" = "Total shares %@ %@";
+"kMinerApiErrServerOrNetwork" = "The mining data server or network is abnormal. Please try again later.";
+"kMinerApiErrNotSupportedMultiAccount" = "Multi-signature accounts do not support viewing mining data.";
 
 /* 服务界面 */
 "kServicesCellLabelQrScan" = "Scan QR code";
@@ -349,6 +351,8 @@
 "kRegTipsPlaceholderNewPassword" = "Please enter a new password";
 "kRegTipsPlaceholderNewWalletPassword" = "Please enter a new wallet password";
 "kRegCellLabelWalletPassword" = "Wallet password";
+"kRegCellLabelInviteAccount" = "Referrer";
+"kRegCellPlaceholderInviteAccount" = "Please enter the referrer's account";
 "kLoginCellLabelRefCode" = "Referrer";
 "kLoginTipsLoginOK" = "Login successful.";
 "kLoginTipsRegFullOK" = "Register successful.";
