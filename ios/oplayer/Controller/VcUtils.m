@@ -469,7 +469,6 @@
     id invite_link = [[SettingManager sharedSettingManager] getAppUrls:@"invite_link"];
     assert(invite_link && ![invite_link isEqualToString:@""]);
     
-    //  TODO:2.2 TODO:2.3 TODO:3.0 文案
     WalletManager* walletMgr = [WalletManager sharedWalletManager];
     id value = [NSString stringWithFormat:@"%@?lang=%@",
                 invite_link, NSLocalizedString(@"kShareLinkPageDefaultLang", @"share link lang")];
@@ -478,7 +477,7 @@
     }
     if (containWelcomeMessage) {
         value = [NSString stringWithFormat:@"%@\n%@",
-                 NSLocalizedString(@"kShareWelcomeMessage", @"欢迎来到比特股去中心化交易平台"), value];
+                 NSLocalizedString(@"kShareWelcomeMessage", @"立即注册 NBS 账号，享受每日高额挖矿收益。（推荐使用系统浏览器打开）"), value];
     }
     
     return value;

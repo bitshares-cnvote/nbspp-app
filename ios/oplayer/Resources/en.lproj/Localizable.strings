@@ -86,6 +86,14 @@
 "kMinerCellLabelShareLink" = "Share link";
 "kMinerCellClickTipsDontSupportedFeature" = "This feature is not open.";
 "kMinerCellClickTipsInvalidAuthToken" = "The current account login status is invalid, please log in again.";
+"kMinerSharesDataNoAnyShares" = "No data";
+"kMinerSharesDataShareItemsTitle" = "My share";
+"kMinerNBSMiningRewardTitle" = "MINER mining revenue";
+"kMinerNBSShareMiningRewardTitle" = "MINER shares revenue";
+"kMinerCNYMiningRewardTitle" = "SCNY mining revenue";
+"kMinerCNYShareMiningRewardTitle" = "SCNY shares revenue";
+"kMinerTotalInviteAccountTitle" = "Total shares %@ accounts";
+"kMinerTotalInviteAmountTitle" = "Total shares %@ %@";
 
 /* 服务界面 */
 "kServicesCellLabelQrScan" = "Scan QR code";
@@ -1780,7 +1788,7 @@
 "kTxInvalidMemoPriKey" = "The memo private key is invalid.";
 
 /* 通用字符串 */
-"kShareWelcomeMessage" = "Welcome to New BitShares, a decentralized financial platform.";
+"kShareWelcomeMessage" = "Register an NBS account now and enjoy the daily high mining revenue. (It is recommended to use the system browser to open)";
 "kShareLinkCopied" = "Share link has been copied.";
 "kLangKeyZhSimple" = "简体中文 / Simplified Chinese";
 "kLangKeyEn" = "English";

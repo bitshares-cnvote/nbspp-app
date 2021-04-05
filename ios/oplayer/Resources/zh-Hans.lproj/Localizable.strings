@@ -86,6 +86,14 @@
 "kMinerCellLabelShareLink" = "推荐好友";
 "kMinerCellClickTipsDontSupportedFeature" = "该功能未开启。";
 "kMinerCellClickTipsInvalidAuthToken" = "当前账号登录信息失效，请重新登录。";
+"kMinerSharesDataNoAnyShares" = "没有任何推荐数据";
+"kMinerSharesDataShareItemsTitle" = "推荐明细";
+"kMinerNBSMiningRewardTitle" = "MINER锁仓挖矿收益";
+"kMinerNBSShareMiningRewardTitle" = "MINER推荐挖矿收益";
+"kMinerCNYMiningRewardTitle" = "SCNY抵押挖矿收益";
+"kMinerCNYShareMiningRewardTitle" = "SCNY推荐挖矿收益";
+"kMinerTotalInviteAccountTitle" = "总共邀请 %@ 人";
+"kMinerTotalInviteAmountTitle" = "有效邀请持有量 %@ %@";
 
 /* 服务界面 */
 "kServicesCellLabelQrScan" = "扫一扫";
@@ -1780,7 +1788,7 @@
 "kTxInvalidMemoPriKey" = "备注私钥无效。";
 
 /* 通用字符串 */
-"kShareWelcomeMessage" = "欢迎来到新比特股去中心化交易平台。";
+"kShareWelcomeMessage" = "立即注册 NBS 账号，享受每日高额挖矿收益。（推荐使用系统浏览器打开）";
 "kShareLinkCopied" = "分享链接已复制。";
 "kLangKeyZhSimple" = "简体中文";
 "kLangKeyEn" = "English / 英文";

@@ -349,7 +349,7 @@ static SettingManager *_sharedSettingManager = nil;
  */
 - (BOOL)isAppEnableModuleGridBots
 {
-    NSString* grid_bots_trader = [self getAppCommonSettings:@"grid_bots_trader"];
+    NSString* grid_bots_trader = [self getAppSpecObjectID:@"grid_bots_trader"];
     if (!grid_bots_trader || [grid_bots_trader isEqualToString:@""]) {
         return NO;
     }
@@ -362,7 +362,7 @@ static SettingManager *_sharedSettingManager = nil;
 - (NSString*)getAppGridBotsTraderAccount
 {
     assert([self isAppEnableModuleGridBots]);
-    return [self getAppCommonSettings:@"grid_bots_trader"];
+    return [self getAppSpecObjectID:@"grid_bots_trader"];
 }
 
 /*
@@ -414,6 +414,19 @@ static SettingManager *_sharedSettingManager = nil;
         return nil;
     }
     return [urls objectForKey:url_key];
+}
+
+/*
+ *  (public) 获取设置 - 读取部分特殊ID号
+ */
+- (id)getAppSpecObjectID:(NSString*)spec_object_key
+{
+    assert(spec_object_key);
+    id special_object_ids = [self getAppCommonSettings:@"special_object_ids"];
+    if (!special_object_ids || [special_object_ids count] <= 0) {
+        return nil;
+    }
+    return [special_object_ids objectForKey:spec_object_key];
 }
 
 @end

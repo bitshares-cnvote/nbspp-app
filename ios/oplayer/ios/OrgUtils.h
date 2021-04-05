@@ -139,6 +139,11 @@ typedef void (^YklUserCallback)(id data);
 + (NSString*)fmtLimitOrderTimeShowString:(NSString*)time;
 
 /**
+ *  格式化：日期显示格式。REMARK：以当前时区格式化，BTS默认时间是UTC。北京时间当前时区会+8。
+ */
++ (NSString*)fmtMMddTimeShowString:(NSString*)time;
+
+/**
  *  格式化：帐号历史日期显示格式。REMARK：以当前时区格式化，BTS默认时间是UTC。北京时间当前时区会+8。
  */
 + (NSString*)fmtAccountHistoryTimeShowString:(NSString*)time;

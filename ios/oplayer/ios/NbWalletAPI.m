@@ -86,31 +86,6 @@ static NbWalletAPI *_sharedNbWalletAPI = nil;
 }
 
 /*
- *  (public) API - 验证登录信息有效性。
- */
-- (WsPromise*)checkAuthInfo
-{
-    assert([[WalletManager sharedWalletManager] isWalletExist]);
-    id op_account = [[[WalletManager sharedWalletManager] getWalletAccountInfo] objectForKey:@"account"];
-    assert(op_account);
-    id account_id = op_account[@"id"];
-    id url = [NSString stringWithFormat:@"%@%@", [self getApiBaseAddr], @"user/checkAuthInfo"];
-    id args = @{
-        @"account_id":@([[[account_id componentsSeparatedByString:@"."] lastObject] integerValue]),
-        @"auth":[self _loadUserTokenCookie:account_id]
-    };
-    return [WsPromise promise:^(WsResolveHandler resolve, WsRejectHandler reject) {
-        [[[self _queryApiCore:url args:args headers:nil is_post:YES] then:^id(id data) {
-            resolve(@{@"data": data});
-            return nil;
-        }] catch:^id(id error) {
-            resolve(@{@"error": error});
-            return nil;
-        }];
-    }];
-}
-
-/*
  *  (public) API - 查询推荐关系。
  */
 - (WsPromise*)queryRelation:(NSString*)account_id is_miner:(BOOL)is_miner

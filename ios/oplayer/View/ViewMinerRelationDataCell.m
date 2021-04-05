@@ -44,7 +44,6 @@
         self.textLabel.hidden = YES;
         self.backgroundColor = [UIColor clearColor];
         
-        //  TODO:fowallet font name
         _lbAccountName = [[UILabel alloc] initWithFrame:CGRectZero];
         _lbAccountName.lineBreakMode = NSLineBreakByTruncatingTail;
         _lbAccountName.textAlignment = NSTextAlignmentLeft;
@@ -108,27 +107,15 @@
     CGFloat fWidth = self.bounds.size.width - xOffset * 2;
     CGFloat fCellHeight = self.bounds.size.height;
     
-//    if ([[_item objectForKey:@"title"] boolValue]){
-//        _lbAccountName.text = @"账号";//TODO:2.2 [_item objectForKey:@"name"];
-//        _lbAccountName.textColor = theme.textColorNormal;
-//
-//        _lbAmount.text = @"数量";
-//        _lbAmount.textColor = theme.textColorNormal;
-//
-//        _lbDate.text = @"创建时间";
-//        _lbDate.textColor = theme.textColorNormal;
-//    }else{
-        _lbAccountName.text = [_item objectForKey:@"account_name"];
-        
-        _lbAccountName.textColor = theme.textColorMain;
-        
-        //  TODO:asset name
-        _lbAmount.text = [NSString stringWithFormat:@"%@ MINER", [_item objectForKey:@"slave_hold"]];
-        _lbAmount.textColor = theme.textColorMain;
-        
-    _lbDate.text = @"2019-23-03 12:12:12";// [OrgUtils fmtFeedPublishDateString:[_item objectForKey:@"create_time"]];
-        _lbDate.textColor = theme.textColorMain;
-//    }
+    _lbAccountName.text = [_item objectForKey:@"account_name"];
+    
+    _lbAccountName.textColor = theme.textColorMain;
+    
+    _lbAmount.text = [NSString stringWithFormat:@"%@ %@", [_item objectForKey:@"slave_hold"], _is_miner ? @"MINER" : @"SCNY"];
+    _lbAmount.textColor = theme.textColorMain;
+    
+    _lbDate.text = [OrgUtils fmtAccountHistoryTimeShowString:[_item objectForKey:@"create_time"]];
+    _lbDate.textColor = theme.textColorMain;
     
     _lbAccountName.frame = CGRectMake(xOffset, 0, fWidth * 0.3, fCellHeight);
     _lbAmount.frame = CGRectMake(xOffset + fWidth * 0.3, 0, fWidth * 0.3, fCellHeight);

@@ -21,11 +21,6 @@
 - (WsPromise*)login:(NSString*)bts_account_name active_private_key:(NSString*)active_private_key_wif;
 
 /*
- *  (public) API - 验证登录信息有效性。
- */
-- (WsPromise*)checkAuthInfo;
-
-/*
  *  (public) API - 查询推荐关系。
  */
 - (WsPromise*)queryRelation:(NSString*)account_id is_miner:(BOOL)is_miner;

@@ -131,4 +131,9 @@
  */
 - (id)getAppUrls:(NSString*)url_key;
 
+/*
+ *  (public) 获取设置 - 读取部分特殊ID号
+ */
+- (id)getAppSpecObjectID:(NSString*)spec_object_key;
+
 @end

@@ -536,6 +536,12 @@
  */
 + (NSTimeInterval)parseBitsharesTimeString:(NSString*)time
 {
+    //  如果以 .000Z 等形式结尾，则先去掉。
+    NSString* three_digit_z_end_regular = @".*.\\d\\d\\dZ$";
+    if ([[NSPredicate predicateWithFormat:@"SELF MATCHES %@", three_digit_z_end_regular] evaluateWithObject:time]){
+        time = [time substringToIndex:time.length - 5]; //  去掉 .000Z 等5个字符
+    }
+    
     NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
     //  REMARK：格式化字符串已经有Z结尾表示时区了，这里可以不用设置。
@@ -596,6 +602,18 @@
     
     NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy/MM/dd"];
+    return [dateFormat stringFromDate:[NSDate dateWithTimeIntervalSince1970:ts]];
+}
+
+/**
+ *  格式化：日期显示格式。REMARK：以当前时区格式化，BTS默认时间是UTC。北京时间当前时区会+8。
+ */
++ (NSString*)fmtMMddTimeShowString:(NSString*)time
+{
+    NSTimeInterval ts = [self parseBitsharesTimeString:time];
+    
+    NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"MM/dd"];
     return [dateFormat stringFromDate:[NSDate dateWithTimeIntervalSince1970:ts]];
 }
 

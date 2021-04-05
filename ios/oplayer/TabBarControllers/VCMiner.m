@@ -300,7 +300,6 @@ enum
             case kVcSubShareLink:
             {
                 [self GuardWalletExist:^{
-                    //  TODO:2.2 TODO:2.3 TODO:3.0 link & test & copytest
                     id value = [VcUtils genShareLink:YES];
                     [UIPasteboard generalPasteboard].string = [value copy];
                     [OrgUtils makeToast:NSLocalizedString(@"kShareLinkCopied", @"分享链接已复制。")];

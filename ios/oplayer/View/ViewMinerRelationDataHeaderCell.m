@@ -8,6 +8,8 @@
 
 #import "ViewMinerRelationDataHeaderCell.h"
 #import "NativeAppDelegate.h"
+#import "ChainObjectManager.h"
+#import "SettingManager.h"
 #import "ThemeManager.h"
 #import "OrgUtils.h"
 
@@ -104,8 +106,6 @@
 {
     [super layoutSubviews];
     
-//    ThemeManager* theme = [ThemeManager sharedThemeManager];
-    
     CGFloat xOffset = self.textLabel.frame.origin.x;
     CGFloat yOffset = 8.0f;
     CGFloat fWidth = self.bounds.size.width - xOffset * 2;
@@ -113,19 +113,69 @@
     
     CGFloat fLineHeight = 24.0f;
     
-    //  TODO:2.2 TOOD:2.3 TODO:3.0 lang & text
-    if (_item) {
-        _lbInviteAccountN.text = @"总共邀请 3 人";
-        
-        _lbTotal.text = @"有效邀请持有量 1001.33";
-        _lbMinerLastReward.text = @"MINER锁仓挖矿收益 103NCN";
-        _lbRefLastReward.text = @"MINER推荐挖矿收益 13NCN";
+    id str_miner_prefix = @"";
+    id str_share_prefix = @"";
+    id str_mining_asset_symbol = @"";
+    if (_is_miner) {
+        str_miner_prefix = NSLocalizedString(@"kMinerNBSMiningRewardTitle", @"MINER锁仓挖矿收益");
+        str_share_prefix = NSLocalizedString(@"kMinerNBSShareMiningRewardTitle", @"MINER推荐挖矿收益");
+        str_mining_asset_symbol = @"MINER";
     } else {
-        _lbInviteAccountN.text = @"总共邀请 -- 人";
-        
-        _lbTotal.text = @"有效邀请持有量 --";
-        _lbMinerLastReward.text = @"MINER锁仓挖矿收益 -- NCN";
-        _lbRefLastReward.text = @"MINER推荐挖矿收益 -- NCN";
+        str_miner_prefix = NSLocalizedString(@"kMinerCNYMiningRewardTitle", @"SCNY抵押挖矿收益");
+        str_share_prefix = NSLocalizedString(@"kMinerCNYShareMiningRewardTitle", @"SCNY推荐挖矿收益");
+        str_mining_asset_symbol = @"SCNY";
+    }
+    
+    ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
+    id reward_asset = [chainMgr getChainObjectByID:[[SettingManager sharedSettingManager] getAppSpecObjectID:@"mining_reward_asset"]];
+    assert(reward_asset);
+    
+    if (_item) {
+        _lbInviteAccountN.text = [NSString stringWithFormat:NSLocalizedString(@"kMinerTotalInviteAccountTitle", @"总共邀请 %@ 人"),
+                                  _item[@"total_account"]];
+        _lbTotal.text = [NSString stringWithFormat:NSLocalizedString(@"kMinerTotalInviteAmountTitle", @"有效邀请持有量 %@ %@"),
+                         _item[@"total_amount"], str_mining_asset_symbol];
+        id data_reward_hash = [_item objectForKey:@"data_reward_hash"] ?: @{};
+        //  抵押或锁仓挖矿
+        id reward_mining = [data_reward_hash objectForKey:@"mining"];
+        if (reward_mining) {
+            id opdata = [[[reward_mining objectForKey:@"history"] objectForKey:@"op"] lastObject];
+            assert([reward_asset[@"id"] isEqualToString:[[opdata objectForKey:@"amount"] objectForKey:@"asset_id"]]);
+            id n_reward_amount = [NSDecimalNumber decimalNumberWithMantissa:[[[opdata objectForKey:@"amount"] objectForKey:@"amount"] unsignedLongLongValue]
+                                                                   exponent:-[[reward_asset objectForKey:@"precision"] integerValue]
+                                                                 isNegative:NO];
+            
+            id date_str = [OrgUtils fmtMMddTimeShowString:[[reward_mining objectForKey:@"header"] objectForKey:@"timestamp"]];
+            
+            _lbMinerLastReward.text = [NSString stringWithFormat:@"%@(%@) %@ %@",
+                                       str_miner_prefix, date_str, n_reward_amount, reward_asset[@"symbol"]];
+        } else {
+            _lbMinerLastReward.text = [NSString stringWithFormat:@"%@ %@ %@",
+                                       str_miner_prefix, @(0), reward_asset[@"symbol"]];
+        }
+        //  推荐挖矿
+        id reward_shares = [data_reward_hash objectForKey:@"shares"];
+        if (reward_shares) {
+            id opdata = [[[reward_shares objectForKey:@"history"] objectForKey:@"op"] lastObject];
+            assert([reward_asset[@"id"] isEqualToString:[[opdata objectForKey:@"amount"] objectForKey:@"asset_id"]]);
+            id n_reward_amount = [NSDecimalNumber decimalNumberWithMantissa:[[[opdata objectForKey:@"amount"] objectForKey:@"amount"] unsignedLongLongValue]
+                                                                   exponent:-[[reward_asset objectForKey:@"precision"] integerValue]
+                                                                 isNegative:NO];
+            
+            id date_str = [OrgUtils fmtMMddTimeShowString:[[reward_shares objectForKey:@"header"] objectForKey:@"timestamp"]];
+            
+            _lbRefLastReward.text = [NSString stringWithFormat:@"%@(%@) %@ %@",
+                                     str_share_prefix, date_str, n_reward_amount, reward_asset[@"symbol"]];
+            
+        } else {
+            _lbRefLastReward.text = [NSString stringWithFormat:@"%@ %@ %@", str_share_prefix, @(0), reward_asset[@"symbol"]];
+        }
+    } else {
+        _lbInviteAccountN.text = [NSString stringWithFormat:NSLocalizedString(@"kMinerTotalInviteAccountTitle", @"总共邀请 %@ 人"), @"--"];
+        _lbTotal.text = [NSString stringWithFormat:NSLocalizedString(@"kMinerTotalInviteAmountTitle", @"有效邀请持有量 %@ %@"),
+                         @"--", str_mining_asset_symbol];
+        _lbMinerLastReward.text = [NSString stringWithFormat:@"%@ %@ %@", str_miner_prefix, @"--", reward_asset[@"symbol"]];
+        _lbRefLastReward.text = [NSString stringWithFormat:@"%@ %@ %@", str_share_prefix, @"--", reward_asset[@"symbol"]];
     }
     
     _lbInviteAccountN.frame = CGRectMake(xOffset, yOffset + fLineHeight * 0, fWidth, fLineHeight);

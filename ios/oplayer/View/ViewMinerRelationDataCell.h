@@ -12,5 +12,6 @@
 @interface ViewMinerRelationDataCell : UITableViewCellBase
 
 @property (nonatomic, strong) NSDictionary* item;
+@property (nonatomic, assign) BOOL is_miner;
 
 @end
