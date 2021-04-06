@@ -302,6 +302,10 @@ fun android.app.Activity.showGrapheneError(error: Any?) {
                     showToast(resources.getString(R.string.kGPErrorApiNodeVersionTooLow))
                     return
                 }
+                if (lowermsg.indexOf("killing limit order due to unable to fill") >= 0) {
+                    showToast(resources.getString(R.string.kGPErrorLimitOrderUnableToFill))
+                    return
+                }
                 //  Execution error: Assert Exception: _dynamic_data_obj->current_supply + o.delta_debt.amount <= _debt_asset->options.max_supply: Borrowing this quantity would exceed MAX_SUPPLY
                 if (lowermsg.indexOf("borrowing this quantity would exceed max_supply") >= 0) {
                     showToast(resources.getString(R.string.kGPErrorExceedMaxSupply))

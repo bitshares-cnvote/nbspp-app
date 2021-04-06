@@ -3,6 +3,7 @@
     <!-- 首页行情 -->
     <string name="kTabBarNameMarkets">Markets</string>
     <string name="kTabBarNameCollateral">Margin</string>
+    <string name="kTabBarNameMiner">Mining</string>
     <string name="kTabBarNameServices">Services</string>
     <string name="kTabBarNameMy">My</string>
     <string name="kLable24HVol">24HVol</string>
@@ -64,6 +65,29 @@
     <string name="kDebtTipTxUpdatePositionOK">Update position successfully, but the refresh failed. Please try again later.</string>
     <string name="kDebtWarmTips">[Tips]\n1. When the feed price drops to the call price, the system will automatically sell your collateral assets for debt repayment. Please pay attention to adjusting the ratio control risks. \n2. When the debt field is locked, the ratio will change with the collateral. \n3. When the ratio field is locked, the debt will change with the collateral.</string>
     <string name="kDebtWarmTipsForPM">[Tips] \nThe current asset is a predicted market asset. The amount of borrowing and collateral is constant at 1: 1.</string>
+    <!-- 中间挖矿界面各种入口 -->
+    <string name="kMinerSecTitleMiner">NBS mining</string>
+    <string name="kMinerSecTitleScny">nbCNY mining</string>
+    <string name="kMinerSecTitleShare">Share mining</string>
+    <string name="kMinerCellLabelMinerMining">Mining</string>
+    <string name="kMinerCellLabelScnyMining">Mining</string>
+    <string name="kMinerCellLabelMinerExit">Exit mining</string>
+    <string name="kMinerCellLabelScnyExit">Exit mining</string>
+    <string name="kMinerCellLabelDataMiner">MINER mining data</string>
+    <string name="kMinerCellLabelDataScny">SCNY mining data</string>
+    <string name="kMinerCellLabelShareLink">Share link</string>
+    <string name="kMinerCellClickTipsDontSupportedFeature">This feature is not open.</string>
+    <string name="kMinerCellClickTipsInvalidAuthToken">The current account login status is invalid, please log in again.</string>
+    <string name="kMinerSharesDataNoAnyShares">No data</string>
+    <string name="kMinerSharesDataShareItemsTitle">My share</string>
+    <string name="kMinerNBSMiningRewardTitle">MINER mining revenue</string>
+    <string name="kMinerNBSShareMiningRewardTitle">MINER shares revenue</string>
+    <string name="kMinerCNYMiningRewardTitle">SCNY mining revenue</string>
+    <string name="kMinerCNYShareMiningRewardTitle">SCNY shares revenue</string>
+    <string name="kMinerTotalInviteAccountTitle">Total shares %s accounts</string>
+    <string name="kMinerTotalInviteAmountTitle">Total shares %s %s</string>
+    <string name="kMinerApiErrServerOrNetwork">The mining data server or network is abnormal. Please try again later.</string>
+    <string name="kMinerApiErrNotSupportedMultiAccount">Multi-signature accounts do not support viewing mining data.</string>
     <!-- 服务界面 -->
     <string name="kServicesCellLabelQrScan">Scan QR code</string>
     <string name="kServicesCellLabelTransfer">Transfer</string>
@@ -308,6 +332,8 @@
     <string name="kRegTipsPlaceholderNewPassword">Please enter a new password</string>
     <string name="kRegTipsPlaceholderNewWalletPassword">Please enter a new wallet password</string>
     <string name="kRegCellLabelWalletPassword">Wallet password</string>
+    <string name="kRegCellLabelInviteAccount">Referrer</string>
+    <string name="kRegCellPlaceholderInviteAccount">Please enter the referrer's account</string>
     <string name="kLoginCellLabelRefCode">Referrer</string>
     <string name="kLoginTipsLoginOK">Login successful.</string>
     <string name="kLoginTipsRegFullOK">Register successful.</string>
@@ -436,6 +462,10 @@
     <string name="kVcAssetTotalValue">Estimated Total Value(%s)</string>
     <string name="kVcAssetBtnTransfer">Transfer</string>
     <string name="kVcAssetBtnTrade">Trade</string>
+    <string name="kVcAssetBtnMiner">Mining</string>
+    <string name="kVcAssetBtnFastSwap">Swap</string>
+    <string name="kVcAssetBtnGatewayDeposit">Deposit</string>
+    <string name="kVcAssetBtnGatewayWithdrawal">Withdraw</string>
     <string name="kVcAssetBtnSettle">Settle</string>
     <string name="kVcAssetBtnReserve">Reserve</string>
     <string name="kVcAssetBtnStakeVote">Stake</string>
@@ -583,6 +613,11 @@
     <string name="kVcAssetOpCreateAssetSubmitTipsOK">Asset creation succeeded.</string>
     <string name="kVcAssetOpUpdateAssetSubmitTipsOK">Update asset succeeded.</string>
     <string name="kVcAssetOpUpdateBitassetSubmitTipsOK">Update bitasset succeeded.</string>
+    <string name="kVcAssetOpMinerUiTips">[Reminder]\n1. Quickly swap %s assets in the order book. \n2. the swap ratio is 1:%s, if the market depth is insufficient, the swap will fail. \n3. There may be a slight error according to market conditions.</string>
+    <string name="kVcAssetOpMinerCellPlaceholderAmount">Please enter the swap amount</string>
+    <string name="kVcAssetOpMinerBtnName">Swap %s for %s</string>
+    <string name="kVcAssetOpMinerSubmitTipsPleaseInputValidAmount">Please enter a valid swap amount.</string>
+    <string name="kVcAssetOpMinerSubmitTipSwapOK">The swap was successful.</string>
     <string name="kVcAssetOpSettleTipsDisableSettle">The asset has been disabled settlements.</string>
     <string name="kVcAssetOpSettleTipsMustGlobalSettleFirst">This operations can only be performed after the global settlement of the prediction market.</string>
     <string name="kVcAssetOpSettleTipsNoFeedData">The asset has no valid feed price and cannot be settlements.</string>
@@ -1137,7 +1172,11 @@
     <string name="kVcTitleOtcMcApply">商家申请</string>
     <string name="kVcTitleSearchAssets">Search for assets</string>
     <string name="kVcTitleSearchBackAsset">Search for backing assets</string>
-    <string name="kVcTitleAssetOpSettle">Initiate settlement</string>
+    <string name="kVcTitleAssetOpSettle">Settlement</string>
+    <string name="kVcTitleAssetOpMinerIn">Mining</string>
+    <string name="kVcTitleAssetOpMinerOut">Exit mining</string>
+    <string name="kVcTitleAssetMiningDataMiner">MINER mining data</string>
+    <string name="kVcTitleAssetMiningDataScny">SCNY mining data</string>
     <string name="kVcTitleAssetOpReserve">Reserve assets</string>
     <string name="kVcTitleAssetOpStakeVoteCreateTicket">Create stake vote</string>
     <string name="kVcTitleAssetOpStakeVoteUpdateTicket">Update stake vote</string>
@@ -1699,7 +1738,7 @@
     <string name="kTxMissMemoPriKey">Missing memo private key.</string>
     <string name="kTxInvalidMemoPriKey">The memo private key is invalid.</string>
     <!-- 通用字符串 -->
-    <string name="kShareWelcomeMessage">Welcome to New BitShares, a decentralized financial platform.</string>
+    <string name="kShareWelcomeMessage">Register an NBS account now and enjoy the daily high mining revenue. (It is recommended to use the system browser to open)</string>
     <string name="kShareLinkCopied">Share link has been copied.</string>
     <string name="kLangKeyZhSimple">简体中文 / Simplified Chinese</string>
     <string name="kLangKeyEn">English</string>
@@ -1780,6 +1819,7 @@
     <string name="kGPErrorInsufficientBalance">Insufficient balance.</string>
     <string name="kGPErrorRedeemInvalidPreimage">The preimage is incorrect.</string>
     <string name="kGPErrorApiNodeVersionTooLow">The current API node version is too low.</string>
+    <string name="kGPErrorLimitOrderUnableToFill">Insufficient order book depth, swap failed.</string>
     <string name="kGPErrorExceedMaxSupply">Exceed the maximum supply of assets. transaction failed.</string>
     <string name="kGPErrorBlindReceiptIsNotExisted">The blind receipt does not exist.</string>
     <string name="kGPErrorBlindVerifySumFailed">The amount of blind input and output is not equal.</string>

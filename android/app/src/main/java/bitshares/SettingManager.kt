@@ -198,7 +198,7 @@ class SettingManager {
      *  (public) 获取设置 - 智能币配置列表
      */
     fun getAppMainSmartAssetList(): JSONArray {
-        val list = getOnChainAppSetting(kAppStorageKeyAppSetings_AssetSmartMainList) as? JSONArray
+        val list = getAppCommonSettings("asset_smart_mainlist") as? JSONArray
         if (list != null && list.length() > 0) {
             return list
         }
@@ -215,4 +215,102 @@ class SettingManager {
         }
         return JSONArray()
     }
+
+    /**
+     *  (public) 获取设置 - 已知网关资产发行账号列表
+     */
+    fun getAppKnownGatewayAccounts(): JSONArray {
+        val list = getAppCommonSettings("known_gateway_accounts") as? JSONArray
+        if (list != null && list.length() > 0) {
+            return list
+        }
+        return JSONArray()
+    }
+
+    /**
+     *  (public) 获取设置 - 已知交易所充值账号列表
+     */
+    fun getAppKnownCexDepositAccounts(): JSONArray {
+        val list = getOnChainAppSetting(kAppStorageKeyAppSetings_KnownCexDepositAccounts) as? JSONArray
+        if (list != null && list.length() > 0) {
+            return list
+        }
+        return JSONArray()
+    }
+
+    /**
+     *  (public) 获取设置 - 是否启用网格机器人模块
+     */
+    fun isAppEnableModuleGridBots(): Boolean {
+        val grid_bots_trader = getAppParameters("grid_bots_trader") as? String
+        if (grid_bots_trader == null || grid_bots_trader.isEmpty()) {
+            return false
+        }
+        return true
+    }
+
+    /**
+     *  (public) 获取设置 - 获取网格机器人授权账号
+     */
+    fun getAppGridBotsTraderAccount(): String {
+        assert(isAppEnableModuleGridBots())
+        return getAppParameters("grid_bots_trader") as String
+    }
+
+    /**
+     *  (public) 获取设置 - 挖矿资产列表（快速兑换列表）
+     */
+    fun getAppAssetMinerList(): JSONArray {
+        val list = getOnChainAppSetting(kAppStorageKeyAppSetings_AssetMinerList) as? JSONArray
+        if (list != null && list.length() > 0) {
+            return list
+        }
+        return JSONArray()
+    }
+
+    /**
+     *  (public) 获取设置 - 挖矿配置条目
+     */
+    fun getAppAssetMinerItem(asset_id: String?): JSONObject? {
+        for (miner_item in getAppAssetMinerList().forin<JSONObject>()) {
+            if (asset_id != null && asset_id == miner_item!!.getJSONObject("price").getJSONObject("amount_to_sell").getString("asset_id")) {
+                return miner_item
+            }
+        }
+        return null
+    }
+
+    /**
+     *  (public) 获取设置 - 读取通用配置
+     */
+    fun getAppCommonSettings(common_key: String): Any? {
+        val common_hash = getOnChainAppSetting(kAppStorageKeyAppSetings_CommonVer01) as? JSONObject
+        if (common_hash == null || common_hash.length() <= 0) {
+            return null
+        }
+        return common_hash.opt(common_key)
+    }
+
+    /**
+     *  (public) 获取设置 - 读取URL配置
+     */
+    fun getAppUrls(url_key: String): String? {
+        val urls = getAppCommonSettings("urls") as? JSONObject
+        if (urls == null || urls.length() <= 0) {
+            return null
+        }
+        return urls.optString(url_key, null)
+    }
+
+    /**
+     *  (public) 获取设置 - 读取动态参数
+     */
+    fun getAppParameters(parameter_key: String): Any? {
+        val parameters = getAppCommonSettings("parameters") as? JSONObject
+        if (parameters == null || parameters.length() <= 0) {
+            return null
+        }
+        return parameters.opt(parameter_key)
+    }
+
 }

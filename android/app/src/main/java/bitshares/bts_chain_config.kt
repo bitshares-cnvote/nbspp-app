@@ -46,11 +46,15 @@ enum class EBitsharesAssetOpKind(val value: Int) {
     //  资产持有者的操作
     ebaok_transfer(100),                //  转账（所有资产）
     ebaok_trade(101),                   //  交易（所有资产）
-    ebaok_reserve(102),                 //  资产销毁（仅UIA资产）
-    ebaok_settle(103),                  //  资产清算（仅Smart资产）
-    ebaok_call_order_update(104),       //  调整债仓（仅Smart资产）
-    ebaok_stake_vote(105),              //  锁仓投票（仅BTS）
-    ebaok_more(106),                    //  虚拟按钮：更多
+    ebaok_miner(102),                   //  参与挖矿（仅针对NBS和CNY）
+    ebaok_fast_swap(103),               //  退出挖矿（仅针对MINER和SCNY）
+    ebaok_gateway_deposit(104),         //  充币（仅针对任意网关资产）
+    ebaok_gateway_withdrawal(105),      //  提币（仅针对任意网关资产）
+    ebaok_reserve(106),                 //  资产销毁（仅UIA资产）
+    ebaok_settle(107),                  //  资产清算（仅Smart资产）
+    ebaok_call_order_update(108),       //  调整债仓（仅Smart资产）
+    ebaok_stake_vote(109),              //  锁仓投票（仅BTS）
+    ebaok_more(110),                    //  虚拟按钮：更多
 }
 
 /**
@@ -326,17 +330,26 @@ const val BTS_DYNAMIC_GLOBAL_PROPERTIES_ID: String = "2.1.0"
 //  类别：APP设置
 const val kAppStorageCatalogAppSetings           = "app.settings"
 
+//  类别：网格机器人的类别
+const val kAppStorageCatalogBotsGridBots         = "system.bots.grid_bots"
+
 //  KEY：APP设置 > 流动性池默认列表
 const val kAppStorageKeyAppSetings_LpMainList    = "liquidity.pool.mainlist"
-
-//  KEY：APP设置 > 智能资产列表
-const val kAppStorageKeyAppSetings_AssetSmartMainList = "asset.smart.mainlist"
 
 //  KEY：APP设置 > 已知网关列表
 const val kAppStorageKeyAppSetings_KnownGatewayList = "known.gateway.list"
 
+//  KEY：APP设置 > 已知交易所充值账号列表
+const val kAppStorageKeyAppSetings_KnownCexDepositAccounts = "known.cex.deposit.accounts"
+
 //  KEY：APP设置 > OTC配置
 const val kAppStorageKeyAppSetings_OtcConfigInfo = "otc.config.info"
+
+//  KEY：APP设置 > 挖矿资产列表（快速兑换列表）
+const val kAppStorageKeyAppSetings_AssetMinerList = "asset.miner.list"
+
+//  KEY：APP设置 > 通用配置
+const val kAppStorageKeyAppSetings_CommonVer01 = "common.settings.ver.1"
 
 /**
  *  各种交易操作枚举定义

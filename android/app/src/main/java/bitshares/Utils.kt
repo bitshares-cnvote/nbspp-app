@@ -439,6 +439,14 @@ class Utils {
          * 解析 BTS 网络时间字符串，返回 1970 到现在的秒数。格式：2018-06-04T13:03:57。
          */
         fun parseBitsharesTimeString(time: String): Long {
+
+            //  TODO:3.0
+//            //  如果以 .000Z 等形式结尾，则先去掉。
+//            NSString* three_digit_z_end_regular = @".*.\\d\\d\\dZ$";
+//            if ([[NSPredicate predicateWithFormat:@"SELF MATCHES %@", three_digit_z_end_regular] evaluateWithObject:time]){
+//                time = [time substringToIndex:time.length - 5]; //  去掉 .000Z 等5个字符
+//            }
+
             val f = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
             f.timeZone = java.util.TimeZone.getTimeZone("UTC")
             val d = f.parse(time)
@@ -492,6 +500,17 @@ class Utils {
             val ts = parseBitsharesTimeString(time)
             val d = Date(ts * 1000)
             val f = SimpleDateFormat("yyyy/MM/dd")
+            val s = f.format(d)
+            return s
+        }
+
+        /**
+         *  格式化：日期显示格式。REMARK：以当前时区格式化，BTS默认时间是UTC。北京时间当前时区会+8。
+         */
+        fun fmtMMddTimeShowString(time: String): String {
+            val ts = parseBitsharesTimeString(time)
+            val d = Date(ts * 1000)
+            val f = SimpleDateFormat("MM/dd")
             val s = f.format(d)
             return s
         }

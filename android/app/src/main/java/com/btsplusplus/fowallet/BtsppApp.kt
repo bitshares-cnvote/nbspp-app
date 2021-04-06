@@ -32,6 +32,7 @@ class BtsppApp : Application() {
             if (target_activity_class == null) {
                 if (last_class == ActivityIndexMarkets::class ||
                         last_class == ActivityIndexCollateral::class ||
+                        last_class == ActivityIndexMiner::class ||
                         last_class == ActivityIndexServices::class ||
                         last_class == ActivityIndexMy::class) {
                     //  已经达到最外层界面：终止

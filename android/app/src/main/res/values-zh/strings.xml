@@ -3,6 +3,7 @@
     <!-- 首页行情 -->
     <string name="kTabBarNameMarkets">行情</string>
     <string name="kTabBarNameCollateral">抵押</string>
+    <string name="kTabBarNameMiner">挖矿</string>
     <string name="kTabBarNameServices">服务</string>
     <string name="kTabBarNameMy">我的</string>
     <string name="kLable24HVol">24h量</string>
@@ -64,6 +65,29 @@
     <string name="kDebtTipTxUpdatePositionOK">债仓调整完毕，但刷新界面数据失败，请稍后再试。</string>
     <string name="kDebtWarmTips">【温馨提示】\n1、当喂价下降到强平触发价时，系统将会自动出售您的抵押资产用于归还借款。请注意调整抵押率控制风险。\n2、当锁定借款金额时，抵押率会随抵押物数量变化而变化。\n3、当锁定抵押率时，借款金额会随抵押物数量变化而变化。</string>
     <string name="kDebtWarmTipsForPM">【温馨提示】\n当前资产为预测市场资产。借款金额和抵押物数量恒定为 1:1。</string>
+    <!-- 中间挖矿界面各种入口 -->
+    <string name="kMinerSecTitleMiner">NBS锁仓挖矿</string>
+    <string name="kMinerSecTitleScny">nbCNY抵押挖矿</string>
+    <string name="kMinerSecTitleShare">推荐挖矿</string>
+    <string name="kMinerCellLabelMinerMining">一键挖矿</string>
+    <string name="kMinerCellLabelScnyMining">一键挖矿</string>
+    <string name="kMinerCellLabelMinerExit">一键退出</string>
+    <string name="kMinerCellLabelScnyExit">一键退出</string>
+    <string name="kMinerCellLabelDataMiner">MINER推荐挖矿数据</string>
+    <string name="kMinerCellLabelDataScny">SCNY推荐挖矿数据</string>
+    <string name="kMinerCellLabelShareLink">推荐好友</string>
+    <string name="kMinerCellClickTipsDontSupportedFeature">该功能未开启。</string>
+    <string name="kMinerCellClickTipsInvalidAuthToken">当前账号登录信息失效，请重新登录。</string>
+    <string name="kMinerSharesDataNoAnyShares">没有任何推荐数据</string>
+    <string name="kMinerSharesDataShareItemsTitle">推荐明细</string>
+    <string name="kMinerNBSMiningRewardTitle">MINER锁仓挖矿收益</string>
+    <string name="kMinerNBSShareMiningRewardTitle">MINER推荐挖矿收益</string>
+    <string name="kMinerCNYMiningRewardTitle">SCNY抵押挖矿收益</string>
+    <string name="kMinerCNYShareMiningRewardTitle">SCNY推荐挖矿收益</string>
+    <string name="kMinerTotalInviteAccountTitle">总共邀请 %s 人</string>
+    <string name="kMinerTotalInviteAmountTitle">有效邀请持有量 %s %s</string>
+    <string name="kMinerApiErrServerOrNetwork">推荐数据服务器或网络异常，请稍后再试。</string>
+    <string name="kMinerApiErrNotSupportedMultiAccount">多签账号不支持查看推荐数据。</string>
     <!-- 服务界面 -->
     <string name="kServicesCellLabelQrScan">扫一扫</string>
     <string name="kServicesCellLabelTransfer">转账</string>
@@ -308,6 +332,8 @@
     <string name="kRegTipsPlaceholderNewPassword">请输入新的密码</string>
     <string name="kRegTipsPlaceholderNewWalletPassword">请输入新的钱包密码</string>
     <string name="kRegCellLabelWalletPassword">钱包密码</string>
+    <string name="kRegCellLabelInviteAccount">邀请人</string>
+    <string name="kRegCellPlaceholderInviteAccount">请输入邀请人账号</string>
     <string name="kLoginCellLabelRefCode">推荐码</string>
     <string name="kLoginTipsLoginOK">登录成功。</string>
     <string name="kLoginTipsRegFullOK">注册成功。</string>
@@ -436,6 +462,10 @@
     <string name="kVcAssetTotalValue">总资产折合(%s)</string>
     <string name="kVcAssetBtnTransfer">转账</string>
     <string name="kVcAssetBtnTrade">交易</string>
+    <string name="kVcAssetBtnMiner">挖矿</string>
+    <string name="kVcAssetBtnFastSwap">闪兑</string>
+    <string name="kVcAssetBtnGatewayDeposit">充币</string>
+    <string name="kVcAssetBtnGatewayWithdrawal">提币</string>
     <string name="kVcAssetBtnSettle">清算</string>
     <string name="kVcAssetBtnReserve">销毁</string>
     <string name="kVcAssetBtnStakeVote">锁仓</string>
@@ -583,6 +613,11 @@
     <string name="kVcAssetOpCreateAssetSubmitTipsOK">创建资产成功。</string>
     <string name="kVcAssetOpUpdateAssetSubmitTipsOK">更新资产成功。</string>
     <string name="kVcAssetOpUpdateBitassetSubmitTipsOK">更新智能币成功。</string>
+    <string name="kVcAssetOpMinerUiTips">【温馨提示】\n1、在订单簿中快速兑换 %s 资产。\n2、兑换比例为 1:%s，如果市场深度不足则会兑换失败。\n3、根据市场情况可能存在少许误差。</string>
+    <string name="kVcAssetOpMinerCellPlaceholderAmount">请输入兑换数量</string>
+    <string name="kVcAssetOpMinerBtnName">%s 兑换 %s</string>
+    <string name="kVcAssetOpMinerSubmitTipsPleaseInputValidAmount">请输入有效的兑换数量。</string>
+    <string name="kVcAssetOpMinerSubmitTipSwapOK">兑换成功。</string>
     <string name="kVcAssetOpSettleTipsDisableSettle">该资产禁止清算。</string>
     <string name="kVcAssetOpSettleTipsMustGlobalSettleFirst">预测市场全局清算完成之后才可以进行清算操作。</string>
     <string name="kVcAssetOpSettleTipsNoFeedData">该资产没有有效的喂价，不可清算。</string>
@@ -1138,6 +1173,10 @@
     <string name="kVcTitleSearchAssets">搜索资产</string>
     <string name="kVcTitleSearchBackAsset">搜索抵押物</string>
     <string name="kVcTitleAssetOpSettle">发起清算</string>
+    <string name="kVcTitleAssetOpMinerIn">挖矿</string>
+    <string name="kVcTitleAssetOpMinerOut">退出挖矿</string>
+    <string name="kVcTitleAssetMiningDataMiner">MINER推荐挖矿数据</string>
+    <string name="kVcTitleAssetMiningDataScny">SCNY推荐挖矿数据</string>
     <string name="kVcTitleAssetOpReserve">销毁资产</string>
     <string name="kVcTitleAssetOpStakeVoteCreateTicket">创建锁仓</string>
     <string name="kVcTitleAssetOpStakeVoteUpdateTicket">更新锁仓</string>
@@ -1699,7 +1738,7 @@
     <string name="kTxMissMemoPriKey">缺少备注私钥。</string>
     <string name="kTxInvalidMemoPriKey">备注私钥无效。</string>
     <!-- 通用字符串 -->
-    <string name="kShareWelcomeMessage">欢迎来到新比特股去中心化交易平台。</string>
+    <string name="kShareWelcomeMessage">立即注册 NBS 账号，享受每日高额挖矿收益。（推荐使用系统浏览器打开）</string>
     <string name="kShareLinkCopied">分享链接已复制。</string>
     <string name="kLangKeyZhSimple">简体中文</string>
     <string name="kLangKeyEn">English / 英文</string>
@@ -1780,6 +1819,7 @@
     <string name="kGPErrorInsufficientBalance">手续费不足。</string>
     <string name="kGPErrorRedeemInvalidPreimage">原像不正确。</string>
     <string name="kGPErrorApiNodeVersionTooLow">当前API节点版本太低。</string>
+    <string name="kGPErrorLimitOrderUnableToFill">订单簿深度不足，兑换失败。</string>
     <string name="kGPErrorExceedMaxSupply">超过资产最大供应量，交易失败。</string>
     <string name="kGPErrorBlindReceiptIsNotExisted">隐私收据不存在。</string>
     <string name="kGPErrorBlindVerifySumFailed">隐私输入和输出金额不相等。</string>

@@ -119,8 +119,11 @@ class VcUtils {
          *  (public) 生成邀请链接
          */
         fun genShareLink(ctx: Activity, containWelcomeMessage: Boolean): String {
+            val invite_link = SettingManager.sharedSettingManager().getAppUrls("invite_link")!!
+            assert(invite_link.isNotEmpty())
+
             val walletMgr = WalletManager.sharedWalletManager()
-            var value = String.format("https://faucet.btspp.io/?lang=%s", ctx.resources.getString(R.string.kShareLinkPageDefaultLang))
+            var value = String.format("%s?lang=%s", invite_link, ctx.resources.getString(R.string.kShareLinkPageDefaultLang))
             if (walletMgr.isWalletExist()) {
                 value = String.format("%s&r=%s", value, walletMgr.getWalletAccountName()!!)
             }
