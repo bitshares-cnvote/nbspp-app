@@ -7,7 +7,6 @@
     android:background="@color/theme01.appBackColor"
     tools:context="com.btsplusplus.fowallet.ActivityAssetOpMiner">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -41,12 +40,12 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/title"
+                android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:layout_gravity="center_vertical"
-                android:text="挖矿"
+                android:text=""
                 style="@style/kNavigationBarTextStyle" />
 
         </FrameLayout>
@@ -59,7 +58,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <!-- 数量 -->
             <LinearLayout
                 android:orientation="horizontal"
@@ -69,7 +67,7 @@
 
                 <TextView
                     android:textSize="13dp"
-                    android:text="数量"
+                    android:text="@string/kOtcMcAssetTransferCellLabelAmount"
                     android:textColor="@color/theme01.textColorMain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -100,7 +98,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     style="@style/kTextFieldDecimalPad"
-                    android:hint="输入兑换数量"/>
+                    android:hint="@string/kVcAssetOpMinerCellPlaceholderAmount"/>
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -157,15 +155,13 @@
 
             <!-- 提示信息 -->
             <TextView
-                android:id="@+id/tv_tips_from_otc_user_auth"
+                android:id="@+id/tv_ui_tips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/kUiTipsStyle"
-                android:text="【温馨提示】\n1、在订单簿中快速兑换 MINER 资产。\n2、兑换比例为1:1，如果市场深度不足则会兑换失败。\n3、根据市场情况可能存在少许误差。" />
-
+                android:text="" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
