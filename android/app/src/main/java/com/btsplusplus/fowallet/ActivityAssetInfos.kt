@@ -138,7 +138,7 @@ class ActivityAssetInfos : BtsppActivity() {
         //  REMARK：构造清算单界面所需 *TradingPair* 参数。
         //  注：这里构造的并非完整的 TradingPair 对象，清算单界面目前只需要 baseAsset 和 smartAssetId 两个数据，这里只确保这两个参数正确。
         val tradingPair = TradingPair().initWithBaseAsset(curr_asset, curr_asset)
-        tradingPair._smartAssetId =  curr_asset.getString("id")
+        tradingPair._smartAssetId = curr_asset.getString("id")
         tradingPair._sbaAssetId = curr_asset.getString("id")
         tradingPair._isCoreMarket = true
         return tradingPair

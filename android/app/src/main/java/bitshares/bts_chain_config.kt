@@ -299,11 +299,11 @@ const val GRAPHENE_MAX_SHARE_SUPPLY = 1000000000000000L
 const val GRAPHENE_100_PERCENT = 10000
 const val GRAPHENE_1_PERCENT = (GRAPHENE_100_PERCENT / 100)
 
-const val GRAPHENE_COLLATERAL_RATIO_DENOM                 = 1000
-const val GRAPHENE_MIN_COLLATERAL_RATIO                   = 1001  ///< lower than this could result in divide by 0
-const val GRAPHENE_MAX_COLLATERAL_RATIO                   = 32000 ///< higher than this is unnecessary and may exceed int16 storage
-const val GRAPHENE_DEFAULT_MAINTENANCE_COLLATERAL_RATIO   = 1750  ///< Call when collateral only pays off 175% the debt
-const val GRAPHENE_DEFAULT_MAX_SHORT_SQUEEZE_RATIO        = 1500  ///< Stop calling when collateral only pays off 150% of the debt
+const val GRAPHENE_COLLATERAL_RATIO_DENOM = 1000
+const val GRAPHENE_MIN_COLLATERAL_RATIO = 1001  ///< lower than this could result in divide by 0
+const val GRAPHENE_MAX_COLLATERAL_RATIO = 32000 ///< higher than this is unnecessary and may exceed int16 storage
+const val GRAPHENE_DEFAULT_MAINTENANCE_COLLATERAL_RATIO = 1750  ///< Call when collateral only pays off 175% the debt
+const val GRAPHENE_DEFAULT_MAX_SHORT_SQUEEZE_RATIO = 1500  ///< Stop calling when collateral only pays off 150% of the debt
 
 //  BTS网络动态全局信息对象ID号
 //  格式：
@@ -328,13 +328,13 @@ const val BTS_DYNAMIC_GLOBAL_PROPERTIES_ID: String = "2.1.0"
  */
 
 //  类别：APP设置
-const val kAppStorageCatalogAppSetings           = "app.settings"
+const val kAppStorageCatalogAppSetings = "app.settings"
 
 //  类别：网格机器人的类别
-const val kAppStorageCatalogBotsGridBots         = "system.bots.grid_bots"
+const val kAppStorageCatalogBotsGridBots = "system.bots.grid_bots"
 
 //  KEY：APP设置 > 流动性池默认列表
-const val kAppStorageKeyAppSetings_LpMainList    = "liquidity.pool.mainlist"
+const val kAppStorageKeyAppSetings_LpMainList = "liquidity.pool.mainlist"
 
 //  KEY：APP设置 > 已知网关列表
 const val kAppStorageKeyAppSetings_KnownGatewayList = "known.gateway.list"

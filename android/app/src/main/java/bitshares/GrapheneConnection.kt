@@ -106,7 +106,7 @@ class GrapheneConnection {
     }
 
     fun async_exec_custom_operations(method: String, params: JSONArray = JSONArray()): Promise {
-        return async_exec("custom_operations", method,  params)
+        return async_exec("custom_operations", method, params)
     }
 
 }

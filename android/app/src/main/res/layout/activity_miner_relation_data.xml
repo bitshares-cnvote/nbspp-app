@@ -41,12 +41,12 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/title"
+                android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:layout_gravity="center_vertical"
-                android:text="MINER推荐挖矿数据"
+                android:text=""
                 style="@style/kNavigationBarTextStyle" />
 
         </FrameLayout>
@@ -70,9 +70,9 @@
                 <TextView
                     android:id="@+id/tv_invite_number"
                     android:layout_marginLeft="10dp"
-                    android:textSize="20dp"
-                    android:textColor="@color/theme01.textColorMain"
-                    android:text="总共邀请--人"
+                    android:textSize="16dp"
+                    android:textColor="@color/theme01.textColorFlag"
+                    android:text=""
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -82,29 +82,29 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <TextView
-                            android:id="@+id/valid_invation_volume"
-                            android:textSize="14dp"
-                            android:textColor="@color/theme01.textColorMain"
+                            android:id="@+id/tv_invite_volume"
+                            android:textSize="13dp"
+                            android:textColor="@color/theme01.textColorFlag"
                             android:layout_marginTop="5dp"
-                            android:text="有效邀请持有量--"
+                            android:text=""
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
                         <TextView
-                            android:id="@+id/miner_lock_profits"
-                            android:textSize="14dp"
-                            android:textColor="@color/theme01.textColorMain"
+                            android:id="@+id/tv_mining_reward_amount"
+                            android:textSize="13dp"
+                            android:textColor="@color/theme01.textColorFlag"
                             android:layout_marginTop="5dp"
-                            android:text="MINER锁仓挖矿收益--MCN"
+                            android:text=""
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
                         <TextView
-                            android:id="@+id/miner_recommend_profits"
-                            android:textSize="14dp"
-                            android:textColor="@color/theme01.textColorMain"
+                            android:id="@+id/tv_shares_reward_amount"
+                            android:textSize="13dp"
+                            android:textColor="@color/theme01.textColorFlag"
                             android:layout_marginTop="5dp"
-                            android:text="MINER推荐挖矿收益--MCN"
+                            android:text=""
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
@@ -112,10 +112,9 @@
 
             <TextView
                 android:layout_marginTop="15dp"
-                android:textStyle="bold"
                 android:textSize="16dp"
                 android:textColor="@color/theme01.textColorHighlight"
-                android:text="推荐明细"
+                android:text="@string/kMinerSharesDataShareItemsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

@@ -76,7 +76,7 @@ class ActivityIndexMiner : BtsppActivity() {
         //  推荐挖矿 - SCNY推荐挖矿数据
         layout_scny_recommend_data_from_miner.setOnClickListener {
             //  SCNY TODO:立即值
-            guardWalletExist { gotoViewMiningData("1.3.24", resources.getString(R.string.kVcTitleAssetMiningDataMiner)) }
+            guardWalletExist { gotoViewMiningData("1.3.24", resources.getString(R.string.kVcTitleAssetMiningDataScny)) }
         }
         //  推荐挖矿 - 邀请好友
         layout_recommend_friends_from_miner.setOnClickListener {

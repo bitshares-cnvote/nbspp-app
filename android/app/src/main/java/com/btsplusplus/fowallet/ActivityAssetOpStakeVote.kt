@@ -16,11 +16,11 @@ import org.json.JSONObject
 import java.math.BigDecimal
 
 //  #ticket.hpp
-const val liquid            = 0
-const val lock_180_days     = 1
-const val lock_360_days     = 2
-const val lock_720_days     = 3
-const val lock_forever      = 4
+const val liquid = 0
+const val lock_180_days = 1
+const val lock_360_days = 2
+const val lock_720_days = 3
+const val lock_forever = 4
 const val TICKET_TYPE_COUNT = 5
 
 class ActivityAssetOpStakeVote : BtsppActivity() {

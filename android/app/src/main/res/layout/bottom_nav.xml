@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="28dp"
-                    android:text="挖矿"
+                    android:text="@string/kTabBarNameMiner"
                     android:textColor="@color/theme01.textColorGray"
                     android:textSize="10dp" />
 

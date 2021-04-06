@@ -3,7 +3,6 @@ package bitshares
 import android.app.Activity
 import android.content.Context
 import com.btsplusplus.fowallet.*
-import com.fowallet.walletcore.bts.ChainObjectManager
 import com.fowallet.walletcore.bts.WalletManager
 import org.json.JSONArray
 import org.json.JSONObject
@@ -1651,7 +1650,7 @@ class OtcManager {
                     return@then null
                 }
             }
-            
+
             if (merchant_detail != null) {
                 // `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态:0=默认,0=未激活,1=已激活,2=取消激活,3=冻结',
                 //  TODO:2.9 args progressInfo:nil
