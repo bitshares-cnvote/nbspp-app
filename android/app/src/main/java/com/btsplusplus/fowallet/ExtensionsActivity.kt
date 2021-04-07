@@ -110,20 +110,6 @@ fun AppCompatActivity.setBottomNavigationStyle(position: Int) {
     }
 }
 
-fun AppCompatActivity.clearBottomAllColor() {
-    val default_color: Int = resources.getColor(R.color.theme01_textColorGray)
-    //  文字
-    bottom_nav_text_view_markets.setTextColor(default_color)
-    bottom_nav_text_view_diya.setTextColor(default_color)
-    bottom_nav_text_view_services.setTextColor(default_color)
-    bottom_nav_text_view_my.setTextColor(default_color)
-    //  图片
-    bottom_nav_image_view_markets.setColorFilter(default_color)
-    bottom_nav_image_view_diya.setColorFilter(default_color)
-    bottom_nav_image_view_services.setColorFilter(default_color)
-    bottom_nav_image_view_my.setColorFilter(default_color)
-}
-
 fun android.app.Activity.alerShowMessageConfirm(title: String?, message: String): Promise {
     return UtilsAlert.showMessageConfirm(this, title, message)
 }

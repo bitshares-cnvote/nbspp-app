@@ -31,6 +31,7 @@
                     android:layout_height="28dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="0dp"
+                    android:tint="@color/theme01.textColorGray"
                     app:srcCompat="@drawable/ic_bottom_markets" />
 
                 <TextView
@@ -56,6 +57,7 @@
                     android:layout_height="28dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="0dp"
+                    android:tint="@color/theme01.textColorGray"
                     app:srcCompat="@drawable/ic_bottom_diya" />
 
                 <TextView
@@ -82,7 +84,8 @@
                     android:layout_height="28dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="0dp"
-                    app:srcCompat="@drawable/ic_bottom_diya" />
+                    android:tint="@color/theme01.textColorGray"
+                    app:srcCompat="@drawable/ic_bottom_mining" />
 
                 <TextView
                     android:id="@+id/bottom_nav_text_view_miner"
@@ -109,6 +112,7 @@
                     android:layout_height="28dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="0dp"
+                    android:tint="@color/theme01.textColorGray"
                     app:srcCompat="@drawable/ic_bottom_service" />
 
                 <TextView
@@ -134,6 +138,7 @@
                     android:layout_height="28dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="0dp"
+                    android:tint="@color/theme01.textColorGray"
                     app:srcCompat="@drawable/ic_bottom_my" />
 
                 <TextView
