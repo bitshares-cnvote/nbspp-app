@@ -11,6 +11,74 @@ class ModelUtils {
 
     companion object {
 
+        /**
+         *  (public) 资产 - 是否是挖矿相关的资产
+         */
+        fun assetIsMinerAsset(asset_object_or_asset_id: Any): Boolean {
+            val oid = if (asset_object_or_asset_id is JSONObject) {
+                asset_object_or_asset_id.optString("id", null)
+            } else {
+                asset_object_or_asset_id as? String
+            }
+            for (miner_item in SettingManager.sharedSettingManager().getAppAssetMinerList().forin<JSONObject>()) {
+                if (oid != null && oid == miner_item!!.getJSONObject("price").getJSONObject("amount_to_sell").getString("asset_id")) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        /**
+         *  (public) 资产 - 是否是参与挖矿的资产
+         */
+        fun assetIsMinerInAsset(asset_object_or_asset_id: Any): Boolean {
+            val oid = if (asset_object_or_asset_id is JSONObject) {
+                asset_object_or_asset_id.optString("id", null)
+            } else {
+                asset_object_or_asset_id as? String
+            }
+            for (miner_item in SettingManager.sharedSettingManager().getAppAssetMinerList().forin<JSONObject>()) {
+                if (oid != null && miner_item!!.isTrue("miner") && oid == miner_item.getJSONObject("price").getJSONObject("amount_to_sell").getString("asset_id")) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        /**
+         *  (public) 资产 - 是否是退出挖矿的资产
+         */
+        fun assetIsMinerOutAsset(asset_object_or_asset_id: Any): Boolean {
+            val oid = if (asset_object_or_asset_id is JSONObject) {
+                asset_object_or_asset_id.optString("id", null)
+            } else {
+                asset_object_or_asset_id as? String
+            }
+            for (miner_item in SettingManager.sharedSettingManager().getAppAssetMinerList().forin<JSONObject>()) {
+                if (oid != null && !miner_item!!.isTrue("miner") && oid == miner_item.getJSONObject("price").getJSONObject("amount_to_sell").getString("asset_id")) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        /**
+         *  (public) 资产 - 资产是否是网关资产判断
+         */
+        fun assetIsGatewayAsset(asset_object: JSONObject): Boolean {
+            val issuer = asset_object.optString("issuer")
+            if (issuer.isNotEmpty()) {
+                val knownGatewayAccountsList = SettingManager.sharedSettingManager().getAppKnownGatewayAccounts()
+                if (knownGatewayAccountsList.length() > 0) {
+                    for (gateway_account in knownGatewayAccountsList.forin<String>()) {
+                        if (gateway_account!! == issuer) {
+                            return true
+                        }
+                    }
+                }
+            }
+            return false
+        }
 
         /**
          *  (public) 资产 - 判断资产是否允许强清

@@ -419,15 +419,32 @@ class FragmentAssets : BtsppFragment() {
 
             //  TODO:4.0 后续可扩展【更多】按钮
             val actions = jsonArrayfrom(EBitsharesAssetOpKind.ebaok_transfer, EBitsharesAssetOpKind.ebaok_trade)
-            if (isSmart || isPredictionMarket) {
-                actions.put(EBitsharesAssetOpKind.ebaok_settle)
+
+            //  网关资产判断，如果是网关资产，则添加 充币和提币，去掉其他 action。
+            val asset_id = data.getString("id")
+            val curr_asset = ChainObjectManager.sharedChainObjectManager().getChainObjectByID(asset_id)
+            if (ModelUtils.assetIsGatewayAsset(curr_asset)) {
+                //  【充币】和【提币】
+                actions.put(EBitsharesAssetOpKind.ebaok_gateway_deposit)
+                actions.put(EBitsharesAssetOpKind.ebaok_gateway_withdrawal)
             } else {
-                actions.put(EBitsharesAssetOpKind.ebaok_reserve)
-            }
-            //  todo nbs: remote state
+                //  【挖矿】和【闪兑】
+                if (ModelUtils.assetIsMinerInAsset(asset_id)) {
+                    actions.put(EBitsharesAssetOpKind.ebaok_miner)
+                } else if (ModelUtils.assetIsMinerOutAsset(asset_id)) {
+                    actions.put(EBitsharesAssetOpKind.ebaok_fast_swap)
+                }
+
+                if (isSmart || isPredictionMarket) {
+                    actions.put(EBitsharesAssetOpKind.ebaok_settle)
+                } else {
+                    actions.put(EBitsharesAssetOpKind.ebaok_reserve)
+                }
+                //  todo nbs: remote state
 //            if (isCore) {
 //                actions.put(EBitsharesAssetOpKind.ebaok_stake_vote)
 //            }
+            }
 
             ly3 = LinearLayout(ctx)
             ly3.orientation = LinearLayout.HORIZONTAL
@@ -446,6 +463,10 @@ class FragmentAssets : BtsppFragment() {
                 when (action!!) {
                     EBitsharesAssetOpKind.ebaok_transfer -> tv7.text = R.string.kVcActivityTypeTransfer.xmlstring(ctx)
                     EBitsharesAssetOpKind.ebaok_trade -> tv7.text = R.string.kVcAssetBtnTrade.xmlstring(ctx)
+                    EBitsharesAssetOpKind.ebaok_miner -> tv7.text = resources.getString(R.string.kVcAssetBtnMiner)
+                    EBitsharesAssetOpKind.ebaok_fast_swap -> tv7.text = resources.getString(R.string.kVcAssetBtnFastSwap)
+                    EBitsharesAssetOpKind.ebaok_gateway_deposit -> tv7.text = resources.getString(R.string.kVcAssetBtnGatewayDeposit)
+                    EBitsharesAssetOpKind.ebaok_gateway_withdrawal -> tv7.text = resources.getString(R.string.kVcAssetBtnGatewayWithdrawal)
                     EBitsharesAssetOpKind.ebaok_settle -> tv7.text = R.string.kVcAssetBtnSettle.xmlstring(ctx)
                     EBitsharesAssetOpKind.ebaok_reserve -> tv7.text = R.string.kVcAssetBtnReserve.xmlstring(ctx)
                     EBitsharesAssetOpKind.ebaok_stake_vote -> tv7.text = R.string.kVcAssetBtnStakeVote.xmlstring(ctx)
@@ -485,6 +506,10 @@ class FragmentAssets : BtsppFragment() {
         when (tag) {
             EBitsharesAssetOpKind.ebaok_transfer -> _onTransferClicked(tag, clicked_asset_id)
             EBitsharesAssetOpKind.ebaok_trade -> _onTradeClicked(tag, clicked_asset_id)
+            EBitsharesAssetOpKind.ebaok_miner, EBitsharesAssetOpKind.ebaok_fast_swap -> _onAssetMinerClicked(tag, clicked_asset_id)
+            EBitsharesAssetOpKind.ebaok_gateway_deposit, EBitsharesAssetOpKind.ebaok_gateway_withdrawal -> {
+                activity!!.goTo(ActivityDepositAndWithdraw::class.java, true)
+            }
             EBitsharesAssetOpKind.ebaok_settle -> _onAssetSettleClicked(tag, clicked_asset_id)
             EBitsharesAssetOpKind.ebaok_reserve -> {
                 val value = resources.getString(R.string.kVcAssetOpReserveEntrySafeTips)
@@ -496,6 +521,35 @@ class FragmentAssets : BtsppFragment() {
             }
             EBitsharesAssetOpKind.ebaok_stake_vote -> _onAssetStakeVoteClicked(tag, clicked_asset_id)
             else -> assert(false)
+        }
+    }
+
+    /**
+     *  操作 - 资产参与挖矿/退出挖矿
+     */
+    private fun _onAssetMinerClicked(tag: EBitsharesAssetOpKind, clicked_asset_id: String) {
+        val chainMgr = ChainObjectManager.sharedChainObjectManager()
+        val clicked_asset = chainMgr.getChainObjectByID(clicked_asset_id)
+        val oid = clicked_asset.getString("id")
+
+        val miner_item = SettingManager.sharedSettingManager().getAppAssetMinerItem(oid)!!
+
+        val min_to_receive_asset_id = miner_item.getJSONObject("price").getJSONObject("min_to_receive").getString("asset_id")
+
+        val p1 = chainMgr.queryFullAccountInfo(_full_account_data.getJSONObject("account").getString("id"))
+        val p2 = chainMgr.queryAllGrapheneObjects(jsonArrayfrom(min_to_receive_asset_id))
+
+        val self = this
+        activity!!.let { ctx ->
+            VcUtils.simpleRequest(ctx, Promise.all(p1, p2)) {
+                val data_array = it as JSONArray
+                val full_account = data_array.getJSONObject(0)
+                ctx.goTo(ActivityAssetOpMiner::class.java, true, args = JSONObject().apply {
+                    put("miner_item", miner_item)
+                    put("full_account", full_account)
+                    put("title", if (miner_item.isTrue("miner")) self.resources.getString(R.string.kVcTitleAssetOpMinerIn) else self.resources.getString(R.string.kVcTitleAssetOpMinerOut))
+                })
+            }
         }
     }
 
