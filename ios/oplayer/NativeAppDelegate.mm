@@ -419,11 +419,10 @@ nav.navigationBar.titleTextAttributes = textAttributes;
     [tabControllers addObject:vcDebt];
 #endif  //  kAppModuleEnableTabDebt
 
-    //  TODO:2.2 TODO:2.3 TODO:3.0 lang
     VCMiner* vcMiner = [[VCMiner alloc] init];
     vcMiner.title = NSLocalizedString(@"kTabBarNameMiner", @"挖矿");
     tabarItem = [[GRCustomUITabBarItem alloc]initWithTitle:NSLocalizedString(@"kTabBarNameMiner", @"挖矿") tag:0];
-    tabarItem.imageString = @"tabService";//TODO:2.2 TODO:2.3 TODO:3.0 icon
+    tabarItem.imageString = @"tabMining";
     vcMiner.tabBarItem = tabarItem;
     [tabControllers addObject:vcMiner];
     
