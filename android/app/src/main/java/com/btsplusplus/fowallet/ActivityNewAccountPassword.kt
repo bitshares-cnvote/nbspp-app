@@ -24,7 +24,7 @@ class ActivityNewAccountPassword : BtsppActivity() {
 
     private var _currPasswordLang = EBitsharesAccountPasswordLang.ebap_lang_zh
     private var _currPasswordWords = mutableListOf<String>()
-    private var _new_account_name: String? = null
+    private var _args: JSONObject? = null
     private var _scene = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +39,7 @@ class ActivityNewAccountPassword : BtsppActivity() {
         //  获取参数
         val args = btspp_args_as_JSONObject()
         _scene = args.getInt("scene")
-        _new_account_name = args.optString("args", null)
+        _args = args.optJSONObject("args")
         findViewById<TextView>(R.id.title).text = args.getString("title")
 
         //  初始化数据
@@ -190,7 +190,7 @@ class ActivityNewAccountPassword : BtsppActivity() {
                     goTo(ActivityNewAccountPasswordConfirm::class.java, true, args = JSONObject().apply {
                         put("current_password", _currPasswordWords.joinToString(""))
                         put("pass_lang", _currPasswordLang)
-                        put("args", _new_account_name)
+                        put("args", _args)
                         put("scene", _scene)
                     })
                 }

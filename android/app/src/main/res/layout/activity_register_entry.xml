@@ -94,6 +94,34 @@
                 android:layout_height="wrap_content">
             </LinearLayout>
 
+            <!-- TF - 邀请人 -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/kRegCellLabelInviteAccount"
+                    android:textSize="16dp"
+                    android:textColor="@color/theme01.textColorMain"/>
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/tf_invite_account"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                style="@style/kTextFieldNormal"
+                android:hint="@string/kRegCellPlaceholderInviteAccount"/>
+
+            <View android:layout_marginTop="10dp" android:layout_height="1dp" android:background="@color/theme01.bottomLineColor" android:layout_width="fill_parent"></View>
+
         </LinearLayout>
 
         <!-- 下一步 -->

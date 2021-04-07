@@ -21,7 +21,7 @@ class ActivityNewAccountPasswordConfirm : BtsppActivity() {
 
     private var _curr_password = ""
     private var _curr_pass_lang = EBitsharesAccountPasswordLang.ebap_lang_zh
-    private var _new_account_name: String? = null   //  新账号名，注册时传递，修改密码则为nil。
+    private var _args: JSONObject? = null   //  新账号名，注册时传递，修改密码则为nil。
     private var _scene = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +37,7 @@ class ActivityNewAccountPasswordConfirm : BtsppActivity() {
         val args = btspp_args_as_JSONObject()
         _curr_password = args.getString("current_password")
         _curr_pass_lang = args.get("pass_lang") as EBitsharesAccountPasswordLang
-        _new_account_name = args.optString("args", null)
+        _args = args.optJSONObject("args")
         _scene = args.getInt("scene")
 
         //  初始化UI
@@ -48,7 +48,7 @@ class ActivityNewAccountPasswordConfirm : BtsppActivity() {
                 layout_modify_range.visibility = View.GONE
                 //  UI - 新账号名
                 tv_your_account_name_title.text = resources.getString(R.string.kEditPasswordCellTItleYourNewAccountName)
-                tv_curr_account_name_value.setText(_new_account_name!!)
+                tv_curr_account_name_value.setText(_args!!.getString("new_account_name"))
                 tv_curr_account_name_value.isEnabled = false
                 //  UI - 提交按钮名字
                 btn_submit.text = resources.getString(R.string.kLoginCellBtnAgreeAndReg)
@@ -119,23 +119,26 @@ class ActivityNewAccountPasswordConfirm : BtsppActivity() {
     private fun onRegisterAccountCore() {
         val mask = ViewMask(resources.getString(R.string.kTipsBeRequesting), this).apply { show() }
 
+        val new_account_name = _args!!.getString("new_account_name")
+        val invite_account_name = _args!!.optString("invite_account_name", null)
+
         //  1、生成各种权限公钥。
         //  REMARK：这里memo单独分类出来，避免和active权限相同。
-        val seed_owner = "${_new_account_name}owner$_curr_password"
-        val seed_active = "${_new_account_name}active$_curr_password"
-        val seed_memo = "${_new_account_name}memo$_curr_password"
+        val seed_owner = "${new_account_name}owner$_curr_password"
+        val seed_active = "${new_account_name}active$_curr_password"
+        val seed_memo = "${new_account_name}memo$_curr_password"
         val owner_key = OrgUtils.genBtsAddressFromPrivateKeySeed(seed_owner)!!
         val active_key = OrgUtils.genBtsAddressFromPrivateKeySeed(seed_active)!!
         val memo_key = OrgUtils.genBtsAddressFromPrivateKeySeed(seed_memo)!!
 
         //  2、调用水龙头API注册
-        OrgUtils.asyncCreateAccountFromFaucet(this, _new_account_name!!, owner_key, active_key, memo_key, "", BuildConfig.kAppChannelID).then {
+        NbWalletAPI.sharedNbWalletAPI().registerAccount(this, new_account_name, invite_account_name, owner_key, active_key, memo_key).then {
             mask.dismiss()
-            val err_msg = it as? String
-            if (err_msg != null) {
+            val responsed = it as JSONObject
+            if (responsed.has("error")) {
                 //  水龙头注册失败。
-                btsppLogCustom("faucetFailed", jsonObjectfromKVS("err", err_msg))
-                showToast(err_msg)
+                btsppLogCustom("faucetFailed", jsonObjectfromKVS("new_account_name", new_account_name, "invite_account_name", invite_account_name ?: ""))
+                NbWalletAPI.sharedNbWalletAPI().showError(this, responsed.get("error"))
             } else {
                 //  注册成功，直接重新登录。
                 btsppLogCustom("registerEvent", jsonObjectfromKVS("mode", AppCacheManager.EWalletMode.kwmPasswordOnlyMode.value, "desc", "password"))

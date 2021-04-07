@@ -1,6 +1,7 @@
 package com.btsplusplus.fowallet
 
 import android.os.Bundle
+import bitshares.SettingManager
 import com.fowallet.walletcore.bts.ChainObjectManager
 import kotlinx.android.synthetic.main.activity_register_entry.*
 import org.json.JSONObject
@@ -47,6 +48,11 @@ class ActivityRegisterEntry : BtsppActivity() {
         }
         val self = this
         val new_account_name = tf_account_name.text.toString().toLowerCase()
+        var invite_account_name = tf_invite_account.text.toString().toLowerCase()
+        if (invite_account_name.isEmpty()) {
+            invite_account_name = SettingManager.sharedSettingManager().getAppParameters("default_invite_account") as String
+        }
+
         val mask = ViewMask(resources.getString(R.string.kTipsBeRequesting), this).apply { show() }
         ChainObjectManager.sharedChainObjectManager().isAccountExistOnBlockChain(new_account_name).then {
             mask.dismiss()
@@ -54,7 +60,10 @@ class ActivityRegisterEntry : BtsppActivity() {
                 showToast(resources.getString(R.string.kLoginSubmitTipsAccountAlreadyExist))
             } else {
                 goTo(ActivityNewAccountPassword::class.java, true, args = JSONObject().apply {
-                    put("args", new_account_name)
+                    put("args", JSONObject().apply {
+                        put("new_account_name", new_account_name)
+                        put("invite_account_name", invite_account_name)
+                    })
                     put("title", self.resources.getString(R.string.kVcTitleBackupYourPassword))
                     put("scene", kNewPasswordSceneRegAccount)
                 })
