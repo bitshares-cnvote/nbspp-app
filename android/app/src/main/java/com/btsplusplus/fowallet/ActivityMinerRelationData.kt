@@ -1,6 +1,7 @@
 package com.btsplusplus.fowallet
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
 import android.widget.LinearLayout
@@ -31,6 +32,9 @@ class ActivityMinerRelationData : BtsppActivity() {
         //  初始化UI
         tv_title.text = args.getString("title")
         drawUI_header(is_miner)
+
+        //  事件 - 返回按钮
+        layout_back_from_miner_relation_data.setOnClickListener { finish() }
 
         //  查询
         queryAllData(is_miner)
@@ -233,7 +237,7 @@ class ActivityMinerRelationData : BtsppActivity() {
                 assert(reward_asset.getString("id") == opdata.getJSONObject("amount").getString("asset_id"))
                 val n_reward_amount = bigDecimalfromAmount(opdata.getJSONObject("amount").getString("amount"), reward_asset.getInt("precision"))
                 val date_str = Utils.fmtMMddTimeShowString(reward_mining.getJSONObject("header").getString("timestamp"))
-                tv_mining_reward_amount.text = String.format("%s(%s) %s %s", str_miner_prefix, date_str, n_reward_amount.toPlainString(), reward_asset.getString("symbol"))
+                tv_mining_reward_amount.text = String.format("%s(%s) %s %s", str_miner_prefix, date_str, n_reward_amount.toPriceAmountString(), reward_asset.getString("symbol"))
             } else {
                 tv_mining_reward_amount.text = String.format("%s 0 %s", str_miner_prefix, reward_asset.getString("symbol"))
             }
@@ -245,7 +249,7 @@ class ActivityMinerRelationData : BtsppActivity() {
                 assert(reward_asset.getString("id") == opdata.getJSONObject("amount").getString("asset_id"))
                 val n_reward_amount = bigDecimalfromAmount(opdata.getJSONObject("amount").getString("amount"), reward_asset.getInt("precision"))
                 val date_str = Utils.fmtMMddTimeShowString(reward_mining.getJSONObject("header").getString("timestamp"))
-                tv_shares_reward_amount.text = String.format("%s(%s) %s %s", str_share_prefix, date_str, n_reward_amount.toPlainString(), reward_asset.getString("symbol"))
+                tv_shares_reward_amount.text = String.format("%s(%s) %s %s", str_share_prefix, date_str, n_reward_amount.toPriceAmountString(), reward_asset.getString("symbol"))
             } else {
                 tv_shares_reward_amount.text = String.format("%s 0 %s", str_share_prefix, reward_asset.getString("symbol"))
             }
@@ -271,6 +275,9 @@ class ActivityMinerRelationData : BtsppActivity() {
 
                 addView(TextView(_ctx).apply {
                     text = data.getString("account_name")
+                    setSingleLine(true)
+                    maxLines = 1
+                    ellipsize = TextUtils.TruncateAt.END
                     setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13.0f)
                     setTextColor(_ctx.resources.getColor(R.color.theme01_textColorMain))
                     gravity = Gravity.LEFT
@@ -282,18 +289,24 @@ class ActivityMinerRelationData : BtsppActivity() {
 
                 addView(TextView(_ctx).apply {
                     text = String.format("%s %s", data.getString("slave_hold"), if (is_miner) "MINER" else "SCNY")
+                    setSingleLine(true)
+                    maxLines = 1
+                    ellipsize = TextUtils.TruncateAt.END
                     setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13.0f)
                     setTextColor(_ctx.resources.getColor(R.color.theme01_textColorMain))
                     gravity = Gravity.CENTER
                 })
             })
             addView(LinearLayout(_ctx).apply {
-                val _layout_params = LinearLayout.LayoutParams(0.dp, LinearLayout.LayoutParams.WRAP_CONTENT, 1.6f)
+                val _layout_params = LinearLayout.LayoutParams(0.dp, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
                 layoutParams = _layout_params
                 gravity = Gravity.CENTER_VERTICAL or Gravity.RIGHT
 
                 addView(TextView(_ctx).apply {
                     text = Utils.fmtAccountHistoryTimeShowString(data.getString("create_time"))
+                    setSingleLine(true)
+                    maxLines = 1
+                    ellipsize = TextUtils.TruncateAt.END
                     setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13.0f)
                     setTextColor(_ctx.resources.getColor(R.color.theme01_textColorMain))
                 })
