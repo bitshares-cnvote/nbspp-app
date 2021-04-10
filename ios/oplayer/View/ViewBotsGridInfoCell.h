@@ -14,5 +14,7 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
 @property (nonatomic, strong) NSDictionary* item;
+@property (nonatomic, strong) NSDictionary* ticker_data_hash;
+@property (nonatomic, strong) NSDictionary* balance_hash;
 
 @end

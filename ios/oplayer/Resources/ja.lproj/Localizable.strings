@@ -728,6 +728,7 @@
 "kVcOrderPageOpenOrders" = "現在の注文";
 "kVcOrderPageHistory" = "注文履歴";
 "kVcOrderPageSettleOrders" = "清算单";//TODO:
+"kVcOrderPageGridOrders" = "量化订单";//TODO:
 "kVcOrderTipNoHistory" = "最近の取引履歴はありません";
 "kVcOrderTipNoOpenOrder" = "今注文がありません";
 "kVcOrderTipNoSettleOrder" = "没有任何清算单";//TODO:
@@ -737,6 +738,29 @@
 "kVcOrderSettlementFees" = "清算手数料";
 "kVcOrderTipTxCancelFullOK" = "注文 #%@ はキャンセルされました。";
 "kVcOrderTipTxCancelOK" = "注文 #%@ はキャンセルされましたが、更新インターフェイスが失敗しました。後でもう一度やり直してください。";
+
+/* 网格量化 */
+"kBotsNoAnyGridBots" = "网格交易订单为空，点击右上角创建网格交易。";//TODO:
+"kBotsActionStart" = "启动网格交易";//TODO:
+"kBotsActionStop" = "停止网格交易";//TODO:
+"kBotsActionDelete" = "删除网格交易";//TODO:
+"kBotsActionStartTipsForAutoAuthorize" = "网格交易需要授权服务器进行自动化操作，是否自动授权？";//TODO:
+"kBotsActionErrTipsAlreadyDeleted" = "该网格交易已经删除了。";//TODO:
+"kBotsActionErrTipsAlreadyStarted" = "网格交易已经在运行中。";//TODO:
+"kBotsActionErrTipsStopFirst" = "该网格交易正在运行中，请先停止。";//TODO:
+"kBotsActionTipsStartOK" = "启动成功。";//TODO:
+"kBotsActionTipsStopOK" = "网格交易已停止。";//TODO:
+"kBotsActionTipsDeleteOK" = "删除成功。";//TODO:
+"kBotsCellLabelPairNameTitle" = "网格交易#%@ (%@/%@)";  //TODO:
+"kBotsCellLabelStatusRunning" = "运行中"; //TODO:
+"kBotsCellLabelStatusStopped" = "已停止"; //TODO:
+"kBotsCellLabelStatusInvalid" = "已失效"; //TODO:
+"kBotsCellLabelPriceRangeTitle" = "价格区间"; //TODO:
+"kBotsCellLabelGridN" = "网格数量"; //TODO:
+"kBotsCellLabelAmountPerGrid" = "每格交易数量"; //TODO:
+"kBotsCellLabelTradeNum" = "交易次数"; //TODO:
+"kBotsCellLabelProfit" = "浮动盈亏"; //TODO:
+"kBotsCellLabelApy" = "年化收益"; //TODO:
 
 /* 待解冻金额 */
 "kVestingTipsNoData" = "待解凍金額がありません";

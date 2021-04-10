@@ -728,6 +728,7 @@
 "kVcOrderPageOpenOrders" = "当前订单";
 "kVcOrderPageHistory" = "历史订单";
 "kVcOrderPageSettleOrders" = "清算单";
+"kVcOrderPageGridOrders" = "量化订单";
 "kVcOrderTipNoHistory" = "近期没有交易记录";
 "kVcOrderTipNoOpenOrder" = "当前没有任何订单";
 "kVcOrderTipNoSettleOrder" = "没有任何清算单";
@@ -737,6 +738,29 @@
 "kVcOrderSettlementFees" = "清算手续费";
 "kVcOrderTipTxCancelFullOK" = "订单 #%@ 已取消。";
 "kVcOrderTipTxCancelOK" = "订单 #%@ 已取消，但刷新界面失败，请稍后再试。";
+
+/* 网格量化 */
+"kBotsNoAnyGridBots" = "网格交易订单为空，点击右上角创建网格交易。";
+"kBotsActionStart" = "启动网格交易";
+"kBotsActionStop" = "停止网格交易";
+"kBotsActionDelete" = "删除网格交易";
+"kBotsActionStartTipsForAutoAuthorize" = "网格交易需要授权服务器进行自动化操作，是否自动授权？";
+"kBotsActionErrTipsAlreadyDeleted" = "该网格交易已经删除了。";
+"kBotsActionErrTipsAlreadyStarted" = "网格交易已经在运行中。";
+"kBotsActionErrTipsStopFirst" = "该网格交易正在运行中，请先停止。";
+"kBotsActionTipsStartOK" = "启动成功。";
+"kBotsActionTipsStopOK" = "网格交易已停止。";
+"kBotsActionTipsDeleteOK" = "删除成功。";
+"kBotsCellLabelPairNameTitle" = "网格交易#%@ (%@/%@)";
+"kBotsCellLabelStatusRunning" = "运行中";
+"kBotsCellLabelStatusStopped" = "已停止";
+"kBotsCellLabelStatusInvalid" = "已失效";
+"kBotsCellLabelPriceRangeTitle" = "价格区间";
+"kBotsCellLabelGridN" = "网格数量";
+"kBotsCellLabelAmountPerGrid" = "每格交易数量";
+"kBotsCellLabelTradeNum" = "交易次数";
+"kBotsCellLabelProfit" = "浮动盈亏";
+"kBotsCellLabelApy" = "年化收益";
 
 /* 待解冻金额 */
 "kVestingTipsNoData" = "没有任何待解冻金额";

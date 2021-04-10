@@ -26,6 +26,8 @@ enum
     
     UITableViewBase*        _mainTableView;
     NSMutableArray*         _dataArray;
+    NSMutableDictionary*    _dataTickerHash;
+    NSMutableDictionary*    _dataBalanceHash;
     
     UILabel*                _lbEmpty;
 }
@@ -39,6 +41,8 @@ enum
     _owner = nil;
     _fullAccountData = nil;
     _dataArray = nil;
+    _dataTickerHash = nil;
+    _dataBalanceHash = nil;
     _lbEmpty = nil;
     if (_mainTableView){
         [[IntervalManager sharedIntervalManager] releaseLock:_mainTableView];
@@ -56,6 +60,8 @@ enum
         _owner = owner;
         _fullAccountData = fullAccountData;
         _dataArray = [NSMutableArray array];
+        _dataTickerHash = [NSMutableDictionary dictionary];
+        _dataBalanceHash = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -151,6 +157,14 @@ enum
 
 - (void)onQueryMyBotsListResponsed:(id)data_container
 {
+    [self onQueryMyBotsListResponsed:data_container ticker_data_array:nil balance_array:nil limit_orders:nil];
+}
+
+- (void)onQueryMyBotsListResponsed:(id)data_container
+                 ticker_data_array:(id)ticker_data_array
+                     balance_array:(id)balance_array
+                      limit_orders:(id)limit_orders
+{
     [_dataArray removeAllObjects];
     
     //  处理数据
@@ -168,6 +182,35 @@ enum
                     @"valid":@(valid),
                     @"raw":storage_item
                 }];
+            }
+        }
+    }
+    
+    //  ticker数据，估值用。
+    if (ticker_data_array) {
+        for (id ticker_data in ticker_data_array) {
+            id pair_key = [NSString stringWithFormat:@"%@_%@", [ticker_data objectForKey:@"base"], [ticker_data objectForKey:@"quote"]];
+            [_dataTickerHash setObject:ticker_data forKey:pair_key];
+        }
+    }
+    
+    //  统计余额数据，估值用。
+    if (balance_array) {
+        for (id balance in balance_array) {
+            [_dataBalanceHash setObject:[balance objectForKey:@"amount"] forKey:balance[@"asset_id"]];
+        }
+    }
+    if (limit_orders) {
+        for (id orders in limit_orders) {
+            id for_sale = [orders objectForKey:@"for_sale"];
+            id sell_asset_id = [[[orders objectForKey:@"sell_price"] objectForKey:@"base"] objectForKey:@"asset_id"];
+            id curr_balance = [_dataBalanceHash objectForKey:sell_asset_id];
+            if (curr_balance) {
+                [_dataBalanceHash setObject:@([curr_balance unsignedLongLongValue] + [for_sale unsignedLongLongValue])
+                                     forKey:sell_asset_id];
+            } else {
+                [_dataBalanceHash setObject:for_sale
+                                     forKey:sell_asset_id];
             }
         }
     }
@@ -196,7 +239,8 @@ enum
 
 - (void)queryMyBotsList
 {
-    id account_name = [[_fullAccountData objectForKey:@"account"] objectForKey:@"name"];
+    id op_account = [_fullAccountData objectForKey:@"account"];
+    id account_name = [op_account objectForKey:@"name"];
     assert(account_name);
     
     ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
@@ -204,7 +248,11 @@ enum
     [_owner showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];
     [[[chainMgr queryAccountStorageInfo:account_name
                                 catalog:kAppStorageCatalogBotsGridBots] then:^id(id data_array) {
-        NSMutableDictionary* ids = [NSMutableDictionary dictionary];
+        
+        GrapheneApi* api = [[GrapheneConnectionManager sharedGrapheneConnectionManager] any_connection].api_db;
+        
+        NSMutableDictionary* pair_promise_hash = [NSMutableDictionary dictionary];
+        NSMutableDictionary* asset_ids = [NSMutableDictionary dictionary];
         if (data_array && [data_array isKindOfClass:[NSArray class]]) {
             for (id storage_item in data_array) {
                 id value = [storage_item objectForKey:@"value"];
@@ -214,17 +262,33 @@ enum
                         id base = [args objectForKey:@"base"];
                         id quote = [args objectForKey:@"quote"];
                         if (base && ![base isEqualToString:@""]) {
-                            [ids setObject:@YES forKey:base];
+                            [asset_ids setObject:@YES forKey:base];
                         }
                         if (quote && ![quote isEqualToString:@""]) {
-                            [ids setObject:@YES forKey:quote];
+                            [asset_ids setObject:@YES forKey:quote];
+                        }
+                        if (base && quote) {
+                            //  相同交易对只查询1次
+                            id pair_key = [NSString stringWithFormat:@"%@_%@", base, quote];
+                            if (![pair_promise_hash objectForKey:pair_key]) {
+                                [pair_promise_hash setObject:[api exec:@"get_ticker" params:@[base, quote]] forKey:pair_key];
+                            }
                         }
                     }
                 }
             }
         }
-        return [[chainMgr queryAllGrapheneObjects:[ids allKeys]] then:^id(id data) {
-            [self onQueryMyBotsListResponsed:data_array];
+        
+        id asset_id_array = [asset_ids allKeys];
+        id p1 = [WsPromise all:[pair_promise_hash allValues]];
+        id p2 = [chainMgr queryAllGrapheneObjects:asset_id_array];
+        id p3 = [chainMgr queryAccountBalance:op_account[@"id"] assets:asset_id_array];
+        id p4 = [api exec:@"get_limit_orders_by_account" params:@[op_account[@"id"]]];
+        return [[WsPromise all:@[p1, p2, p3, p4]] then:^id(id data) {
+            [self onQueryMyBotsListResponsed:data_array
+                           ticker_data_array:[data objectAtIndex:0]
+                               balance_array:[data objectAtIndex:2]
+                                limit_orders:[data objectAtIndex:3]];
             [_owner hideBlockView];
             return nil;
         }];
@@ -260,8 +324,8 @@ enum
     [self.view addSubview:_mainTableView];
     _mainTableView.hidden = NO;
     
-    //  UI - 空 TODO:3.1 lang
-    _lbEmpty = [self genCenterEmptyLabel:rect txt:@"网格交易订单为空，点击右上角创建网格交易。"];
+    //  UI - 空
+    _lbEmpty = [self genCenterEmptyLabel:rect txt:NSLocalizedString(@"kBotsNoAnyGridBots", @"网格交易订单为空，点击右上角创建网格交易。")];
     _lbEmpty.hidden = YES;
     [self.view addSubview:_lbEmpty];
 }
@@ -279,7 +343,7 @@ enum
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat baseHeight = 8.0 + 28 + 24 * 4;
+    CGFloat baseHeight = 8.0 + 28 + 24 * 4 + 24.0f;
     
     return baseHeight;
 }
@@ -290,6 +354,8 @@ enum
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.showCustomBottomLine = YES;
+    cell.ticker_data_hash = _dataTickerHash;
+    cell.balance_hash = _dataBalanceHash;
     [cell setItem:[_dataArray objectAtIndex:indexPath.row]];
     return cell;
 }
@@ -306,11 +372,10 @@ enum
 {
     assert(bots);
     
-    //  TODO:lang 动态列表
     id list = [[[NSMutableArray array] ruby_apply:^(id ary) {
-        [ary addObject:@{@"type":@(0), @"title":@"启动网格交易"}];
-        [ary addObject:@{@"type":@(1), @"title":@"停止网格交易"}];
-        [ary addObject:@{@"type":@(2), @"title":@"删除网格交易"}];
+        [ary addObject:@{@"type":@(0), @"title":NSLocalizedString(@"kBotsActionStart", @"启动网格交易")}];
+        [ary addObject:@{@"type":@(1), @"title":NSLocalizedString(@"kBotsActionStop", @"停止网格交易")}];
+        [ary addObject:@{@"type":@(2), @"title":NSLocalizedString(@"kBotsActionDelete", @"删除网格交易")}];
     }] copy];
     
     [[MyPopviewManager sharedMyPopviewManager] showActionSheet:self
@@ -365,8 +430,7 @@ enum
         return [WsPromise resolve:@(kBotsAuthorizationStatus_AlreadyAuthorized)];
     } else {
         return [WsPromise promise:^(WsResolveHandler resolve, WsRejectHandler reject) {
-            //  TODO:lang
-            id value = @"网格交易需要授权服务器进行自动化操作，是否自动授权？";
+            id value = NSLocalizedString(@"kBotsActionStartTipsForAutoAuthorize", @"网格交易需要授权服务器进行自动化操作，是否自动授权？");
             [[UIAlertViewManager sharedUIAlertViewManager] showCancelConfirm:value
                                                                    withTitle:NSLocalizedString(@"kVcHtlcMessageTipsTitle", @"风险提示")
                                                                   completion:^(NSInteger buttonIndex)
@@ -388,7 +452,6 @@ enum
 {
     assert(item);
     assert(authorizationStatus != kBotsAuthorizationStatus_StopAuthorization);
-    //  TODO:lang
     
     //  步骤：查询 & 启动 & 转账
     ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
@@ -407,7 +470,7 @@ enum
                 id latest_storage_item = [result_hash objectForKey:bots_key];
                 if (!latest_storage_item) {
                     [_owner hideBlockView];
-                    [OrgUtils makeToast:@"该网格交易已经删除了。"];
+                    [OrgUtils makeToast:NSLocalizedString(@"kBotsActionErrTipsAlreadyDeleted", @"该网格交易已经删除了。")];
                     //  刷新界面
                     [self onQueryMyBotsListResponsed:result_hash];
                     return nil;
@@ -416,7 +479,7 @@ enum
                 id status = [[latest_storage_item objectForKey:@"value"] objectForKey:@"status"];
                 if ([self isValidBotsData:latest_storage_item] && status && [status isEqualToString:@"running"]) {
                     [_owner hideBlockView];
-                    [OrgUtils makeToast:@"网格交易已经在运行中。"];
+                    [OrgUtils makeToast:NSLocalizedString(@"kBotsActionErrTipsAlreadyStarted", @"网格交易已经在运行中。")];
                     //  刷新界面
                     [self onQueryMyBotsListResponsed:result_hash];
                     return nil;
@@ -486,7 +549,7 @@ enum
                                                                                        requireOwnerPermission:NO]];
                 }] then:^id(id data) {
                     [_owner hideBlockView];
-                    [OrgUtils makeToast:@"启动成功。"];
+                    [OrgUtils makeToast:NSLocalizedString(@"kBotsActionTipsStartOK", @"启动成功。")];
                     [self queryMyBotsList];
                     return nil;
                 }];
@@ -515,7 +578,7 @@ enum
                 id latest_storage_item = [result_hash objectForKey:bots_key];
                 if (!latest_storage_item) {
                     [_owner hideBlockView];
-                    [OrgUtils makeToast:@"该网格交易已经删除了。"];
+                    [OrgUtils makeToast:NSLocalizedString(@"kBotsActionErrTipsAlreadyDeleted", @"该网格交易已经删除了。")];
                     //  刷新界面
                     [self onQueryMyBotsListResponsed:result_hash];
                     return nil;
@@ -524,7 +587,7 @@ enum
                 id status = [[latest_storage_item objectForKey:@"value"] objectForKey:@"status"];
                 if (![self isValidBotsData:latest_storage_item] || !status || ![status isEqualToString:@"running"]) {
                     [_owner hideBlockView];
-                    [OrgUtils makeToast:@"网格交易已停止。"];
+                    [OrgUtils makeToast:NSLocalizedString(@"kBotsActionTipsStopOK", @"网格交易已停止。")];
                     //  刷新界面
                     [self onQueryMyBotsListResponsed:result_hash];
                     return nil;
@@ -542,7 +605,7 @@ enum
                                                                                          catalog:kAppStorageCatalogBotsGridBots
                                                                                       key_values:key_values] then:^id(id data) {
                     [_owner hideBlockView];
-                    [OrgUtils makeToast:@"网格交易已停止。"];
+                    [OrgUtils makeToast:NSLocalizedString(@"kBotsActionTipsStopOK", @"网格交易已停止。")];
                     [self queryMyBotsList];
                     return nil;
                 }];
@@ -575,7 +638,7 @@ enum
                 id latest_storage_item = [result_hash objectForKey:bots_key];
                 if (!latest_storage_item) {
                     [_owner hideBlockView];
-                    [OrgUtils makeToast:@"该网格交易已经删除了。"];
+                    [OrgUtils makeToast:NSLocalizedString(@"kBotsActionErrTipsAlreadyDeleted", @"该网格交易已经删除了。")];
                     //  刷新界面
                     [self onQueryMyBotsListResponsed:result_hash];
                     return nil;
@@ -584,7 +647,7 @@ enum
                 id status = [[latest_storage_item objectForKey:@"value"] objectForKey:@"status"];
                 if ([self isValidBotsData:latest_storage_item] && status && [status isEqualToString:@"running"]) {
                     [_owner hideBlockView];
-                    [OrgUtils makeToast:@"该网格交易正在运行中，请先停止。"];
+                    [OrgUtils makeToast:NSLocalizedString(@"kBotsActionErrTipsStopFirst", @"该网格交易正在运行中，请先停止。")];
                     //  刷新界面
                     [self onQueryMyBotsListResponsed:result_hash];
                     return nil;
@@ -596,7 +659,7 @@ enum
                                                                                          catalog:kAppStorageCatalogBotsGridBots
                                                                                       key_values:key_values] then:^id(id data) {
                     [_owner hideBlockView];
-                    [OrgUtils makeToast:@"删除成功。"];
+                    [OrgUtils makeToast:NSLocalizedString(@"kBotsActionTipsDeleteOK", @"删除成功。")];
                     [self queryMyBotsList];
                     return nil;
                 }];

@@ -728,6 +728,7 @@
 "kVcOrderPageOpenOrders" = "Open Orders";
 "kVcOrderPageHistory" = "History";
 "kVcOrderPageSettleOrders" = "Settle Orders";
+"kVcOrderPageGridOrders" = "Grid Orders";
 "kVcOrderTipNoHistory" = "No data";
 "kVcOrderTipNoOpenOrder" = "No order";
 "kVcOrderTipNoSettleOrder" = "No any settle order";
@@ -737,6 +738,29 @@
 "kVcOrderSettlementFees" = "Settlement fee";
 "kVcOrderTipTxCancelFullOK" = "Order %@ has been canceled.";
 "kVcOrderTipTxCancelOK" = "Order %@ has been canceled, but refresh failed. Please try again later.";
+
+/* 网格量化 */
+"kBotsNoAnyGridBots" = "The grid order is empty, click on the upper right corner to create a grid.";
+"kBotsActionStart" = "Start";
+"kBotsActionStop" = "Stop";
+"kBotsActionDelete" = "Delete";
+"kBotsActionStartTipsForAutoAuthorize" = "The grid needs to be authorized for automated operations. Is it authorized?";
+"kBotsActionErrTipsAlreadyDeleted" = "The grid has been deleted.";
+"kBotsActionErrTipsAlreadyStarted" = "The grid is already running.";
+"kBotsActionErrTipsStopFirst" = "The grid is running, please stop it first.";
+"kBotsActionTipsStartOK" = "Started successfully.";
+"kBotsActionTipsStopOK" = "The grid has stopped.";
+"kBotsActionTipsDeleteOK" = "Successfully deleted.";
+"kBotsCellLabelPairNameTitle" = "Grid Trading#%@ (%@/%@)";
+"kBotsCellLabelStatusRunning" = "Running";
+"kBotsCellLabelStatusStopped" = "Stopped";
+"kBotsCellLabelStatusInvalid" = "Invalid";
+"kBotsCellLabelPriceRangeTitle" = "Price range";
+"kBotsCellLabelGridN" = "Grid number";
+"kBotsCellLabelAmountPerGrid" = "Amount per grid";
+"kBotsCellLabelTradeNum" = "Total orders";
+"kBotsCellLabelProfit" = "Profit";
+"kBotsCellLabelApy" = "APY";
 
 /* 待解冻金额 */
 "kVestingTipsNoData" = "NO VESTING BALANCE";

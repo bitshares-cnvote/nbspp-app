@@ -40,7 +40,7 @@
         return @[NSLocalizedString(@"kVcOrderPageOpenOrders", @"当前订单"),
                  NSLocalizedString(@"kVcOrderPageHistory", @"历史订单"),
                  NSLocalizedString(@"kVcOrderPageSettleOrders", @"清算单"),
-                 @"量化订单"];//TODO:2.2 lang
+                 NSLocalizedString(@"kVcOrderPageGridOrders", @"量化订单")];
     } else {
         return @[NSLocalizedString(@"kVcOrderPageOpenOrders", @"当前订单"),
                  NSLocalizedString(@"kVcOrderPageHistory", @"历史订单"),
