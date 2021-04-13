@@ -320,6 +320,13 @@
 {
     CGFloat baseHeight = 8 + 24 + 4 + 20 * 2 + 40 + 8;
     
+    //  商家说明信息
+    id item = [_data_array objectAtIndex:indexPath.row];
+    id remark = [item objectForKey:@"remark"];
+    if (remark && ![remark isEqualToString:@""]) {
+        baseHeight += 24.0f;
+    }
+    
     return baseHeight;
 }
 

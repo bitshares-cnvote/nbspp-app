@@ -32,6 +32,8 @@
     
     NSMutableArray* _paymentIconList;
     UIButton*       _lbSubmit;
+    
+    UILabel*        _lbRemark;          //  商家说明信息
 }
 
 @end
@@ -59,6 +61,7 @@
     _lbPriceValue = nil;
     
     _lbSubmit = nil;
+    _lbRemark = nil;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier vc:(VCBase*)vc
@@ -110,6 +113,8 @@
         _lbSubmit.layer.cornerRadius = 0;
         _lbSubmit.layer.masksToBounds = YES;
         [self addSubview:_lbSubmit];
+        
+        _lbRemark = [self auxGenLabel:[UIFont systemFontOfSize:13]];
     }
     return self;
 }
@@ -287,6 +292,18 @@
     _lbSubmit.layer.backgroundColor = backColor.CGColor;
     CGFloat fButtonWidth = 80.0f;
     _lbSubmit.frame = CGRectMake(fWidth - fOffsetX - fButtonWidth, fOffsetY + 6, fButtonWidth, 28);
+    
+    //  最后一行：用户端 显示商家说明信息
+    _lbRemark.hidden = YES;
+    if (self.userType == eout_normal_user) {
+        id remark = [_item objectForKey:@"remark"];
+        if (remark && ![remark isEqualToString:@""]) {
+            fOffsetY += 6 + 4 + 28;
+            _lbRemark.hidden = NO;
+            _lbRemark.text = remark;
+            _lbRemark.frame = CGRectMake(fOffsetX, fOffsetY, fWidth - fOffsetX * 2, 24);
+        }
+    }
 }
 
 @end
