@@ -201,14 +201,14 @@ class ViewOtcMerchantCell : LinearLayout {
 
             // 左边
             addView(LinearLayout(_ctx).apply {
-                layoutParams = LinearLayout.LayoutParams(0.dp, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                layoutParams = LinearLayout.LayoutParams(0.dp, LinearLayout.LayoutParams.MATCH_PARENT, 1f)
                 gravity = Gravity.CENTER_VERTICAL or Gravity.LEFT
 
                 //  银行卡
                 if (_data.isTrue("bankcardPaySwitch")) {
                     val iv = ImageView(_ctx).apply {
                         scaleType = ImageView.ScaleType.FIT_END
-                        gravity = Gravity.LEFT
+                        gravity = Gravity.CENTER_VERTICAL or Gravity.LEFT
                         setPadding(0, 0, 12, 0)
                     }
                     iv.setImageDrawable(resources.getDrawable(R.drawable.icon_pm_bankcard))
@@ -219,7 +219,7 @@ class ViewOtcMerchantCell : LinearLayout {
                 if (_data.isTrue("aliPaySwitch")) {
                     val iv = ImageView(_ctx).apply {
                         scaleType = ImageView.ScaleType.FIT_END
-                        gravity = Gravity.LEFT
+                        gravity = Gravity.CENTER_VERTICAL or Gravity.LEFT
                         setPadding(0, 0, 12, 0)
                     }
                     iv.setImageDrawable(resources.getDrawable(R.drawable.icon_pm_alipay))
@@ -229,8 +229,9 @@ class ViewOtcMerchantCell : LinearLayout {
 
             // 右边
             addView(LinearLayout(_ctx).apply {
-                val _layout_params = LinearLayout.LayoutParams(0.dp, 28.dp, 1f)
-                layoutParams = _layout_params
+                layoutParams = LinearLayout.LayoutParams(0.dp, 28.dp, 1f).apply {
+                    setMargins(0, 6.dp, 0, 6.dp)
+                }
                 gravity = Gravity.TOP or Gravity.RIGHT
 
                 val ad_type = _data.getInt("adType")
@@ -274,10 +275,32 @@ class ViewOtcMerchantCell : LinearLayout {
             })
         }
 
+        // 第五行 用户端显示 商家信息
+        var ly5: LinearLayout? = null
+        if (_user_type == OtcManager.EOtcUserType.eout_normal_user) {
+            val remark = _data.optString("remark")
+            if (remark.isNotEmpty()) {
+                ly5 = LinearLayout(_ctx).apply {
+                    layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                        setMargins(0, 0.dp, 0, 8.dp)
+                    }
+                    orientation = LinearLayout.HORIZONTAL
+                    // 左边
+                    addView(TextView(_ctx).apply {
+                        text = remark
+                        setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13.0f)
+                        setTextColor(_ctx.resources.getColor(R.color.theme01_textColorMain))
+                        gravity = Gravity.LEFT
+                    })
+                }
+            }
+        }
+
         layout_wrap.addView(ly1)
         layout_wrap.addView(ly2)
         layout_wrap.addView(ly3)
         layout_wrap.addView(ly4)
+        ly5?.let { layout_wrap.addView(it) }
         layout_wrap.addView(ViewLine(_ctx, 0.dp, 0.dp))
 
         addView(layout_wrap)
