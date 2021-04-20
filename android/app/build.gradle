@@ -10,8 +10,8 @@ android {
         applicationId "plus.nbs.app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 202103201
-        versionName "2.1"
+        versionCode 202104131
+        versionName "3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
