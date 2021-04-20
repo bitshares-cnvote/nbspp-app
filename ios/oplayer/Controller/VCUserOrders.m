@@ -104,8 +104,7 @@
     
     WsPromiseObject* result_promise = [[WsPromiseObject alloc] init];
     VCBotsCreate* vc = [[VCBotsCreate alloc] initWithResultPromise:result_promise];
-    //  TODO:3.1 lang
-    [self pushViewController:vc vctitle:@"创建网格交易" backtitle:kVcDefaultBackTitleName];
+    [self pushViewController:vc vctitle:NSLocalizedString(@"kVcTitleCreateGridBots", @"创建网格交易") backtitle:kVcDefaultBackTitleName];
     [result_promise then:^id(id dirty) {
         //  刷新UI
         if (dirty && [dirty boolValue]) {

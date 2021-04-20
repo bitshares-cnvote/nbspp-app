@@ -768,6 +768,32 @@
 "kBotsCellLabelMsgRunTimeMS" = "Run %@ minutes %@ seconds";
 "kBotsCellLabelMsgRunTimeS" = "Run %@ seconds";
 "kBotsCellLabelStopMessageUserStop" = "User Stop";
+"kBotsCreateCellTitleMinPrice" = "Min price";
+"kBotsCreateCellTitleMaxPrice" = "Max price";
+"kBotsCreateCellTitleGridN" = "Grid number";
+"kBotsCreateCellTitleAmountPerGrid" = "Amount";
+"kBotsCreateCellTitleQuoteAsset" = "Quote";
+"kBotsCreateCellTitleBaseAsset" = "Base";
+"kBotsCreateCellPlaceHolderMinPrice" = "Please input min price";
+"kBotsCreateCellPlaceHolderMaxPrice" = "Please input max price";
+"kBotsCreateCellPlaceHolderGridN" = "Please input grid number";
+"kBotsCreateCellPlaceHolderAmountPerGrid" = "Please input amount per grid";
+"kBotsCreateCellPlaceHolderQuote" = "Please select quote asset";
+"kBotsCreateCellPlaceHolderBase" = "Please select base asset";
+"kBotsCreateSubmitButton" = "Create";
+"kBotsCreateUiTipsMsg" = "[Reminder]\nSet the grid order parameters.";
+"kBotsCreateTipSelectQuoteAssetFirst" = "Please select a quote asset first.";
+"kBotsCreateTipPleaseSelectBase" = "Please select a base asset.";
+"kBotsCreateTipPleaseSelectQuote" = "Please select a quote asset.";
+"kBotsCreateTipQuoteAndBaseIsSame" = "The quote asset and base asset cannot be the same.";
+"kBotsCreateTipPleaseInputGridN" = "Please set the number of grids.";
+"kBotsCreateTipInvalidGridNRange" = "The valid range of the number of grids is 2 ~ 99.";
+"kBotsCreateTipPleaseInputAmountPerGrid" = "Please set the amount per grid.";
+"kBotsCreateTipPleaseInputMinPrice" = "Please set a minimum price.";
+"kBotsCreateTipPleaseInputMaxPrice" = "Please set a maximum price.";
+"kBotsCreateTipPleaseReinputMinOrMaxPrice" = "Please reset the minimum price or maximum price value.";
+"kBotsCreateTipPleaseAdjustBotsArgs" = "An order with the same parameters already exists, please adjust the parameters and try again.";
+"kBotsCreateTipCreateOK" = "Created successfully.";
 
 /* 待解冻金额 */
 "kVestingTipsNoData" = "NO VESTING BALANCE";
@@ -1270,6 +1296,7 @@
 "kVcTitleMyPairsMgr" = "My pairs";
 "kVcTitleSearchAssetQuote" = "Search quote asset";
 "kVcTitleSearchAssetBase" = "Search base asset";
+"kVcTitleCreateGridBots" = "Create grid order";
 
 /* 钱包管理 */
 "kWalletUnlockFailedUnknowMode" = "Unlock failed, unknown account mode: %@.";

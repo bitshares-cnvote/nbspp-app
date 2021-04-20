@@ -75,20 +75,19 @@ enum
     
     self.view.backgroundColor = [ThemeManager sharedThemeManager].appBackColor;
     
-    //  TODO:lang
     NSArray* pSection1 = @[
-        @{@"type":@(kVcSubMinPrice), @"name":@"最低价格"},
-        @{@"type":@(kVcSubMaxPrice), @"name":@"最高价格"},
+        @{@"type":@(kVcSubMinPrice), @"name":NSLocalizedString(@"kBotsCreateCellTitleMinPrice", @"最低价格")},
+        @{@"type":@(kVcSubMaxPrice), @"name":NSLocalizedString(@"kBotsCreateCellTitleMaxPrice", @"最高价格")},
     ];
     
     NSArray* pSection2 = @[
-        @{@"type":@(kVcSubGridN), @"name":@"网格数量"},
-        @{@"type":@(kVcSubAmount), @"name":@"每格交易数量"},
+        @{@"type":@(kVcSubGridN), @"name":NSLocalizedString(@"kBotsCreateCellTitleGridN", @"网格数量")},
+        @{@"type":@(kVcSubAmount), @"name":NSLocalizedString(@"kBotsCreateCellTitleAmountPerGrid", @"每格交易数量")},
     ];
     
     NSArray* pSection3 = @[
-        @{@"type":@(kVcSubQuoteAsset), @"name":@"交易资产"},
-        @{@"type":@(kVcSubBaseAsset), @"name":@"报价资产"},
+        @{@"type":@(kVcSubQuoteAsset), @"name":NSLocalizedString(@"kBotsCreateCellTitleQuoteAsset", @"交易资产")},
+        @{@"type":@(kVcSubBaseAsset), @"name":NSLocalizedString(@"kBotsCreateCellTitleBaseAsset", @"报价资产")},
     ];
     
     NSArray* pSection4 = @[
@@ -109,13 +108,13 @@ enum
     [self.view addSubview:_mainTableView];
     
     //  UI - 提示信息
-    _cell_tips = [[ViewTipsInfoCell alloc] initWithText:@"【温馨提示】\n设置网格量化订单参数。"];
+    _cell_tips = [[ViewTipsInfoCell alloc] initWithText:NSLocalizedString(@"kBotsCreateUiTipsMsg", @"【温馨提示】\n设置网格量化订单参数。")];
     _cell_tips.hideBottomLine = YES;
     _cell_tips.hideTopLine = YES;
     _cell_tips.backgroundColor = [UIColor clearColor];
     
     //  UI - 创建按钮
-    _lbCommit = [self createCellLableButton:@"创建"];
+    _lbCommit = [self createCellLableButton:NSLocalizedString(@"kBotsCreateSubmitButton", @"创建")];
 }
 
 #pragma mark- TableView delegate method
@@ -194,7 +193,7 @@ enum
                         id n_min_price = [NSDecimalNumber decimalNumberWithMantissa:[min_price integerValue] exponent:-8 isNegative:NO];
                         cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", n_min_price];
                     } else {
-                        cell.detailTextLabel.text = @"请输入最低价格";
+                        cell.detailTextLabel.text = NSLocalizedString(@"kBotsCreateCellPlaceHolderMinPrice", @"请输入最低价格");
                     }
                 }
                     break;
@@ -205,7 +204,7 @@ enum
                         id n_max_price = [NSDecimalNumber decimalNumberWithMantissa:[max_price integerValue] exponent:-8 isNegative:NO];
                         cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", n_max_price];
                     } else {
-                        cell.detailTextLabel.text = @"请输入最低价格";
+                        cell.detailTextLabel.text = NSLocalizedString(@"kBotsCreateCellPlaceHolderMaxPrice", @"请输入最高价格");
                     }
                 }
                     break;
@@ -215,7 +214,7 @@ enum
                     if (grid_n) {
                         cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", @([grid_n integerValue])];
                     } else {
-                        cell.detailTextLabel.text = @"请输入网格数量";
+                        cell.detailTextLabel.text = NSLocalizedString(@"kBotsCreateCellPlaceHolderGridN", @"请输入网格数量");
                     }
                 }
                     break;
@@ -229,7 +228,7 @@ enum
                         id n_order_amount = [NSDecimalNumber decimalNumberWithMantissa:[order_amount integerValue] exponent:-precision isNegative:NO];
                         cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", n_order_amount];
                     } else {
-                        cell.detailTextLabel.text = @"请输入每格交易数量";
+                        cell.detailTextLabel.text = NSLocalizedString(@"kBotsCreateCellPlaceHolderAmountPerGrid", @"请输入每格交易数量");
                     }
                 }
                     break;
@@ -239,7 +238,7 @@ enum
                     if (quote) {
                         cell.detailTextLabel.text = [quote objectForKey:@"symbol"];
                     } else {
-                        cell.detailTextLabel.text = @"请选择交易资产";
+                        cell.detailTextLabel.text = NSLocalizedString(@"kBotsCreateCellPlaceHolderQuote", @"请选择交易资产");
                     }
                 }
                     break;;
@@ -249,7 +248,7 @@ enum
                     if (base) {
                         cell.detailTextLabel.text = [base objectForKey:@"symbol"];
                     } else {
-                        cell.detailTextLabel.text = @"请选择报价资产";
+                        cell.detailTextLabel.text = NSLocalizedString(@"kBotsCreateCellPlaceHolderBase", @"请选择报价资产");
                     }
                 }
                     break;
@@ -271,12 +270,11 @@ enum
         
         id item = [[_dataArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         
-        //  TODO:lang
         switch ([[item objectForKey:@"type"] integerValue]) {
             case kVcSubMinPrice:
             {
-                [VcUtils showInputDecimalClicked:@"最低价格"
-                                     placeholder:@"请输入最低价格"
+                [VcUtils showInputDecimalClicked:NSLocalizedString(@"kBotsCreateCellTitleMinPrice", @"最低价格")
+                                     placeholder:NSLocalizedString(@"kBotsCreateCellPlaceHolderMinPrice", @"请输入最低价格")
                                        precision:8
                                        min_value:nil
                                        max_value:nil
@@ -289,8 +287,8 @@ enum
                 break;
             case kVcSubMaxPrice:
             {
-                [VcUtils showInputDecimalClicked:@"最高价格"
-                                     placeholder:@"请输入最高价格"
+                [VcUtils showInputDecimalClicked:NSLocalizedString(@"kBotsCreateCellTitleMaxPrice", @"最高价格")
+                                     placeholder:NSLocalizedString(@"kBotsCreateCellPlaceHolderMaxPrice", @"请输入最高价格")
                                        precision:8
                                        min_value:nil
                                        max_value:nil
@@ -303,8 +301,8 @@ enum
                 break;
             case kVcSubGridN:
             {
-                [VcUtils showInputDecimalClicked:@"网格数量"
-                                     placeholder:@"请输入网格数量 2 ~ 99"
+                [VcUtils showInputDecimalClicked:NSLocalizedString(@"kBotsCreateCellTitleGridN", @"网格数量")
+                                     placeholder:NSLocalizedString(@"kBotsCreateCellPlaceHolderGridN", @"请输入网格数量")
                                        precision:0
                                        min_value:[NSDecimalNumber decimalNumberWithMantissa:2 exponent:0 isNegative:NO]
                                        max_value:[NSDecimalNumber decimalNumberWithMantissa:99 exponent:0 isNegative:NO]
@@ -319,12 +317,12 @@ enum
             {
                 id quote = [_op_data objectForKey:@"quote"];
                 if (!quote) {
-                    [OrgUtils makeToast:@"请先选择交易资产。"];
+                    [OrgUtils makeToast:NSLocalizedString(@"kBotsCreateTipSelectQuoteAssetFirst", @"请先选择交易资产。")];
                     return;
                 }
                 NSInteger precision = [[quote objectForKey:@"precision"] integerValue];
-                [VcUtils showInputDecimalClicked:@"每格交易数量"
-                                     placeholder:@"请输入每格交易数量"
+                [VcUtils showInputDecimalClicked:NSLocalizedString(@"kBotsCreateCellTitleAmountPerGrid", @"每格交易数量")
+                                     placeholder:NSLocalizedString(@"kBotsCreateCellPlaceHolderAmountPerGrid", @"请输入每格交易数量")
                                        precision:precision
                                        min_value:nil
                                        max_value:nil
@@ -380,44 +378,44 @@ enum
     //  检查参数有效性
     id base = [_op_data objectForKey:@"base"];
     if (!base) {
-        [OrgUtils makeToast:@"请选择报价资产。"];
+        [OrgUtils makeToast:NSLocalizedString(@"kBotsCreateTipPleaseSelectBase", @"请选择报价资产。")];
         return;
     }
     
     id quote = [_op_data objectForKey:@"quote"];
     if (!quote) {
-        [OrgUtils makeToast:@"请选择交易资产。"];
+        [OrgUtils makeToast:NSLocalizedString(@"kBotsCreateTipPleaseSelectQuote", @"请选择交易资产。")];
         return;
     }
     
     id base_id = [base objectForKey:@"id"];
     id quote_id = [quote objectForKey:@"id"];
     if ([base_id isEqualToString:quote_id]) {
-        [OrgUtils makeToast:@"交易资产和报价资产不能相同。"];
+        [OrgUtils makeToast:NSLocalizedString(@"kBotsCreateTipQuoteAndBaseIsSame", @"交易资产和报价资产不能相同。")];
         return;
     }
     
     id grid_n = [_op_data objectForKey:@"grid_n"];
     if (!grid_n) {
-        [OrgUtils makeToast:@"请设置网格数量。"];
+        [OrgUtils makeToast:NSLocalizedString(@"kBotsCreateTipPleaseInputGridN", @"请设置网格数量。")];
         return;
     }
     NSInteger i_grid_n = [grid_n integerValue];
     if (i_grid_n < 2 || i_grid_n > 99) {
-        [OrgUtils makeToast:@"网格数量的有效范围 2 ~ 99。"];
+        [OrgUtils makeToast:NSLocalizedString(@"kBotsCreateTipInvalidGridNRange", @"网格数量的有效范围 2 ~ 99。")];
         return;
     }
     
     id order_amount = [_op_data objectForKey:@"order_amount"];
     if (!order_amount) {
-        [OrgUtils makeToast:@"请设置每格交易数量。"];
+        [OrgUtils makeToast:NSLocalizedString(@"kBotsCreateTipPleaseInputAmountPerGrid", @"请设置每格交易数量。")];
         return;
     }
     id n_order_amount = [NSDecimalNumber decimalNumberWithMantissa:[order_amount unsignedLongLongValue]
                                                           exponent:-[[quote objectForKey:@"precision"] integerValue]
                                                         isNegative:NO];
     if ([n_order_amount compare:[NSDecimalNumber zero]] <= 0) {
-        [OrgUtils makeToast:@"请设置每格交易数量。"];
+        [OrgUtils makeToast:NSLocalizedString(@"kBotsCreateTipPleaseInputAmountPerGrid", @"请设置每格交易数量。")];
         return;
     }
     
@@ -427,7 +425,7 @@ enum
         n_min_price = [NSDecimalNumber decimalNumberWithMantissa:[min_price unsignedLongLongValue] exponent:-8 isNegative:NO];
     }
     if (!n_min_price || [n_min_price compare:[NSDecimalNumber zero]] <= 0) {
-        [OrgUtils makeToast:@"请设置最低价格。"];
+        [OrgUtils makeToast:NSLocalizedString(@"kBotsCreateTipPleaseInputMinPrice", @"请设置最低价格。")];
         return;
     }
     
@@ -437,11 +435,11 @@ enum
         n_max_price = [NSDecimalNumber decimalNumberWithMantissa:[max_price unsignedLongLongValue] exponent:-8 isNegative:NO];
     }
     if (!n_max_price || [n_max_price compare:[NSDecimalNumber zero]] <= 0) {
-        [OrgUtils makeToast:@"请设置最高价格。"];
+        [OrgUtils makeToast:NSLocalizedString(@"kBotsCreateTipPleaseInputMaxPrice", @"请设置最高价格。")];
         return;
     }
     if ([n_max_price compare:n_min_price] <= 0) {
-        [OrgUtils makeToast:@"请重新设置最低价格或最高价格的值。"];
+        [OrgUtils makeToast:NSLocalizedString(@"kBotsCreateTipPleaseReinputMinOrMaxPrice", @"请重新设置最低价格或最高价格的值。")];
         return;
     }
     
@@ -462,7 +460,7 @@ enum
                 },
                 @"status": @"created",
             };
-            //  TODO:catalog
+            
             id bots_key = [VCBotsManager calcBotsKey:init_bots_data[@"args"] catalog:kAppStorageCatalogBotsGridBots account:op_account_id];
             id key_values = @[@[bots_key, [init_bots_data to_json]]];
             
@@ -475,20 +473,16 @@ enum
                 id latest_storage_item = [result_hash objectForKey:bots_key];
                 if (latest_storage_item) {
                     [self hideBlockView];
-                    [OrgUtils makeToast:@"已经存在相同参数的机器人，请调整参数后再试。"];
+                    [OrgUtils makeToast:NSLocalizedString(@"kBotsCreateTipPleaseAdjustBotsArgs", @"已经存在相同参数的机器人，请调整参数后再试。")];
                     //  刷新界面
                     return nil;
                 }
-                
-                //  TODO:授权判断在 后续放到 创建之前，提醒用户。确认。
-                
                 return [[[BitsharesClientManager sharedBitsharesClientManager] accountStorageMap:op_account_id
                                                                                           remove:NO
                                                                                          catalog:kAppStorageCatalogBotsGridBots
                                                                                       key_values:key_values] then:^id(id data) {
                     [self hideBlockView];
-                    //  TODO:lang
-                    [OrgUtils makeToast:@"创建成功。"];
+                    [OrgUtils makeToast:NSLocalizedString(@"kBotsCreateTipCreateOK", @"创建成功。")];
                     //  返回上一个界面并刷新
                     if (_result_promise) {
                         [_result_promise resolve:@YES];

@@ -768,6 +768,32 @@
 "kBotsCellLabelMsgRunTimeMS" = "已运行 %@ 分 %@ 秒";//TODO:
 "kBotsCellLabelMsgRunTimeS" = "已运行 %@ 秒";//TODO:
 "kBotsCellLabelStopMessageUserStop" = "用户停止";//TODO:
+"kBotsCreateCellTitleMinPrice" = "最低价格";//TODO:
+"kBotsCreateCellTitleMaxPrice" = "最高价格";//TODO:
+"kBotsCreateCellTitleGridN" = "网格数量";//TODO:
+"kBotsCreateCellTitleAmountPerGrid" = "每格交易数量";//TODO:
+"kBotsCreateCellTitleQuoteAsset" = "交易资产";//TODO:
+"kBotsCreateCellTitleBaseAsset" = "报价资产";//TODO:
+"kBotsCreateCellPlaceHolderMinPrice" = "请输入最低价格";//TODO:
+"kBotsCreateCellPlaceHolderMaxPrice" = "请输入最高价格";//TODO:
+"kBotsCreateCellPlaceHolderGridN" = "请输入网格数量";//TODO:
+"kBotsCreateCellPlaceHolderAmountPerGrid" = "请输入每格交易数量";//TODO:
+"kBotsCreateCellPlaceHolderQuote" = "请选择交易资产";//TODO:
+"kBotsCreateCellPlaceHolderBase" = "请选择报价资产";//TODO:
+"kBotsCreateSubmitButton" = "创建";//TODO:
+"kBotsCreateUiTipsMsg" = "【温馨提示】\n设置网格量化订单参数。";//TODO:
+"kBotsCreateTipSelectQuoteAssetFirst" = "请先选择交易资产。";//TODO:
+"kBotsCreateTipPleaseSelectBase" = "请选择报价资产。";//TODO:
+"kBotsCreateTipPleaseSelectQuote" = "请选择交易资产。";//TODO:
+"kBotsCreateTipQuoteAndBaseIsSame" = "交易资产和报价资产不能相同。";//TODO:
+"kBotsCreateTipPleaseInputGridN" = "请设置网格数量。";//TODO:
+"kBotsCreateTipInvalidGridNRange" = "网格数量的有效范围 2 ~ 99。";//TODO:
+"kBotsCreateTipPleaseInputAmountPerGrid" = "请设置每格交易数量。";//TODO:
+"kBotsCreateTipPleaseInputMinPrice" = "请设置最低价格。";//TODO:
+"kBotsCreateTipPleaseInputMaxPrice" = "请设置最高价格。";//TODO:
+"kBotsCreateTipPleaseReinputMinOrMaxPrice" = "请重新设置最低价格或最高价格的值。";//TODO:
+"kBotsCreateTipPleaseAdjustBotsArgs" = "已经存在相同参数的量化订单，请调整参数后再试。";//TODO:
+"kBotsCreateTipCreateOK" = "创建成功。";//TODO:
 
 /* 待解冻金额 */
 "kVestingTipsNoData" = "待解凍金額がありません";
@@ -1270,6 +1296,7 @@
 "kVcTitleMyPairsMgr" = "交易对管理";
 "kVcTitleSearchAssetQuote" = "見積資産の検索";
 "kVcTitleSearchAssetBase" = "基本資産の検索";
+"kVcTitleCreateGridBots" = "创建网格交易";//TODO:
 
 /* 钱包管理 */
 "kWalletUnlockFailedUnknowMode" = "錠解除に失敗する，未知のパターンです：%@。";

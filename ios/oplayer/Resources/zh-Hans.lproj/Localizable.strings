@@ -768,6 +768,32 @@
 "kBotsCellLabelMsgRunTimeMS" = "已运行 %@ 分 %@ 秒";
 "kBotsCellLabelMsgRunTimeS" = "已运行 %@ 秒";
 "kBotsCellLabelStopMessageUserStop" = "用户停止";
+"kBotsCreateCellTitleMinPrice" = "最低价格";
+"kBotsCreateCellTitleMaxPrice" = "最高价格";
+"kBotsCreateCellTitleGridN" = "网格数量";
+"kBotsCreateCellTitleAmountPerGrid" = "每格交易数量";
+"kBotsCreateCellTitleQuoteAsset" = "交易资产";
+"kBotsCreateCellTitleBaseAsset" = "报价资产";
+"kBotsCreateCellPlaceHolderMinPrice" = "请输入最低价格";
+"kBotsCreateCellPlaceHolderMaxPrice" = "请输入最高价格";
+"kBotsCreateCellPlaceHolderGridN" = "请输入网格数量";
+"kBotsCreateCellPlaceHolderAmountPerGrid" = "请输入每格交易数量";
+"kBotsCreateCellPlaceHolderQuote" = "请选择交易资产";
+"kBotsCreateCellPlaceHolderBase" = "请选择报价资产";
+"kBotsCreateSubmitButton" = "创建";
+"kBotsCreateUiTipsMsg" = "【温馨提示】\n设置网格量化订单参数。";
+"kBotsCreateTipSelectQuoteAssetFirst" = "请先选择交易资产。";
+"kBotsCreateTipPleaseSelectBase" = "请选择报价资产。";
+"kBotsCreateTipPleaseSelectQuote" = "请选择交易资产。";
+"kBotsCreateTipQuoteAndBaseIsSame" = "交易资产和报价资产不能相同。";
+"kBotsCreateTipPleaseInputGridN" = "请设置网格数量。";
+"kBotsCreateTipInvalidGridNRange" = "网格数量的有效范围 2 ~ 99。";
+"kBotsCreateTipPleaseInputAmountPerGrid" = "请设置每格交易数量。";
+"kBotsCreateTipPleaseInputMinPrice" = "请设置最低价格。";
+"kBotsCreateTipPleaseInputMaxPrice" = "请设置最高价格。";
+"kBotsCreateTipPleaseReinputMinOrMaxPrice" = "请重新设置最低价格或最高价格的值。";
+"kBotsCreateTipPleaseAdjustBotsArgs" = "已经存在相同参数的量化订单，请调整参数后再试。";
+"kBotsCreateTipCreateOK" = "创建成功。";
 
 /* 待解冻金额 */
 "kVestingTipsNoData" = "没有任何待解冻金额";
@@ -1270,6 +1296,7 @@
 "kVcTitleMyPairsMgr" = "交易对管理";
 "kVcTitleSearchAssetQuote" = "搜索交易资产";
 "kVcTitleSearchAssetBase" = "搜索报价资产";
+"kVcTitleCreateGridBots" = "创建网格交易";
 
 /* 钱包管理 */
 "kWalletUnlockFailedUnknowMode" = "解锁失败，未知的账号模式：%@。";
