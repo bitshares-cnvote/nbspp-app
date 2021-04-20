@@ -752,15 +752,22 @@
 "kBotsActionTipsStopOK" = "The grid has stopped.";
 "kBotsActionTipsDeleteOK" = "Successfully deleted.";
 "kBotsCellLabelPairNameTitle" = "Grid Trading#%@ (%@/%@)";
+"kBotsCellLabelStatusCreated" = "Created";
 "kBotsCellLabelStatusRunning" = "Running";
 "kBotsCellLabelStatusStopped" = "Stopped";
 "kBotsCellLabelStatusInvalid" = "Invalid";
 "kBotsCellLabelPriceRangeTitle" = "Price range";
-"kBotsCellLabelGridN" = "Grid number";
-"kBotsCellLabelAmountPerGrid" = "Amount per grid";
-"kBotsCellLabelTradeNum" = "Total orders";
+"kBotsCellLabelGridNAndOrderAmount" = "Grid & order amount";
+"kBotsCellLabelTotalArbitrageAmount" = "Arbitrage amount";
+"kBotsCellLabelArbitrageAndTradeNum" = "Arbitrage & Trading";
 "kBotsCellLabelProfit" = "Profit";
 "kBotsCellLabelApy" = "APY";
+"kBotsCellLabelMsgInvalidGrid" = "The order is no longer valid";
+"kBotsCellLabelMsgRunTimeDHMS" = "Run %@ days %@ hours %@ minutes %@ seconds";
+"kBotsCellLabelMsgRunTimeHMS" = "Run %@ hours %@ minutes %@ seconds";
+"kBotsCellLabelMsgRunTimeMS" = "Run %@ minutes %@ seconds";
+"kBotsCellLabelMsgRunTimeS" = "Run %@ seconds";
+"kBotsCellLabelStopMessageUserStop" = "User Stop";
 
 /* 待解冻金额 */
 "kVestingTipsNoData" = "NO VESTING BALANCE";

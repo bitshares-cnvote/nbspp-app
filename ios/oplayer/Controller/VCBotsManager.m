@@ -178,9 +178,41 @@ enum
         if (data_array) {
             for (id storage_item in data_array) {
                 BOOL valid = [self isValidBotsData:storage_item];
+                
+                id value = [storage_item objectForKey:@"value"];
+                id status = [value objectForKey:@"status"];
+                id tipmsg = @"";
+                if (valid && status) {
+                    if ([status isEqualToString:@"running"]) {
+                        NSInteger i_init_time = [[[value objectForKey:@"ext"] objectForKey:@"init_time"] integerValue];
+                        NSInteger now_ts = (NSInteger)[[NSDate date] timeIntervalSince1970];
+                        NSInteger run_ts = MAX(now_ts - i_init_time, 1);  //  REMARK：有可能有时间误差，默认最低取值1秒。
+                        NSInteger run_days = run_ts / 86400;
+                        NSInteger run_hours = run_ts % 86400 / 3600;
+                        NSInteger run_mins = run_ts % 86400 % 3600 / 60;
+                        NSInteger run_secs = run_ts % 86400 % 3600 % 60;
+                        if (run_days > 0) {
+                            tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kBotsCellLabelMsgRunTimeDHMS", @"已运行 %@ 天 %@ 小时 %@ 分 %@ 秒"), @(run_days), @(run_hours), @(run_mins), @(run_secs)];
+                        } else if (run_hours > 0) {
+                            tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kBotsCellLabelMsgRunTimeHMS", @"已运行 %@ 小时 %@ 分 %@ 秒"), @(run_hours), @(run_mins), @(run_secs)];
+                        } else if (run_mins > 0) {
+                            tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kBotsCellLabelMsgRunTimeMS", @"已运行 %@ 分 %@ 秒"), @(run_mins), @(run_secs)];
+                        } else {
+                            tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kBotsCellLabelMsgRunTimeS", @"已运行 %@ 秒"), @(run_secs)];
+                        }
+                    } else if ([status isEqualToString:@"created"]) {
+                        //  刚创建，不显示提示信息。
+                    } else {
+                        tipmsg = [value objectForKey:@"msg"] ?: @"";
+                    }
+                } else {
+                    tipmsg = NSLocalizedString(@"kBotsCellLabelMsgInvalidGrid", @"该网格订单已失效");
+                }
+                
                 [_dataArray addObject:@{
                     @"valid":@(valid),
-                    @"raw":storage_item
+                    @"raw":storage_item,
+                    @"tipmsg":tipmsg
                 }];
             }
         }
@@ -343,7 +375,13 @@ enum
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat baseHeight = 8.0 + 28 + 24 * 4 + 24.0f;
+    CGFloat baseHeight = 8.0 + 28 + 24 * 4;
+    
+    id item = [_dataArray objectAtIndex:indexPath.row];
+    id tipmsg = [item objectForKey:@"tipmsg"];
+    if (tipmsg && ![tipmsg isEqualToString:@""]) {
+        baseHeight += 24.0f;
+    }
     
     return baseHeight;
 }
@@ -596,7 +634,7 @@ enum
                 
                 id mutable_latest_value = [[latest_storage_item objectForKey:@"value"] mutableCopy];
                 [mutable_latest_value setObject:@"stopped" forKey:@"status"];
-                [mutable_latest_value setObject:@"User Stop" forKey:@"msg"];
+                [mutable_latest_value setObject:NSLocalizedString(@"kBotsCellLabelStopMessageUserStop", @"用户停止") forKey:@"msg"];
                 
                 id key_values = @[@[bots_key, [mutable_latest_value to_json]]];
                 

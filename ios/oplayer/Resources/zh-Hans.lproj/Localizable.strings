@@ -752,15 +752,22 @@
 "kBotsActionTipsStopOK" = "网格交易已停止。";
 "kBotsActionTipsDeleteOK" = "删除成功。";
 "kBotsCellLabelPairNameTitle" = "网格交易#%@ (%@/%@)";
+"kBotsCellLabelStatusCreated" = "已创建";
 "kBotsCellLabelStatusRunning" = "运行中";
 "kBotsCellLabelStatusStopped" = "已停止";
 "kBotsCellLabelStatusInvalid" = "已失效";
 "kBotsCellLabelPriceRangeTitle" = "价格区间";
-"kBotsCellLabelGridN" = "网格数量";
-"kBotsCellLabelAmountPerGrid" = "每格交易数量";
-"kBotsCellLabelTradeNum" = "交易次数";
+"kBotsCellLabelGridNAndOrderAmount" = "网格/每格数量";
+"kBotsCellLabelTotalArbitrageAmount" = "总套利金额";
+"kBotsCellLabelArbitrageAndTradeNum" = "套利/交易次数";
 "kBotsCellLabelProfit" = "浮动盈亏";
 "kBotsCellLabelApy" = "年化收益";
+"kBotsCellLabelMsgInvalidGrid" = "该网格订单已失效";
+"kBotsCellLabelMsgRunTimeDHMS" = "已运行 %@ 天 %@ 小时 %@ 分 %@ 秒";
+"kBotsCellLabelMsgRunTimeHMS" = "已运行 %@ 小时 %@ 分 %@ 秒";
+"kBotsCellLabelMsgRunTimeMS" = "已运行 %@ 分 %@ 秒";
+"kBotsCellLabelMsgRunTimeS" = "已运行 %@ 秒";
+"kBotsCellLabelStopMessageUserStop" = "用户停止";
 
 /* 待解冻金额 */
 "kVestingTipsNoData" = "没有任何待解冻金额";

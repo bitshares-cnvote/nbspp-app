@@ -22,13 +22,13 @@
     
     UILabel*        _lbPriceRangeTitle;
     UILabel*        _lbPriceRange;                  //  价格区间
-    UILabel*        _lbGridNTitle;
-    UILabel*        _lbGridN;                       //  网格数量
-    UILabel*        _lbAmountTitle;
-    UILabel*        _lbAmount;                      //  每格交易数量
-    
+    UILabel*        _lbGridNAndOrderAmountTitle;
+    UILabel*        _lbGridNAndOrderAmount;         //  网格/每格数量
     UILabel*        _lbTradeNumTitle;
-    UILabel*        _lbTradeNum;                    //  交易次数
+    UILabel*        _lbTradeNum;                    //  套利/交易次数
+    
+    UILabel*        _lbTotalArbitrageTitle;
+    UILabel*        _lbTotalArbitrage;              //  套利总金额
     UILabel*        _lbProfitTitle;
     UILabel*        _lbProfit;                      //  浮动盈亏
     UILabel*        _lbApyTitle;
@@ -54,13 +54,12 @@
     _lbPriceRange = nil;
     _lbProfitTitle = nil;
     _lbProfit = nil;
-    _lbGridNTitle = nil;
-    _lbGridN = nil;
-    
-    _lbAmountTitle = nil;
-    _lbAmount = nil;
+    _lbGridNAndOrderAmountTitle = nil;
+    _lbGridNAndOrderAmount = nil;
     _lbTradeNumTitle = nil;
     _lbTradeNum = nil;
+    _lbTotalArbitrageTitle = nil;
+    _lbTotalArbitrage = nil;
     _lbApyTitle = nil;
     _lbApy = nil;
     
@@ -90,19 +89,19 @@
         _lbPriceRangeTitle = [self auxGenLabel:[UIFont systemFontOfSize:13]];
         _lbPriceRange = [self auxGenLabel:[UIFont systemFontOfSize:13]];
         
-        _lbGridNTitle = [self auxGenLabel:[UIFont systemFontOfSize:13]];
-        _lbGridN = [self auxGenLabel:[UIFont systemFontOfSize:13]];
-        _lbGridNTitle.textAlignment = NSTextAlignmentCenter;
-        _lbGridN.textAlignment = NSTextAlignmentCenter;
+        _lbGridNAndOrderAmountTitle = [self auxGenLabel:[UIFont systemFontOfSize:13]];
+        _lbGridNAndOrderAmount = [self auxGenLabel:[UIFont systemFontOfSize:13]];
+        _lbGridNAndOrderAmountTitle.textAlignment = NSTextAlignmentCenter;
+        _lbGridNAndOrderAmount.textAlignment = NSTextAlignmentCenter;
         
-        _lbAmountTitle = [self auxGenLabel:[UIFont systemFontOfSize:13]];
-        _lbAmount = [self auxGenLabel:[UIFont systemFontOfSize:13]];
-        _lbAmountTitle.textAlignment = NSTextAlignmentRight;
-        _lbAmount.textAlignment = NSTextAlignmentRight;
-        
-        //  第三行
         _lbTradeNumTitle = [self auxGenLabel:[UIFont systemFontOfSize:13]];
         _lbTradeNum = [self auxGenLabel:[UIFont systemFontOfSize:13]];
+        _lbTradeNumTitle.textAlignment = NSTextAlignmentRight;
+        _lbTradeNum.textAlignment = NSTextAlignmentRight;
+        
+        //  第三行
+        _lbTotalArbitrageTitle = [self auxGenLabel:[UIFont systemFontOfSize:13]];
+        _lbTotalArbitrage = [self auxGenLabel:[UIFont systemFontOfSize:13]];
         
         _lbProfitTitle = [self auxGenLabel:[UIFont systemFontOfSize:13]];
         _lbProfit = [self auxGenLabel:[UIFont systemFontOfSize:13]];
@@ -254,7 +253,7 @@
     ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
     
     CGFloat xOffset = self.textLabel.frame.origin.x;
-    CGFloat yOffset = 0;
+    CGFloat yOffset = 4;
     CGFloat fWidth = self.bounds.size.width - xOffset * 2;
     CGFloat firstLineHeight = 28.0f;
     CGFloat fLineHeight = 24.0f;
@@ -268,8 +267,8 @@
     id quote_asset = nil;
     id n_min_price = nil;
     id n_max_price = nil;
-    NSInteger n_grid_n = nil;
-    id n_amount = nil;
+    NSInteger i_grid_n = nil;
+    id n_amount_per_grid = nil;
     if (args) {
         id base_id = [args objectForKey:@"base"];
         id quote_id = [args objectForKey:@"quote"];
@@ -279,19 +278,19 @@
         if (quote_id) {
             quote_asset = [chainMgr getChainObjectByID:quote_id];
             if (quote_asset) {
-                n_amount = [NSDecimalNumber decimalNumberWithMantissa:[[args objectForKey:@"order_amount"] unsignedLongLongValue]
-                                                             exponent:-[[quote_asset objectForKey:@"precision"] integerValue]
-                                                           isNegative:NO];
+                n_amount_per_grid = [NSDecimalNumber decimalNumberWithMantissa:[[args objectForKey:@"order_amount"] unsignedLongLongValue]
+                                                                      exponent:-[[quote_asset objectForKey:@"precision"] integerValue]
+                                                                    isNegative:NO];
             }
         }
-        n_grid_n = [[args objectForKey:@"grid_n"] integerValue];
+        i_grid_n = [[args objectForKey:@"grid_n"] integerValue];
         n_min_price = [NSDecimalNumber decimalNumberWithMantissa:[[args objectForKey:@"min_price"] unsignedLongLongValue] exponent:-8 isNegative:NO];
         n_max_price = [NSDecimalNumber decimalNumberWithMantissa:[[args objectForKey:@"max_price"] unsignedLongLongValue] exponent:-8 isNegative:NO];
     }
     
     //  计算收益等相关数据
     id profit_apy_hash = [self _calcProfitAndApy:base_asset quote:quote_asset ext_data:[value objectForKey:@"ext"]];
-        
+    
     //  第一行 交易对 - 状态
     id quote_symbol = quote_asset ? quote_asset[@"symbol"] : @"--";
     id base_symbol = base_asset ? base_asset[@"symbol"] : @"--";
@@ -301,19 +300,22 @@
                          quote_symbol, base_symbol];
     _lbBotsPairs.frame = CGRectMake(xOffset, yOffset, fWidth, firstLineHeight);
     
-    if ([[_item objectForKey:@"valid"] boolValue]) {
+    if ([[_item objectForKey:@"valid"] boolValue] && [value objectForKey:@"status"]) {
         id status = [value objectForKey:@"status"];
-        if (status && [status isEqualToString:@"running"]) {
+        if ([status isEqualToString:@"running"]) {
             UIColor* backColor = theme.buyColor;
             _lbBotsStatus.layer.borderColor = backColor.CGColor;
             _lbBotsStatus.layer.backgroundColor = backColor.CGColor;
-            
             _lbBotsStatus.text = NSLocalizedString(@"kBotsCellLabelStatusRunning", @"运行中");
         } else {
             UIColor* backColor = theme.textColorGray;
             _lbBotsStatus.layer.borderColor = backColor.CGColor;
             _lbBotsStatus.layer.backgroundColor = backColor.CGColor;
-            _lbBotsStatus.text = NSLocalizedString(@"kBotsCellLabelStatusStopped", @"已停止");
+            if ([status isEqualToString:@"created"]) {
+                _lbBotsStatus.text = NSLocalizedString(@"kBotsCellLabelStatusCreated", @"已创建");
+            } else {
+                _lbBotsStatus.text = NSLocalizedString(@"kBotsCellLabelStatusStopped", @"已停止");
+            }
         }
     } else {
         
@@ -330,21 +332,22 @@
                                      size2.width + 8, size2.height + 2);
     yOffset += firstLineHeight;
     
-    //  第二行 价格区间 网格数量 每个交易数量 标题栏
+    //  第二行 价格区间 网格/每格数量 套利/交易次数 标题栏
     _lbPriceRangeTitle.text = NSLocalizedString(@"kBotsCellLabelPriceRangeTitle", @"价格区间");
-    _lbGridNTitle.text = NSLocalizedString(@"kBotsCellLabelGridN", @"网格数量");
-    _lbAmountTitle.text = NSLocalizedString(@"kBotsCellLabelAmountPerGrid", @"每格交易数量");
+    _lbGridNAndOrderAmountTitle.text = NSLocalizedString(@"kBotsCellLabelGridNAndOrderAmount", @"网格/每格数量");
+    _lbTradeNumTitle.text = NSLocalizedString(@"kBotsCellLabelArbitrageAndTradeNum", @"套利/交易次数");
     
     _lbPriceRangeTitle.textColor = theme.textColorGray;
-    _lbGridNTitle.textColor = theme.textColorGray;
-    _lbAmountTitle.textColor = theme.textColorGray;
+    _lbGridNAndOrderAmountTitle.textColor = theme.textColorGray;
+    _lbTradeNumTitle.textColor = theme.textColorGray;
     
     _lbPriceRangeTitle.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
-    _lbGridNTitle.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
-    _lbAmountTitle.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
+    _lbGridNAndOrderAmountTitle.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
+    _lbTradeNumTitle.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
+    
     yOffset += fLineHeight;
     
-    //  第三行 价格区间 网格数量 每个交易数量 值
+    //  第三行 价格区间 网格/每格数量 套利/交易次数 值
     if (n_min_price && n_max_price) {
         _lbPriceRange.text = [NSString stringWithFormat:@"%@ ~ %@", [OrgUtils formatFloatValue:n_min_price], [OrgUtils formatFloatValue:n_max_price]];
     } else {
@@ -352,34 +355,53 @@
     }
     _lbPriceRange.textColor = theme.textColorNormal;
     
-    _lbGridN.text = [NSString stringWithFormat:@"%@", @(n_grid_n)];
-    _lbGridN.textColor = theme.textColorNormal;
+    _lbGridNAndOrderAmount.text = [NSString stringWithFormat:@"%@/%@", @(i_grid_n), n_amount_per_grid ? [OrgUtils formatFloatValue:n_amount_per_grid usesGroupingSeparator:NO] : @"--"];
+    _lbGridNAndOrderAmount.textColor = theme.textColorNormal;
     
-    _lbAmount.text = n_amount ? [OrgUtils formatFloatValue:n_amount] : @"--";
-    _lbAmount.textColor = theme.textColorNormal;
+    NSInteger bid_num = [[value objectForKey:@"bid_num"] integerValue];
+    NSInteger ask_num = [[value objectForKey:@"ask_num"] integerValue];
+    NSInteger i_arbitrage = MIN(bid_num, ask_num);
+    _lbTradeNum.text = [NSString stringWithFormat:@"%@/%@", @(i_arbitrage), @([[value objectForKey:@"trade_num"] integerValue])];
+    _lbTradeNum.textColor = theme.textColorNormal;
     
     _lbPriceRange.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
-    _lbGridN.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
-    _lbAmount.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
+    _lbGridNAndOrderAmount.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
+    _lbTradeNum.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
     yOffset += fLineHeight;
     
-    //  第四行 交易次数 浮动盈亏 年华收益 标题栏
-    _lbTradeNumTitle.text = NSLocalizedString(@"kBotsCellLabelTradeNum", @"交易次数");
+    //  第四行 套利金额 浮动盈亏 年华收益 标题栏
+    _lbTotalArbitrageTitle.text = NSLocalizedString(@"kBotsCellLabelTotalArbitrageAmount", @"总套利金额");
     _lbProfitTitle.text = NSLocalizedString(@"kBotsCellLabelProfit", @"浮动盈亏");
     _lbApyTitle.text = NSLocalizedString(@"kBotsCellLabelApy", @"年化收益");
     
-    _lbTradeNumTitle.textColor = theme.textColorGray;
+    _lbTotalArbitrageTitle.textColor = theme.textColorGray;
     _lbProfitTitle.textColor = theme.textColorGray;
     _lbApyTitle.textColor = theme.textColorGray;
     
-    _lbTradeNumTitle.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
+    _lbTotalArbitrageTitle.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
     _lbProfitTitle.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
     _lbApyTitle.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
     yOffset += fLineHeight;
     
-    //  第五行 交易次数 浮动盈亏 年华收益 值
-    _lbTradeNum.text = [NSString stringWithFormat:@"%@", @([[value objectForKey:@"trade_num"] integerValue])];
-    _lbTradeNum.textColor = theme.textColorNormal;
+    //  第五行 套利金额 浮动盈亏 年华收益 值
+    if (base_asset && n_min_price && n_max_price && i_grid_n > 0 && n_amount_per_grid) {
+        if (i_arbitrage > 0) {
+            //  total = (max - min) / i_grid_n * amount_per_grid * i_arbitrage
+            NSDecimalNumber* n_grid_n = [NSDecimalNumber decimalNumberWithMantissa:i_grid_n exponent:0 isNegative:NO];
+            NSDecimalNumber* n_arbitrage = [NSDecimalNumber decimalNumberWithMantissa:i_arbitrage exponent:0 isNegative:NO];
+            id n_total_arbitrage = [[[[n_max_price decimalNumberBySubtracting:n_min_price] decimalNumberByMultiplyingBy:n_amount_per_grid] decimalNumberByMultiplyingBy:n_arbitrage] decimalNumberByDividingBy:n_grid_n
+                                                                                                                                                                                                  withBehavior:[ModelUtils decimalHandlerRoundUp:[[base_asset objectForKey:@"precision"] integerValue]]];
+            
+            _lbTotalArbitrage.text = [NSString stringWithFormat:@"+%@ %@", n_total_arbitrage, base_symbol];
+            _lbTotalArbitrage.textColor = theme.buyColor;
+        } else {
+            _lbTotalArbitrage.text = [NSString stringWithFormat:@"0 %@", base_symbol];
+            _lbTotalArbitrage.textColor = theme.textColorNormal;
+        }
+    } else {
+        _lbTotalArbitrage.text = [NSString stringWithFormat:@"-- %@", base_symbol];
+        _lbTotalArbitrage.textColor = theme.textColorNormal;
+    }
     
     if (profit_apy_hash) {
         id n_zero = [NSDecimalNumber zero];
@@ -414,16 +436,22 @@
         _lbApy.text = @"--%";
         _lbApy.textColor = theme.textColorNormal;
     }
-
-    _lbTradeNum.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
+    
+    _lbTotalArbitrage.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
     _lbProfit.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
     _lbApy.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
     yOffset += fLineHeight;
     
-    //  获取资产描述
-    _lbMessage.text = @"已运行 17 天 2 小时 2 分 18 秒";//TODO:3.0
-    _lbMessage.textColor = theme.textColorMain;
-    _lbMessage.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
+    //  描述信息：运行时长 or 错误信息等
+    id tipmsg = [_item objectForKey:@"tipmsg"];
+    if (tipmsg && ![tipmsg isEqualToString:@""]) {
+        _lbMessage.hidden = NO;
+        _lbMessage.text = tipmsg;
+        _lbMessage.textColor = theme.textColorMain;
+        _lbMessage.frame = CGRectMake(xOffset, yOffset, fWidth, fLineHeight);
+    } else {
+        _lbMessage.hidden = YES;
+    }
 }
 
 @end
