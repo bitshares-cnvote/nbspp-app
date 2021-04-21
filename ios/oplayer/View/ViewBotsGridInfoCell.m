@@ -167,13 +167,13 @@
     return [[n_quote decimalNumberByMultiplyingBy:n_mid_price] decimalNumberByAdding:n_base];
 }
 
-- (id)_calcProfitAndApy:(id)base_asset quote:(id)quote_asset ext_data:(id)ext_data
+- (id)_calcProfitAndApy:(id)base_asset quote:(id)quote_asset ext_data:(id)ext_data n_total_arbitrage:(id)n_total_arbitrage
 {
     if (!_ticker_data_hash || !_balance_hash) {
         return nil;
     }
     
-    if (!base_asset || !quote_asset || !ext_data) {
+    if (!base_asset || !quote_asset || !ext_data || !n_total_arbitrage) {
         return nil;
     }
     
@@ -236,7 +236,7 @@
     NSInteger start_ts = [[ext_data objectForKey:@"init_time"] integerValue];
     NSInteger diff_ts = MAX(now_ts - start_ts, 1);  //  REMARK：有可能有时间误差，默认最低取值1秒。
     //  31622400 - 366天的秒数
-    id n_apy = [[[[n_profit decimalNumberByDividingBy:n_est_old_base] decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"31622400"]] decimalNumberByDividingBy:[NSDecimalNumber decimalNumberWithMantissa:diff_ts exponent:0 isNegative:NO]] decimalNumberByMultiplyingByPowerOf10:2 withBehavior:[ModelUtils decimalHandlerRoundUp:2]];
+    id n_apy = [[[[n_total_arbitrage decimalNumberByDividingBy:n_est_old_base] decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"31622400"]] decimalNumberByDividingBy:[NSDecimalNumber decimalNumberWithMantissa:diff_ts exponent:0 isNegative:NO]] decimalNumberByMultiplyingByPowerOf10:2 withBehavior:[ModelUtils decimalHandlerRoundUp:2]];
     
     return @{@"n_profit": n_profit, @"n_apy": n_apy};
 }
@@ -267,8 +267,9 @@
     id quote_asset = nil;
     id n_min_price = nil;
     id n_max_price = nil;
-    NSInteger i_grid_n = nil;
+    NSInteger i_grid_n = 0;
     id n_amount_per_grid = nil;
+    id n_total_arbitrage = nil;
     if (args) {
         id base_id = [args objectForKey:@"base"];
         id quote_id = [args objectForKey:@"quote"];
@@ -288,8 +289,27 @@
         n_max_price = [NSDecimalNumber decimalNumberWithMantissa:[[args objectForKey:@"max_price"] unsignedLongLongValue] exponent:-8 isNegative:NO];
     }
     
+    //  数据：套利次数和总套利金额
+    NSInteger bid_num = [[value objectForKey:@"bid_num"] integerValue];
+    NSInteger ask_num = [[value objectForKey:@"ask_num"] integerValue];
+    NSInteger i_arbitrage = MIN(bid_num, ask_num);
+    if (base_asset && n_min_price && n_max_price && i_grid_n > 0 && n_amount_per_grid) {
+        if (i_arbitrage > 0) {
+            //  total = (max - min) / i_grid_n * amount_per_grid * i_arbitrage
+            NSDecimalNumber* n_grid_n = [NSDecimalNumber decimalNumberWithMantissa:i_grid_n exponent:0 isNegative:NO];
+            NSDecimalNumber* n_arbitrage = [NSDecimalNumber decimalNumberWithMantissa:i_arbitrage exponent:0 isNegative:NO];
+            n_total_arbitrage = [[[[n_max_price decimalNumberBySubtracting:n_min_price] decimalNumberByMultiplyingBy:n_amount_per_grid] decimalNumberByMultiplyingBy:n_arbitrage] decimalNumberByDividingBy:n_grid_n
+                                                                                                                                                                                               withBehavior:[ModelUtils decimalHandlerRoundUp:[[base_asset objectForKey:@"precision"] integerValue]]];
+        } else {
+            n_total_arbitrage = [NSDecimalNumber zero];
+        }
+    }
+    
     //  计算收益等相关数据
-    id profit_apy_hash = [self _calcProfitAndApy:base_asset quote:quote_asset ext_data:[value objectForKey:@"ext"]];
+    id profit_apy_hash = [self _calcProfitAndApy:base_asset
+                                           quote:quote_asset
+                                        ext_data:[value objectForKey:@"ext"]
+                               n_total_arbitrage:n_total_arbitrage];
     
     //  第一行 交易对 - 状态
     id quote_symbol = quote_asset ? quote_asset[@"symbol"] : @"--";
@@ -358,9 +378,6 @@
     _lbGridNAndOrderAmount.text = [NSString stringWithFormat:@"%@/%@", @(i_grid_n), n_amount_per_grid ? [OrgUtils formatFloatValue:n_amount_per_grid usesGroupingSeparator:NO] : @"--"];
     _lbGridNAndOrderAmount.textColor = theme.textColorNormal;
     
-    NSInteger bid_num = [[value objectForKey:@"bid_num"] integerValue];
-    NSInteger ask_num = [[value objectForKey:@"ask_num"] integerValue];
-    NSInteger i_arbitrage = MIN(bid_num, ask_num);
     _lbTradeNum.text = [NSString stringWithFormat:@"%@/%@", @(i_arbitrage), @([[value objectForKey:@"trade_num"] integerValue])];
     _lbTradeNum.textColor = theme.textColorNormal;
     
@@ -384,14 +401,8 @@
     yOffset += fLineHeight;
     
     //  第五行 套利金额 浮动盈亏 年华收益 值
-    if (base_asset && n_min_price && n_max_price && i_grid_n > 0 && n_amount_per_grid) {
-        if (i_arbitrage > 0) {
-            //  total = (max - min) / i_grid_n * amount_per_grid * i_arbitrage
-            NSDecimalNumber* n_grid_n = [NSDecimalNumber decimalNumberWithMantissa:i_grid_n exponent:0 isNegative:NO];
-            NSDecimalNumber* n_arbitrage = [NSDecimalNumber decimalNumberWithMantissa:i_arbitrage exponent:0 isNegative:NO];
-            id n_total_arbitrage = [[[[n_max_price decimalNumberBySubtracting:n_min_price] decimalNumberByMultiplyingBy:n_amount_per_grid] decimalNumberByMultiplyingBy:n_arbitrage] decimalNumberByDividingBy:n_grid_n
-                                                                                                                                                                                                  withBehavior:[ModelUtils decimalHandlerRoundUp:[[base_asset objectForKey:@"precision"] integerValue]]];
-            
+    if (n_total_arbitrage) {
+        if ([n_total_arbitrage compare:[NSDecimalNumber zero]] > 0) {
             _lbTotalArbitrage.text = [NSString stringWithFormat:@"+%@", n_total_arbitrage];
             _lbTotalArbitrage.textColor = theme.buyColor;
         } else {
