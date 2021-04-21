@@ -392,14 +392,14 @@
             id n_total_arbitrage = [[[[n_max_price decimalNumberBySubtracting:n_min_price] decimalNumberByMultiplyingBy:n_amount_per_grid] decimalNumberByMultiplyingBy:n_arbitrage] decimalNumberByDividingBy:n_grid_n
                                                                                                                                                                                                   withBehavior:[ModelUtils decimalHandlerRoundUp:[[base_asset objectForKey:@"precision"] integerValue]]];
             
-            _lbTotalArbitrage.text = [NSString stringWithFormat:@"+%@ %@", n_total_arbitrage, base_symbol];
+            _lbTotalArbitrage.text = [NSString stringWithFormat:@"+%@", n_total_arbitrage];
             _lbTotalArbitrage.textColor = theme.buyColor;
         } else {
-            _lbTotalArbitrage.text = [NSString stringWithFormat:@"0 %@", base_symbol];
+            _lbTotalArbitrage.text = @"0";
             _lbTotalArbitrage.textColor = theme.textColorNormal;
         }
     } else {
-        _lbTotalArbitrage.text = [NSString stringWithFormat:@"-- %@", base_symbol];
+        _lbTotalArbitrage.text = @"--";
         _lbTotalArbitrage.textColor = theme.textColorNormal;
     }
     
@@ -408,10 +408,10 @@
         
         id n_profit = [profit_apy_hash objectForKey:@"n_profit"];
         if ([n_profit compare:n_zero] > 0) {
-            _lbProfit.text = [NSString stringWithFormat:@"+%@ %@", [OrgUtils formatFloatValue:n_profit usesGroupingSeparator:NO], base_symbol];
+            _lbProfit.text = [NSString stringWithFormat:@"+%@", [OrgUtils formatFloatValue:n_profit usesGroupingSeparator:NO]];
             _lbProfit.textColor = theme.buyColor;
         } else if ([n_profit compare:n_zero] < 0) {
-            _lbProfit.text = [NSString stringWithFormat:@"%@ %@", [OrgUtils formatFloatValue:n_profit usesGroupingSeparator:NO], base_symbol];
+            _lbProfit.text = [NSString stringWithFormat:@"%@", [OrgUtils formatFloatValue:n_profit usesGroupingSeparator:NO]];
             _lbProfit.textColor = theme.sellColor;
         } else {
             _lbProfit.text = [OrgUtils formatFloatValue:n_profit usesGroupingSeparator:NO];
