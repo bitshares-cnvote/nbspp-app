@@ -11,6 +11,7 @@ import com.flurry.android.FlurryAgent
 import org.json.JSONArray
 import org.json.JSONObject
 import java.math.BigDecimal
+import java.security.MessageDigest
 import kotlin.math.pow
 
 /**
@@ -226,6 +227,11 @@ fun sha512hex(buffer: ByteArray): String {
     return sha512(buffer).hexEncode()
 }
 
+fun String.md5(): String {
+    val bytes = MessageDigest.getInstance("MD5").digest(this.toByteArray())
+    return bytes.hexEncode()
+}
+
 /**
  * 空扩展
  */
@@ -274,6 +280,14 @@ fun Iterator<String>.toJSONArray(): JSONArray {
     val list = JSONArray()
     for (key in this) {
         list.put(key)
+    }
+    return list
+}
+
+fun Iterator<String>.toArrayList(): ArrayList<String> {
+    val list = ArrayList<String>()
+    for (key in this) {
+        list.add(key)
     }
     return list
 }
