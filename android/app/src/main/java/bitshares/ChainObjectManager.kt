@@ -2021,4 +2021,23 @@ class ChainObjectManager {
         return conn.async_exec_custom_operations("get_storage_info", jsonArrayfrom(account_name_or_id, catalog))
     }
 
+    /**
+     * (public) 查询账号所有量化机器人数据。
+     */
+    fun queryAccountAllBotsData(account_id: String): Promise {
+        return queryAccountStorageInfo(account_id, kAppStorageCatalogBotsGridBots).then {
+            val resultHash = JSONObject()
+            val data_array = it as? JSONArray
+            if (data_array != null) {
+                for (storage_item in data_array.forin<JSONObject>()) {
+                    val bots_key = storage_item!!.optString("key")
+                    if (bots_key.isNotEmpty()) {
+                        resultHash.put(bots_key, storage_item)
+                    }
+                }
+            }
+            return@then resultHash
+        }
+    }
+
 }

@@ -994,7 +994,7 @@ class T_custom_plugin_operation : T_Base() {
     companion object : T_Base_companion() {
         override fun register_subfields() {
             add_field("data", Tm_static_variant(JSONArray().apply {
-                T_account_storage_map
+                put(T_account_storage_map)
             }))
         }
     }

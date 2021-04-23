@@ -73,31 +73,28 @@ class TransactionBuilder {
         }
 
         val conn = GrapheneConnectionManager.sharedGrapheneConnectionManager().any_connection()
-        val allfees_promises = JSONArray()
-        for (fee_asset_id in feeAssets) {
-            allfees_promises.put(conn.async_exec_db("get_required_fees", jsonArrayfrom(operations_to_object(), fee_asset_id)))
-        }
 
-        return Promise.all(allfees_promises).then {
-            val json_array = it as JSONArray
+        val first_fee_asset_id = feeAssets.first()
+        return conn.async_exec_db("get_required_fees", jsonArrayfrom(operations_to_object(), first_fee_asset_id)).then {
+            val all_op_fee_array = it as JSONArray
 
-            //  获取所有 promise 中第一个 asset id的手续费。（数组格式：包含所有operation的手续费。）
-            val first_asset_id_fees = json_array.getJSONArray(0)
-
-            //  REMARK：如果OP为提案类型，这里会把提案的手续费以及提案中对应的所有实际OP的手续费全部返回。（因此需要判断。）
-            var first_opfee = first_asset_id_fees.get(0)
-            if (first_opfee is JSONArray) {
-                //  仅第一个手续费对象是提案本身的的手续。
-                first_opfee = first_opfee.getJSONObject(0)
-            } else {
-                assert(first_opfee is JSONObject)
+            //  更新所有OP的手续费
+            var idx = 0
+            for (op_fee_item in all_op_fee_array.forin<Any>()) {
+                //  REMARK：如果OP为提案类型，这里会把提案的手续费以及提案中对应的所有实际OP的手续费全部返回。（因此需要判断。）
+                val final_fee_item = if (op_fee_item is JSONArray) {
+                    //  仅第一个手续费对象是提案本身的的手续。
+                    op_fee_item.getJSONObject(0)
+                } else {
+                    op_fee_item as JSONObject
+                }
+                //  更新 first: opcode last: opdata
+                _operations.getJSONArray(idx).getJSONObject(1).put("fee", final_fee_item)
+                //  递增
+                idx++
             }
-
-            _operations.forEach<JSONArray> { ops ->
-                ops!!.getJSONObject(1).put("fee", first_opfee)
-            }
-
-            return@then first_asset_id_fees
+            //  返回所有OP的手续费
+            return@then all_op_fee_array
         }
     }
 

@@ -11,7 +11,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import bitshares.*
+import com.fowallet.walletcore.bts.BitsharesClientManager
 import com.fowallet.walletcore.bts.ChainObjectManager
+import com.fowallet.walletcore.bts.WalletManager
 import org.json.JSONArray
 import org.json.JSONObject
 import java.math.BigDecimal
@@ -26,6 +28,11 @@ import java.math.BigInteger
  * create an instance of this fragment.
  *
  */
+
+const val kBotsAuthorizationStatus_AlreadyAuthorized = 0
+const val kBotsAuthorizationStatus_ContinueToAuthorize = 1
+const val kBotsAuthorizationStatus_StopAuthorization = 2
+
 class FragmentBotsManager : BtsppFragment() {
 
     companion object {
@@ -560,7 +567,253 @@ class FragmentBotsManager : BtsppFragment() {
     }
 
     private fun onCellClicked(data: JSONObject) {
-        //  TODO:
+        val list = arrayOf(
+                resources.getString(R.string.kBotsActionStart),
+                resources.getString(R.string.kBotsActionStop),
+                resources.getString(R.string.kBotsActionDelete))
+        ViewSelector.show(activity!!, "", list) { index: Int, result: String ->
+            when (index) {
+                0 -> {  //  启动
+                    processingAuthorizationServer().then {
+                        val authorizationStatus = it as Int
+                        when (authorizationStatus) {
+                            kBotsAuthorizationStatus_AlreadyAuthorized, kBotsAuthorizationStatus_ContinueToAuthorize -> _startBots(data, authorizationStatus)
+                            kBotsAuthorizationStatus_StopAuthorization -> {
+                                //  停止授权，不继续启动。
+                            }
+                            else -> {
+                                //  ...
+                            }
+                        }
+                        return@then null
+                    }
+                }
+                1 -> {  //  停止
+                    _stopBots(data)
+                }
+                2 -> {  //  删除
+                    _deleteBots(data)
+                }
+            }
+        }
+    }
+
+    /**
+     *  (private) 检测机器人账号授权状态
+     */
+    private fun processingAuthorizationServer(): Promise {
+        if (FragmentBotsManager.isAuthorizedToTheBotsManager(_full_account_data.getJSONObject("account"))) {
+            //  已授权
+            return Promise._resolve(kBotsAuthorizationStatus_AlreadyAuthorized)
+        } else {
+            val p = Promise()
+            val value = resources.getString(R.string.kBotsActionStartTipsForAutoAuthorize)
+            UtilsAlert.showMessageConfirm(activity!!, resources.getString(R.string.kVcHtlcMessageTipsTitle), value).then {
+                if (it != null && it as Boolean) {
+                    //  继续授权
+                    p.resolve(kBotsAuthorizationStatus_ContinueToAuthorize)
+                } else {
+                    //  停止授权
+                    p.resolve(kBotsAuthorizationStatus_StopAuthorization)
+                }
+            }
+            return p
+        }
+    }
+
+    private fun _startBots(item: JSONObject, authorizationStatus: Int) {
+        activity?.let { ctx ->
+            assert(authorizationStatus != kBotsAuthorizationStatus_StopAuthorization)
+
+            val chainMgr = ChainObjectManager.sharedChainObjectManager()
+            val client = BitsharesClientManager.sharedBitsharesClientManager()
+
+            ctx.guardWalletUnlocked(true) { unlocked ->
+                if (unlocked) {
+                    val op_account = _full_account_data.getJSONObject("account")
+                    val op_account_id = op_account.getString("id")
+                    val storage_item = item.getJSONObject("raw")
+                    val bots_key = storage_item.getString("key")
+
+                    val mask = ViewMask(R.string.kTipsBeRequesting.xmlstring(ctx), ctx).apply { show() }
+
+                    chainMgr.queryAccountAllBotsData(op_account_id).then {
+                        val result_hash = it as JSONObject
+                        val latest_storage_item = result_hash.optJSONObject(bots_key)
+                        if (latest_storage_item == null) {
+                            mask.dismiss()
+                            showToast(resources.getString(R.string.kBotsActionErrTipsAlreadyDeleted))
+                            //  刷新界面
+                            onQueryMyBotsListResponsed(result_hash)
+                            return@then null
+                        }
+
+                        val status = latest_storage_item.optJSONObject("value")?.optString("status", null)
+                        if (isValidBotsData(latest_storage_item) && status != null && status == "running") {
+                            mask.dismiss()
+                            showToast(resources.getString(R.string.kBotsActionErrTipsAlreadyStarted))
+                            //  刷新界面
+                            onQueryMyBotsListResponsed(result_hash)
+                            return@then null
+                        }
+
+                        //  启动参数
+                        val new_bots_data = JSONObject().apply {
+                            put("args", latest_storage_item.getJSONObject("value").get("args"))
+                            put("status", "running")
+                        }
+                        val key_values = jsonArrayfrom(jsonArrayfrom(bots_key, new_bots_data.toString()))
+
+                        return@then client.buildAndRunTransaction { builder ->
+                            val const_bots_account_id = SettingManager.sharedSettingManager().getAppGridBotsTraderAccount()
+
+                            //  OP - 授权服务器
+                            if (authorizationStatus == kBotsAuthorizationStatus_ContinueToAuthorize) {
+                                val new_active_permission = op_account.getJSONObject("active").deepClone()
+                                val new_account_auths = JSONArray()
+                                //  保留 account_auths 权限中的其他权限
+                                for (item in new_active_permission.getJSONArray("account_auths").forin<JSONArray>()) {
+                                    val account = item!!.getString(0)
+                                    if (const_bots_account_id != account) {
+                                        new_account_auths.put(item)
+                                    }
+                                }
+                                //  授权账号：权重 100%
+                                new_account_auths.put(jsonArrayfrom(const_bots_account_id, new_active_permission.getInt("weight_threshold")))
+                                //  仅更新 account_auths 权限，key_auths 等权限保持不变 。
+                                new_active_permission.put("account_auths", new_account_auths)
+
+                                val opdata_bots_authority = JSONObject().apply {
+                                    put("fee", jsonObjectfromKVS("amount", 0, "asset_id", chainMgr.grapheneCoreAssetID))
+                                    put("account", op_account_id)
+                                    put("active", new_active_permission)
+                                }
+                                builder.add_operation(EBitsharesOperations.ebo_account_update, opdata = opdata_bots_authority)
+                            }
+
+                            //  OP - 启动
+                            builder.add_operation(EBitsharesOperations.ebo_custom, opdata = client.buildOpData_accountStorageMap(op_account_id, false, kAppStorageCatalogBotsGridBots, key_values))
+
+                            //  OP - 转账
+                            val opdata_transfer = JSONObject().apply {
+                                put("fee", jsonObjectfromKVS("amount", 0, "asset_id", chainMgr.grapheneCoreAssetID))
+                                put("from", op_account_id)
+                                put("to", const_bots_account_id)
+                                put("amount", jsonObjectfromKVS("amount", 1, "asset_id", chainMgr.grapheneCoreAssetID))
+                            }
+                            builder.add_operation(EBitsharesOperations.ebo_transfer, opdata = opdata_transfer)
+
+                            //  获取签名KEY
+                            builder.addSignKeys(WalletManager.sharedWalletManager().getSignKeysFromFeePayingAccount(op_account_id, requireOwnerPermission = false))
+                        }.then {
+                            mask.dismiss()
+                            showToast(resources.getString(R.string.kBotsActionTipsStartOK))
+                            _queryMyBotsListCore(_full_account_data)
+                        }
+                    }.catch { err ->
+                        mask.dismiss()
+                        showGrapheneError(err)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun _stopBots(item: JSONObject) {
+        activity?.let { ctx ->
+            ctx.guardWalletUnlocked(true) { unlocked ->
+                if (unlocked) {
+                    val op_account = _full_account_data.getJSONObject("account")
+                    val op_account_id = op_account.getString("id")
+                    val storage_item = item.getJSONObject("raw")
+                    val bots_key = storage_item.getString("key")
+
+                    val mask = ViewMask(R.string.kTipsBeRequesting.xmlstring(ctx), ctx).apply { show() }
+
+                    ChainObjectManager.sharedChainObjectManager().queryAccountAllBotsData(op_account_id).then {
+                        val result_hash = it as JSONObject
+                        val latest_storage_item = result_hash.optJSONObject(bots_key)
+                        if (latest_storage_item == null) {
+                            mask.dismiss()
+                            showToast(resources.getString(R.string.kBotsActionErrTipsAlreadyDeleted))
+                            //  刷新界面
+                            onQueryMyBotsListResponsed(result_hash)
+                            return@then null
+                        }
+
+                        val status = latest_storage_item.optJSONObject("value")?.optString("status", null)
+                        if (!isValidBotsData(latest_storage_item) || status == null || status != "running") {
+                            mask.dismiss()
+                            showToast(resources.getString(R.string.kBotsActionTipsStopOK))
+                            //  刷新界面
+                            onQueryMyBotsListResponsed(result_hash)
+                            return@then null
+                        }
+
+                        val mutable_latest_value = latest_storage_item.getJSONObject("value").deepClone()
+                        mutable_latest_value.put("status", "stopped")
+                        mutable_latest_value.put("msg", resources.getString(R.string.kBotsCellLabelStopMessageUserStop))
+                        val key_values = jsonArrayfrom(jsonArrayfrom(bots_key, mutable_latest_value.toString()))
+
+                        return@then BitsharesClientManager.sharedBitsharesClientManager().accountStorageMap(op_account_id, false, kAppStorageCatalogBotsGridBots, key_values).then {
+                            mask.dismiss()
+                            showToast(resources.getString(R.string.kBotsActionTipsStopOK))
+                            _queryMyBotsListCore(_full_account_data)
+                        }
+                    }.catch { err ->
+                        mask.dismiss()
+                        showGrapheneError(err)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun _deleteBots(item: JSONObject) {
+        activity?.let { ctx ->
+            ctx.guardWalletUnlocked(true) { unlocked ->
+                if (unlocked) {
+                    val op_account = _full_account_data.getJSONObject("account")
+                    val op_account_id = op_account.getString("id")
+                    val storage_item = item.getJSONObject("raw")
+                    val bots_key = storage_item.getString("key")
+
+                    val mask = ViewMask(R.string.kTipsBeRequesting.xmlstring(ctx), ctx).apply { show() }
+
+                    ChainObjectManager.sharedChainObjectManager().queryAccountAllBotsData(op_account_id).then {
+                        val result_hash = it as JSONObject
+                        val latest_storage_item = result_hash.optJSONObject(bots_key)
+                        if (latest_storage_item == null) {
+                            mask.dismiss()
+                            showToast(resources.getString(R.string.kBotsActionErrTipsAlreadyDeleted))
+                            //  刷新界面
+                            onQueryMyBotsListResponsed(result_hash)
+                            return@then null
+                        }
+
+                        val status = latest_storage_item.optJSONObject("value")?.optString("status", null)
+                        if (isValidBotsData(latest_storage_item) && status != null && status == "running") {
+                            mask.dismiss()
+                            showToast(resources.getString(R.string.kBotsActionErrTipsStopFirst))
+                            //  刷新界面
+                            onQueryMyBotsListResponsed(result_hash)
+                            return@then null
+                        }
+
+                        val key_values = jsonArrayfrom(jsonArrayfrom(bots_key, JSONObject().toString()))
+
+                        return@then BitsharesClientManager.sharedBitsharesClientManager().accountStorageMap(op_account_id, true, kAppStorageCatalogBotsGridBots, key_values).then {
+                            mask.dismiss()
+                            showToast(resources.getString(R.string.kBotsActionTipsDeleteOK))
+                            _queryMyBotsListCore(_full_account_data)
+                        }
+                    }.catch { err ->
+                        mask.dismiss()
+                        showGrapheneError(err)
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

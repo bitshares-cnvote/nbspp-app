@@ -71,6 +71,15 @@ class BitsharesClientManager {
     }
 
     /**
+     *  OP - 手动构造 operation 和 添加 sign_key。对于一次性执行多个操作时需要。
+     */
+    fun buildAndRunTransaction(operation_build_callback: (builder: TransactionBuilder) -> Unit): Promise {
+        val tr = TransactionBuilder()
+        operation_build_callback(tr)
+        return process_transaction(tr)
+    }
+
+    /**
      *  OP - 执行单个 operation 的交易。（可指定是否需要 owner 权限。）
      */
     fun runSingleTransaction(opdata: JSONObject, opcode: EBitsharesOperations, fee_paying_account: String, require_owner_permission: Boolean = false): Promise {
@@ -309,6 +318,35 @@ class BitsharesClientManager {
             put("key_values", key_values)
         }
         return accountStorageMap(account, op_account_storage_map)
+    }
+
+
+    /**
+     *  OP - 构造存储数据的 opdata
+     */
+    fun buildOpData_accountStorageMap(account: String, remove: Boolean, catalog: String, key_values: JSONArray): JSONObject {
+        assert(key_values.length() > 0)
+
+        val op_account_storage_map = JSONObject().apply {
+            put("remove", remove)
+            put("catalog", catalog)
+            put("key_values", key_values)
+        }
+
+        val op_custom = JSONObject().apply {
+            put("fee", JSONObject().apply {
+                put("amount", 0)
+                //  TODO:TBD fee asset id
+                put("asset_id", ChainObjectManager.sharedChainObjectManager().grapheneCoreAssetID)
+            })
+            put("payer", account)
+            put("id", 0)
+            put("data", T_custom_plugin_operation.encode_to_bytes(JSONObject().apply {
+                put("data", jsonArrayfrom(EBitsharesCustomDataType.ebcdt_account_map.value, op_account_storage_map))
+            }))
+        }
+
+        return op_custom
     }
 
     /**
