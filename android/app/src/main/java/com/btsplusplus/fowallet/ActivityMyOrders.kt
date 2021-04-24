@@ -1,10 +1,14 @@
 package com.btsplusplus.fowallet
 
 import android.os.Bundle
+import android.support.design.widget.TabItem
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
+import android.view.View
 import android.view.animation.OvershootInterpolator
+import bitshares.Promise
+import bitshares.SettingManager
 import com.btsplusplus.fowallet.kline.TradingPair
 import kotlinx.android.synthetic.main.activity_my_orders.*
 import org.json.JSONArray
@@ -37,6 +41,11 @@ class ActivityMyOrders : BtsppActivity() {
 
         setFullScreen()
 
+        //  初始化UI
+        if (!SettingManager.sharedSettingManager().isAppEnableModuleGridBots()) {
+            tablayout_of_my_orders.removeTabAt(3)   //  grid orders
+        }
+
         // 设置 tablelayout 和 view_pager
         tablayout = tablayout_of_my_orders
         view_pager = view_pager_of_my_orders
@@ -49,8 +58,37 @@ class ActivityMyOrders : BtsppActivity() {
 
         // 监听 tab 并设置选中 item
         setTabListener()
+
+        //  事件 - 创建网格
+        set_create_bots_button_status(visible = false)
     }
 
+    private fun set_create_bots_button_status(visible: Boolean) {
+        if (visible) {
+            btn_create_bots.visibility = View.VISIBLE
+            btn_create_bots.setOnClickListener {
+                val result_promise = Promise()
+                goTo(ActivityBotsCreate::class.java, true, args = JSONObject().apply {
+                    put("result_promise", result_promise)
+                })
+                result_promise.then { dirty ->
+                    //  刷新
+                    if (dirty != null && dirty as Boolean) {
+                        for (frag in fragmens) {
+                            if (frag is FragmentBotsManager) {
+                                frag.queryMyBotsList(full_account_data = _full_account_data)
+                                break
+                            }
+                        }
+                    }
+                    return@then null
+                }
+            }
+        } else {
+            btn_create_bots.visibility = View.INVISIBLE
+            btn_create_bots.setOnClickListener(null)
+        }
+    }
 
     private fun setViewPager() {
         view_pager!!.adapter = ViewPagerAdapter(super.getSupportFragmentManager(), fragmens)
@@ -86,6 +124,11 @@ class ActivityMyOrders : BtsppActivity() {
         fragmens.add(FragmentOrderHistory().initialize(JSONObject().apply {
             put("isSettlementsOrder", true)
         }))
+        if (SettingManager.sharedSettingManager().isAppEnableModuleGridBots()) {
+            fragmens.add(FragmentBotsManager().initialize(JSONObject().apply {
+                put("full_account_data", _full_account_data)
+            }))
+        }
     }
 
     private fun setTabListener() {
@@ -94,10 +137,13 @@ class ActivityMyOrders : BtsppActivity() {
                 val pos = tab.position
                 view_pager!!.setCurrentItem(pos, true)
                 fragmens[pos].let {
+                    set_create_bots_button_status(it is FragmentBotsManager)
                     if (it is FragmentOrderCurrent) {
                         it.onControllerPageChanged()
                     } else if (it is FragmentOrderHistory) {
                         it.querySettlementOrders(full_account_data = _full_account_data)
+                    } else if (it is FragmentBotsManager) {
+                        it.queryMyBotsList(full_account_data = _full_account_data)
                     }
                 }
             }
