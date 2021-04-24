@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.btsplusplus.fowallet.ActivityBotsCreate"
+    android:background="@color/theme01.appBackColor">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="15dp"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <!-- 标题栏 -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/layout_back_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:tint="@color/theme01.textColorMain"
+                    android:src="@drawable/ic_btn_back"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/kBtnBack"
+                    style="@style/kNavigationBarTextStyle"
+                    android:gravity="center_vertical"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
+                android:text="@string/kVcTitleCreateGridBots"
+                style="@style/kNavigationBarTextStyle" />
+
+        </FrameLayout>
+
+        <!-- 最低价格 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textSize="16dp"
+                android:textColor="@color/theme01.textColorMain"
+                android:text="@string/kBotsCreateCellTitleMinPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:gravity="center_vertical|right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_min_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="16dp"
+                    android:textColor="@color/theme01.textColorNormal"
+                    android:text="@string/kBotsCreateCellPlaceHolderMinPrice"/>
+
+                <ImageView
+                    android:tint="@color/theme01.textColorGray"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:foregroundGravity="right"
+                    android:src="@drawable/ic_btn_right_arrow" />
+
+            </LinearLayout>
+        </LinearLayout>
+        <View android:layout_marginTop="10dp" android:layout_height="1dp" android:background="@color/theme01.bottomLineColor" android:layout_width="fill_parent"></View>
+
+        <!-- 最高价格 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textSize="16dp"
+                android:textColor="@color/theme01.textColorMain"
+                android:text="@string/kBotsCreateCellTitleMaxPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:gravity="center_vertical|right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_max_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="16dp"
+                    android:textColor="@color/theme01.textColorNormal"
+                    android:text="@string/kBotsCreateCellPlaceHolderMaxPrice"/>
+
+                <ImageView
+                    android:tint="@color/theme01.textColorGray"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:foregroundGravity="right"
+                    android:src="@drawable/ic_btn_right_arrow" />
+
+            </LinearLayout>
+        </LinearLayout>
+        <View android:layout_marginTop="10dp" android:layout_height="1dp" android:background="@color/theme01.bottomLineColor" android:layout_width="fill_parent"></View>
+
+        <!-- 网格数量 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textSize="16dp"
+                android:textColor="@color/theme01.textColorMain"
+                android:text="@string/kBotsCreateCellTitleGridN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:gravity="center_vertical|right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_grid_n"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="16dp"
+                    android:textColor="@color/theme01.textColorNormal"
+                    android:text="@string/kBotsCreateCellPlaceHolderGridN"/>
+
+                <ImageView
+                    android:tint="@color/theme01.textColorGray"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:foregroundGravity="right"
+                    android:src="@drawable/ic_btn_right_arrow" />
+
+            </LinearLayout>
+        </LinearLayout>
+        <View android:layout_marginTop="10dp" android:layout_height="1dp" android:background="@color/theme01.bottomLineColor" android:layout_width="fill_parent"></View>
+
+        <!-- 每格交易数量 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textSize="16dp"
+                android:textColor="@color/theme01.textColorMain"
+                android:text="@string/kBotsCreateCellTitleAmountPerGrid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:gravity="center_vertical|right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_amount_per_grid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="16dp"
+                    android:textColor="@color/theme01.textColorNormal"
+                    android:text="@string/kBotsCreateCellPlaceHolderAmountPerGrid"/>
+
+                <ImageView
+                    android:tint="@color/theme01.textColorGray"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:foregroundGravity="right"
+                    android:src="@drawable/ic_btn_right_arrow" />
+
+            </LinearLayout>
+        </LinearLayout>
+        <View android:layout_marginTop="10dp" android:layout_height="1dp" android:background="@color/theme01.bottomLineColor" android:layout_width="fill_parent"></View>
+
+        <!-- 交易资产 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textSize="16dp"
+                android:textColor="@color/theme01.textColorMain"
+                android:text="@string/kBotsCreateCellTitleQuoteAsset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:gravity="center_vertical|right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_quote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="16dp"
+                    android:textColor="@color/theme01.textColorNormal"
+                    android:text="@string/kBotsCreateCellPlaceHolderQuote"/>
+
+                <ImageView
+                    android:tint="@color/theme01.textColorGray"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:foregroundGravity="right"
+                    android:src="@drawable/ic_btn_right_arrow" />
+
+            </LinearLayout>
+        </LinearLayout>
+        <View android:layout_marginTop="10dp" android:layout_height="1dp" android:background="@color/theme01.bottomLineColor" android:layout_width="fill_parent"></View>
+
+        <!-- 报价资产 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textSize="16dp"
+                android:textColor="@color/theme01.textColorMain"
+                android:text="@string/kBotsCreateCellTitleBaseAsset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:gravity="center_vertical|right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_base"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="16dp"
+                    android:textColor="@color/theme01.textColorNormal"
+                    android:text="@string/kBotsCreateCellPlaceHolderBase"/>
+
+                <ImageView
+                    android:tint="@color/theme01.textColorGray"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:foregroundGravity="right"
+                    android:src="@drawable/ic_btn_right_arrow" />
+
+            </LinearLayout>
+        </LinearLayout>
+        <View android:layout_marginTop="10dp" android:layout_height="1dp" android:background="@color/theme01.bottomLineColor" android:layout_width="fill_parent"></View>
+
+        <!-- 创建按钮 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_op_create_bots"
+                android:layout_width="wrap_content"
+                style="@style/kMainButtonStyle"
+                android:gravity="center|center_vertical"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:text="@string/kBotsCreateSubmitButton" />
+        </LinearLayout>
+
+        <!-- UI - 提示信息 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/kUiTipsStyle"
+            android:text="@string/kBotsCreateUiTipsMsg" />
+
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
