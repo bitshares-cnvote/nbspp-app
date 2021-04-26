@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/theme01.textColorMain</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -65,6 +65,16 @@
         <item name="android:background">@color/theme01.mainButtonBackColor</item>
         <item name="android:textSize">16dp</item>
         <item name="android:textColor">@color/theme01.mainButtonTextColor</item>
+    </style>
+
+    <style name="kUiTipsStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/theme01.tabBarColor2</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/theme01.textColorMain</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:layout_marginTop">20dp</item>
     </style>
 
     <style name="kNormalButtonStyle">

@@ -2189,8 +2189,8 @@ static ChainObjectManager *_sharedChainObjectManager = nil;
  */
 - (WsPromise*)queryAccountAllBotsData:(NSString*)account_id
 {
-    return [[[ChainObjectManager sharedChainObjectManager] queryAccountStorageInfo:account_id
-                                                                           catalog:kAppStorageCatalogBotsGridBots] then:^id(id data_array) {
+    return [[self queryAccountStorageInfo:account_id
+                                  catalog:kAppStorageCatalogBotsGridBots] then:^id(id data_array) {
         NSMutableDictionary* resultHash = [NSMutableDictionary dictionary];
         if (data_array && [data_array isKindOfClass:[NSArray class]]) {
             for (id storage_item in data_array) {

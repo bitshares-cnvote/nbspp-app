@@ -781,7 +781,7 @@
 "kBotsCreateCellPlaceHolderQuote" = "Please select quote asset";
 "kBotsCreateCellPlaceHolderBase" = "Please select base asset";
 "kBotsCreateSubmitButton" = "Create";
-"kBotsCreateUiTipsMsg" = "[Reminder]\nSet the grid order parameters.";
+"kBotsCreateUiTipsMsg" = "[Reminder]\nSet the grid order parameters.\n\n Note: Because running multiple grids at the same time may affect the calculation of grid revenue, it is recommended to use a separate account to run the grid, and one account should not run multiple grids at the same time.";
 "kBotsCreateTipSelectQuoteAssetFirst" = "Please select a quote asset first.";
 "kBotsCreateTipPleaseSelectBase" = "Please select a base asset.";
 "kBotsCreateTipPleaseSelectQuote" = "Please select a quote asset.";

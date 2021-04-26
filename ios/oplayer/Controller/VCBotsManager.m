@@ -185,20 +185,22 @@ enum
                 if (valid && status) {
                     if ([status isEqualToString:@"running"]) {
                         NSInteger i_init_time = [[[value objectForKey:@"ext"] objectForKey:@"init_time"] integerValue];
-                        NSInteger now_ts = (NSInteger)[[NSDate date] timeIntervalSince1970];
-                        NSInteger run_ts = MAX(now_ts - i_init_time, 1);  //  REMARK：有可能有时间误差，默认最低取值1秒。
-                        NSInteger run_days = run_ts / 86400;
-                        NSInteger run_hours = run_ts % 86400 / 3600;
-                        NSInteger run_mins = run_ts % 86400 % 3600 / 60;
-                        NSInteger run_secs = run_ts % 86400 % 3600 % 60;
-                        if (run_days > 0) {
-                            tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kBotsCellLabelMsgRunTimeDHMS", @"已运行 %@ 天 %@ 小时 %@ 分 %@ 秒"), @(run_days), @(run_hours), @(run_mins), @(run_secs)];
-                        } else if (run_hours > 0) {
-                            tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kBotsCellLabelMsgRunTimeHMS", @"已运行 %@ 小时 %@ 分 %@ 秒"), @(run_hours), @(run_mins), @(run_secs)];
-                        } else if (run_mins > 0) {
-                            tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kBotsCellLabelMsgRunTimeMS", @"已运行 %@ 分 %@ 秒"), @(run_mins), @(run_secs)];
-                        } else {
-                            tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kBotsCellLabelMsgRunTimeS", @"已运行 %@ 秒"), @(run_secs)];
+                        if (i_init_time > 0) {
+                            NSInteger now_ts = (NSInteger)[[NSDate date] timeIntervalSince1970];
+                            NSInteger run_ts = MAX(now_ts - i_init_time, 1);  //  REMARK：有可能有时间误差，默认最低取值1秒。
+                            NSInteger run_days = run_ts / 86400;
+                            NSInteger run_hours = run_ts % 86400 / 3600;
+                            NSInteger run_mins = run_ts % 86400 % 3600 / 60;
+                            NSInteger run_secs = run_ts % 86400 % 3600 % 60;
+                            if (run_days > 0) {
+                                tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kBotsCellLabelMsgRunTimeDHMS", @"已运行 %@ 天 %@ 小时 %@ 分 %@ 秒"), @(run_days), @(run_hours), @(run_mins), @(run_secs)];
+                            } else if (run_hours > 0) {
+                                tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kBotsCellLabelMsgRunTimeHMS", @"已运行 %@ 小时 %@ 分 %@ 秒"), @(run_hours), @(run_mins), @(run_secs)];
+                            } else if (run_mins > 0) {
+                                tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kBotsCellLabelMsgRunTimeMS", @"已运行 %@ 分 %@ 秒"), @(run_mins), @(run_secs)];
+                            } else {
+                                tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kBotsCellLabelMsgRunTimeS", @"已运行 %@ 秒"), @(run_secs)];
+                            }
                         }
                     } else if ([status isEqualToString:@"created"]) {
                         //  刚创建，不显示提示信息。
@@ -278,9 +280,15 @@ enum
     ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
     
     [_owner showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];
-    [[[chainMgr queryAccountStorageInfo:account_name
-                                catalog:kAppStorageCatalogBotsGridBots] then:^id(id data_array) {
+    
+    id p1 = [chainMgr queryFullAccountInfo:account_name];
+    id p2 = [chainMgr queryAccountStorageInfo:account_name catalog:kAppStorageCatalogBotsGridBots];
+    
+    [[[WsPromise all:@[p1, p2]] then:^id(id data) {
+        //  更新账号信息（权限等）
+        _fullAccountData = [data objectAtIndex:0];
         
+        id data_array = [data objectAtIndex:1];
         GrapheneApi* api = [[GrapheneConnectionManager sharedGrapheneConnectionManager] any_connection].api_db;
         
         NSMutableDictionary* pair_promise_hash = [NSMutableDictionary dictionary];
@@ -661,6 +669,9 @@ enum
 
 - (void)_deleteBots:(id)item
 {
+    ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
+    BitsharesClientManager* client = [BitsharesClientManager sharedBitsharesClientManager];
+    
     //  不支持提案：多签账号不支持跑量化机器人，量化授权会失去多签账号的意义。
     [_owner GuardWalletUnlocked:YES body:^(BOOL unlocked) {
         if (unlocked){
@@ -672,7 +683,7 @@ enum
             id bots_key = [storage_item objectForKey:@"key"];
             
             [_owner showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];
-            [[[[ChainObjectManager sharedChainObjectManager] queryAccountAllBotsData:op_account_id] then:^id(id result_hash) {
+            [[[chainMgr queryAccountAllBotsData:op_account_id] then:^id(id result_hash) {
                 id latest_storage_item = [result_hash objectForKey:bots_key];
                 if (!latest_storage_item) {
                     [_owner hideBlockView];
@@ -692,16 +703,50 @@ enum
                 }
                 
                 id key_values = @[@[bots_key, [@{} to_json]]];
-                return [[[BitsharesClientManager sharedBitsharesClientManager] accountStorageMap:op_account_id
-                                                                                          remove:YES
-                                                                                         catalog:kAppStorageCatalogBotsGridBots
-                                                                                      key_values:key_values] then:^id(id data) {
+                
+                return [[client buildAndRunTransaction:^(TransactionBuilder *builder) {
+                    //  OP - 删除网格
+                    [builder add_operation:ebo_custom
+                                    opdata:[client buildOpData_accountStorageMap:op_account_id
+                                                                          remove:YES
+                                                                         catalog:kAppStorageCatalogBotsGridBots
+                                                                      key_values:key_values]];
+                    
+                    //  OP - 取消授权  REMARK：删除最后一个网格，自动取消授权。
+                    if ([_dataArray count] <= 1) {
+                        id const_bots_account_id = [[SettingManager sharedSettingManager] getAppGridBotsTraderAccount];
+                        id new_active_permission = [[op_account objectForKey:@"active"] mutableCopy];
+                        NSMutableArray* new_account_auths = [NSMutableArray array];
+                        //  保留 account_auths 权限中的其他权限，删除 bots trader 权限。
+                        for (id item in [new_active_permission objectForKey:@"account_auths"]) {
+                            id account = [item firstObject];
+                            if (![const_bots_account_id isEqualToString:account]) {
+                                [new_account_auths addObject:item];
+                            }
+                        }
+                        //  仅更新 account_auths 权限，key_auths 等权限保持不变 。
+                        [new_active_permission setObject:[new_account_auths copy] forKey:@"account_auths"];
+                        
+                        id opdata_bots_authority = @{
+                            @"fee":@{
+                                    @"amount":@0,
+                                    @"asset_id":chainMgr.grapheneCoreAssetID,
+                            },
+                            @"account":op_account_id,
+                            @"active":[new_active_permission copy],
+                        };
+                        [builder add_operation:ebo_account_update opdata:opdata_bots_authority];
+                    }
+                    
+                    //  获取签名KEY
+                    [builder addSignKeys:[[WalletManager sharedWalletManager] getSignKeysFromFeePayingAccount:op_account_id
+                                                                                       requireOwnerPermission:NO]];
+                }] then:^id(id data) {
                     [_owner hideBlockView];
                     [OrgUtils makeToast:NSLocalizedString(@"kBotsActionTipsDeleteOK", @"删除成功。")];
                     [self queryMyBotsList];
                     return nil;
                 }];
-                
             }] catch:^id(id error) {
                 
                 [_owner hideBlockView];

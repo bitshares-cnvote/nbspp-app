@@ -73,11 +73,11 @@ static BitsharesClientManager *_sharedBitsharesClientManager = nil;
 /*
  *  OP - 手动构造 operation 和 添加 sign_key。对于一次性执行多个操作时需要。
  */
-- (WsPromise*)buildAndRunTransaction:(void (^)(TransactionBuilder* builder))opration_build_callback
+- (WsPromise*)buildAndRunTransaction:(void (^)(TransactionBuilder* builder))operation_build_callback
 {
-    assert(opration_build_callback);
+    assert(operation_build_callback);
     TransactionBuilder* tr = [[TransactionBuilder alloc] init];
-    opration_build_callback(tr);
+    operation_build_callback(tr);
     return [self process_transaction:tr];
 }
 
