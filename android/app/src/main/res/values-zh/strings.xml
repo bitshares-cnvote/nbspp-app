@@ -743,7 +743,7 @@
     <string name="kBotsCreateCellPlaceHolderQuote">请选择交易资产</string>
     <string name="kBotsCreateCellPlaceHolderBase">请选择报价资产</string>
     <string name="kBotsCreateSubmitButton">创建</string>
-    <string name="kBotsCreateUiTipsMsg">【温馨提示】\n设置网格量化订单参数。</string>
+    <string name="kBotsCreateUiTipsMsg">【温馨提示】\n设置网格量化订单参数。\n\n 注意：因账户内其他交易可能会影响网格收益的计算，建议使用单独账户来运行网格，一个账户不要同时运行多个网格。</string>
     <string name="kBotsCreateTipSelectQuoteAssetFirst">请先选择交易资产。</string>
     <string name="kBotsCreateTipPleaseSelectBase">请选择报价资产。</string>
     <string name="kBotsCreateTipPleaseSelectQuote">请选择交易资产。</string>

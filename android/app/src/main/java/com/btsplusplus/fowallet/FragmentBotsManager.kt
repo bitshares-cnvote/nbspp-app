@@ -101,8 +101,15 @@ class FragmentBotsManager : BtsppFragment() {
 
             val mask = ViewMask(R.string.kTipsBeRequesting.xmlstring(ctx), ctx).apply { show() }
 
-            chainMgr.queryAccountStorageInfo(account_name, kAppStorageCatalogBotsGridBots).then {
-                val data_array = it as? JSONArray
+            val p1 = chainMgr.queryFullAccountInfo(account_name)
+            val p2 = chainMgr.queryAccountStorageInfo(account_name, kAppStorageCatalogBotsGridBots)
+
+            Promise.all(p1, p2).then {
+                val promise_data_array = it as JSONArray
+
+                //  更新账号信息（权限等）
+                _full_account_data = promise_data_array.getJSONObject(0)
+                val data_array = promise_data_array.optJSONArray(1)
 
                 val conn = GrapheneConnectionManager.sharedGrapheneConnectionManager().any_connection()
 
@@ -179,20 +186,22 @@ class FragmentBotsManager : BtsppFragment() {
                     if (valid && status != null) {
                         if (status == "running") {
                             val i_init_time = value!!.optJSONObject("ext")?.optInt("init_time") ?: 0
-                            val now_ts = Utils.now_ts()
-                            val run_ts = Math.max(now_ts - i_init_time, 1)  //  REMARK：有可能有时间误差，默认最低取值1秒。
-                            val run_days = run_ts / 86400
-                            val run_hours = run_ts % 86400 / 3600
-                            val run_mins = run_ts % 86400 % 3600 / 60
-                            val run_secs = run_ts % 86400 % 3600 % 60
-                            tipmsg = if (run_days > 0) {
-                                String.format(resources.getString(R.string.kBotsCellLabelMsgRunTimeDHMS), run_days.toString(), run_hours.toString(), run_mins.toString(), run_secs.toString())
-                            } else if (run_hours > 0) {
-                                String.format(resources.getString(R.string.kBotsCellLabelMsgRunTimeHMS), run_hours.toString(), run_mins.toString(), run_secs.toString())
-                            } else if (run_mins > 0) {
-                                String.format(resources.getString(R.string.kBotsCellLabelMsgRunTimeMS), run_mins.toString(), run_secs.toString())
-                            } else {
-                                String.format(resources.getString(R.string.kBotsCellLabelMsgRunTimeS), run_secs.toString())
+                            if (i_init_time > 0) {
+                                val now_ts = Utils.now_ts()
+                                val run_ts = Math.max(now_ts - i_init_time, 1)  //  REMARK：有可能有时间误差，默认最低取值1秒。
+                                val run_days = run_ts / 86400
+                                val run_hours = run_ts % 86400 / 3600
+                                val run_mins = run_ts % 86400 % 3600 / 60
+                                val run_secs = run_ts % 86400 % 3600 % 60
+                                tipmsg = if (run_days > 0) {
+                                    String.format(resources.getString(R.string.kBotsCellLabelMsgRunTimeDHMS), run_days.toString(), run_hours.toString(), run_mins.toString(), run_secs.toString())
+                                } else if (run_hours > 0) {
+                                    String.format(resources.getString(R.string.kBotsCellLabelMsgRunTimeHMS), run_hours.toString(), run_mins.toString(), run_secs.toString())
+                                } else if (run_mins > 0) {
+                                    String.format(resources.getString(R.string.kBotsCellLabelMsgRunTimeMS), run_mins.toString(), run_secs.toString())
+                                } else {
+                                    String.format(resources.getString(R.string.kBotsCellLabelMsgRunTimeS), run_secs.toString())
+                                }
                             }
                         } else if (status == "created") {
                             //  刚创建，不显示提示信息。
@@ -771,6 +780,9 @@ class FragmentBotsManager : BtsppFragment() {
 
     private fun _deleteBots(item: JSONObject) {
         activity?.let { ctx ->
+            val chainMgr = ChainObjectManager.sharedChainObjectManager()
+            val client = BitsharesClientManager.sharedBitsharesClientManager()
+
             ctx.guardWalletUnlocked(true) { unlocked ->
                 if (unlocked) {
                     val op_account = _full_account_data.getJSONObject("account")
@@ -780,7 +792,7 @@ class FragmentBotsManager : BtsppFragment() {
 
                     val mask = ViewMask(R.string.kTipsBeRequesting.xmlstring(ctx), ctx).apply { show() }
 
-                    ChainObjectManager.sharedChainObjectManager().queryAccountAllBotsData(op_account_id).then {
+                    chainMgr.queryAccountAllBotsData(op_account_id).then {
                         val result_hash = it as JSONObject
                         val latest_storage_item = result_hash.optJSONObject(bots_key)
                         if (latest_storage_item == null) {
@@ -802,7 +814,37 @@ class FragmentBotsManager : BtsppFragment() {
 
                         val key_values = jsonArrayfrom(jsonArrayfrom(bots_key, JSONObject().toString()))
 
-                        return@then BitsharesClientManager.sharedBitsharesClientManager().accountStorageMap(op_account_id, true, kAppStorageCatalogBotsGridBots, key_values).then {
+                        return@then client.buildAndRunTransaction { builder ->
+                            //  OP - 删除网格
+                            builder.add_operation(EBitsharesOperations.ebo_custom, opdata = client.buildOpData_accountStorageMap(op_account_id, true, kAppStorageCatalogBotsGridBots, key_values))
+
+                            //  OP - 取消授权  REMARK：删除最后一个网格，自动取消授权。
+                            if (_dataArray.size <= 1) {
+                                val const_bots_account_id = SettingManager.sharedSettingManager().getAppGridBotsTraderAccount()
+
+                                val new_active_permission = op_account.getJSONObject("active").deepClone()
+                                val new_account_auths = JSONArray()
+                                //  保留 account_auths 权限中的其他权限，删除 bots trader 权限。
+                                for (item in new_active_permission.getJSONArray("account_auths").forin<JSONArray>()) {
+                                    val account = item!!.getString(0)
+                                    if (const_bots_account_id != account) {
+                                        new_account_auths.put(item)
+                                    }
+                                }
+                                //  仅更新 account_auths 权限，key_auths 等权限保持不变 。
+                                new_active_permission.put("account_auths", new_account_auths)
+
+                                val opdata_bots_authority = JSONObject().apply {
+                                    put("fee", jsonObjectfromKVS("amount", 0, "asset_id", chainMgr.grapheneCoreAssetID))
+                                    put("account", op_account_id)
+                                    put("active", new_active_permission)
+                                }
+                                builder.add_operation(EBitsharesOperations.ebo_account_update, opdata = opdata_bots_authority)
+                            }
+
+                            //  获取签名KEY
+                            builder.addSignKeys(WalletManager.sharedWalletManager().getSignKeysFromFeePayingAccount(op_account_id, requireOwnerPermission = false))
+                        }.then {
                             mask.dismiss()
                             showToast(resources.getString(R.string.kBotsActionTipsDeleteOK))
                             _queryMyBotsListCore(_full_account_data)

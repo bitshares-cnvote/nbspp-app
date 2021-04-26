@@ -743,7 +743,7 @@
     <string name="kBotsCreateCellPlaceHolderQuote">Please select quote asset</string>
     <string name="kBotsCreateCellPlaceHolderBase">Please select base asset</string>
     <string name="kBotsCreateSubmitButton">Create</string>
-    <string name="kBotsCreateUiTipsMsg">[Reminder]\nSet the grid order parameters.</string>
+    <string name="kBotsCreateUiTipsMsg">[Reminder]\nSet the grid order parameters.\n\n Note: Because running multiple grids at the same time may affect the calculation of grid revenue, it is recommended to use a separate account to run the grid, and one account should not run multiple grids at the same time.</string>
     <string name="kBotsCreateTipSelectQuoteAssetFirst">Please select a quote asset first.</string>
     <string name="kBotsCreateTipPleaseSelectBase">Please select a base asset.</string>
     <string name="kBotsCreateTipPleaseSelectQuote">Please select a quote asset.</string>
