@@ -436,12 +436,22 @@ static ChainObjectManager *_sharedChainObjectManager = nil;
     if (!_assetBasePriority) {
         NSMutableDictionary* asset_base_priority = [NSMutableDictionary dictionary];
         NSInteger max_priority = 1000;
-        //  REMARK：优先级 从 CNY 到 BTS 逐渐降低，其他非市场 base 的资产优先级默认为 0。
+        //  1、REMARK：优先级 从 CNY 到 BTS 逐渐降低，其他非市场 base 的资产优先级默认为 0。
         for (id market in [self getDefaultMarketInfos]) {
             id symbol = [[market objectForKey:@"base"] objectForKey:@"symbol"];
             [asset_base_priority setObject:@(max_priority) forKey:symbol];
             max_priority -= 1;
         }
+        
+        //  2、合并动态设置
+        id common_asset_base_priority = [[SettingManager sharedSettingManager] getAppAssetBasePriority];
+        if (common_asset_base_priority && [common_asset_base_priority count] > 0) {
+            for (id asset_symbol in common_asset_base_priority) {
+                id value = [common_asset_base_priority objectForKey:asset_symbol];
+                [asset_base_priority setObject:value forKey:asset_symbol];
+            }
+        }
+        
         _assetBasePriority = [asset_base_priority copy];
     }
     return _assetBasePriority;

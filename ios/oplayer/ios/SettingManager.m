@@ -391,6 +391,18 @@ static SettingManager *_sharedSettingManager = nil;
 }
 
 /*
+ *  (public) 获取设置 - 资产作为 base 的优先级
+ */
+- (id)getAppAssetBasePriority
+{
+    id asset_base_priority = [self getAppCommonSettings:@"asset_base_priority"];
+    if (asset_base_priority && [asset_base_priority count] > 0) {
+        return asset_base_priority;
+    }
+    return @{};
+}
+
+/*
  *  (public) 获取设置 - 读取通用配置
  */
 - (id)getAppCommonSettings:(NSString*)common_key
