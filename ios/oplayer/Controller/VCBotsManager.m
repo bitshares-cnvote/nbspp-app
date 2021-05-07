@@ -271,6 +271,43 @@ enum
     }
 }
 
+- (WsPromise*)queryStorageInfoListCore:(id)account_id
+{
+    assert(account_id);
+    
+    ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
+    
+    id const_bots_account_id = [[SettingManager sharedSettingManager] getAppGridBotsTraderAccount];
+    if ([const_bots_account_id isEqualToString:account_id]) {
+        return [[chainMgr queryAccountStorageInfo:const_bots_account_id catalog:kAppStorageCatalogBotsGridBotsRunning] then:^id(id data_array) {
+            NSMutableDictionary* bots_owners = [NSMutableDictionary dictionary];
+            if (data_array && [data_array count] > 0) {
+                for (id storage_item in data_array) {
+                    [bots_owners setObject:@YES forKey:[[storage_item objectForKey:@"value"] objectForKey:@"owner"]];
+                }
+            }
+            if ([bots_owners count] <= 0) {
+                return @[];
+            } else {
+                id promise_array = [[bots_owners allKeys] ruby_map:^id(id owner) {
+                    return [chainMgr queryAccountStorageInfo:owner catalog:kAppStorageCatalogBotsGridBots];
+                }];
+                return [[WsPromise all:promise_array] then:^id(id promise_data_array) {
+                    NSMutableArray* bots_array = [NSMutableArray array];
+                    if (promise_data_array && [promise_data_array count] > 0) {
+                        for (id owner_bots_list in promise_data_array) {
+                            [bots_array addObjectsFromArray:owner_bots_list];
+                        }
+                    }
+                    return [bots_array copy];
+                }];
+            }
+        }];
+    } else {
+        return [chainMgr queryAccountStorageInfo:account_id catalog:kAppStorageCatalogBotsGridBots];
+    }
+}
+
 - (void)queryMyBotsList
 {
     id op_account = [_fullAccountData objectForKey:@"account"];
@@ -282,7 +319,7 @@ enum
     [_owner showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];
     
     id p1 = [chainMgr queryFullAccountInfo:account_name];
-    id p2 = [chainMgr queryAccountStorageInfo:account_name catalog:kAppStorageCatalogBotsGridBots];
+    id p2 = [self queryStorageInfoListCore:op_account[@"id"]];
     
     [[[WsPromise all:@[p1, p2]] then:^id(id data) {
         //  更新账号信息（权限等）
@@ -355,7 +392,7 @@ enum
     self.view.backgroundColor = [ThemeManager sharedThemeManager].appBackColor;
     
     //  UI - 列表
-    CGRect rect = [self rectWithoutNavi];
+    CGRect rect = [self rectWithoutNaviAndPageBar];
     _mainTableView = [[UITableViewBase alloc] initWithFrame:rect style:UITableViewStylePlain];
     _mainTableView.delegate = self;
     _mainTableView.dataSource = self;
@@ -417,6 +454,13 @@ enum
 - (void)_onCellClicked:(id)bots
 {
     assert(bots);
+    
+    id const_bots_account_id = [[SettingManager sharedSettingManager] getAppGridBotsTraderAccount];
+    id op_account_id = [[_fullAccountData objectForKey:@"account"] objectForKey:@"id"];
+    if ([op_account_id isEqualToString:const_bots_account_id]) {
+        [VcUtils viewUserAssets:_owner account:[[bots objectForKey:@"raw"] objectForKey:@"account"]];
+        return;
+    }
     
     id list = [[[NSMutableArray array] ruby_apply:^(id ary) {
         [ary addObject:@{@"type":@(0), @"title":NSLocalizedString(@"kBotsActionStart", @"启动网格交易")}];

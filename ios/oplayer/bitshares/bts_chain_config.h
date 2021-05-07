@@ -356,6 +356,7 @@ typedef enum EBitsharesOperations
 
 //  类别：网格机器人的类别
 #define kAppStorageCatalogBotsGridBots                      @"system.bots.grid_bots"
+#define kAppStorageCatalogBotsGridBotsRunning               @"system.bots.grid_bots.running"
 
 //  KEY：APP设置 > 流动性池默认列表
 #define kAppStorageKeyAppSetings_LpMainList                 @"liquidity.pool.mainlist"
