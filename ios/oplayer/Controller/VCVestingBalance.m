@@ -57,6 +57,43 @@
     return self;
 }
 
+/*
+ *  (public) 是否是锁仓挖矿的特殊 vesting balance 对象判断。
+ */
++ (BOOL)isLockMiningVestingObject:(id)vesting
+{
+    assert(vesting);
+    
+    //  锁仓挖矿采用 CDD + start_claim 类型。
+    NSInteger vesting_type = [[[vesting objectForKey:@"policy"] objectAtIndex:0] integerValue];
+    if (vesting_type != ebvp_cdd_vesting_policy) {
+        return NO;
+    }
+    
+    id balance_type = [vesting objectForKey:@"balance_type"];
+    if (balance_type && ![[balance_type lowercaseString] isEqualToString:@"unspecified"]){
+        return NO;
+    }
+    
+    id policy_data = [[vesting objectForKey:@"policy"] objectAtIndex:1];
+    assert(policy_data);
+    
+    NSTimeInterval start_claim_ts = [OrgUtils parseBitsharesTimeString:policy_data[@"start_claim"]];
+    if (start_claim_ts <= 0) {
+        return NO;
+    }
+    
+    if ([[policy_data objectForKey:@"vesting_seconds"] integerValue] != 0) {
+        return NO;
+    }
+
+    if ([[policy_data objectForKey:@"coin_seconds_earned"] integerValue] != 0) {
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (void)onQueryVestingBalanceResponsed:(NSArray*)data_array nameHash:(NSDictionary*)nameHash
 {
     //  更新数据
@@ -66,6 +103,10 @@
             id oid = [vesting objectForKey:@"id"];
             assert(oid);
             if (!oid){
+                continue;
+            }
+            //  该界面仅显示普通 vesting balance，略过锁仓挖矿的 vesting balance 对象。
+            if ([[self class] isLockMiningVestingObject:vesting]) {
                 continue;
             }
             //  略过总金额为 0 的待解冻金额对象。

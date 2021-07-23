@@ -22,4 +22,9 @@
  */
 - (void)queryVestingBalance;
 
+/*
+ *  (public) 是否是锁仓挖矿的特殊 vesting balance 对象判断。
+ */
++ (BOOL)isLockMiningVestingObject:(id)vesting;
+
 @end
