@@ -112,6 +112,16 @@
 - (NSString*)getAppGridBotsTraderAccount;
 
 /*
+ *  (public) 获取设置 - 获取真锁仓挖矿的资产列表
+ */
+- (id)getAppLockAssetList;
+
+/*
+ *  (public) 获取设置 - 真锁仓挖矿条目
+ */
+- (id)getAppAssetLockItem:(id)asset_id;
+
+/*
  *  (public) 获取设置 - 挖矿资产列表（快速兑换列表）
  */
 - (id)getAppAssetMinerList;

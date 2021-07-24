@@ -313,7 +313,7 @@ static SettingManager *_sharedSettingManager = nil;
  */
 - (id)getAppKnownGatewayList
 {
-    id list = [self getOnChainAppSetting:kAppStorageKeyAppSetings_KnownGatewayList];
+    id list = [self getAppCommonSettings:@"gateways"];
     if (list && [list count] > 0) {
         return list;
     }
@@ -337,7 +337,7 @@ static SettingManager *_sharedSettingManager = nil;
  */
 - (id)getAppKnownCexDepositAccounts
 {
-    id list = [self getOnChainAppSetting:kAppStorageKeyAppSetings_KnownCexDepositAccounts];
+    id list = [self getAppCommonSettings:@"known_cex_deposit_accounts"];
     if (list && [list count] > 0) {
         return list;
     }
@@ -366,11 +366,36 @@ static SettingManager *_sharedSettingManager = nil;
 }
 
 /*
+ *  (public) 获取设置 - 获取真锁仓挖矿的资产列表
+ */
+- (id)getAppLockAssetList
+{
+    id list = [self getAppCommonSettings:@"lock_list"];
+    if (list && [list count] > 0) {
+        return list;
+    }
+    return @[];
+}
+
+/*
+ *  (public) 获取设置 - 真锁仓挖矿条目
+ */
+- (id)getAppAssetLockItem:(id)asset_id
+{
+    for (id lock_item in [self getAppLockAssetList]) {
+        if (asset_id && [asset_id isEqualToString:[lock_item objectForKey:@"asset_id"]]) {
+            return lock_item;
+        }
+    }
+    return nil;
+}
+
+/*
  *  (public) 获取设置 - 挖矿资产列表（快速兑换列表）
  */
 - (id)getAppAssetMinerList
 {
-    id list = [self getOnChainAppSetting:kAppStorageKeyAppSetings_AssetMinerList];
+    id list = [self getAppCommonSettings:@"miner_list"];
     if (list && [list count] > 0) {
         return list;
     }
