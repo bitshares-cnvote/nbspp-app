@@ -44,7 +44,7 @@
 #define kAppConfigFile              @"fowallet_config_nbs_testnet.json"
 
 //  REMARK: APP链端配置信息账号ID（可以为空或不定义该宏）
-#define kAppOnChainSettingsAccount  @""         //  “”
+#define kAppOnChainSettingsAccount  @"1.2.162"  //  app-settings
 
 #else
 
