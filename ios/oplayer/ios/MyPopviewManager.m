@@ -222,7 +222,7 @@ static const char* __picker_view_args_addr__ = "__picker_view_args_addr__";
                     defaultIndex:(NSInteger)defaultIndex
 {
     assert(itemlist && itemkey);
-    assert(defaultIndex < [itemlist count]);
+    assert(defaultIndex < (NSInteger)[itemlist count]);
     WsPromise* p = [WsPromise promise:(^(WsResolveHandler resolve, WsRejectHandler reject) {
         ViewSimulateActionSheet* sheet = [ViewSimulateActionSheet styleDefault:message];
         id picker_args = @{
