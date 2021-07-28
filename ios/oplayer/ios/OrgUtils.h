@@ -159,6 +159,16 @@ typedef void (^YklUserCallback)(id data);
 + (NSString*)fmtVestingPeriodDateString:(NSUInteger)seconds;
 
 /**
+ *  格式化：精确到小时格式化。
+ */
++ (NSString*)fmtNhoursAndDays:(NSInteger)seconds;
+
+/*
+ *  (public) 获取当前时间戳
+ */
++ (NSTimeInterval)current_ts;
+
+/**
  *  格式化：交易OP编码转换为字符串名字。
  */
 + (NSString*)opcode2opname:(NSUInteger)opcode;

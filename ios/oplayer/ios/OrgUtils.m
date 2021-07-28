@@ -699,6 +699,37 @@
 }
 
 /**
+ *  格式化：精确到小时格式化。
+ */
++ (NSString*)fmtNhoursAndDays:(NSInteger)seconds
+{
+    NSInteger hours = seconds / 3600;
+    if ((hours % 24) == 0) {
+        NSInteger days = hours / 24;
+        if (days > 1){
+            return [NSString stringWithFormat:NSLocalizedString(@"kProposalLabelNDays", @"%@天"), @(days)];
+        }else{
+            return [NSString stringWithFormat:NSLocalizedString(@"kProposalLabel1Days", @"%@天"), @(days)];
+        }
+    } else {
+        //  非整数”天“，按照小时显示。
+        if (hours > 1) {
+            return [NSString stringWithFormat:NSLocalizedString(@"kProposalLabelNHours", @"%@小时"), @(hours)];
+        } else {
+            return [NSString stringWithFormat:NSLocalizedString(@"kProposalLabel1Hours", @"%@小时"), @(hours)];
+        }
+    }
+}
+
+/*
+ *  (public) 获取当前时间戳
+ */
++ (NSTimeInterval)current_ts
+{
+    return [[NSDate date] timeIntervalSince1970];
+}
+
+/**
  *  格式化：交易OP编码转换为字符串名字。
  */
 + (NSString*)opcode2opname:(NSUInteger)opcode
