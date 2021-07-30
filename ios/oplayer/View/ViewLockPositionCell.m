@@ -200,8 +200,9 @@
     NSInteger diff_ts = (NSInteger)(start_claim_ts - init_ts);
     diff_ts -= diff_ts % 3600;                      //  REMARK：按小时取整，创建的时候正常浮动了一定秒数。
     
-    //  第一行 ID TODO:3.2 lang
-    _lbAssetName.text = [NSString stringWithFormat:@"锁仓编号 #%@", [[[_item objectForKey:@"id"] componentsSeparatedByString:@"."] lastObject]];
+    //  第一行 ID
+    _lbAssetName.text = [NSString stringWithFormat:NSLocalizedString(@"kVcMyStakeListCellStakeObjectID", @"锁仓编号 #%@"),
+                         [[[_item objectForKey:@"id"] componentsSeparatedByString:@"."] lastObject]];
     _lbAssetName.textColor = theme.textColorMain;
     
     if (_btnWithdraw){
@@ -213,10 +214,10 @@
     
     yOffset += 28;
     
-    //  第二行 TODO:3.2 lang
+    //  第二行
     _lbAmountTitle.text = [NSString stringWithFormat:@"%@(%@)", NSLocalizedString(@"kLabelTradeHisTitleAmount", @"数量"), balance_asset[@"symbol"]];;
-    _lbLockPeriodTitle.text = @"周期";
-    _lbStatusTitle.text = @"到期时间";
+    _lbLockPeriodTitle.text = NSLocalizedString(@"kVcMyStakeListCellPeriodTitle", @"周期");
+    _lbStatusTitle.text = NSLocalizedString(@"kVcMyStakeListCellLockExpiredTitle", @"到期时间");
     _lbAmountTitle.textColor = theme.textColorGray;
     _lbLockPeriodTitle.textColor = theme.textColorGray;
     _lbStatusTitle.textColor = theme.textColorGray;
@@ -231,13 +232,11 @@
     _lbAmountValue.text = [NSString stringWithFormat:@"%@", [OrgUtils formatAssetString:balance[@"amount"] asset:balance_asset]];
     _lbAmountValue.textColor = theme.textColorNormal;
     
-    //  TODO:3.2
     _lbLockPeriodValue.text = [OrgUtils fmtNhoursAndDays:diff_ts];
     _lbLockPeriodValue.textColor = theme.textColorNormal;
     
-    //  TODO:3.2 lang
     if (now_ts >= start_claim_ts) {
-        _lbStatusValue.text = @"已到期";
+        _lbStatusValue.text = NSLocalizedString(@"kVcMyStakeListCellAlreadyExpired", @"已到期");
         _lbStatusValue.textColor = theme.textColorMain;
         if (_btnWithdraw) {
             _btnWithdraw.hidden = NO;

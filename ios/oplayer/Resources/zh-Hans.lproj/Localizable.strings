@@ -651,6 +651,28 @@
 "kVcAssetOpMinerSubmitTipsPleaseInputValidAmount" = "请输入有效的兑换数量。";
 "kVcAssetOpMinerSubmitTipSwapOK" = "兑换成功。";
 
+"kVcAssetOpStakeMiningCellStakeAssetName" = "锁仓资产";
+"kVcAssetOpStakeMiningCellStakePeriod" = "锁仓周期";
+"kVcAssetOpStakeMiningPlaceholderSelectStakePeriod" = "请选择锁仓周期";
+"kVcAssetOpStakeMiningPlaceholderInputStakeAmount" = "请输入锁仓数量";
+"kVcAssetOpStakeMiningTitleStakePeriod" = "锁仓周期";
+"kVcAssetOpStakeMiningBtnName" = "锁仓";
+"kVcAssetOpStakeMiningUITipsNonStakeAsset" = "【温馨提示】\n1、锁仓资产在到期之前不可取回，请谨慎操作。\n2、该资产不是挖矿资产，锁仓不会产生任何收益。";
+"kVcAssetOpStakeMiningUITipsRewardRatioLineFmt" = "%@、锁仓%@，%@倍收益。\n";
+"kVcAssetOpStakeMiningUITipsStakeAsset" = "【温馨提示】\n锁仓挖矿和 %@ 挖矿共享同一个矿池奖励。\n%@\n※ 锁仓资产在到期之前不可取回，请谨慎操作。";
+"kVcAssetOpStakeMiningTipsSelectValidStakeAmount" = "请输入有效的锁仓数量。";
+"kVcAssetOpStakeMiningTipsLessThanMinStakeAmount" = "单次最低锁仓数量 %@ %@";
+"kVcAssetOpStakeMiningTipsSelectStakePeriod" = "请选择锁仓周期。";
+"kVcAssetOpStakeMiningAskConfirmTips" = "您确认锁仓 %@ %@ 吗？\n\n※ 锁仓到期之前不可取回，请谨慎操作。"; 
+"kVcAssetOpStakeMiningSubmitTipsSuccess" = "锁仓成功。";
+
+"kVcMyStakeListCellStakeObjectID" = "锁仓编号 #%@";
+"kVcMyStakeListCellPeriodTitle" = "周期";
+"kVcMyStakeListCellLockExpiredTitle" = "到期时间";
+"kVcMyStakeListCellAlreadyExpired" = "已到期";
+"kVcMyStakeListUITipsNoData" = "没有任何锁仓对象";
+"kVcMyStakeListSubmitTipsClaimSuccess" = "锁仓资金 %@ 取回成功。";
+
 "kVcAssetOpSettleTipsDisableSettle" = "该资产禁止清算。";
 "kVcAssetOpSettleTipsMustGlobalSettleFirst" = "预测市场全局清算完成之后才可以进行清算操作。";
 "kVcAssetOpSettleTipsNoFeedData" = "该资产没有有效的喂价，不可清算。";

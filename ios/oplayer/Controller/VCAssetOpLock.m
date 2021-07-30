@@ -139,12 +139,23 @@ enum
 
 - (NSString*)genTransferTipsMessage
 {
-    //  TODO:3.2 lang
     if (_curr_lock_item) {
         id share_asset = [_curr_lock_item objectForKey:@"share_asset"];
-        return [NSString stringWithFormat:@"【温馨提示】\n锁仓挖矿和 %@ 挖矿共享同一个矿池奖励。\n1、锁仓 30 天，1.5 倍收益。\n2、锁仓 90 天，2 倍收益。\n3、锁仓 180 天，3 倍收益。\n\n※ 锁仓资产在到期之前不可取回，请谨慎操作。", share_asset];
+        
+        NSMutableArray* lines = [NSMutableArray array];
+        for (id item in [_curr_lock_item objectForKey:@"levels"]) {
+            [lines addObject:[NSString stringWithFormat:NSLocalizedString(@"kVcAssetOpStakeMiningUITipsRewardRatioLineFmt", @"%@、锁仓%@，%@倍收益。\n"),
+                              @([lines count] + 1),
+                              [OrgUtils fmtNhoursAndDays:[[item objectForKey:@"seconds"] integerValue]],
+                              [NSDecimalNumber decimalNumberWithMantissa:[[item objectForKey:@"ratio"] unsignedLongLongValue]
+                                                                exponent:-3
+                                                              isNegative:NO]]];
+        }
+        return [NSString stringWithFormat:NSLocalizedString(@"kVcAssetOpStakeMiningUITipsStakeAsset", @"【温馨提示】\n锁仓挖矿和 %@ 挖矿共享同一个矿池奖励。\n%@\n※ 锁仓资产在到期之前不可取回，请谨慎操作。"),
+                share_asset,
+                [lines componentsJoinedByString:@""]];
     } else {
-        return @"【温馨提示】\n1、锁仓资产在到期之前不可取回，请谨慎操作。\n2、该资产不是挖矿资产，锁仓不会产生任何收益。";
+        return NSLocalizedString(@"kVcAssetOpStakeMiningUITipsNonStakeAsset", @"【温馨提示】\n1、锁仓资产在到期之前不可取回，请谨慎操作。\n2、该资产不是挖矿资产，锁仓不会产生任何收益。");
     }
 }
 
@@ -158,7 +169,7 @@ enum
     
     //  UI - 数量输入框
     _tf_amount = [[ViewTextFieldAmountCell alloc] initWithTitle:NSLocalizedString(@"kOtcMcAssetTransferCellLabelAmount", @"数量")
-                                                    placeholder:@"请输入锁仓数量"//TOOD:3.2 lang
+                                                    placeholder:NSLocalizedString(@"kVcAssetOpStakeMiningPlaceholderInputStakeAmount", @"请输入锁仓数量")
                                                          tailer:[_curr_selected_asset objectForKey:@"symbol"]];
     _tf_amount.delegate = self;
     [self _drawUI_Balance:NO];
@@ -182,8 +193,7 @@ enum
     pTap.cancelsTouchesInView = NO; //  IOS 5.0系列导致按钮没响应
     [self.view addGestureRecognizer:pTap];
     
-    //  TODO:3.2 lang
-    _lbCommit = [self createCellLableButton:@"锁仓"];
+    _lbCommit = [self createCellLableButton:NSLocalizedString(@"kVcAssetOpStakeMiningBtnName", @"锁仓")];
 }
 
 -(void)onTap:(UITapGestureRecognizer*)pTap
@@ -275,7 +285,7 @@ enum
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             if (indexPath.row == 0) {
                 cell.textLabel.font = [UIFont systemFontOfSize:13.0f];
-                cell.textLabel.text = @"锁仓资产";//TODO:3.2 lang
+                cell.textLabel.text = NSLocalizedString(@"kVcAssetOpStakeMiningCellStakeAssetName", @"锁仓资产");
                 cell.hideBottomLine = YES;
             } else {
                 cell.showCustomBottomLine = YES;
@@ -303,15 +313,15 @@ enum
             
             if (indexPath.row == 0) {
                 cell.textLabel.font = [UIFont systemFontOfSize:13.0f];
-                cell.textLabel.text = @"锁仓周期";//TODO:3.2 lang
+                cell.textLabel.text = NSLocalizedString(@"kVcAssetOpStakeMiningCellStakePeriod", @"锁仓周期");
                 cell.hideBottomLine = YES;
             } else {
                 cell.showCustomBottomLine = YES;
                 if (_iLockPeriodSeconds > 0) {
-                    cell.textLabel.text = [self _fmtNday:_iLockPeriodSeconds];
+                    cell.textLabel.text = [OrgUtils fmtNhoursAndDays:_iLockPeriodSeconds];
                     cell.textLabel.textColor = theme.textColorMain;
                 } else {
-                    cell.textLabel.text = @"请选择锁仓周期";//TODO:3.2 lang
+                    cell.textLabel.text = NSLocalizedString(@"kVcAssetOpStakeMiningPlaceholderSelectStakePeriod", @"请选择锁仓周期");
                     cell.textLabel.textColor = theme.textColorGray;
                 }
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -391,26 +401,6 @@ enum
                    backtitle:kVcDefaultBackTitleName];
 }
 
-- (NSString*)_fmtNday:(NSInteger)seconds
-{
-    NSInteger hours = seconds / 3600;
-    if ((hours % 24) == 0) {
-        NSInteger days = hours / 24;
-        if (days > 1){
-            return [NSString stringWithFormat:NSLocalizedString(@"kProposalLabelNDays", @"%@天"), @(days)];
-        }else{
-            return [NSString stringWithFormat:NSLocalizedString(@"kProposalLabel1Days", @"%@天"), @(days)];
-        }
-    } else {
-        //  非整数”天“，按照小时显示。
-        if (hours > 1) {
-            return [NSString stringWithFormat:NSLocalizedString(@"kProposalLabelNHours", @"%@小时"), @(hours)];
-        } else {
-            return [NSString stringWithFormat:NSLocalizedString(@"kProposalLabel1Hours", @"%@小时"), @(hours)];
-        }
-    }
-}
-
 - (void)onLockPeriodClicked
 {
     //  REMARK：锁仓时间。
@@ -428,7 +418,7 @@ enum
     for (id sec in default_list) {
         NSInteger seconds = [sec integerValue];
         assert(seconds > 0);
-        id name = [self _fmtNday:seconds];
+        id name = [OrgUtils fmtNhoursAndDays:seconds];
         if (seconds == _iLockPeriodSeconds){
             default_select = [data_array count];
         }
@@ -436,7 +426,7 @@ enum
     }
     
     [[[MyPopviewManager sharedMyPopviewManager] showModernListView:self.navigationController
-                                                           message:@"锁仓周期"//TODO:3.2 text & lang
+                                                           message:NSLocalizedString(@"kVcAssetOpStakeMiningTitleStakePeriod", @"锁仓周期")
                                                              items:data_array
                                                            itemkey:@"name"
                                                       defaultIndex:default_select] then:(^id(id result) {
@@ -457,7 +447,7 @@ enum
     
     NSDecimalNumber* n_zero = [NSDecimalNumber zero];
     if ([n_amount compare:n_zero] <= 0) {
-        [OrgUtils makeToast:@"请输入有效的锁仓数量。"];//TODO:3.2 lang
+        [OrgUtils makeToast:NSLocalizedString(@"kVcAssetOpStakeMiningTipsSelectValidStakeAmount", @"请输入有效的锁仓数量。")];
         return;
     }
     
@@ -467,8 +457,9 @@ enum
                                                          exponent:0
                                                        isNegative:NO];
         if ([n_amount compare:n_min_amount] < 0) {
-            //  TODO:3.2 lang
-            [OrgUtils makeToast:[NSString stringWithFormat:@"单次最低锁仓数量 %@ %@", n_min_amount, _curr_selected_asset[@"symbol"]]];
+            [OrgUtils makeToast:[NSString stringWithFormat:NSLocalizedString(@"kVcAssetOpStakeMiningTipsLessThanMinStakeAmount", @"单次最低锁仓数量 %@ %@"),
+                                 n_min_amount,
+                                 _curr_selected_asset[@"symbol"]]];
             return;
         }
     }
@@ -479,12 +470,13 @@ enum
     }
     
     if (_iLockPeriodSeconds <= 0) {
-        [OrgUtils makeToast:@"请选择锁仓周期。"];//TODO:3.2 lang
+        [OrgUtils makeToast:NSLocalizedString(@"kVcAssetOpStakeMiningTipsSelectStakePeriod", @"请选择锁仓周期。")];
         return;
     }
     
-    //  TODO:3.2 text & lang
-    id value = [NSString stringWithFormat:@"您确认锁仓 %@ %@ 吗？\n\n※ 锁仓到期之前不可取回，请谨慎操作。", n_amount, _curr_selected_asset[@"symbol"]];
+    id value = [NSString stringWithFormat:NSLocalizedString(@"kVcAssetOpStakeMiningAskConfirmTips", @"您确认锁仓 %@ %@ 吗？\n\n※ 锁仓到期之前不可取回，请谨慎操作。"),
+                n_amount,
+                _curr_selected_asset[@"symbol"]];
     [[UIAlertViewManager sharedUIAlertViewManager] showCancelConfirm:value
                                                            withTitle:NSLocalizedString(@"kVcHtlcMessageTipsTitle", @"风险提示")
                                                           completion:^(NSInteger buttonIndex)
@@ -533,7 +525,7 @@ enum
         //  锁仓不支持提案，因为提案最终执行之前不确定，会导致锁仓到期时间误差。
         [[[[BitsharesClientManager sharedBitsharesClientManager] vestingBalanceCreate:op] then:(^id(id data) {
             [self hideBlockView];
-            [OrgUtils makeToast:@"锁仓成功。"];//TODO:3.2 lang
+            [OrgUtils makeToast:NSLocalizedString(@"kVcAssetOpStakeMiningSubmitTipsSuccess", @"锁仓成功。")];
             //  [统计]
             [OrgUtils logEvents:@"txAssetOnchainLockupFullOK" params:@{@"account":op_account[@"id"]}];
             //  返回上一个界面并刷新

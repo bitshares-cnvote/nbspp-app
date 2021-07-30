@@ -146,8 +146,8 @@
     _mainTableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_mainTableView];
     
-    //  UI - 空 TODO:3.2 lang
-    _lbEmpty = [self genCenterEmptyLabel:rect txt:@"没有任何锁仓对象"];
+    //  UI - 空
+    _lbEmpty = [self genCenterEmptyLabel:rect txt:NSLocalizedString(@"kVcMyStakeListUITipsNoData", @"没有任何锁仓对象")];
     _lbEmpty.hidden = YES;
     [self.view addSubview:_lbEmpty];
     
@@ -287,8 +287,9 @@
         [self showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];
         [[[[BitsharesClientManager sharedBitsharesClientManager] vestingBalanceWithdraw:op] then:(^id(id data) {
             [self hideBlockView];
-            //  TODO:3.2 lang
-            [OrgUtils makeToast:[NSString stringWithFormat:@"锁仓资金 %@ 取回成功。", balance_id]];
+            //  UI - 提示
+            [OrgUtils makeToast:[NSString stringWithFormat:NSLocalizedString(@"kVcMyStakeListSubmitTipsClaimSuccess", @"锁仓资金 %@ 取回成功。"),
+                                 balance_id]];
             //  [统计]
             [OrgUtils logEvents:@"txAssetOnchainLockupWithdrawFullOK" params:@{@"account":uid}];
             //  刷新
