@@ -83,6 +83,9 @@
 "kMinerCellLabelScnyExit" = "Exit mining";
 "kMinerCellLabelDataMiner" = "MINER mining data";
 "kMinerCellLabelDataScny" = "SCNY mining data";
+"kMinerCellLabelNbsLock" = "Stake mining";
+"kMinerCellLabelCnyLock" = "Stake mining";
+"kMinerCellLabelMyLockList" = "My Stake Position";
 "kMinerCellLabelShareLink" = "Share link";
 "kMinerCellClickTipsDontSupportedFeature" = "This feature is not open.";
 "kMinerCellClickTipsInvalidAuthToken" = "The current account login status is invalid, please log in again.";
@@ -1279,6 +1282,8 @@
 "kVcTitleAssetOpSettle" = "Settlement";
 "kVcTitleAssetOpMinerIn" = "Mining";
 "kVcTitleAssetOpMinerOut" = "Exit mining";
+"kVcTitleMyLockPositions" = "My Stake Position";
+"kVcTitleStakeMining" = "Stake mining";
 "kVcTitleAssetMiningDataMiner" = "MINER mining data";
 "kVcTitleAssetMiningDataScny" = "SCNY mining data";
 "kVcTitleAssetOpReserve" = "Reserve assets";

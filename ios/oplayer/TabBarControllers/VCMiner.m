@@ -10,6 +10,8 @@
 
 #import "VCAssetOpMiner.h"
 #import "VCMinerRelationData.h"
+#import "VCAssetOpLock.h"
+#import "VCMyLockList.h"
 
 #import "WalletManager.h"
 #import "OrgUtils.h"
@@ -30,6 +32,9 @@ enum
     
     kVcSubDataMiner,        //  MINER推荐挖矿数据
     kVcSubDataScny,         //  SCNY推荐挖矿数据
+    
+    kVcSubMinerNbsLock,     //  NBS真锁仓挖矿
+    kVcSubMyLockList,       //  我的锁仓列表
     
     kVcSubShareLink,        //  邀请好久（推荐挖矿）
 };
@@ -58,6 +63,9 @@ enum
     NSArray* pSection1 = @[
         @[@(kVcSubMinerMining),     @"kMinerCellLabelMinerMining"],                         //  MINER挖矿
         @[@(kVcSubMinerExit),       @"kMinerCellLabelMinerExit"],                           //  退出MINER挖矿
+        
+        @[@(kVcSubMinerNbsLock),    @"kMinerCellLabelNbsLock"],                             //  NBS定期挖矿（真锁仓）
+        @[@(kVcSubMyLockList),      @"kMinerCellLabelMyLockList"],                          //  我的定期列表
     ];
     
     NSArray* pSection2 = @[
@@ -226,6 +234,13 @@ enum
             cell.imageView.image = [UIImage templateImageNamed:@"iconWithdraw"];
             break;
             
+        case kVcSubMinerNbsLock:
+            cell.imageView.image = [UIImage templateImageNamed:@"iconDeposit"];
+            break;
+        case kVcSubMyLockList:
+            cell.imageView.image = [UIImage templateImageNamed:@"iconOrders"];
+            break;
+            
         case kVcSubDataMiner:
         case kVcSubDataScny:
             cell.imageView.image = [UIImage templateImageNamed:@"iconOrders"];
@@ -306,6 +321,24 @@ enum
                 }];
             }
                 break;
+            case kVcSubMinerNbsLock:
+            {
+                [self GuardWalletExist:^{
+                    [self gotoLockMining:@"1.3.0"];  //  NBS真锁仓挖矿 TODO:立即值
+                }];
+            }
+                break;
+            case kVcSubMyLockList:
+            {
+                [self GuardWalletExist:^{
+                    VCMyLockList* vc = [[VCMyLockList alloc] initWithFullAccountInfo:[[WalletManager sharedWalletManager] getWalletAccountInfo]];
+                    [self pushViewController:vc
+                                     vctitle:NSLocalizedString(@"kVcTitleMyLockPositions", @"我的锁仓")
+                                   backtitle:kVcDefaultBackTitleName];
+                }];
+                return;
+            }
+                break;
             default:
                 break;
         }
@@ -351,6 +384,29 @@ enum
                                                         result_promise:nil];
         id title = [[miner_item objectForKey:@"miner"] boolValue] ? NSLocalizedString(@"kVcTitleAssetOpMinerIn", @"挖矿") : NSLocalizedString(@"kVcTitleAssetOpMinerOut", @"退出挖矿");
         [self pushViewController:vc vctitle:title backtitle:kVcDefaultBackTitleName];
+    }];
+}
+
+- (void)gotoLockMining:(NSString*)asset_id
+{
+    assert(asset_id);
+    
+    assert([[WalletManager sharedWalletManager] isWalletExist]);
+    id op_account = [[[WalletManager sharedWalletManager] getWalletAccountInfo] objectForKey:@"account"];
+    assert(op_account);
+    
+    ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
+    id p1 = [chainMgr queryFullAccountInfo:[op_account objectForKey:@"id"]];
+    id p2 = [chainMgr queryAllGrapheneObjects:@[asset_id]];
+    
+    [VcUtils simpleRequest:self
+                   request:[WsPromise all:@[p1, p2]]
+                  callback:^(id data_array) {
+        id full_account = [data_array objectAtIndex:0];
+        VCAssetOpLock* vc = [[VCAssetOpLock alloc] initWithCurrAsset:[chainMgr getChainObjectByID:asset_id]
+                                                   full_account_data:full_account
+                                                      result_promise:nil];
+        [self pushViewController:vc vctitle:NSLocalizedString(@"kVcTitleStakeMining", @"锁仓挖矿") backtitle:kVcDefaultBackTitleName];
     }];
 }
 

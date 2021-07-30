@@ -83,6 +83,9 @@
 "kMinerCellLabelScnyExit" = "一键退出";//TODO:
 "kMinerCellLabelDataMiner" = "MINER推荐挖矿数据";//TODO:
 "kMinerCellLabelDataScny" = "SCNY推荐挖矿数据";//TODO:
+"kMinerCellLabelNbsLock" = "一键挖矿 - 定期";//TODO:
+"kMinerCellLabelCnyLock" = "一键挖矿 - 定期";//TODO:
+"kMinerCellLabelMyLockList" = "我的锁仓";//TODO:
 "kMinerCellLabelShareLink" = "推荐好友";//TODO:
 "kMinerCellClickTipsDontSupportedFeature" = "该功能未开启。";//TODO:
 "kMinerCellClickTipsInvalidAuthToken" = "当前账号登录信息失效，请重新登录。";//TODO:
@@ -1279,6 +1282,8 @@
 "kVcTitleAssetOpSettle" = "发起清算";//TODO:
 "kVcTitleAssetOpMinerIn" = "挖矿";//TODO:
 "kVcTitleAssetOpMinerOut" = "退出挖矿";//TODO:
+"kVcTitleMyLockPositions" = "我的锁仓";//TODO:
+"kVcTitleStakeMining" = "锁仓挖矿";//TODO:
 "kVcTitleAssetMiningDataMiner" = "MINER推荐挖矿数据";//TODO:
 "kVcTitleAssetMiningDataScny" = "SCNY推荐挖矿数据";//TODO:
 "kVcTitleAssetOpReserve" = "销毁资产";//TODO:

@@ -83,6 +83,9 @@
 "kMinerCellLabelScnyExit" = "一键退出";
 "kMinerCellLabelDataMiner" = "MINER推荐挖矿数据";
 "kMinerCellLabelDataScny" = "SCNY推荐挖矿数据";
+"kMinerCellLabelNbsLock" = "一键挖矿 - 定期";
+"kMinerCellLabelCnyLock" = "一键挖矿 - 定期";
+"kMinerCellLabelMyLockList" = "我的锁仓";
 "kMinerCellLabelShareLink" = "推荐好友";
 "kMinerCellClickTipsDontSupportedFeature" = "该功能未开启。";
 "kMinerCellClickTipsInvalidAuthToken" = "当前账号登录信息失效，请重新登录。";
@@ -1279,6 +1282,8 @@
 "kVcTitleAssetOpSettle" = "发起清算";
 "kVcTitleAssetOpMinerIn" = "挖矿";
 "kVcTitleAssetOpMinerOut" = "退出挖矿";
+"kVcTitleMyLockPositions" = "我的锁仓";
+"kVcTitleStakeMining" = "锁仓挖矿";
 "kVcTitleAssetMiningDataMiner" = "MINER推荐挖矿数据";
 "kVcTitleAssetMiningDataScny" = "SCNY推荐挖矿数据";
 "kVcTitleAssetOpReserve" = "销毁资产";
