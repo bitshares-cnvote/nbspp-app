@@ -209,7 +209,7 @@ class SettingManager {
      *  (public) 获取设置 - 网关列表信息
      */
     fun getAppKnownGatewayList(): JSONArray {
-        val list = getOnChainAppSetting(kAppStorageKeyAppSetings_KnownGatewayList) as? JSONArray
+        val list = getAppCommonSettings("gateways") as? JSONArray
         if (list != null && list.length() > 0) {
             return list
         }
@@ -231,7 +231,7 @@ class SettingManager {
      *  (public) 获取设置 - 已知交易所充值账号列表
      */
     fun getAppKnownCexDepositAccounts(): JSONArray {
-        val list = getOnChainAppSetting(kAppStorageKeyAppSetings_KnownCexDepositAccounts) as? JSONArray
+        val list = getAppCommonSettings("known_cex_deposit_accounts") as? JSONArray
         if (list != null && list.length() > 0) {
             return list
         }
@@ -258,10 +258,33 @@ class SettingManager {
     }
 
     /**
+     *  (public) 获取设置 - 获取真锁仓挖矿的资产列表
+     */
+    fun getAppLockAssetList(): JSONArray {
+        val list = getAppCommonSettings("lock_list") as? JSONArray
+        if (list != null && list.length() > 0) {
+            return list
+        }
+        return JSONArray()
+    }
+
+    /**
+     *  (public) 获取设置 - 真锁仓挖矿条目
+     */
+    fun getAppAssetLockItem(asset_id: String?): JSONObject? {
+        for (lock_item in getAppLockAssetList().forin<JSONObject>()) {
+            if (asset_id != null && asset_id == lock_item!!.optString("asset_id")) {
+                return lock_item
+            }
+        }
+        return null
+    }
+
+    /**
      *  (public) 获取设置 - 挖矿资产列表（快速兑换列表）
      */
     fun getAppAssetMinerList(): JSONArray {
-        val list = getOnChainAppSetting(kAppStorageKeyAppSetings_AssetMinerList) as? JSONArray
+        val list = getAppCommonSettings("miner_list") as? JSONArray
         if (list != null && list.length() > 0) {
             return list
         }
