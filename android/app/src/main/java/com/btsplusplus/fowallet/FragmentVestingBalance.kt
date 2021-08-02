@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import bitshares.*
 import com.btsplusplus.fowallet.ViewEx.TextViewEx
+import com.btsplusplus.fowallet.utils.ModelUtils
 import com.fowallet.walletcore.bts.BitsharesClientManager
 import com.fowallet.walletcore.bts.ChainObjectManager
 import com.fowallet.walletcore.bts.WalletManager
@@ -117,6 +118,10 @@ class FragmentVestingBalance : BtsppFragment() {
             for (it in data_array.forin<JSONObject>()) {
                 val vesting = it!!
                 val oid = vesting.getString("id")
+                //  该界面仅显示普通 vesting balance，略过锁仓挖矿的 vesting balance 对象。
+                if (ModelUtils.isLockMiningVestingObject(vesting)) {
+                    continue
+                }
                 //  略过总金额为 0 的待解冻金额对象。
                 if (vesting.getJSONObject("balance").getString("amount").toLong() == 0L) {
                     continue

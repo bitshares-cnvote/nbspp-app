@@ -10,6 +10,38 @@ import java.math.BigDecimal
 class ModelUtils {
 
     companion object {
+        
+        /**
+         *  (public) 是否是锁仓挖矿的特殊 vesting balance 对象判断。
+         */
+        fun isLockMiningVestingObject(vesting: JSONObject): Boolean {
+            //  锁仓挖矿采用 CDD + start_claim 类型。
+            val vesting_type = vesting.getJSONArray("policy").getInt(0)
+            if (vesting_type != EBitsharesVestingPolicy.ebvp_cdd_vesting_policy.value) {
+                return false
+            }
+
+            val balance_type = vesting.optString("balance_type")
+            if (balance_type.isNotEmpty() && balance_type.toLowerCase() != "unspecified") {
+                return false
+            }
+
+            val policy_data = vesting.getJSONArray("policy").getJSONObject(1)
+            val start_claim_ts = Utils.parseBitsharesTimeString(policy_data.getString("start_claim"))
+            if (start_claim_ts <= 0) {
+                return false
+            }
+
+            if (policy_data.getInt("vesting_seconds") != 0) {
+                return false
+            }
+
+            if (policy_data.getInt("coin_seconds_earned") != 0) {
+                return false
+            }
+
+            return true
+        }
 
         /**
          *  (public) 资产 - 是否是挖矿相关的资产
