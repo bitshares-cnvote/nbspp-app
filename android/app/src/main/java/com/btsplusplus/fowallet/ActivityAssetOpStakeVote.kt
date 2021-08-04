@@ -121,7 +121,7 @@ class ActivityAssetOpStakeVote : BtsppActivity() {
             iv_select_asset_right_arrow.visibility = View.VISIBLE
 
             //  事件 - 选择资产
-            iv_select_asset_right_arrow.setColorFilter(resources.getColor(R.color.theme01_textColorGray))
+            iv_select_asset_right_arrow.setColorFilter(resources.getColor(R.color.theme01_textColorMain))
             layout_select_asset_from_assets_op_common.setOnClickListener { onSelectAsset() }
         } else {
             tv_asset_symbol.setTextColor(resources.getColor(R.color.theme01_textColorGray))

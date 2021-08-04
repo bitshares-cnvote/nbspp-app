@@ -544,6 +544,28 @@ class Utils {
         }
 
         /**
+         *  格式化：精确到小时格式化。
+         */
+        fun fmtNhoursAndDays(ctx: Context, seconds: Long): String {
+            val hours = (seconds / 3600).toInt()
+            return if ((hours % 24) == 0) {
+                val days = hours / 24
+                if (days > 1) {
+                    String.format(R.string.kProposalLabelNDays.xmlstring(ctx), days)
+                } else {
+                    String.format(R.string.kProposalLabel1Days.xmlstring(ctx), days)
+                }
+            } else {
+                //  非整数”天“，按照小时显示。
+                if (hours > 1) {
+                    String.format(R.string.kProposalLabelNHours.xmlstring(ctx), hours)
+                } else {
+                    String.format(R.string.kProposalLabel1Hours.xmlstring(ctx), hours)
+                }
+            }
+        }
+
+        /**
          * 当前时间戳。   单位：秒。
          */
         fun now_ts(): Long {
