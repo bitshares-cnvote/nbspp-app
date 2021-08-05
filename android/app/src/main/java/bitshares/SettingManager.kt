@@ -336,4 +336,14 @@ class SettingManager {
         return parameters.opt(parameter_key)
     }
 
+    /**
+     *  (public) 获取设置 - 读取动态参数 - 是否 TRUE 判断
+     */
+    fun isAppParametersTrue(parameter_key: String): Boolean {
+        val parameters = getAppCommonSettings("parameters") as? JSONObject
+        if (parameters == null || parameters.length() <= 0) {
+            return false
+        }
+        return parameters.isTrue(parameter_key)
+    }
 }
