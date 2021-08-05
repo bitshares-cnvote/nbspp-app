@@ -652,7 +652,7 @@ static OtcManager *_sharedOtcManager = nil;
  */
 - (WsPromise*)queryConfig
 {
-    _server_config = [[SettingManager sharedSettingManager] getOnChainAppSetting:kAppStorageKeyAppSetings_OtcConfigInfo];
+    _server_config = [[SettingManager sharedSettingManager] getAppCommonSettings:@"otc_config_info"];
     if (_server_config) {
         //  更新节点URL
         NSString* api = [[_server_config objectForKey:@"urls"] objectForKey:@"api"];
