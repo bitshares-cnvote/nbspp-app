@@ -336,9 +336,6 @@ const val kAppStorageCatalogBotsGridBots = "system.bots.grid_bots"
 //  KEY：APP设置 > 流动性池默认列表
 const val kAppStorageKeyAppSetings_LpMainList = "liquidity.pool.mainlist"
 
-//  KEY：APP设置 > OTC配置
-const val kAppStorageKeyAppSetings_OtcConfigInfo = "otc.config.info"
-
 //  KEY：APP设置 > 通用配置
 const val kAppStorageKeyAppSetings_CommonVer01 = "common.settings.ver.1"
 

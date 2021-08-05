@@ -866,7 +866,7 @@ class OtcManager {
      *  (public) 查询动态配置信息
      */
     fun queryConfig(): Promise {
-        server_config = SettingManager.sharedSettingManager().getOnChainAppSetting(kAppStorageKeyAppSetings_OtcConfigInfo) as? JSONObject
+        server_config = SettingManager.sharedSettingManager().getAppCommonSettings("otc_config_info") as? JSONObject
         server_config?.let { config ->
             //  更新节点URL
             val api = config.optJSONObject("urls")?.optString("api", null)
