@@ -304,6 +304,17 @@ class SettingManager {
     }
 
     /**
+     *  (public) 获取设置 - 资产作为 base 的优先级
+     */
+    fun getAppAssetBasePriority(): JSONObject {
+        val asset_base_priority = getAppCommonSettings("asset_base_priority") as? JSONObject
+        if (asset_base_priority != null && asset_base_priority.length() > 0) {
+            return asset_base_priority
+        }
+        return JSONObject()
+    }
+    
+    /**
      *  (public) 获取设置 - 读取通用配置
      */
     fun getAppCommonSettings(common_key: String): Any? {

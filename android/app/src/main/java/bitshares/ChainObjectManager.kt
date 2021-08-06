@@ -397,7 +397,7 @@ class ChainObjectManager {
         if (_assetBasePriority == null) {
             val asset_base_priority = JSONObject()
             var max_priority = 1000
-            //  REMARK：优先级 从 CNY 到 BTS 逐渐降低，其他非市场 base 的资产优先级默认为 0。
+            //  1、REMARK：优先级 从 CNY 到 BTS 逐渐降低，其他非市场 base 的资产优先级默认为 0。
             val default_markets = getDefaultMarketInfos()
             for (i in 0 until default_markets.length()) {
                 val market = default_markets.getJSONObject(i)
@@ -405,6 +405,15 @@ class ChainObjectManager {
                 asset_base_priority.put(symbol, max_priority)
                 max_priority -= 1
             }
+
+            //  2、合并动态设置
+            val common_asset_base_priority = SettingManager.sharedSettingManager().getAppAssetBasePriority()
+            if (common_asset_base_priority.length() > 0) {
+                common_asset_base_priority.keys().forEach { asset_symbol ->
+                    asset_base_priority.put(asset_symbol, common_asset_base_priority.getInt(asset_symbol))
+                }
+            }
+
             _assetBasePriority = asset_base_priority
         }
         return _assetBasePriority!!
