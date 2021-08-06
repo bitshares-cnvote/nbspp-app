@@ -161,6 +161,84 @@
                     <View android:layout_height="1px" android:background="@color/theme01.bottomLineColor" android:layout_marginTop="0dp" android:layout_width="fill_parent"></View>
                 </LinearLayout>
 
+                <!-- 一键挖矿 - 定期 -->
+                <LinearLayout
+                    android:id="@+id/layout_nbslock_oneclick_stake_mining"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="34dp"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+                            android:tint="@color/theme01.textColorNormal"
+                            android:src="@drawable/icon_deposit"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:textSize="16dp"
+                            android:layout_weight="9"
+                            android:textColor="@color/theme01.textColorMain"
+                            android:text="@string/kMinerCellLabelNbsLock"/>
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center_vertical|right"
+                            android:layout_weight="1"
+                            android:foregroundGravity="right"
+                            android:tint="@color/theme01.textColorMain"
+                            android:src="@drawable/ic_btn_right_arrow" />
+                    </LinearLayout>
+                    <View android:layout_height="1px" android:background="@color/theme01.bottomLineColor" android:layout_marginTop="0dp" android:layout_width="fill_parent"></View>
+                </LinearLayout>
+
+                <!-- 我的锁仓 -->
+                <LinearLayout
+                    android:id="@+id/layout_nbslock_my_stake_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="34dp"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+                            android:tint="@color/theme01.textColorNormal"
+                            android:src="@drawable/orders"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:textSize="16dp"
+                            android:layout_weight="9"
+                            android:textColor="@color/theme01.textColorMain"
+                            android:text="@string/kMinerCellLabelMyLockList"/>
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center_vertical|right"
+                            android:layout_weight="1"
+                            android:foregroundGravity="right"
+                            android:tint="@color/theme01.textColorMain"
+                            android:src="@drawable/ic_btn_right_arrow" />
+                    </LinearLayout>
+                    <View android:layout_height="1px" android:background="@color/theme01.bottomLineColor" android:layout_marginTop="0dp" android:layout_width="fill_parent"></View>
+                </LinearLayout>
+
                 <!-- 2、nbCNY抵押挖矿 -->
                 <LinearLayout
                     android:layout_width="match_parent"

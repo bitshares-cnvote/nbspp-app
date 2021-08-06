@@ -315,6 +315,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".ActivityAssetOpLock"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ActivityMyLockList"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ActivityAssetOpStakeVote"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

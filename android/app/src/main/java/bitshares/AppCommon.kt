@@ -8,9 +8,6 @@ const val kBtsWebsocketReconnectSuccess = "kBtsWebsocketReconnectSuccess"
 //  BTS 对象本地缓存过期时间
 const val kBTSObjectCacheExpireTime = 86400
 
-//  5星好评地址 TODO
-const val kApp5StarURL = "https://play.google.com/store/apps/details?id=org.bitshares.app"
-
 //  UI - 部分参数配置
 const val kUITableViewLeftEdge = 12.0f       //  左边距
 

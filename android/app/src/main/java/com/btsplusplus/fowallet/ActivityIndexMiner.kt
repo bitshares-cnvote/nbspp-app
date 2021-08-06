@@ -40,6 +40,19 @@ class ActivityIndexMiner : BtsppActivity() {
             //  MINER TODO:立即值
             guardWalletExist { gotoMiningOrExit("1.3.23") }
         }
+        //  NBS锁仓挖矿 - 一键挖矿 - 定期
+        layout_nbslock_oneclick_stake_mining.setOnClickListener {
+            //  NBS TODO:立即值
+            guardWalletExist { gotoLockMining("1.3.0") }
+        }
+        //  NBS锁仓挖矿 - 我的锁仓
+        layout_nbslock_my_stake_list.setOnClickListener {
+            guardWalletExist {
+                goTo(ActivityMyLockList::class.java, true, args = JSONObject().apply {
+                    put("full_account", WalletManager.sharedWalletManager().getWalletAccountInfo()!!)
+                })
+            }
+        }
 
         //  NBCNY 抵押挖矿
         val url_cny_mining = SettingManager.sharedSettingManager().getAppUrls("mining_scny")
@@ -120,6 +133,26 @@ class ActivityIndexMiner : BtsppActivity() {
                 put("miner_item", miner_item)
                 put("full_account", full_account)
                 put("title", if (miner_item.isTrue("miner")) self.resources.getString(R.string.kVcTitleAssetOpMinerIn) else self.resources.getString(R.string.kVcTitleAssetOpMinerOut))
+            })
+        }
+    }
+
+    private fun gotoLockMining(asset_id: String) {
+        assert(WalletManager.sharedWalletManager().isWalletExist())
+        val op_account = WalletManager.sharedWalletManager().getWalletAccountInfo()!!.getJSONObject("account")
+
+        val chainMgr = ChainObjectManager.sharedChainObjectManager()
+        val p1 = chainMgr.queryFullAccountInfo(op_account.getString("id"))
+        val p2 = chainMgr.queryAllGrapheneObjects(jsonArrayfrom(asset_id))
+
+        val self = this
+        VcUtils.simpleRequest(this, Promise.all(p1, p2)) {
+            val data_array = it as JSONArray
+            val full_account = data_array.getJSONObject(0)
+            goTo(ActivityAssetOpLock::class.java, true, args = JSONObject().apply {
+                put("current_asset", chainMgr.getChainObjectByID(asset_id))
+                put("full_account", full_account)
+                put("title", self.resources.getString(R.string.kVcTitleStakeMining))
             })
         }
     }
