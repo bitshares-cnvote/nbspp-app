@@ -144,7 +144,7 @@
         //  正式环境 or 测试更新模式下 从服务器加载。
         NSString* pNativeVersion = [NativeAppDelegate appShortVersion];
         NSString* flags = @"0";
-        id version_url = [NSString stringWithFormat:@"https://www.nbs.plus/app/ios/%@_%@/version.json?f=%@", @(kAppChannelID), pNativeVersion, flags];
+        id version_url = [NSString stringWithFormat:@"https://www.nbsplusplus.com/app/ios/%@_%@/version.json?f=%@", @(kAppChannelID), pNativeVersion, flags];
         [OrgUtils asyncFetchJson:version_url
                          timeout:[[NativeAppDelegate sharedAppDelegate] getRequestTimeout]
                  completionBlock:^(id pVersionJson)
