@@ -134,7 +134,7 @@ class ScheduleManager {
     }
 
     private fun subAppAnnouncement(first_callback: ((json: JSONArray?) -> Unit)? = null) {
-        val url = "https://www.nbs.plus/app/announcement.json?t=${Date().time}"
+        val url = "https://www.nbsplusplus.com/app/announcement.json?t=${Date().time}"
         OrgUtils.asyncJsonGet(url, timeout = 2000).then {
             subAppAnnouncementResponsned(it as? JSONArray, first_callback)
             return@then null

@@ -23,7 +23,7 @@ class ActivityLaunch : BtsppActivity() {
         fun checkAppUpdate(): Promise {
             if (BuildConfig.kAppCheckUpdate) {
                 val p = Promise()
-                val version_url = "https://www.nbs.plus/app/android/${BuildConfig.kAppChannelID}_${Utils.appVersionName()}/version.json?t=${Date().time}"
+                val version_url = "https://www.nbsplusplus.com/app/android/${BuildConfig.kAppChannelID}_${Utils.appVersionName()}/version.json?t=${Date().time}"
                 OrgUtils.asyncJsonGet(version_url).then {
                     p.resolve(it as? JSONObject)
                     return@then null
