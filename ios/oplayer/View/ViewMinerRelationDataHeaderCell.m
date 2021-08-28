@@ -139,11 +139,16 @@
         //  抵押或锁仓挖矿
         id reward_mining = [data_reward_hash objectForKey:@"mining"];
         if (reward_mining) {
-            id opdata = [[[reward_mining objectForKey:@"history"] objectForKey:@"op"] lastObject];
-            assert([reward_asset[@"id"] isEqualToString:[[opdata objectForKey:@"amount"] objectForKey:@"asset_id"]]);
-            id n_reward_amount = [NSDecimalNumber decimalNumberWithMantissa:[[[opdata objectForKey:@"amount"] objectForKey:@"amount"] unsignedLongLongValue]
-                                                                   exponent:-[[reward_asset objectForKey:@"precision"] integerValue]
-                                                                 isNegative:NO];
+            NSInteger reward_asset_precision = [[reward_asset objectForKey:@"precision"] integerValue];
+            id n_reward_amount = [NSDecimalNumber zero];
+            for (id history in [reward_mining objectForKey:@"history"]) {
+                id opdata = [[history objectForKey:@"op"] lastObject];
+                assert([reward_asset[@"id"] isEqualToString:[[opdata objectForKey:@"amount"] objectForKey:@"asset_id"]]);
+                id n_curr_reward_amount = [NSDecimalNumber decimalNumberWithMantissa:[[[opdata objectForKey:@"amount"] objectForKey:@"amount"] unsignedLongLongValue]
+                                                                            exponent:-reward_asset_precision
+                                                                          isNegative:NO];
+                n_reward_amount = [n_reward_amount decimalNumberByAdding:n_curr_reward_amount];
+            }
             
             id date_str = [OrgUtils fmtMMddTimeShowString:[[reward_mining objectForKey:@"header"] objectForKey:@"timestamp"]];
             
@@ -156,11 +161,16 @@
         //  推荐挖矿
         id reward_shares = [data_reward_hash objectForKey:@"shares"];
         if (reward_shares) {
-            id opdata = [[[reward_shares objectForKey:@"history"] objectForKey:@"op"] lastObject];
-            assert([reward_asset[@"id"] isEqualToString:[[opdata objectForKey:@"amount"] objectForKey:@"asset_id"]]);
-            id n_reward_amount = [NSDecimalNumber decimalNumberWithMantissa:[[[opdata objectForKey:@"amount"] objectForKey:@"amount"] unsignedLongLongValue]
-                                                                   exponent:-[[reward_asset objectForKey:@"precision"] integerValue]
-                                                                 isNegative:NO];
+            NSInteger reward_asset_precision = [[reward_asset objectForKey:@"precision"] integerValue];
+            id n_reward_amount = [NSDecimalNumber zero];
+            for (id history in [reward_shares objectForKey:@"history"]) {
+                id opdata = [[history objectForKey:@"op"] lastObject];
+                assert([reward_asset[@"id"] isEqualToString:[[opdata objectForKey:@"amount"] objectForKey:@"asset_id"]]);
+                id n_curr_reward_amount = [NSDecimalNumber decimalNumberWithMantissa:[[[opdata objectForKey:@"amount"] objectForKey:@"amount"] unsignedLongLongValue]
+                                                                            exponent:-reward_asset_precision
+                                                                          isNegative:NO];
+                n_reward_amount = [n_reward_amount decimalNumberByAdding:n_curr_reward_amount];
+            }
             
             id date_str = [OrgUtils fmtMMddTimeShowString:[[reward_shares objectForKey:@"header"] objectForKey:@"timestamp"]];
             

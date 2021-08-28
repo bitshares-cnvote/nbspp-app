@@ -66,6 +66,9 @@ enum
 - (id)scanRecentMiningReward:(id)data_history reward_account:(id)reward_account reward_asset:(id)reward_asset
 {
     assert(reward_account && reward_asset);
+    //  REMARK：定期锁仓挖矿根据vb对象发奖，同一个账号可能存在多个转账记录，需要把同block_num的所有记录一起计算。
+    id data_array_history = [NSMutableArray array];
+    NSInteger first_block_num = 0;
     if (data_history && [data_history count] > 0){
         for (id history in data_history) {
             id op = [history objectForKey:@"op"];
@@ -73,14 +76,24 @@ enum
                 id opdata =  [op lastObject];
                 if ([reward_account isEqualToString:[opdata objectForKey:@"from"]] &&
                     [reward_asset isEqualToString:[[opdata objectForKey:@"amount"] objectForKey:@"asset_id"]]) {
-                    //  奖励的历史记录
-                    return history;
+                    if ([data_array_history count] <= 0) {
+                        //  记录第一条记录
+                        [data_array_history addObject:history];
+                        first_block_num = [[history objectForKey:@"block_num"] integerValue];
+                    } else {
+                        if ([[history objectForKey:@"block_num"] integerValue] == first_block_num) {
+                            //  记录其他同区块的记录
+                            [data_array_history addObject:history];
+                        } else {
+                            //  区块号不同了，则说明已经不是同一批转账记录了。
+                            break;
+                        }
+                    }
                 }
             }
         }
     }
-    //  最近没有奖励记录
-    return nil;
+    return [data_array_history count] > 0 ? data_array_history : nil;
 }
 
 /*
@@ -112,21 +125,21 @@ enum
         NSMutableDictionary* reward_hash = [NSMutableDictionary dictionary];
         NSMutableDictionary* block_num_hash = [NSMutableDictionary dictionary];
         if (reward_history_mining) {
-            [block_num_hash setObject:@YES forKey:[reward_history_mining objectForKey:@"block_num"]];
+            [block_num_hash setObject:@YES forKey:[[reward_history_mining firstObject] objectForKey:@"block_num"]];
         }
         if (reward_history_shares) {
-            [block_num_hash setObject:@YES forKey:[reward_history_shares objectForKey:@"block_num"]];
+            [block_num_hash setObject:@YES forKey:[[reward_history_shares firstObject] objectForKey:@"block_num"]];
         }
         
         if ([block_num_hash count] > 0) {
             return [[chainMgr queryAllBlockHeaderInfos:[block_num_hash allKeys] skipQueryCache:NO] then:^id(id data) {
                 if (reward_history_mining) {
-                    id block_header = [chainMgr getBlockHeaderInfoByBlockNumber:[reward_history_mining objectForKey:@"block_num"]];
+                    id block_header = [chainMgr getBlockHeaderInfoByBlockNumber:[[reward_history_mining firstObject] objectForKey:@"block_num"]];
                     assert(block_header);
                     [reward_hash setObject:@{@"history":reward_history_mining, @"header":block_header} forKey:@"mining"];
                 }
                 if (reward_history_shares) {
-                    id block_header = [chainMgr getBlockHeaderInfoByBlockNumber:[reward_history_shares objectForKey:@"block_num"]];
+                    id block_header = [chainMgr getBlockHeaderInfoByBlockNumber:[[reward_history_shares firstObject] objectForKey:@"block_num"]];
                     assert(block_header);
                     [reward_hash setObject:@{@"history":reward_history_shares, @"header":block_header} forKey:@"shares"];
                 }
