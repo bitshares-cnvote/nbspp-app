@@ -12,6 +12,7 @@ import com.fowallet.walletcore.bts.WalletManager
 import kotlinx.android.synthetic.main.activity_miner_relation_data.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.math.BigDecimal
 
 class ActivityMinerRelationData : BtsppActivity() {
 
@@ -40,22 +41,42 @@ class ActivityMinerRelationData : BtsppActivity() {
         queryAllData(is_miner)
     }
 
-    private fun scanRecentMiningReward(data_history: JSONArray?, reward_account: String, reward_asset: String): JSONObject? {
+    private fun scanRecentMiningReward(data_history: JSONArray?, reward_account: String, reward_asset: String): JSONArray? {
         //        assert(reward_account && reward_asset);
+
+        //  REMARK：定期锁仓挖矿根据vb对象发奖，同一个账号可能存在多个转账记录，需要把同block_num的所有记录一起计算。
+        val data_array_history = JSONArray()
+        var first_block_num = 0
+
         if (data_history != null && data_history.length() > 0) {
             for (history in data_history.forin<JSONObject>()) {
                 val op = history!!.getJSONArray("op")
                 if (op.getInt(0) == EBitsharesOperations.ebo_transfer.value) {
                     val opdata = op.getJSONObject(1)
                     if (reward_account == opdata.getString("from") && reward_asset == opdata.getJSONObject("amount").getString("asset_id")) {
-                        //  奖励的历史记录
-                        return history
+                        if (data_array_history.length() <= 0) {
+                            //  记录第一条记录
+                            data_array_history.put(history)
+                            first_block_num = history.getInt("block_num")
+                        } else {
+                            if (history.getInt("block_num") == first_block_num) {
+                                //  记录其他同区块的记录
+                                data_array_history.put(history)
+                            } else {
+                                //  区块号不同了，则说明已经不是同一批转账记录了。
+                                break
+                            }
+                        }
                     }
                 }
             }
         }
-        //  最近没有奖励记录
-        return null
+        //  返回
+        return if (data_array_history.length() > 0) {
+            data_array_history
+        } else {
+            null
+        }
     }
 
     /**
@@ -88,21 +109,21 @@ class ActivityMinerRelationData : BtsppActivity() {
             val reward_hash = JSONObject()
             val block_num_hash = JSONObject()
 
-            reward_history_mining?.let { block_num_hash.put(it.getString("block_num"), true) }
-            reward_history_shares?.let { block_num_hash.put(it.getString("block_num"), true) }
+            reward_history_mining?.let { block_num_hash.put(it.first<JSONObject>()!!.getString("block_num"), true) }
+            reward_history_shares?.let { block_num_hash.put(it.first<JSONObject>()!!.getString("block_num"), true) }
 
             if (block_num_hash.length() > 0) {
                 return@then chainMgr.queryAllBlockHeaderInfos(block_num_hash.keys().toJSONArray(), skipQueryCache = false).then {
                     reward_history_mining?.let { his ->
                         reward_hash.put("mining", JSONObject().apply {
                             put("history", his)
-                            put("header", chainMgr.getBlockHeaderInfoByBlockNumber(his.getString("block_num"))!!)
+                            put("header", chainMgr.getBlockHeaderInfoByBlockNumber(his.first<JSONObject>()!!.getString("block_num"))!!)
                         })
                     }
                     reward_history_shares?.let { his ->
                         reward_hash.put("shares", JSONObject().apply {
                             put("history", his)
-                            put("header", chainMgr.getBlockHeaderInfoByBlockNumber(his.getString("block_num"))!!)
+                            put("header", chainMgr.getBlockHeaderInfoByBlockNumber(his.first<JSONObject>()!!.getString("block_num"))!!)
                         })
                     }
                     //  返回奖励数据
@@ -230,12 +251,18 @@ class ActivityMinerRelationData : BtsppActivity() {
         val reward_asset = ChainObjectManager.sharedChainObjectManager().getChainObjectByID(SettingManager.sharedSettingManager().getAppParameters("mining_reward_asset") as String)
 
         if (data_reward_hash != null) {
+            val reward_asset_precision = reward_asset.getInt("precision")
+
             //  抵押或锁仓挖矿
             val reward_mining = data_reward_hash.optJSONObject("mining")
             if (reward_mining != null) {
-                val opdata = reward_mining.getJSONObject("history").getJSONArray("op").getJSONObject(1)
-                assert(reward_asset.getString("id") == opdata.getJSONObject("amount").getString("asset_id"))
-                val n_reward_amount = bigDecimalfromAmount(opdata.getJSONObject("amount").getString("amount"), reward_asset.getInt("precision"))
+                var n_reward_amount = BigDecimal.ZERO
+                for (history in reward_mining.getJSONArray("history").forin<JSONObject>()) {
+                    val opdata = history!!.getJSONArray("op").getJSONObject(1)
+                    assert(reward_asset.getString("id") == opdata.getJSONObject("amount").getString("asset_id"))
+                    val n_curr_reward_amount = bigDecimalfromAmount(opdata.getJSONObject("amount").getString("amount"), reward_asset_precision)
+                    n_reward_amount = n_reward_amount.add(n_curr_reward_amount)
+                }
                 val date_str = Utils.fmtMMddTimeShowString(reward_mining.getJSONObject("header").getString("timestamp"))
                 tv_mining_reward_amount.text = String.format("%s(%s) %s %s", str_miner_prefix, date_str, n_reward_amount.toPriceAmountString(), reward_asset.getString("symbol"))
             } else {
@@ -245,10 +272,14 @@ class ActivityMinerRelationData : BtsppActivity() {
             //  推荐挖矿
             val reward_shares = data_reward_hash.optJSONObject("shares")
             if (reward_shares != null) {
-                val opdata = reward_shares.getJSONObject("history").getJSONArray("op").getJSONObject(1)
-                assert(reward_asset.getString("id") == opdata.getJSONObject("amount").getString("asset_id"))
-                val n_reward_amount = bigDecimalfromAmount(opdata.getJSONObject("amount").getString("amount"), reward_asset.getInt("precision"))
-                val date_str = Utils.fmtMMddTimeShowString(reward_mining.getJSONObject("header").getString("timestamp"))
+                var n_reward_amount = BigDecimal.ZERO
+                for (history in reward_shares.getJSONArray("history").forin<JSONObject>()) {
+                    val opdata = history!!.getJSONArray("op").getJSONObject(1)
+                    assert(reward_asset.getString("id") == opdata.getJSONObject("amount").getString("asset_id"))
+                    val n_curr_reward_amount = bigDecimalfromAmount(opdata.getJSONObject("amount").getString("amount"), reward_asset_precision)
+                    n_reward_amount = n_reward_amount.add(n_curr_reward_amount)
+                }
+                val date_str = Utils.fmtMMddTimeShowString(reward_shares.getJSONObject("header").getString("timestamp"))
                 tv_shares_reward_amount.text = String.format("%s(%s) %s %s", str_share_prefix, date_str, n_reward_amount.toPriceAmountString(), reward_asset.getString("symbol"))
             } else {
                 tv_shares_reward_amount.text = String.format("%s 0 %s", str_share_prefix, reward_asset.getString("symbol"))
