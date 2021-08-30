@@ -11,6 +11,8 @@
 #import "ViewMinerRelationDataHeaderCell.h"
 #import "ViewEmptyInfoCell.h"
 
+#import "VCVestingBalance.h"
+
 enum
 {
     kVcSecHeader = 0,           //  统计数据
@@ -94,6 +96,103 @@ enum
         }
     }
     return [data_array_history count] > 0 ? data_array_history : nil;
+}
+
+/*
+ *  (public) 查询指定用户的活期和定期锁仓数量。
+ */
+- (WsPromise*)queryUserMiningStakeAmount:(NSString*)account_id
+                        balance_asset_id:(NSString*)balance_asset_id
+                          stake_asset_id:(NSString*)stake_asset_id
+                         n_stake_minimum:(NSDecimalNumber*)n_stake_minimum
+{
+    assert(account_id);
+    assert(balance_asset_id);
+    
+    ChainObjectManager* chainMgr = [ChainObjectManager sharedChainObjectManager];
+    
+    id p1 = [chainMgr queryAccountBalance:account_id assets:@[balance_asset_id]];
+    id p2 = [NSNull null];
+    if (stake_asset_id) {
+        assert(n_stake_minimum);
+        GrapheneApi* api = [[GrapheneConnectionManager sharedGrapheneConnectionManager] any_connection].api_db;
+        p2 = [api exec:@"get_vesting_balances" params:@[account_id]];
+    }
+    
+    NSMutableDictionary* asset_ids = [NSMutableDictionary dictionary];
+    asset_ids[balance_asset_id] = @YES;
+    if (stake_asset_id) {
+        asset_ids[stake_asset_id] = @YES;
+    }
+    id p3 = [chainMgr queryAllGrapheneObjects:[asset_ids allKeys]];
+    
+    return [[WsPromise all:@[p1, p2, p3]] then:^id(id data_array) {
+        //  统计活期挖矿数量（仅查询余额）
+        id balance_array = [data_array objectAtIndex:0];
+        assert(balance_array && [balance_array count] == 1);
+        id balance_asset = [chainMgr getChainObjectByID:balance_asset_id];
+        id n_balance_amount = [NSDecimalNumber decimalNumberWithMantissa:[[[balance_array firstObject] objectForKey:@"amount"] unsignedLongLongValue]
+                                                                exponent:-[[balance_asset objectForKey:@"precision"] integerValue]
+                                                              isNegative:NO];
+        
+        //  统计定期锁仓数量
+        NSDecimalNumber* n_total_staked = [NSDecimalNumber zero];
+        if (stake_asset_id) {
+            id vesting_array = [data_array objectAtIndex:1];
+            id stake_asset = [chainMgr getChainObjectByID:stake_asset_id];
+            NSInteger stake_asset_precision = [[stake_asset objectForKey:@"precision"] integerValue];
+            id n_zero = [NSDecimalNumber zero];
+            NSTimeInterval now_ts = ceil([[NSDate date] timeIntervalSince1970]);
+            
+            for (id vesting in vesting_array) {
+                id oid = [vesting objectForKey:@"id"];
+                assert(oid);
+                if (!oid){
+                    continue;
+                }
+                
+                //  不是锁仓对象
+                if (![VCVestingBalance isLockMiningVestingObject:vesting]) {
+                    continue;
+                }
+                
+                //  REMARK：已经到期的作为无效锁仓对象处理
+                id policy_data = [[vesting objectForKey:@"policy"] objectAtIndex:1];
+                assert(policy_data);
+                NSTimeInterval start_claim_ts = [OrgUtils parseBitsharesTimeString:policy_data[@"start_claim"]];
+                if (now_ts >= start_claim_ts) {
+                    continue;
+                }
+                
+                id balance = [vesting objectForKey:@"balance"];
+                
+                //  非锁仓资产。
+                if (![[balance objectForKey:@"asset_id"] isEqualToString:stake_asset_id]) {
+                    continue;
+                }
+                
+                id n_amount = [NSDecimalNumber decimalNumberWithMantissa:[[balance objectForKey:@"amount"] unsignedLongLongValue]
+                                                                exponent:-stake_asset_precision
+                                                              isNegative:NO];
+                
+                //  锁仓资产数量为0
+                if ([n_amount compare:n_zero] == 0) {
+                    continue;
+                }
+                
+                //  不满足最低锁仓数量
+                if ([n_amount compare:n_stake_minimum] < 0) {
+                    continue;
+                }
+                
+                //  累加
+                n_total_staked = [n_total_staked decimalNumberByAdding:n_amount];
+            }
+        }
+        
+        //  返回
+        return @{@"n_amount": n_balance_amount, @"n_stake": n_total_staked, @"n_total": [n_balance_amount decimalNumberByAdding:n_total_staked]};
+    }];
 }
 
 /*
@@ -187,6 +286,7 @@ enum
     [self showBlockViewWithTitle:NSLocalizedString(@"kTipsBeRequesting", @"请求中...")];
     
     BOOL is_miner = [_asset_id isEqualToString:@"1.3.23"];  //  TODO:MINER立即值
+    NSInteger i_master_minimum = [[[SettingManager sharedSettingManager] getAppParameters:is_miner ? @"master_minimum_miner" : @"master_minimum_scny"] integerValue];
     
     //  查询推荐关系
     id p1 = [self queryAccountRelationData:op_account is_miner:is_miner login:NO];
@@ -194,9 +294,25 @@ enum
     //  查询收益数据（最近的NCN转账明细）
     id p2 = [self queryLatestRewardData:account_id is_miner:is_miner];
     
-    [[[WsPromise all:@[p1, p2]] then:^id(id data_array) {
+    //  查询用户定期活期数据
+    id n_stake_minimum = nil;
+    if (is_miner) {
+        id lock_item = [[SettingManager sharedSettingManager] getAppAssetLockItem:@"1.3.0"];    //  REMARK: MINER stake asset_id
+        if (lock_item) {
+            n_stake_minimum = [NSDecimalNumber decimalNumberWithMantissa:[[lock_item objectForKey:@"min_amount"] unsignedLongLongValue]
+                                                                exponent:0
+                                                              isNegative:NO];
+        }
+    }
+    id p3 = [self queryUserMiningStakeAmount:account_id
+                            balance_asset_id:_asset_id
+                              stake_asset_id:is_miner ? @"1.3.0" : nil  //  REMARK: MINER stake asset_id
+                             n_stake_minimum:n_stake_minimum];
+    
+    [[[WsPromise all:@[p1, p2, p3]] then:^id(id data_array) {
         id data_relation = [data_array objectAtIndex:0];
         id data_reward_hash = [data_array objectAtIndex:1];
+        id data_user_mining_data = [data_array objectAtIndex:2];
         if (!data_relation || [data_relation objectForKey:@"error"]) {
             [self hideBlockView];
             //  第一次查询失败的情况
@@ -213,7 +329,10 @@ enum
                                 [self hideBlockView];
                                 [OrgUtils makeToast:NSLocalizedString(@"kMinerApiErrServerOrNetwork", @"推荐数据服务器或网络异常，请稍后再试。")];
                             } else {
-                                [self onQueryResponsed:data_relation2 data_reward_hash:data_reward_hash];
+                                [self onQueryResponsed:data_relation2
+                                      data_reward_hash:data_reward_hash
+                                 data_user_mining_data:data_user_mining_data
+                                        master_minimum:i_master_minimum];
                                 [self hideBlockView];
                             }
                             return nil;
@@ -222,7 +341,10 @@ enum
                 }];
             }
         } else {
-            [self onQueryResponsed:data_relation data_reward_hash:data_reward_hash];
+            [self onQueryResponsed:data_relation
+                  data_reward_hash:data_reward_hash
+             data_user_mining_data:data_user_mining_data
+                    master_minimum:i_master_minimum];
             [self hideBlockView];
         }
         return nil;;
@@ -233,7 +355,10 @@ enum
     }];
 }
 
-- (void)onQueryResponsed:(id)data_miner data_reward_hash:(id)data_reward_hash
+- (void)onQueryResponsed:(id)data_miner
+        data_reward_hash:(id)data_reward_hash
+   data_user_mining_data:(id)data_user_mining_data
+          master_minimum:(NSInteger)master_minimum
 {
     id data_miner_items = [data_miner objectForKey:@"data"];
     
@@ -241,18 +366,22 @@ enum
     [_dataArray removeAllObjects];
     
     //  推荐关系列表
+    double f_user_mining_amount = [[data_user_mining_data objectForKey:@"n_total"] doubleValue];
     double total_amount = 0;
-    if (data_miner_items && [data_miner_items isKindOfClass:[NSArray class]] && [data_miner_items count] > 0) {
-        for (id item in data_miner_items) {
-            [_dataArray addObject:item];
-            total_amount += [[item objectForKey:@"slave_hold"] doubleValue];
+    //  最低门槛降额
+    if (f_user_mining_amount >= master_minimum) {
+        if (data_miner_items && [data_miner_items isKindOfClass:[NSArray class]] && [data_miner_items count] > 0) {
+            for (id item in data_miner_items) {
+                [_dataArray addObject:item];
+                total_amount += MIN([[item objectForKey:@"slave_hold"] doubleValue], f_user_mining_amount);
+            }
         }
     }
     
     //  生成统计数据
     _headerData = @{
         @"total_account": @([_dataArray count]),
-        @"total_amount": @(total_amount),
+        @"total_amount": @((NSUInteger)(floor(total_amount / master_minimum) * master_minimum)),
         @"data_reward_hash": data_reward_hash ?: @{},
     };
     
