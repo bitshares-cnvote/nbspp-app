@@ -347,6 +347,10 @@ class SettingManager {
         return parameters.opt(parameter_key)
     }
 
+    fun getAppParameters(): JSONObject? {
+        return getAppCommonSettings("parameters") as? JSONObject
+    }
+
     /**
      *  (public) 获取设置 - 读取动态参数 - 是否 TRUE 判断
      */

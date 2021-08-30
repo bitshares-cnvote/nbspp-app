@@ -7,6 +7,7 @@ import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.TextView
 import bitshares.*
+import com.btsplusplus.fowallet.utils.ModelUtils
 import com.fowallet.walletcore.bts.ChainObjectManager
 import com.fowallet.walletcore.bts.WalletManager
 import kotlinx.android.synthetic.main.activity_miner_relation_data.*
@@ -76,6 +77,90 @@ class ActivityMinerRelationData : BtsppActivity() {
             data_array_history
         } else {
             null
+        }
+    }
+
+    /**
+     *  (public) 查询指定用户的活期和定期锁仓数量。
+     */
+    fun queryUserMiningStakeAmount(account_id: String, balance_asset_id: String, stake_asset_id: String?, n_stake_minimum: BigDecimal?): Promise {
+        val chainMgr = ChainObjectManager.sharedChainObjectManager()
+
+        val promise_map = JSONObject()
+
+        promise_map.put("kBalance", chainMgr.queryAccountBalance(account_id, jsonArrayfrom(balance_asset_id)))
+        if (stake_asset_id != null) {
+            val conn = GrapheneConnectionManager.sharedGrapheneConnectionManager().any_connection()
+            promise_map.put("kVesting", conn.async_exec_db("get_vesting_balances", jsonArrayfrom(account_id)))
+        }
+        val asset_ids = JSONObject().apply {
+            put(balance_asset_id, true)
+            if (stake_asset_id != null) {
+                put(stake_asset_id, true)
+            }
+        }
+        promise_map.put("kAssets", chainMgr.queryAllGrapheneObjects(asset_ids.keys().toJSONArray()))
+
+        return Promise.map(promise_map).then {
+            val hashdata = it as JSONObject
+
+            //  统计活期挖矿数量（仅查询余额）
+            val balance_array = hashdata.getJSONArray("kBalance")
+            assert(balance_array.length() == 1)
+            val balance_asset = chainMgr.getChainObjectByID(balance_asset_id)
+            val n_balance_amount = bigDecimalfromAmount(balance_array.getJSONObject(0).getString("amount"), balance_asset.getInt("precision"))
+
+            //  统计定期锁仓数量
+            var n_total_staked = BigDecimal.ZERO
+            if (stake_asset_id != null) {
+                val vesting_array = hashdata.getJSONArray("kVesting")
+                val stake_asset = chainMgr.getChainObjectByID(stake_asset_id)
+                val stake_asset_precision = stake_asset.getInt("precision")
+                val n_zero = BigDecimal.ZERO
+                val now_ts = Utils.now_ts()
+
+                for (vesting in vesting_array.forin<JSONObject>()) {
+                    //  不是锁仓对象
+                    if (!ModelUtils.isLockMiningVestingObject(vesting!!)) {
+                        continue
+                    }
+
+                    //  REMARK：已经到期的作为无效锁仓对象处理
+                    val policy_data = vesting.getJSONArray("policy").getJSONObject(1)
+                    val start_claim_ts = Utils.parseBitsharesTimeString(policy_data.getString("start_claim"))
+                    if (now_ts >= start_claim_ts) {
+                        continue
+                    }
+
+                    val balance = vesting.getJSONObject("balance")
+
+                    //  非锁仓资产。
+                    if (balance.getString("asset_id") != stake_asset_id) {
+                        continue
+                    }
+
+                    val n_amount = bigDecimalfromAmount(balance.getString("amount"), stake_asset_precision)
+
+                    //  锁仓资产数量为0
+                    if (n_amount == n_zero) {
+                        continue
+                    }
+
+                    //  不满足最低锁仓数量
+                    if (n_amount < n_stake_minimum!!) {
+                        continue
+                    }
+
+                    //  累加
+                    n_total_staked = n_total_staked.add(n_amount)
+                }
+            }
+            //  返回
+            return@then JSONObject().apply {
+                put("n_amount", n_balance_amount)
+                put("n_stake", n_total_staked)
+                put("n_total", n_balance_amount.add(n_total_staked))
+            }
         }
     }
 
@@ -161,6 +246,8 @@ class ActivityMinerRelationData : BtsppActivity() {
     }
 
     private fun queryAllData(is_miner: Boolean) {
+        val i_master_minimum = SettingManager.sharedSettingManager().getAppParameters()!!.getInt(if (is_miner) "master_minimum_miner" else "master_minimum_scny")
+
         val op_account = WalletManager.sharedWalletManager().getWalletAccountInfo()!!.getJSONObject("account")
         val account_id = op_account.getString("id")
 
@@ -172,10 +259,24 @@ class ActivityMinerRelationData : BtsppActivity() {
         //  查询收益数据（最近的NCN转账明细）
         val p2 = queryLatestRewardData(account_id, is_miner)
 
-        Promise.all(p1, p2).then {
+        //  查询用户定期活期数据
+        var n_stake_minimum: BigDecimal? = null
+        if (is_miner) {
+            val lock_item = SettingManager.sharedSettingManager().getAppAssetLockItem("1.3.0")  //  REMARK: MINER stake asset_id
+            if (lock_item != null) {
+                n_stake_minimum = BigDecimal(lock_item.getString("min_amount"))
+            }
+        }
+        val p3 = queryUserMiningStakeAmount(account_id,
+                balance_asset_id = _asset_id,
+                stake_asset_id = if (is_miner) "1.3.0" else null,  //   REMARK: MINER stake asset_id
+                n_stake_minimum = n_stake_minimum)
+
+        Promise.all(p1, p2, p3).then {
             val data_array = it as JSONArray
             val data_relation = data_array.optJSONObject(0)
             val data_reward_hash = data_array.optJSONObject(1)
+            val data_user_mining_data = data_array.optJSONObject(2)
             if (data_relation == null || data_relation.has("error")) {
                 mask.dismiss()
                 //  第一次查询失败的情况
@@ -192,7 +293,7 @@ class ActivityMinerRelationData : BtsppActivity() {
                                     mask02.dismiss()
                                     showToast(resources.getString(R.string.kMinerApiErrServerOrNetwork))
                                 } else {
-                                    onQueryResponsed(is_miner, it as JSONObject, data_reward_hash)
+                                    onQueryResponsed(is_miner, it as JSONObject, data_reward_hash, data_user_mining_data, i_master_minimum)
                                     mask02.dismiss()
                                 }
                             }
@@ -200,7 +301,7 @@ class ActivityMinerRelationData : BtsppActivity() {
                     }
                 }
             } else {
-                onQueryResponsed(is_miner, data_relation, data_reward_hash)
+                onQueryResponsed(is_miner, data_relation, data_reward_hash, data_user_mining_data, i_master_minimum)
                 mask.dismiss()
             }
             return@then null
@@ -210,27 +311,31 @@ class ActivityMinerRelationData : BtsppActivity() {
         }
     }
 
-    private fun onQueryResponsed(is_miner: Boolean, data_miner: JSONObject, data_reward_hash: JSONObject) {
+    private fun onQueryResponsed(is_miner: Boolean, data_miner: JSONObject, data_reward_hash: JSONObject, data_user_mining_data: JSONObject?, master_minimum: Int) {
         val data_miner_items = data_miner.optJSONArray("data")
 
         //  clear
         val data_array = JSONArray()
 
         //  推荐关系列表
+        val f_user_mining_amount = (data_user_mining_data!!.get("n_total") as BigDecimal).toDouble()
         var total_amount = 0.0
-        if (data_miner_items != null && data_miner_items.length() > 0) {
-            for (item in data_miner_items.forin<JSONObject>()) {
-                data_array.put(item!!)
-                total_amount += item.getDouble("slave_hold")
+        //  最低门槛降额
+        if (f_user_mining_amount >= master_minimum) {
+            if (data_miner_items != null && data_miner_items.length() > 0) {
+                for (item in data_miner_items.forin<JSONObject>()) {
+                    data_array.put(item!!)
+                    total_amount += Math.min(item.getDouble("slave_hold"), f_user_mining_amount)
+                }
             }
         }
 
         //  刷新
-        drawUI_header(is_miner, data_array, total_amount, data_reward_hash)
+        drawUI_header(is_miner, data_array, (Math.floor(total_amount / master_minimum) * master_minimum).toInt(), data_reward_hash)
         drawUI_list(is_miner, data_array)
     }
 
-    private fun drawUI_header(is_miner: Boolean, data_array: JSONArray? = null, total_amount: Double? = null, data_reward_hash: JSONObject? = null) {
+    private fun drawUI_header(is_miner: Boolean, data_array: JSONArray? = null, total_amount: Int? = null, data_reward_hash: JSONObject? = null) {
         val str_miner_prefix: String
         val str_share_prefix: String
         val str_mining_asset_symbol: String
