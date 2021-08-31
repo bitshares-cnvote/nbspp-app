@@ -99,6 +99,8 @@
 "kMinerTotalInviteAmountTitle" = "有效邀请持有量 %@ %@";//TODO:
 "kMinerApiErrServerOrNetwork" = "推荐数据服务器或网络异常，请稍后再试。";//TODO:
 "kMinerApiErrNotSupportedMultiAccount" = "多签账号不支持查看推荐数据。";//TODO:
+"kMinerShareRewardTipsMINER" = "锁仓推荐挖矿每日奖励为：（有效邀请持有量）x %@%%";//TODO:
+"kMinerShareRewardTipsSCNY" = "抵押推荐挖矿每日奖励为：（有效邀请持有量）x %@%%";//TODO:
 
 /* 服务界面 */
 "kServicesCellLabelQrScan" = "スキャン";

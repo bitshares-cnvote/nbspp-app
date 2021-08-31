@@ -99,6 +99,8 @@
 "kMinerTotalInviteAmountTitle" = "Total shares %@ %@";
 "kMinerApiErrServerOrNetwork" = "The mining data server or network is abnormal. Please try again later.";
 "kMinerApiErrNotSupportedMultiAccount" = "Multi-signature accounts do not support viewing mining data.";
+"kMinerShareRewardTipsMINER" = "MINER shares revenue: (Total shares) x %@%%";
+"kMinerShareRewardTipsSCNY" = "SCNY shares revenue: (Total shares) x %@%%";
 
 /* 服务界面 */
 "kServicesCellLabelQrScan" = "Scan QR code";
