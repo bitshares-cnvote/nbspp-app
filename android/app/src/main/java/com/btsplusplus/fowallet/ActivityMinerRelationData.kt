@@ -38,6 +38,18 @@ class ActivityMinerRelationData : BtsppActivity() {
         //  事件 - 返回按钮
         layout_back_from_miner_relation_data.setOnClickListener { finish() }
 
+        //  事件 - 奖励提示
+        tip_link_shares_reward.setOnClickListener {
+            val tipmsg = if (is_miner) {
+                val n_shares_reward_ratio_miner = bigDecimalfromAmount(SettingManager.sharedSettingManager().getAppParameters()!!.getString("shares_reward_ratio_miner"), 2)
+                String.format(resources.getString(R.string.kMinerShareRewardTipsMINER), n_shares_reward_ratio_miner.toPriceAmountString())
+            } else {
+                val n_shares_reward_ratio_scny = bigDecimalfromAmount(SettingManager.sharedSettingManager().getAppParameters()!!.getString("shares_reward_ratio_scny"), 2)
+                String.format(resources.getString(R.string.kMinerShareRewardTipsMINER), n_shares_reward_ratio_scny.toPriceAmountString())
+            }
+            showToast(tipmsg)
+        }
+
         //  查询
         queryAllData(is_miner)
     }

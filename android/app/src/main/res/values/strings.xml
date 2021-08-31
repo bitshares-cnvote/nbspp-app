@@ -91,6 +91,8 @@
     <string name="kMinerTotalInviteAmountTitle">Total shares %s %s</string>
     <string name="kMinerApiErrServerOrNetwork">The mining data server or network is abnormal. Please try again later.</string>
     <string name="kMinerApiErrNotSupportedMultiAccount">Multi-signature accounts do not support viewing mining data.</string>
+    <string name="kMinerShareRewardTipsMINER">MINER shares revenue: (Total shares) x %s%%</string>
+    <string name="kMinerShareRewardTipsSCNY">SCNY shares revenue: (Total shares) x %s%%</string>
     <!-- 服务界面 -->
     <string name="kServicesCellLabelQrScan">Scan QR code</string>
     <string name="kServicesCellLabelTransfer">Transfer</string>

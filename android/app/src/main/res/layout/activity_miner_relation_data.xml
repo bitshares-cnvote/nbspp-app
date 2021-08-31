@@ -74,40 +74,61 @@
                     android:textColor="@color/theme01.textColorFlag"
                     android:text=""
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="24dp" />
 
-                    <LinearLayout
-                        android:layout_marginLeft="30dp"
-                        android:orientation="vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:id="@+id/tv_invite_volume"
-                            android:textSize="13dp"
-                            android:textColor="@color/theme01.textColorFlag"
-                            android:layout_marginTop="5dp"
-                            android:text=""
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_invite_volume"
+                    android:textSize="13dp"
+                    android:textColor="@color/theme01.textColorFlag"
+                    android:layout_marginLeft="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp" />
 
-                        <TextView
-                            android:id="@+id/tv_mining_reward_amount"
-                            android:textSize="13dp"
-                            android:textColor="@color/theme01.textColorFlag"
-                            android:layout_marginTop="5dp"
-                            android:text=""
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_mining_reward_amount"
+                    android:textSize="13dp"
+                    android:textColor="@color/theme01.textColorFlag"
+                    android:layout_marginLeft="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="0 NCN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp" />
 
-                        <TextView
-                            android:id="@+id/tv_shares_reward_amount"
-                            android:textSize="13dp"
-                            android:textColor="@color/theme01.textColorFlag"
-                            android:layout_marginTop="5dp"
-                            android:text=""
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
+		        <LinearLayout
+		            android:orientation="horizontal"
+		            android:layout_marginLeft="30dp"
+		            android:layout_marginRight="10dp"
+		            android:layout_width="match_parent"
+		            android:layout_height="24dp">
+
+		            <TextView
+		                android:id="@+id/tv_shares_reward_amount"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:layout_gravity="center_vertical"
+		                android:gravity="center_vertical"
+		                android:text="0 NCN"
+		                android:textSize="13dp"
+		                android:textColor="@color/theme01.textColorFlag"/>
+
+		            <LinearLayout
+		                android:layout_width="match_parent"
+		                android:layout_height="wrap_content"
+		                android:layout_gravity="center_vertical"
+		                android:gravity="right|center_vertical">
+		                <ImageView
+		                    android:id="@+id/tip_link_shares_reward"
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="wrap_content"
+		                    android:src="@drawable/icon_tip"
+		                    android:tint="@color/theme01.textColorFlag"
+		                    android:gravity="center_vertical|right"/>
+		            </LinearLayout>
+
+		        </LinearLayout>
             </LinearLayout>
 
             <TextView

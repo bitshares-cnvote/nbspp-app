@@ -91,6 +91,8 @@
     <string name="kMinerTotalInviteAmountTitle">有效邀请持有量 %s %s</string>
     <string name="kMinerApiErrServerOrNetwork">推荐数据服务器或网络异常，请稍后再试。</string>
     <string name="kMinerApiErrNotSupportedMultiAccount">多签账号不支持查看推荐数据。</string>
+    <string name="kMinerShareRewardTipsMINER">锁仓推荐挖矿每日奖励为：（有效邀请持有量）x %s%%</string>
+    <string name="kMinerShareRewardTipsSCNY">抵押推荐挖矿每日奖励为：（有效邀请持有量）x %s%%</string>
     <!-- 服务界面 -->
     <string name="kServicesCellLabelQrScan">スキャン</string>
     <string name="kServicesCellLabelTransfer">送金</string>
