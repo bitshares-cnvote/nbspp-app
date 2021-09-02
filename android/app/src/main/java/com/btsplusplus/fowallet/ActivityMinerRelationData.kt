@@ -38,7 +38,27 @@ class ActivityMinerRelationData : BtsppActivity() {
         //  事件 - 返回按钮
         layout_back_from_miner_relation_data.setOnClickListener { finish() }
 
-        //  事件 - 奖励提示
+        //  事件 - 各种提示
+        tip_link_valid_hold_amount.setOnClickListener {
+            val tipmsg = if (is_miner) {
+                val n_value = SettingManager.sharedSettingManager().getAppParameters()!!.getString("master_minimum_miner")
+                String.format(resources.getString(R.string.kMinerValidHoldAmountTipsMINER), n_value)
+            } else {
+                val n_value = SettingManager.sharedSettingManager().getAppParameters()!!.getString("master_minimum_scny")
+                String.format(resources.getString(R.string.kMinerValidHoldAmountTipsSCNY), n_value)
+            }
+            showToast(tipmsg)
+        }
+        tip_link_mining_reward.setOnClickListener {
+            val tipmsg = if (is_miner) {
+                val n_value = SettingManager.sharedSettingManager().getAppParameters()!!.getString("daily_reward_mining_miner")
+                String.format(resources.getString(R.string.kMinerMiningRewardTipsMINER), n_value)
+            } else {
+                val n_value = SettingManager.sharedSettingManager().getAppParameters()!!.getString("daily_reward_mining_scny")
+                String.format(resources.getString(R.string.kMinerMiningRewardTipsSCNY), n_value)
+            }
+            showToast(tipmsg)
+        }
         tip_link_shares_reward.setOnClickListener {
             val tipmsg = if (is_miner) {
                 val n_shares_reward_ratio_miner = bigDecimalfromAmount(SettingManager.sharedSettingManager().getAppParameters()!!.getString("shares_reward_ratio_miner"), 2)
