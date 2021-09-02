@@ -99,8 +99,12 @@
 "kMinerTotalInviteAmountTitle" = "Total shares %@ %@";
 "kMinerApiErrServerOrNetwork" = "The mining data server or network is abnormal. Please try again later.";
 "kMinerApiErrNotSupportedMultiAccount" = "Multi-signature accounts do not support viewing mining data.";
-"kMinerShareRewardTipsMINER" = "MINER shares revenue: (Total shares) x %@%%";
-"kMinerShareRewardTipsSCNY" = "SCNY shares revenue: (Total shares) x %@%%";
+"kMinerValidHoldAmountTipsMINER" = "(1) Referrer locked position no less than %@ NBS (including MINER and regular lock position). \n(2) The holdings of NBS locked position by referrer must more than the recommended account; otherwise, the margin will not be included in the valid invitation holdings.";
+"kMinerValidHoldAmountTipsSCNY" = "(1) You need to hold no less than %@ SCNY. \n(2) The number of SCNY holdings by yourself must more than the recommended account; otherwise, the margin will not be included in the valid invitation holdings.";
+"kMinerMiningRewardTipsMINER" = "All NBS accounts of locked position (including periodic locked position and MINER) are equally allocated %@ NCN from pool output per day based on the amount holdings.";
+"kMinerMiningRewardTipsSCNY" = "All SCNY holding accounts are equally allocated %@ NCN from pool output per day based on the amount holdings.";
+"kMinerShareRewardTipsMINER" = "The recommended daily revenue of locked position mining is: (valid invitation holdings) × %@%%.";
+"kMinerShareRewardTipsSCNY" = "The recommended daily revenue from mortgage mining is: (valid invitation holdings) x %@%%.";
 
 /* 服务界面 */
 "kServicesCellLabelQrScan" = "Scan QR code";

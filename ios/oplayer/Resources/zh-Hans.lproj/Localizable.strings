@@ -99,8 +99,12 @@
 "kMinerTotalInviteAmountTitle" = "有效邀请持有量 %@ %@";
 "kMinerApiErrServerOrNetwork" = "推荐数据服务器或网络异常，请稍后再试。";
 "kMinerApiErrNotSupportedMultiAccount" = "多签账号不支持查看推荐数据。";
-"kMinerShareRewardTipsMINER" = "锁仓推荐挖矿每日奖励为：（有效邀请持有量）x %@%%";
-"kMinerShareRewardTipsSCNY" = "抵押推荐挖矿每日奖励为：（有效邀请持有量）x %@%%";
+"kMinerValidHoldAmountTipsMINER" = "1、自身需锁仓不少于 %@ NBS（含MINER和定期锁仓）。\n2、自身锁仓的NBS数量必须大于被推荐账号，否则缺口部分不计入有效邀请持有量。";
+"kMinerValidHoldAmountTipsSCNY" = "1、自身需持有不少于 %@ SCNY。\n2、自身持有的SCNY数量必须大于被推荐账号，否则缺口部分不计入有效邀请持有量。";
+"kMinerMiningRewardTipsMINER" = "所有锁仓NBS的账户（含定期锁仓和MINER）按照持有数量平均分配每日 %@ NCN 的矿池产出。";
+"kMinerMiningRewardTipsSCNY" = "所有持有SCNY的账户按照持有数量平均分配每日 %@ NCN 的矿池产出。";
+"kMinerShareRewardTipsMINER" = "推荐锁仓挖矿的每日收益为：（有效邀请持有量）x %@%%";
+"kMinerShareRewardTipsSCNY" = "推荐抵押挖矿的每日收益为：（有效邀请持有量）x %@%%";
 
 /* 服务界面 */
 "kServicesCellLabelQrScan" = "扫一扫";

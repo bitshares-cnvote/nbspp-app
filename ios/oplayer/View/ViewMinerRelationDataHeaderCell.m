@@ -21,12 +21,14 @@
     
     UIView*         _container;
     
-    UILabel*        _lbInviteAccountN;  //  总邀请人数
-    UILabel*        _lbTotal;           //  总持仓
-    UILabel*        _lbMinerLastReward; //  抵押挖矿最近收益
-    UILabel*        _lbRefLastReward;   //  推荐挖矿最近收益
+    UILabel*        _lbInviteAccountN;      //  总邀请人数
+    UILabel*        _lbTotal;               //  总持仓
+    UILabel*        _lbMinerLastReward;     //  抵押挖矿最近收益
+    UILabel*        _lbRefLastReward;       //  推荐挖矿最近收益
     
-    UIButton*       _tipsBtnRefReward;  //  推荐奖励提示按钮
+    UIButton*       _tipsBtnTotal;          //  提示按钮：有效邀请持仓量
+    UIButton*       _tipsBtnMiningReward;   //  提示按钮：抵押or锁仓挖矿奖励
+    UIButton*       _tipsBtnRefReward;      //  提示按钮：推荐奖励提示按钮
     
     CGSize          _tipsBtnSize;
 }
@@ -46,7 +48,23 @@
     _lbMinerLastReward = nil;
     _lbRefLastReward = nil;
     
+    _tipsBtnTotal = nil;
+    _tipsBtnMiningReward = nil;
     _tipsBtnRefReward = nil;
+}
+
+- (UIButton*)genTipsButton:(NSInteger)tag
+{
+    UIButton* tipBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage* btn_image = [UIImage templateImageNamed:@"Help-50"];
+    _tipsBtnSize = btn_image.size;
+    [tipBtn setBackgroundImage:btn_image forState:UIControlStateNormal];
+    tipBtn.userInteractionEnabled = YES;
+    [tipBtn addTarget:self action:@selector(onTipButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    tipBtn.tag = tag;
+    tipBtn.tintColor = [ThemeManager sharedThemeManager].textColorMain;
+    [_container addSubview:tipBtn];
+    return tipBtn;
 }
 
 - (id)init
@@ -59,6 +77,7 @@
         self.backgroundColor = [UIColor clearColor];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.accessoryType = UITableViewCellAccessoryNone;
+        
         
         ThemeManager* theme = [ThemeManager sharedThemeManager];
         
@@ -88,43 +107,75 @@
         _lbRefLastReward.textColor = theme.textColorFlag;
         _lbRefLastReward.textAlignment = NSTextAlignmentLeft;
         
-        _tipsBtnRefReward = [UIButton buttonWithType:UIButtonTypeCustom];
-        UIImage* btn_image = [UIImage templateImageNamed:@"Help-50"];
-        _tipsBtnSize = btn_image.size;
-        [_tipsBtnRefReward setBackgroundImage:btn_image forState:UIControlStateNormal];
-        _tipsBtnRefReward.userInteractionEnabled = YES;
-        [_tipsBtnRefReward addTarget:self action:@selector(onTipButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        _tipsBtnRefReward.tag = 0;
-        _tipsBtnRefReward.tintColor = theme.textColorMain;
-        [_container addSubview:_tipsBtnRefReward];
+        _tipsBtnTotal = [self genTipsButton:0];
+        _tipsBtnMiningReward = [self genTipsButton:1];
+        _tipsBtnRefReward = [self genTipsButton:2];
     }
     return self;
 }
 
 - (void)onTipButtonClicked:(UIButton*)button
 {
-    switch (button.tag) {
-        case 0: //  推荐奖励
-        {
-            id tipmsg = @"";
-            if (_is_miner) {
-                NSInteger shares_reward_ratio_miner = [[[SettingManager sharedSettingManager] getAppParameters:@"shares_reward_ratio_miner"] integerValue];
-                id n_shares_reward_ratio_miner = [NSDecimalNumber decimalNumberWithMantissa:shares_reward_ratio_miner exponent:-2 isNegative:NO];
-                tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kMinerShareRewardTipsMINER", @"锁仓推荐挖矿每日奖励为：（有效邀请持有量）x %@%%"),
-                          n_shares_reward_ratio_miner];
-            } else {
-                NSInteger shares_reward_ratio_scny = [[[SettingManager sharedSettingManager] getAppParameters:@"shares_reward_ratio_scny"] integerValue];
-                id n_shares_reward_ratio_scny = [NSDecimalNumber decimalNumberWithMantissa:shares_reward_ratio_scny exponent:-2 isNegative:NO];
-                tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kMinerShareRewardTipsSCNY", @"抵押推荐挖矿每日奖励为：（有效邀请持有量）x %@%%"),
-                          n_shares_reward_ratio_scny];
+    SettingManager* settingMgr = [SettingManager sharedSettingManager];
+    id tipmsg = nil;
+    if (_is_miner) {
+        //  MIENR
+        switch (button.tag) {
+            case 0: //  有效持仓
+            {
+                NSInteger master_minimum_miner = [[settingMgr getAppParameters:@"master_minimum_miner"] integerValue];
+                id n_value = [NSDecimalNumber decimalNumberWithMantissa:master_minimum_miner exponent:0 isNegative:NO];
+                tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kMinerValidHoldAmountTipsMINER", @"有效持仓量说明"), n_value];
             }
-            [OrgUtils makeToast:tipmsg];
+                break;
+            case 1: //  锁仓or抵押挖矿奖励
+            {
+                NSInteger daily_reward_mining_miner = [[settingMgr getAppParameters:@"daily_reward_mining_miner"] integerValue];
+                id n_value = [NSDecimalNumber decimalNumberWithMantissa:daily_reward_mining_miner exponent:0 isNegative:NO];
+                tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kMinerMiningRewardTipsMINER", @"锁仓or抵押挖矿每日发奖说明"), n_value];
+            }
+                break;
+            case 2: //  推荐奖励奖励
+            {
+                NSInteger shares_reward_ratio_miner = [[settingMgr getAppParameters:@"shares_reward_ratio_miner"] integerValue];
+                id n_value = [NSDecimalNumber decimalNumberWithMantissa:shares_reward_ratio_miner exponent:-2 isNegative:NO];
+                tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kMinerShareRewardTipsMINER", @"推荐每日发奖说明"), n_value];
+            }
+                break;
+            default:
+                break;
         }
-            break;
-        case 1: //  锁仓奖励 TODO
-            break;
-        default:
-            break;
+    } else {
+        //  SCNY
+        switch (button.tag) {
+            case 0: //  有效持仓
+            {
+                NSInteger master_minimum_scny = [[settingMgr getAppParameters:@"master_minimum_scny"] integerValue];
+                id n_value = [NSDecimalNumber decimalNumberWithMantissa:master_minimum_scny exponent:0 isNegative:NO];
+                tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kMinerValidHoldAmountTipsSCNY", @"有效持仓量说明"), n_value];
+            }
+                break;
+            case 1: //  锁仓or抵押挖矿奖励
+            {
+                NSInteger daily_reward_mining_scny = [[settingMgr getAppParameters:@"daily_reward_mining_scny"] integerValue];
+                id n_value = [NSDecimalNumber decimalNumberWithMantissa:daily_reward_mining_scny exponent:0 isNegative:NO];
+                tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kMinerMiningRewardTipsSCNY", @"锁仓or抵押挖矿每日发奖说明"), n_value];
+            }
+                break;
+            case 2: //  推荐奖励奖励
+            {
+                NSInteger shares_reward_ratio_scny = [[settingMgr getAppParameters:@"shares_reward_ratio_scny"] integerValue];
+                id n_value = [NSDecimalNumber decimalNumberWithMantissa:shares_reward_ratio_scny exponent:-2 isNegative:NO];
+                tipmsg = [NSString stringWithFormat:NSLocalizedString(@"kMinerShareRewardTipsSCNY", @"推荐每日发奖说明"), n_value];
+            }
+                break;
+            default:
+                break;
+        }
+    }
+    //  提示
+    if (tipmsg) {
+        [OrgUtils makeToast:tipmsg];
     }
 }
 
@@ -240,7 +291,17 @@
     _lbTotal.frame = CGRectMake(xOffset * 2, yOffset + fLineHeight * 1, fWidth, fLineHeight);
     _lbMinerLastReward.frame = CGRectMake(xOffset * 2, yOffset + fLineHeight * 2, fWidth, fLineHeight);
     _lbRefLastReward.frame = CGRectMake(xOffset * 2, yOffset + fLineHeight * 3, fWidth, fLineHeight);
-    _tipsBtnRefReward.frame = CGRectMake(fWidth - xOffset - _tipsBtnSize.width,
+    
+    CGFloat fOffsetTipButtonX = fWidth - xOffset - _tipsBtnSize.width;
+    _tipsBtnTotal.frame = CGRectMake(fOffsetTipButtonX,
+                                     yOffset + fLineHeight * 1 + (fLineHeight - _tipsBtnSize.height) / 2,
+                                     _tipsBtnSize.width, _tipsBtnSize.height);
+    
+    _tipsBtnMiningReward.frame = CGRectMake(fOffsetTipButtonX,
+                                            yOffset + fLineHeight * 2 + (fLineHeight - _tipsBtnSize.height) / 2,
+                                            _tipsBtnSize.width, _tipsBtnSize.height);
+    
+    _tipsBtnRefReward.frame = CGRectMake(fOffsetTipButtonX,
                                          yOffset + fLineHeight * 3 + (fLineHeight - _tipsBtnSize.height) / 2,
                                          _tipsBtnSize.width, _tipsBtnSize.height);
     
